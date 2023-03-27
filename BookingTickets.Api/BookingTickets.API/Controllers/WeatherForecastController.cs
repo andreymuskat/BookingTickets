@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using BookingTickets.API.Controllers.OutputModels;
 
 namespace BookingTickets.API.Controllers
 {
@@ -9,7 +10,7 @@ namespace BookingTickets.API.Controllers
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        };
 
         private readonly ILogger<WeatherForecastController> _logger;
 
@@ -28,6 +29,13 @@ namespace BookingTickets.API.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet(Name ="GetAllCinemaByMovie")]
+        public List<CinemaOutputModel> GetAllCinemaByMovie(MovieInputModel cinema)
+        {
+            var result = cinema.ToString();
+            return result;
         }
     }
 }
