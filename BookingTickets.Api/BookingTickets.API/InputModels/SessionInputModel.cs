@@ -8,6 +8,6 @@ public class SessionInputModel
 	public int HallId { get; set; }
 	public int FilmId { get; set; }
 	public int Cost { get; set; }
-	public bool? IsDeleted { get; set; }
+	public bool IsDeleted { get; set; }
 
 } 
