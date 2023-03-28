@@ -1,5 +1,4 @@
-﻿using BookingTickets.API.Controllers.InputModels;
-using BookingTickets.API.Controllers.OutputModels;
+﻿using BookingTickets.API.Controllers.OutputModels;
 
 namespace BookingTickets.API
 {
