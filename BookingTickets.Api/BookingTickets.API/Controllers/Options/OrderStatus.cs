@@ -1,6 +1,6 @@
 ﻿namespace BookingTickets.API.Controllers.Options
 {
-    public enum Status
+    public enum OrderStatus
     {
         Booking,
         Canceled,

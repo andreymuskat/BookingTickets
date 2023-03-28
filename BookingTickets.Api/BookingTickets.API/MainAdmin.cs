@@ -6,7 +6,7 @@ namespace BookingTickets.API
     {
         public string Name { get; set; }
 
-        public List<CinemaOutputModel> GetAllCinemaByMovie(MovieInputModel cinema)
+        public List<CinemaOutputModel> GetAllCinemaByMovie(FilmInputModel cinema)
         {
             var result = new List<CinemaOutputModel>();
             return result;

@@ -32,7 +32,7 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpGet(Name ="GetAllCinemaByMovie")]
-        public List<CinemaOutputModel> GetAllCinemaByMovie(MovieInputModel cinema)
+        public List<CinemaOutputModel> GetAllCinemaByMovie(FilmInputModel cinema)
         {
             var result = cinema.ToString();
             return result;
