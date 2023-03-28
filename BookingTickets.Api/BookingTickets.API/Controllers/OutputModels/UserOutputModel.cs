@@ -7,6 +7,6 @@
         public string Status { get; set; }
         public string Password { get; set; }
         public int? CinemaId { get; set; }
-        public bool? IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
