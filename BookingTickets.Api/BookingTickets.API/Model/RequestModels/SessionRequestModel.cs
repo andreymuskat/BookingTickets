@@ -1,6 +1,6 @@
 ﻿using System;
 
-public class SessionOutputModel
+public class SessionRequestModel
 {
 	public int Id { get; set; }
 	public DateTime Date { get; set; }
@@ -9,4 +9,5 @@ public class SessionOutputModel
 	public int FilmId { get; set; }
 	public int Cost { get; set; }
 	public bool IsDeleted { get; set; }
-}
+
+} 

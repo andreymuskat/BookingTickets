@@ -1,5 +1,4 @@
-﻿using BookingTickets.API.Controllers.Options;
-using BookingTickets.DAL.Models;
+﻿using Core;
 
 namespace BookingTickets.DAL.Models
 {
@@ -10,6 +9,6 @@ namespace BookingTickets.DAL.Models
         public int SessionId { get; set; }
         public OrderStatus? Status { get; set; }
         public string? Code { get; set; }
-        public List<SeatDto> Seats { get; set; } = new();
+        public List<SeatDto> Seats { get; set; }
     }
 }
