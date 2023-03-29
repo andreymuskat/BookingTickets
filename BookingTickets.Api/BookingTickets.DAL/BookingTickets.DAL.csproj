@@ -11,4 +11,8 @@
     <Folder Include="Interfaces\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BookingTickets.BLL\BookingTickets.BLL.csproj" />
+  </ItemGroup>
+
 </Project>
