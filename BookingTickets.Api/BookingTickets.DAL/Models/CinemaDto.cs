@@ -6,6 +6,7 @@
         public string Name { get; set; }
         public string Address { get; set; }
         public List<UserDto> Employes { get; set; }
+        public List<HallDto> Halls { get; set; }
         public bool IsDeleted { get; set; }
     }
 }
