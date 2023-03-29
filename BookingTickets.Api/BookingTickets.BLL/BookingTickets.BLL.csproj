@@ -15,8 +15,4 @@
     <ProjectReference Include="..\BookingTickets.DAL\BookingTickets.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\OutputModels\" />
-  </ItemGroup>
-
 </Project>

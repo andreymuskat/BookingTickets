@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookingTickets.BLL.Models.InputModels;
+using BookingTickets.BLL.Models.OutputModels;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
@@ -15,6 +16,8 @@ namespace BookingTickets.BLL
                 {
                     cfg.CreateMap<FilmDto, FilmOutputModel>();
                     cfg.CreateMap<CinemaInputModel, CinemaDto>();
+                    cfg.CreateMap<HallDto, FullHallOutputModel>();
+                    cfg.CreateMap<HallInputModel, HallDto>();
                 });
         }
 
@@ -26,6 +29,16 @@ namespace BookingTickets.BLL
         public CinemaDto MapCinemaInputModelToCinemaDto(CinemaInputModel cinema)
         {
             return _configuration.CreateMapper().Map<CinemaDto>(cinema);
+        }
+
+        public FullHallOutputModel MapHallDtoToFullHallOutputModel(HallDto hall)
+        {
+            return _configuration.CreateMapper().Map<FullHallOutputModel>(hall);
+        }
+
+        public HallDto MapHallInputModelToHallDto(HallInputModel hall)
+        {
+            return _configuration.CreateMapper().Map<HallDto>(hall);
         }
     }
 }
