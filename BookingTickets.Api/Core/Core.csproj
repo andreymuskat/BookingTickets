@@ -6,10 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BookingTickets.API\BookingTickets.API.csproj" />
-    <ProjectReference Include="..\BookingTickets.BLL\BookingTickets.BLL.csproj" />
-    <ProjectReference Include="..\BookingTickets.DAL\BookingTickets.DAL.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,6 +1,6 @@
 ﻿namespace BookingTickets.API.Controllers.InputModels
 {
-    public class HallInputModel
+    public class HallRequestModel
 	{
 		public int Id { get; set; }
 		public int CinemaId { get; set; }

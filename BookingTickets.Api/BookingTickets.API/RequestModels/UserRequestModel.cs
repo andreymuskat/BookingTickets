@@ -2,7 +2,7 @@
 
 namespace BookingTickets.API.Controllers.InputModels
 {
-    public class UserInputModel
+    public class UserRequestModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

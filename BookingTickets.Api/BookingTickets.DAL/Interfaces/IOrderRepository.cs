@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingTickets.DAL.Models;
+using Core;
 
 namespace BookingTickets.DAL.Interfaces
 {
-    internal class IOrderRepository
+    public interface IOrderRepository
     {
+        public int CreateOrder(OrderDto order);
+
+        public void UpdateOrder(OrderDto order);
+
+        public void DeleteOrder(int idOrder);
+
+        public OrderStatus EditOrderStatus(OrderStatus status);
     }
 }

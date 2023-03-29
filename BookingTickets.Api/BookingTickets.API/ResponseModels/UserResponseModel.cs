@@ -1,6 +1,6 @@
 ﻿namespace BookingTickets.API.Controllers.OutputModels
 {
-    public class UserOutputModel
+    public class UserResponseModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -14,16 +14,16 @@ namespace BookingTickets.BLL
             _configuration = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.CreateMap<FilmDto, FilmOutputModel>();
+                    cfg.CreateMap<FilmDto, FilmResponseModel>();
                     cfg.CreateMap<CinemaInputModel, CinemaDto>();
                     cfg.CreateMap<HallDto, FullHallOutputModel>();
                     cfg.CreateMap<HallInputModel, HallDto>();
                 });
         }
 
-        public FilmOutputModel MapFilmDtoToFilmoutputModel(FilmDto film)
+        public FilmResponseModel MapFilmDtoToFilmoutputModel(FilmDto film)
         { 
-            return _configuration.CreateMapper().Map<FilmOutputModel>(film);
+            return _configuration.CreateMapper().Map<FilmResponseModel>(film);
         }
 
         public CinemaDto MapCinemaInputModelToCinemaDto(CinemaInputModel cinema)
