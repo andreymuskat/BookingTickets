@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
 {
@@ -12,8 +11,13 @@ namespace BookingTickets.BLL
             _configuration = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.CreateMap<FilmDto, FilmOutputModel>
+                    cfg.CreateMap<FilmDto, FilmOutputModel>();
                 });
+        }
+
+        public FilmOutputModel MapFilmDtoToFilmoutputModel(FilmDto film)
+        { 
+            return _configuration.CreateMapper().Map<FilmOutputModel>(film);
         }
     }
 }
