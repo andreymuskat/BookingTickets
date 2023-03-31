@@ -7,20 +7,18 @@ namespace BookingTickets.API
 {
     public class FilmApi
     {
-        private readonly MapperAPI _mapper = new();
-        private readonly MapperBLL _map = new();
-        private readonly IFilmRepository _repository;
+        private readonly MapperAPI _mapper = new();       
+        private readonly FilmManager _filmManager;
 
-        public FilmApi(IFilmRepository? repository = null)
+        public FilmApi(FilmManager? filmManager = null)
         {
-            _repository = repository ?? new FilmRepository();
+            _filmManager = filmManager ?? new FilmManager();
         }
         public List<FilmResponseModel> GetAllFilmByCinema(CinemaRequestModel cinema)
         {
-            var res = _map.MapCinemaBLLToCinemaDto(_mapper.MapCinemaRequestModelToCinemaBLL(cinema));
+            var res = _mapper.MapCinemaRequestModelToCinemaBLL(cinema);
             
-            return _mapper.MapListFilmBLLToListFilmResponseModel(
-                _map.MapListFilmDtoToListFilmBLL(_repository.GetAllFilmByCinema(res)));
+            return _mapper.MapListFilmBLLToListFilmResponseModel(_filmManager.GetAllFilmByCinema(res));
         }
     }
 }
