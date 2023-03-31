@@ -21,7 +21,7 @@ namespace BookingTickets.BLL
                 });
         }
 
-        public FilmResponseModel MapFilmDtoToFilmoutputModel(FilmDto film)
+        public FilmResponseModel MapFilmDtoToFilmOutputModel(FilmDto film)
         { 
             return _configuration.CreateMapper().Map<FilmResponseModel>(film);
         }
