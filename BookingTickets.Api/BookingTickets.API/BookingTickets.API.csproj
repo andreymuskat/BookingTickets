@@ -11,7 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\BookingTickets.BLL\BookingTickets.BLL.csproj" />
+    <ProjectReference Include="..\BookingTickets.DAL\BookingTickets.DAL.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>
