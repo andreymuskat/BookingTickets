@@ -20,7 +20,7 @@ namespace BookingTickets.API
         }
         public List<FilmResponseModel> GetAllFilmByDay(DateTime dateTime)
         {
-            return _mapper.MapListFilmBLLToListFilmResponseModel(_filmManager.GetAllFilmByDay(dateTime));
+            return _mapper.MapListFilmBLLToListFilmResponseModel(_filmManager.)
         }
     }
 }
