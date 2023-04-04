@@ -26,6 +26,10 @@ namespace BookingTickets.BLL
         {
             return _configuration.CreateMapper().Map<List<FilmBLL>>(film);
         }
+        public FilmBLL MapFilmDtoToFilmBLL(FilmDto film)
+        {
+            return _configuration.CreateMapper().Map<FilmBLL>(film);
+        }
 
         public CinemaDto MapCinemaInputModelToCinemaDto(CinemaInputModel cinema)
         {

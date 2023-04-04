@@ -13,11 +13,17 @@ namespace BookingTickets.BLL
         {
             _repository = repository ?? new FilmRepository();
         }
+
         public List<FilmBLL> GetAllFilmByCinema(CinemaBLL cinema)
         {
             var res = _mapper.MapCinemaBLLToCinemaDto(cinema);
 
             return _mapper.MapListFilmDtoToListFilmBLL(_repository.GetAllFilmByCinema(res));
+        }
+
+        public List<FilmBLL> GetAllFilmByDay(DateTime dateTime)
+        {
+            return _mapper.MapListFilmDtoToListFilmBLL(_repository.GetAllFilmByDay(dateTime));
         }
     }
 }
