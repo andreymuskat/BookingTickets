@@ -1,8 +1,9 @@
 ﻿using BookingTickets.DAL.Models;
+using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.DAL
 {
-    public class FilmRepository
+    public class FilmRepository : IFilmRepository
     {
         public List<FilmDto> GetAllFilmByCinema(CinemaDto cinema)
         { 
