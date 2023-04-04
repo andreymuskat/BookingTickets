@@ -7,7 +7,19 @@ namespace BookingTickets.DAL
     {
         public List<FilmDto> GetAllFilmByCinema(CinemaDto cinema)
         { 
-            return  new List<FilmDto>();
+            return  new List<FilmDto>
+            { 
+                new FilmDto
+            {
+                Id = 1,
+                Name="Jackass"
+            },
+                new FilmDto
+            {
+                Id = 2,
+                Name="Alien"
+            },
+            };
         }
 
         public List<FilmDto> GetAllFilmByDay(DateTime dateTime)
