@@ -6,7 +6,8 @@ namespace BookingTickets.API
     public class FilmApi
     {
         private readonly MapperAPI _mapper = new();       
-        private readonly FilmManager _filmManager;
+        public FilmManager _filmManager;
+
 
         public FilmApi(FilmManager? filmManager = null)
         {
@@ -20,7 +21,8 @@ namespace BookingTickets.API
         }
         public List<FilmResponseModel> GetAllFilmByDay(DateTime dateTime)
         {
-            return _mapper.MapListFilmBLLToListFilmResponseModel(_filmManager.)
+            return _mapper.MapListFilmBLLToListFilmResponseModel(_filmManager.
         }
+
     }
 }

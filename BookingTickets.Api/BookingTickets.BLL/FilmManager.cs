@@ -25,5 +25,20 @@ namespace BookingTickets.BLL
         {
             return _mapper.MapListFilmDtoToListFilmBLL(_repository.GetAllFilmByDay(dateTime));
         }
+
+        public List<FilmBLL> GetAllFilm()
+        {
+            return _mapper.MapListFilmDtoToListFilmBLL(_repository.GetAllFilm());
+        }
+
+        public void AddNewFilm(FilmBLL film)
+        {
+            _repository.AddNewFilm(_mapper.MapFilmBLLToFilmDto(film));
+        }
+
+        public void UpdateFilm(FilmBLL film)
+        {
+            _repository.UpdateFilm(_mapper.MapFilmBLLToFilmDto(film));
+        }
     }
 }
