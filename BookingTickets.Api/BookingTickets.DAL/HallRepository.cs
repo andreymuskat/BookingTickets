@@ -5,9 +5,30 @@ namespace BookingTickets.DAL
 {
     public class HallRepository : IHallRepository
     {
-        public int CreateHall(HallDto hall)
+        private static Context context;
+
+        public HallRepository()
         {
-            return hall.Id;
+            context = new Context();
+        }
+        public HallDto CreateHall(HallDto hall)
+        {
+            HallDto hallDto = new HallDto
+            {
+                Number = hall.Number,
+                Seats = hall.Seats
+            };
+
+            context.Add(hallDto);
+
+            context.SaveChanges();
+
+            return new HallDto
+            {
+                Id = hall.Id,
+                Number = hall.Number,
+                Seats = hall.Seats
+            };
         }
 
         public void UpdateHall(HallDto hall)
