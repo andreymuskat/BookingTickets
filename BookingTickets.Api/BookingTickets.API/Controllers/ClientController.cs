@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
     {
@@ -16,35 +16,35 @@ namespace BookingTickets.API.Controllers
             film = new FilmApi();
         }
 
-        [HttpGet( Name = "GetAllFilmByCinema")]
+        [HttpGet("{CinemaID}", Name = "GetAllFilmByCinema")]
 
         public IActionResult GetAllFilmByCinema(CinemaRequestModel cinema)
         {
             return Ok(film.GetAllFilmByCinema(cinema));
         }
 
-        [HttpGet( Name = "GetFilmByDay")]
+        [HttpGet("{GetFilmByDay}", Name = "GetFilmByDay")]
         public IActionResult GetAllFilmByDay(DateTime dataTime)
         {
             var result = film.GetAllFilmByDay(dataTime);
             return Ok(result);
         }
 
-        [HttpGet( Name = "GetAllFilm")]
+        [HttpGet("{GetAllFilm}", Name = "GetAllFilm")]
         public IActionResult GetAllFilm()
         {
             var result = film.GetAllFilm;
             return Ok(result);
         }
 
-        [HttpPost( Name = "AddNewFilm")]
+        [HttpPost("{AddNewFilm}", Name = "AddNewFilm")]
         public IActionResult AddNewFilm(FilmRequestModel model)
         {
             film.AddNewFilm(model);
             return Ok("Success");
         }
 
-        [HttpPost( Name = "UpdateFilm")]
+        [HttpPost("{UpdateFilm}", Name = "UpdateFilm")]
         public IActionResult UpdateFilm(FilmRequestModel model)
         {
             film.UpdateFilm(model);
