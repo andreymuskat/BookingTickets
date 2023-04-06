@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using BookingTickets.DAL.Models;
 
 public class SessionDto
 {
@@ -23,4 +24,8 @@ public class SessionDto
 
     [Required]
     public bool IsDeleted { get; set; }
+
+    public FilmDto FilmDto { get; set; }
+
+    public HallDto HallDto { get; set; }
 }

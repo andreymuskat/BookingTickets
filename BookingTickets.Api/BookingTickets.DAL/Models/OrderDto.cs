@@ -21,5 +21,9 @@ namespace BookingTickets.DAL.Models
 
         [Required]
         public List<SeatDto> Seats { get; set; }
+
+        public SessionDto SessionDto { get; set; }
+
+        public UserDto UserDto { get; set; }
     }
 }
