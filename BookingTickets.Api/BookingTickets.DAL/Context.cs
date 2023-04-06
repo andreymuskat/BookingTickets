@@ -11,6 +11,8 @@ namespace BookingTickets.DAL
             builder.UseInMemoryDatabase("BookingTicketsDb");
         }
 
-        public DbSet<HallDto> Hall { get; set; }
+        public DbSet<HallDto> Halls { get; set; }
+
+        public DbSet<FilmDto> Films { get; set; }
     }
 }
