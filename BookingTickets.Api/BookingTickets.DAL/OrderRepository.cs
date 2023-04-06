@@ -6,9 +6,20 @@ namespace BookingTickets.DAL
 {
     public class OrderRepository : IOrderRepository
     {
-        public int CreateOrder(OrderDto order)
+        private readonly Context _context;
+
+        public OrderRepository(Context context)
         {
-            return order.Id;
+            _context = context;
+        }
+
+        public OrderDto CreateOrder(OrderDto order)
+        {
+            _context.Orders.Add(order);
+
+            _context.SaveChanges();
+
+            return order;
         }
 
         public void UpdateOrder(OrderDto order)

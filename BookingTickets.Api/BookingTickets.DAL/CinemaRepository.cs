@@ -5,9 +5,20 @@ namespace BookingTickets.DAL
 {
     public class CinemaRepository : ICinemaRepository
     {
-        public int CreateCinema(CinemaDto cinema)
+        private readonly Context _context;
+
+        public CinemaRepository(Context context)
         {
-            return cinema.Id;
+            _context = context;
+        }
+
+        public CinemaDto CreateCinema(CinemaDto cinema)
+        {
+            _context.Cinemas.Add(cinema);
+
+            _context.SaveChanges();
+
+            return cinema;
         }
 
         public void UpdateCinema(CinemaDto cinema)
