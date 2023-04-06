@@ -5,7 +5,7 @@ namespace BookingTickets.DAL.Interfaces
 {
     public interface IOrderRepository
     {
-        public int CreateOrder(OrderDto order);
+        public OrderDto CreateOrder(OrderDto order);
 
         public void UpdateOrder(OrderDto order);
 
