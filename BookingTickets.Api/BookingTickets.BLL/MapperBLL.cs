@@ -20,6 +20,8 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<HallDto, FullHallOutputModel>();
                     cfg.CreateMap<HallInputModel, HallDto>();                    
                     cfg.CreateMap<CinemaBLL, CinemaDto>();
+                    cfg.CreateMap<SessionDto,SessionOutputModel>();
+                    cfg.CreateMap<SessionInputModel, SessionDto>();
                 });
         }
 
