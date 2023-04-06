@@ -4,7 +4,7 @@ namespace BookingTickets.DAL.Interfaces
 {
     public interface ICinemaRepository
     {
-        public int CreateCinema(CinemaDto cinema);
+        public CinemaDto CreateCinema(CinemaDto cinema);
 
         public void UpdateCinema(CinemaDto cinema);
 
