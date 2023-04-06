@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookingTickets.BLL.Models.InputModels
+﻿namespace BookingTickets.BLL.Models.InputModels
 {
-    internal class SeatUpdateInputModel
+    public class SeatUpdateInputModel
     {
+        public int Id { get; set; }
+        public int Number { get; set; }
+        public int Row { get; set; }
     }
 }
