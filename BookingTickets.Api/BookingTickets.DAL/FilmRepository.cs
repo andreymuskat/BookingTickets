@@ -5,6 +5,22 @@ namespace BookingTickets.DAL
 {
     public class FilmRepository : IFilmRepository
     {
+        private readonly Context _context;
+
+        public FilmRepository(Context context)
+        {
+            _context = context;
+        }
+
+        public FilmDto CreateFilm (FilmDto film)
+        {
+            _context.Films.Add(film);
+
+            _context.SaveChanges();
+
+            return film;
+        }
+
         public List<FilmDto> GetAllFilmByCinema(CinemaDto cinema)
         { 
             return  new List<FilmDto>();

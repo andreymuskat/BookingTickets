@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Core;
 
 namespace BookingTickets.DAL.Models
 {
@@ -20,5 +21,7 @@ namespace BookingTickets.DAL.Models
 
         [Required]
         public bool IsDeleted { get; set; }
+
+        public UserStatus UserStatus { get; set; }
     }
 }
