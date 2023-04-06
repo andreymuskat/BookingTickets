@@ -14,6 +14,7 @@ namespace BookingTickets.API
                 cfg =>
                 {
                     cfg.CreateMap<FilmBLL, FilmResponseModel>();
+                    cfg.CreateMap<FilmRequestModel, FilmBLL>();
                     cfg.CreateMap<CinemaRequestModel, CinemaBLL>();
                 });
         }
@@ -21,6 +22,11 @@ namespace BookingTickets.API
         public List<FilmResponseModel> MapListFilmBLLToListFilmResponseModel(List<FilmBLL> film)
         {
             return _configuration.CreateMapper().Map<List<FilmResponseModel>>(film);
+        }
+        
+        public FilmBLL MapFilmRequestModelToFilmBLL(FilmRequestModel film)
+        {
+            return _configuration.CreateMapper().Map<FilmBLL>(film);
         }
 
         public CinemaBLL MapCinemaRequestModelToCinemaBLL(CinemaRequestModel model)
