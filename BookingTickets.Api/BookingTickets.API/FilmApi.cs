@@ -9,9 +9,9 @@ namespace BookingTickets.API
         private readonly FilmManager _filmManager;
 
 
-        public FilmApi(FilmManager? filmManager = null)
+        public FilmApi(FilmManager filmManager)
         {
-            _filmManager = filmManager ?? new FilmManager();
+            _filmManager = filmManager;
         }
         public List<FilmResponseModel> GetAllFilmByCinema(CinemaRequestModel cinema)
         {

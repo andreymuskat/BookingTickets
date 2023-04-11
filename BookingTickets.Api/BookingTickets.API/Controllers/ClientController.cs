@@ -1,4 +1,5 @@
 ﻿using BookingTickets.API.Model.RequestModels;
+using BookingTickets.BLL;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
@@ -10,10 +11,10 @@ namespace BookingTickets.API.Controllers
         private readonly FilmApi film;
         private readonly ILogger<ClientController> _logger;
 
-        public ClientController(ILogger<ClientController> logger)
+        public ClientController(ILogger<ClientController> logger, FilmApi filmManager)
         {
             _logger = logger;
-            film = new FilmApi();
+            film = filmManager;
         }
 
         [HttpGet("{CinemaID}", Name = "GetAllFilmByCinema")]

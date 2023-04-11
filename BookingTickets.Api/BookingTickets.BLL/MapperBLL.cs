@@ -1,9 +1,13 @@
 
 using AutoMapper;
-using BookingTickets.BLL.Models.InputModels;
-using BookingTickets.BLL.Models.OutputModels;
-using BookingTickets.DAL.Models;
-
+using BookingTickets.BLL.Models.InputModels;
+
+using BookingTickets.BLL.Models.OutputModels;
+
+using BookingTickets.DAL.Models;
+
+
+
 namespace BookingTickets.BLL
 {
     public class MapperBLL
@@ -41,24 +45,24 @@ namespace BookingTickets.BLL
             return _configuration.CreateMapper().Map<FilmDto>(film);
         }
 
-        public CinemaDto MapCinemaInputModelToCinemaDto(CinemaInputModel cinema)
-        {
-            return _configuration.CreateMapper().Map<CinemaDto>(cinema);
+        public CinemaDto MapCinemaInputModelToCinemaDto(CinemaInputModel cinema)
+        {
+            return _configuration.CreateMapper().Map<CinemaDto>(cinema);
         }
 
         public FullHallOutputModel MapHallDtoToFullHallOutputModel(HallDto hall)
-        {
+        {
             return _configuration.CreateMapper().Map<FullHallOutputModel>(hall);
         }
 
-        public HallDto MapHallInputModelToHallDto(HallInputModel hall)
-        {
-            return _configuration.CreateMapper().Map<HallDto>(hall);
+        public HallDto MapHallInputModelToHallDto(HallInputModel hall)
+        {
+            return _configuration.CreateMapper().Map<HallDto>(hall);
         }
 
-        public CinemaDto MapCinemaBLLToCinemaDto(CinemaBLL cinema)
-        {
-            return _configuration.CreateMapper().Map<CinemaDto>(cinema);
+        public CinemaDto MapCinemaBLLToCinemaDto(CinemaBLL cinema)
+        {
+            return _configuration.CreateMapper().Map<CinemaDto>(cinema);
         }
     }
 }

@@ -9,9 +9,9 @@ namespace BookingTickets.BLL
         private readonly MapperBLL _mapper = new();
         private readonly IFilmRepository _repository;
 
-        public FilmManager(IFilmRepository? repository = null)
+        public FilmManager(IFilmRepository repository)
         {
-            _repository = repository ?? new FilmRepository();
+            _repository = repository;
         }
 
         public List<FilmBLL> GetAllFilmByCinema(CinemaBLL cinema)
