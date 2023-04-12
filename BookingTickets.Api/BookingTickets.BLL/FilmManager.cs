@@ -11,7 +11,7 @@ namespace BookingTickets.BLL
 
         public FilmManager(IFilmRepository? repository = null)
         {
-            _repository = repository ?? new FilmRepository();
+            //_repository = repository ?? new FilmRepository();
         }
 
         public List<FilmBLL> GetAllFilmByCinema(CinemaBLL cinema)

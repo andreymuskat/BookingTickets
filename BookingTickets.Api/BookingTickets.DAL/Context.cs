@@ -7,9 +7,11 @@ namespace BookingTickets.DAL
     {
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            //builder.UseSqlServer(sqlConectionString)
-            builder.UseInMemoryDatabase("BookingTicketsDb");
+            //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=userappdb;Trusted_Connection=True;");
+
+            builder.UseSqlServer(@"Data Source=DESKTOP-FULTC3J;Initial Catalog=BookingTickets;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False");
         }
+        //builder.UseInMemoryDatabase("BookingTicketsDb");
 
         public DbSet<HallDto> Halls { get; set; }
 
