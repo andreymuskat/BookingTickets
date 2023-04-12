@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels;
+using BookingTickets.BLL.Models.InputModels;
 using BookingTickets.BLL.Models.OutputModels;
 
 namespace BookingTickets.API
 {
     public class MapperAPI
     {
+        private readonly MapperAPI _mapper = new();
         private readonly MapperConfiguration _configuration;
 
         public MapperAPI()
@@ -27,6 +29,11 @@ namespace BookingTickets.API
         public FilmBLL MapFilmRequestModelToFilmBLL(FilmRequestModel film)
         {
             return _configuration.CreateMapper().Map<FilmBLL>(film);
+        }
+
+        public FilmInputModel MapFilmRequestModelToFilmInputModel(FilmRequestModel film)
+        {
+            return _configuration.CreateMapper().Map<FilmInputModel>(film);
         }
 
         public CinemaBLL MapCinemaRequestModelToCinemaBLL(CinemaRequestModel model)

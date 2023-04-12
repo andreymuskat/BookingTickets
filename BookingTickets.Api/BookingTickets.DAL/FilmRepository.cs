@@ -48,6 +48,12 @@ namespace BookingTickets.DAL
             return new List<FilmDto>();
         }
 
+        public FilmDto GetFilmByName(string name)
+        {
+            return _context.Films
+                .Single(k => k.Name == name);
+        }
+
         public void AddNewFilm(FilmDto film)
         {
 

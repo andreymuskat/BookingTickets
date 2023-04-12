@@ -16,6 +16,7 @@ namespace BookingTickets.BLL
                 {
                     cfg.CreateMap<FilmDto, FilmBLL>();
                     cfg.CreateMap<FilmBLL, FilmDto>();
+                    cfg.CreateMap<FilmInputModel, FilmDto>();
                     cfg.CreateMap<CinemaInputModel, CinemaDto>();
                     cfg.CreateMap<HallDto, FullHallOutputModel>();
                     cfg.CreateMap<HallInputModel, HallDto>();                    
@@ -42,6 +43,11 @@ namespace BookingTickets.BLL
         public FilmBLL MapFilmDtoToFilmBLL(FilmDto film)
         {
             return _configuration.CreateMapper().Map<FilmBLL>(film);
+        }
+
+        public FilmDto MapFilmInputModelToFilmDto(FilmInputModel film)
+        {
+            return _configuration.CreateMapper().Map<FilmDto>(film);
         }
 
         public FilmDto MapFilmBLLToFilmDto(FilmBLL film)
