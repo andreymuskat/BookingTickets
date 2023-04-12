@@ -9,7 +9,7 @@ namespace BookingTickets.DAL
         {
             //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=userappdb;Trusted_Connection=True;");
 
-            builder.UseSqlServer(@"Data Source=DESKTOP-FULTC3J;Initial Catalog=BookingTickets;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False");
+            builder.UseSqlServer(@"Server=localhost;Database=CinemaOrders;Trusted_Connection=True;TrustServerCertificate=True;");
         }
         //builder.UseInMemoryDatabase("BookingTicketsDb");
 

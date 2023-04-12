@@ -240,3 +240,4 @@ namespace BookingTickets.DAL.Migrations
         }
     }
 }
+

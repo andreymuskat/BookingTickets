@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingTickets.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230412094114_Migrations")]
+    [Migration("20230412105905_Migrations")]
     partial class Migrations
     {
         /// <inheritdoc />
