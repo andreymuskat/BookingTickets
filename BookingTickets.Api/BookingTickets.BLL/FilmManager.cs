@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using BookingTickets.BLL.Models.OutputModels;
-using BookingTickets.DAL;
-using BookingTickets.DAL.Interfaces;
-
-namespace BookingTickets.BLL
+﻿namespace BookingTickets.BLL
 {
     public class FilmManager
     {

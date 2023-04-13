@@ -1,17 +1,10 @@
-﻿using BookingTickets.BLL.Models.InputModels;
-using BookingTickets.BLL.Models.OutputModels;
+﻿using BookingTickets.BLL.Models;
 using BookingTickets.BLL.NewFolder;
-using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BookingTickets.BLL
 {
-    public class MainAdmin: IMainAdmin
+    public class MainAdmin : IMainAdmin
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private IFilmRepository _filmRepository;
@@ -21,7 +14,7 @@ namespace BookingTickets.BLL
             _filmRepository = repository;
         }
 
-        public void AddNewFilm(FilmInputModel newFilm)
+        public void AddNewFilm(FilmBLL newFilm)
         {
             var filmDto = _instanceMapperBll.MapFilmInputModelToFilmDto(newFilm);
             var filmByName = _filmRepository.GetFilmByName(filmDto.Name);
@@ -35,7 +28,7 @@ namespace BookingTickets.BLL
             }
         }
 
-        public FilmOutputModel GetFilmByName(string name)
+        public FilmBLL GetFilmByName(string name)
         {
             var res = _filmRepository.GetFilmByName(name);
 

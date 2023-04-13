@@ -1,12 +1,11 @@
-﻿using BookingTickets.BLL.Models.InputModels;
-using BookingTickets.BLL.Models.OutputModels;
+﻿using BookingTickets.BLL.Models;
 
 namespace BookingTickets.BLL.NewFolder
 {
     public interface IMainAdmin
     {
-        public void AddNewFilm(FilmInputModel newFilm);
+        public void AddNewFilm(FilmBLL newFilm);
 
-        public FilmOutputModel GetFilmByName(string name);
+        public FilmBLL GetFilmByName(string name);
     }
 }
