@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels;
 using BookingTickets.BLL;
+using BookingTickets.BLL.Models.InputModels;
+using BookingTickets.BLL.NewFolder;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
@@ -9,24 +11,21 @@ namespace BookingTickets.API.Controllers
     [ApiController]
     public class MainAdminController: ControllerBase
     {
-        private readonly MainAdmin _mainAdmin;
-        private readonly MapperAPI _mapper;
+        private readonly IMainAdmin _mainAdmin;
+        private readonly IMapper _mapper;
         private readonly ILogger<MainAdminController> _logger;
 
-        public MainAdminController(
-            ILogger<MainAdminController> logger,
-            MapperAPI mapper,
-            MainAdmin mainAdmin)
+        public MainAdminController(IMapper map, IMainAdmin mainAdmin)
         {
-            _logger = logger;
+            _mapper = map;
             _mainAdmin = mainAdmin;
-            _mapper = mapper;
         }
 
-        [HttpPost]
+        [HttpPost("Add_Film")]
         public IActionResult AddNewFilm(FilmRequestModel model)
         {
-            _mainAdmin.AddNewFilm(_mapper.MapFilmRequestModelToFilmInputModel(model));
+            var res = _mapper.Map<FilmInputModel>(model);
+            _mainAdmin.AddNewFilm(res);
             return Ok("GOT IT");
         }
     }

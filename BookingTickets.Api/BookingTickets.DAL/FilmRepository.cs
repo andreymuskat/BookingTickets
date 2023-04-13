@@ -7,9 +7,9 @@ namespace BookingTickets.DAL
     {
         private readonly Context _context;
 
-        public FilmRepository(Context context)
+        public FilmRepository()
         {
-            _context = context;
+            _context = new Context();
         }
 
         public FilmDto CreateFilm (FilmDto film)

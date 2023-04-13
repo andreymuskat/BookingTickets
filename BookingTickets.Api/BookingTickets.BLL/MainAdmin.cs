@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.Models.InputModels;
+using BookingTickets.BLL.NewFolder;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace BookingTickets.BLL
 {
-    public class MainAdmin
+    public class MainAdmin: IMainAdmin
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private IFilmRepository _filmRepository;
