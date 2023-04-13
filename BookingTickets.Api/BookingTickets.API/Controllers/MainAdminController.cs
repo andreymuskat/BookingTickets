@@ -28,5 +28,13 @@ namespace BookingTickets.API.Controllers
             _mainAdmin.AddNewFilm(res);
             return Ok("GOT IT");
         }
+
+        [HttpGet(Name = "AllFilms")]
+        public IActionResult GetFilm(string name)
+        {
+            var res = _mainAdmin.GetFilmByName(name);
+
+            return Ok(res);
+        }
     }
 }

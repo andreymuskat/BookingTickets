@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.Models.InputModels;
+using BookingTickets.BLL.Models.OutputModels;
 using BookingTickets.BLL.NewFolder;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
@@ -32,6 +33,13 @@ namespace BookingTickets.BLL
             {
                 throw new Exception("Такой фильм уже есть в базе!");
             }
+        }
+
+        public FilmOutputModel GetFilmByName(string name)
+        {
+            var res = _filmRepository.GetFilmByName(name);
+
+            return _instanceMapperBll.MapFilmDtoToFilmBLL(res);
         }
     }
 }

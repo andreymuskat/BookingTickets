@@ -15,7 +15,6 @@ namespace BookingTickets.DAL
         public FilmDto CreateFilm (FilmDto film)
         {
             _context.Films.Add(film);
-
             _context.SaveChanges();
 
             return film;

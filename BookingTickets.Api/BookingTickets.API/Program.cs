@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFilmRepository, FilmRepository>();
 builder.Services.AddScoped<IMainAdmin, MainAdmin>();
 
-builder.Services.AddAutoMapper(typeof(MapperAPI), typeof(MapperBLL));
+builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
 
 var app = builder.Build();
 
