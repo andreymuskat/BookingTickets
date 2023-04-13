@@ -1,9 +1,9 @@
-﻿using System;
-
-public class FilmRequestModel
+﻿namespace BookingTickets.API.Model.RequestModels
 {
-    public int Id { get; set; }
-    public string? Name { get; set; }
-    public DateTime Duration { get; set; }
-    public bool IsDeleted { get; set; } 
+    public class FilmRequestModel
+    {
+        public string? Name { get; set; }
+
+        public int Duration { get; set; }
+    }
 }

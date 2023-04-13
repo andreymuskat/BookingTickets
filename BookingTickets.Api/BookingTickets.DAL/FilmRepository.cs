@@ -7,15 +7,14 @@ namespace BookingTickets.DAL
     {
         private readonly Context _context;
 
-        public FilmRepository(Context context)
+        public FilmRepository()
         {
-            _context = context;
+            _context = new Context();
         }
 
         public FilmDto CreateFilm (FilmDto film)
         {
             _context.Films.Add(film);
-
             _context.SaveChanges();
 
             return film;
@@ -46,6 +45,12 @@ namespace BookingTickets.DAL
         public List<FilmDto> GetAllFilm()
         {
             return new List<FilmDto>();
+        }
+
+        public FilmDto GetFilmByName(string name)
+        {
+            return _context.Films
+                .Single(k => k.Name == name);
         }
 
         public void AddNewFilm(FilmDto film)

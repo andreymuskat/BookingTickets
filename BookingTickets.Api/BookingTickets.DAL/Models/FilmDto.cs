@@ -7,12 +7,12 @@ public class FilmDto
     public int Id { get; set; }
 
     [Required]
+    [MaxLength(50)]
     public string Name { get; set; }
 
     [Required]
-    public DateTime Duration { get; set; }
+    public int Duration { get; set; }
 
     [Required]
     public bool IsDeleted { get; set; } 
-
 }

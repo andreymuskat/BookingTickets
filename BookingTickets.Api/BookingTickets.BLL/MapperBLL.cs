@@ -1,64 +1,79 @@
-
 using AutoMapper;
-using BookingTickets.BLL.Models.InputModels;
-using BookingTickets.BLL.Models.OutputModels;
-using BookingTickets.DAL.Models;
-
+using BookingTickets.BLL.Models.InputModels;
+using BookingTickets.BLL.Models.OutputModels;
+using BookingTickets.DAL.Models;
+
 namespace BookingTickets.BLL
 {
     public class MapperBLL
     {
         private readonly MapperConfiguration _configuration;
+        private static MapperBLL _instanceMapperBll;
 
-        public MapperBLL()
+        private MapperBLL()
         {
             _configuration = new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.CreateMap<FilmDto, FilmBLL>();
-                    cfg.CreateMap<FilmBLL, FilmDto>();
+                    cfg.CreateMap<FilmDto, FilmOutputModel>();
+                    cfg.CreateMap<FilmOutputModel, FilmDto>();
+                    cfg.CreateMap<FilmInputModel, FilmDto>();
                     cfg.CreateMap<CinemaInputModel, CinemaDto>();
                     cfg.CreateMap<HallDto, FullHallOutputModel>();
                     cfg.CreateMap<HallInputModel, HallDto>();                    
-                    cfg.CreateMap<CinemaBLL, CinemaDto>();
+                    cfg.CreateMap<CinemaOutputModel, CinemaDto>();
                     cfg.CreateMap<SessionDto,SessionOutputModel>();
                     cfg.CreateMap<SessionInputModel, SessionDto>();
                 });
         }
 
-        public List<FilmBLL> MapListFilmDtoToListFilmBLL(List<FilmDto> film)
+        public static MapperBLL getInstance()
         {
-            return _configuration.CreateMapper().Map<List<FilmBLL>>(film);
+            if (_instanceMapperBll is null)
+            {
+                _instanceMapperBll = new MapperBLL();
+            }
+            return _instanceMapperBll;
         }
 
-        public FilmBLL MapFilmDtoToFilmBLL(FilmDto film)
+        public List<FilmOutputModel> MapListFilmDtoToListFilmBLL(List<FilmDto> film)
         {
-            return _configuration.CreateMapper().Map<FilmBLL>(film);
+            return _configuration.CreateMapper().Map<List<FilmOutputModel>>(film);
         }
 
-        public FilmDto MapFilmBLLToFilmDto(FilmBLL film)
+        public FilmOutputModel MapFilmDtoToFilmBLL(FilmDto film)
+        {
+            return _configuration.CreateMapper().Map<FilmOutputModel>(film);
+        }
+
+        public FilmDto MapFilmInputModelToFilmDto(FilmInputModel film)
         {
             return _configuration.CreateMapper().Map<FilmDto>(film);
         }
 
-        public CinemaDto MapCinemaInputModelToCinemaDto(CinemaInputModel cinema)
-        {
-            return _configuration.CreateMapper().Map<CinemaDto>(cinema);
+        public FilmDto MapFilmBLLToFilmDto(FilmOutputModel film)
+        {
+            return _configuration.CreateMapper().Map<FilmDto>(film);
+        }
+
+        public CinemaDto MapCinemaInputModelToCinemaDto(CinemaInputModel cinema)
+        {
+            return _configuration.CreateMapper().Map<CinemaDto>(cinema);
         }
 
         public FullHallOutputModel MapHallDtoToFullHallOutputModel(HallDto hall)
-        {
+        {
             return _configuration.CreateMapper().Map<FullHallOutputModel>(hall);
         }
 
-        public HallDto MapHallInputModelToHallDto(HallInputModel hall)
-        {
-            return _configuration.CreateMapper().Map<HallDto>(hall);
+        public HallDto MapHallInputModelToHallDto(HallInputModel hall)
+        {
+            return _configuration.CreateMapper().Map<HallDto>(hall);
         }
 
-        public CinemaDto MapCinemaBLLToCinemaDto(CinemaBLL cinema)
-        {
-            return _configuration.CreateMapper().Map<CinemaDto>(cinema);
+        public CinemaDto MapCinemaBLLToCinemaDto(CinemaOutputModel cinema)
+        {
+            return _configuration.CreateMapper().Map<CinemaDto>(cinema);
         }
     }
 }

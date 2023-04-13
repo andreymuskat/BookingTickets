@@ -1,4 +1,5 @@
-﻿using BookingTickets.BLL.Models.OutputModels;
+﻿using AutoMapper;
+using BookingTickets.BLL.Models.OutputModels;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
@@ -6,39 +7,39 @@ namespace BookingTickets.BLL
 {
     public class FilmManager
     {
-        private readonly MapperBLL _mapper = new();
-        private readonly IFilmRepository _repository;
+        //private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
+        //private readonly IFilmRepository _repository;
 
-        public FilmManager(IFilmRepository? repository = null)
-        {
-            _repository = repository ?? new FilmRepository();
-        }
+        //public FilmManager(IFilmRepository? repository = null)
+        //{
+        //    //_repository = repository ?? new FilmRepository();
+        //}
 
-        public List<FilmBLL> GetAllFilmByCinema(CinemaBLL cinema)
-        {
-            var res = _mapper.MapCinemaBLLToCinemaDto(cinema);
+        //public List<FilmOutputModel> GetAllFilmByCinema(CinemaOutputModel cinema)
+        //{
+        //    var res = _instanceMapperBll.MapCinemaBLLToCinemaDto(cinema);
 
-            return _mapper.MapListFilmDtoToListFilmBLL(_repository.GetAllFilmByCinema(res));
-        }
+        //    return _instanceMapperBll.MapListFilmDtoToListFilmBLL(_repository.GetAllFilmByCinema(res));
+        //}
 
-        public List<FilmBLL> GetAllFilmByDay(DateTime dateTime)
-        {
-            return _mapper.MapListFilmDtoToListFilmBLL(_repository.GetAllFilmByDay(dateTime));
-        }
+        //public List<FilmOutputModel> GetAllFilmByDay(DateTime dateTime)
+        //{
+        //    return _instanceMapperBll.MapListFilmDtoToListFilmBLL(_repository.GetAllFilmByDay(dateTime));
+        //}
 
-        public List<FilmBLL> GetAllFilm()
-        {
-            return _mapper.MapListFilmDtoToListFilmBLL(_repository.GetAllFilm());
-        }
+        //public List<FilmOutputModel> GetAllFilm()
+        //{
+        //    return _instanceMapperBll.MapListFilmDtoToListFilmBLL(_repository.GetAllFilm());
+        //}
 
-        public void AddNewFilm(FilmBLL film)
-        {
-            _repository.AddNewFilm(_mapper.MapFilmBLLToFilmDto(film));
-        }
+        //public void AddNewFilm(FilmOutputModel film)
+        //{
+        //    _repository.AddNewFilm(_instanceMapperBll.MapFilmBLLToFilmDto(film));
+        //}
 
-        public void UpdateFilm(FilmBLL film)
-        {
-            _repository.UpdateFilm(_mapper.MapFilmBLLToFilmDto(film));
-        }
+        //public void UpdateFilm(FilmOutputModel film)
+        //{
+        //    _repository.UpdateFilm(_instanceMapperBll.MapFilmBLLToFilmDto(film));
+        //}
     }
 }
