@@ -1,7 +1,8 @@
 using AutoMapper;
 using BookingTickets.BLL.Models.InputModels;
 using BookingTickets.BLL.Models.OutputModels;
-using BookingTickets.DAL.Models;
+using BookingTickets.DAL.Models;
+
 namespace BookingTickets.BLL
 {
     public class MapperBLL

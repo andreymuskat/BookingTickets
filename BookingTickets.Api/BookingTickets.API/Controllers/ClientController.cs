@@ -37,12 +37,12 @@ namespace BookingTickets.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("{AddNewFilm}", Name = "AddNewFilm")]
-        public IActionResult AddNewFilm(FilmRequestModel model)
-        {
-            film.AddNewFilm(model);
-            return Ok("Success");
-        }
+        //[HttpPost("{AddNewFilm}", Name = "AddNewFilm")]
+        //public IActionResult AddNewFilm(FilmRequestModel model)
+        //{
+        //    film.AddNewFilm(model);
+        //    return Ok("Success");
+        //}
 
         [HttpPost("{UpdateFilm}", Name = "UpdateFilm")]
         public IActionResult UpdateFilm(FilmRequestModel model)
