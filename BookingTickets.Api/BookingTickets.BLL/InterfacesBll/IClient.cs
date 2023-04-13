@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookingTickets.BLL.InterfacesBll
 {
-    public interface IСashier
+    internal class IClient
     {
     }
 }
