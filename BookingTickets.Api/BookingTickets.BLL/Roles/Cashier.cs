@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingTickets.BLL.InterfacesBll;
 
 namespace BookingTickets.BLL.Roles
 {
-    internal class Cashier
+    public class Cashier : IСashier
     {
+        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
     }
 }
