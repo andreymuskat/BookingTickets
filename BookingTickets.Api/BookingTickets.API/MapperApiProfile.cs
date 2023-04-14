@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels;
+using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.Models;
 
 namespace BookingTickets.API

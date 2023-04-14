@@ -1,4 +1,4 @@
-﻿namespace BookingTickets.API.Model.ResponseModels;
+﻿namespace BookingTickets.API.Model.ResponseModels
 {
     public class FilmResponseModel
     {
