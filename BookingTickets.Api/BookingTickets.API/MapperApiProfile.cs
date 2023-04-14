@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels;
-using BookingTickets.BLL.Models.InputModels;
-using BookingTickets.BLL.Models.OutputModels;
+using BookingTickets.BLL.Models;
 
 namespace BookingTickets.API
 {
@@ -9,9 +8,9 @@ namespace BookingTickets.API
     {
         public MapperApiProfile()
         {
-            CreateMap<FilmRequestModel, FilmInputModel>();
-            CreateMap<FilmResponseModel, FilmOutputModel>();
-            CreateMap<FilmOutputModel, FilmResponseModel>();
+            CreateMap<FilmRequestModel, FilmBLL>();
+            CreateMap<FilmResponseModel, FilmBLL>();
+            CreateMap<FilmBLL, FilmResponseModel>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BookingTickets.DAL.Models;
 using BookingTickets.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
@@ -21,20 +22,8 @@ namespace BookingTickets.DAL
         }
 
         public List<FilmDto> GetAllFilmByCinema(CinemaDto cinema)
-        { 
-            return  new List<FilmDto>
-            { 
-                new FilmDto
-            {
-                Id = 1,
-                Name="Jackass"
-            },
-                new FilmDto
-            {
-                Id = 2,
-                Name="Alien"
-            },
-            };
+        {
+            return new List<FilmDto>();
         }
 
         public List<FilmDto> GetAllFilmByDay(DateTime dateTime)
