@@ -1,6 +1,11 @@
-﻿public class SeatInputModel
+﻿namespace BookingTickets.API.Model.RequestModels
 {
-	public int Id { get; set; }
-	public int Number { get; set; }
-	public int Row { get; set; }
+    public class SeatInputModel
+    {
+        public int Id { get; set; }
+
+        public int Number { get; set; }
+
+        public int Row { get; set; }
+    }
 }

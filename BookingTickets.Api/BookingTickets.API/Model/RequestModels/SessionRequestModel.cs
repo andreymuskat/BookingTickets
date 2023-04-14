@@ -1,13 +1,17 @@
-﻿using System;
+﻿using BookingTickets.BLL.Models;
 
-public class SessionRequestModel
+namespace BookingTickets.API.Model.RequestModels
 {
-	public int Id { get; set; }
-	public DateTime Date { get; set; }
-	public DateTime TimeStart { get; set; }
-	public int HallId { get; set; }
-	public int FilmId { get; set; }
-	public int Cost { get; set; }
-	public bool IsDeleted { get; set; }
+    public class SessionRequestModel
+    {
+        public int Id { get; set; }
 
-} 
+        public DateTime Date { get; set; }
+
+        public FilmBLL FilmDto { get; set; }
+
+        public int Cost { get; set; }
+
+        public bool IsDeleted { get; set; }
+    }
+}

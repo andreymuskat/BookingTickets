@@ -13,10 +13,6 @@ namespace BookingTickets.DAL.Models
         [Required]
         public string Address { get; set; }
 
-        public UserDto Employes { get; set; }
-
-        public List<HallDto> Halls { get; set; }
-
         [Required]
         public bool IsDeleted { get; set; }
     }

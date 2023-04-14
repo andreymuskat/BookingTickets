@@ -2,8 +2,12 @@
 {
     public class FilmRequestModel
     {
-        public string? Name { get; set; }
+        public int Id { get; set; }
+
+        public string Name { get; set; }
 
         public int Duration { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

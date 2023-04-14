@@ -14,6 +14,8 @@ namespace BookingTickets.DAL.Models
 
         public List<SessionDto> Sessions { get; set; }
 
+        public CinemaDto Cinema { get; set; }
+
         [Required]
         public bool IsDeleted { get; set; }
     }
