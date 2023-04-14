@@ -9,21 +9,21 @@ namespace BookingTickets.DAL.Models
         public int Id { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public List<SeatDto> Seats { get; set; }
 
         [Required]
-        public int SessionId { get; set; }
+        public UserDto User { get; set; }
+
+        [Required]
+        public SessionDto Session { get; set; }
 
         [Required]
         public OrderStatus Status { get; set; }
 
+        [Required]
         public string? Code { get; set; }
 
         [Required]
-        public List<SeatDto> Seats { get; set; }
-
-        public SessionDto SessionDto { get; set; }
-
-        public UserDto UserDto { get; set; }
+        public DateTime Date { get; set; }
     }
 }
