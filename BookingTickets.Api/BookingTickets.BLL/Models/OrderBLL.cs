@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Core;
+﻿using Core;
 
 namespace BookingTickets.BLL.Models
 {
@@ -15,7 +9,7 @@ namespace BookingTickets.BLL.Models
         public int UserId { get; set; }
 
         public int SessionId { get; set; }
-        
+
         public OrderStatus Status { get; set; }
 
         public string? Code { get; set; }
