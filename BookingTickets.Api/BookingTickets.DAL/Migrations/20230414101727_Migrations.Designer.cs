@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingTickets.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230414080836_partdva")]
-    partial class partdva
+    [Migration("20230414101727_Migrations")]
+    partial class Migrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,6 +37,9 @@ namespace BookingTickets.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EmployesId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -45,6 +48,8 @@ namespace BookingTickets.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployesId");
 
                     b.ToTable("Cinemas");
                 });
@@ -116,9 +121,6 @@ namespace BookingTickets.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CinemaDtoId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("CinemaId")
                         .HasColumnType("int");
 
@@ -141,8 +143,6 @@ namespace BookingTickets.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CinemaDtoId");
 
                     b.ToTable("Users");
                 });
@@ -241,6 +241,17 @@ namespace BookingTickets.DAL.Migrations
                     b.ToTable("Sessions");
                 });
 
+            modelBuilder.Entity("BookingTickets.DAL.Models.CinemaDto", b =>
+                {
+                    b.HasOne("BookingTickets.DAL.Models.UserDto", "Employes")
+                        .WithMany()
+                        .HasForeignKey("EmployesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employes");
+                });
+
             modelBuilder.Entity("BookingTickets.DAL.Models.HallDto", b =>
                 {
                     b.HasOne("BookingTickets.DAL.Models.CinemaDto", null)
@@ -265,13 +276,6 @@ namespace BookingTickets.DAL.Migrations
                     b.Navigation("SessionDto");
 
                     b.Navigation("UserDto");
-                });
-
-            modelBuilder.Entity("BookingTickets.DAL.Models.UserDto", b =>
-                {
-                    b.HasOne("BookingTickets.DAL.Models.CinemaDto", null)
-                        .WithMany("Employes")
-                        .HasForeignKey("CinemaDtoId");
                 });
 
             modelBuilder.Entity("SeatDto", b =>
@@ -306,8 +310,6 @@ namespace BookingTickets.DAL.Migrations
 
             modelBuilder.Entity("BookingTickets.DAL.Models.CinemaDto", b =>
                 {
-                    b.Navigation("Employes");
-
                     b.Navigation("Halls");
                 });
 

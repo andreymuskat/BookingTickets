@@ -13,7 +13,7 @@ namespace BookingTickets.DAL.Models
         [Required]
         public string Address { get; set; }
 
-        public List<UserDto> Employes { get; set; }
+        public UserDto Employes { get; set; }
 
         public List<HallDto> Halls { get; set; }
 
