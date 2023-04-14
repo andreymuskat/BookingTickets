@@ -20,5 +20,26 @@ namespace BookingTickets.BLL.Roles
 
             return _instanceMapperBll.MapFilmDtoToFilmBLL(res);
         }
+
+        public List<SessionBLL> GetFilmsByCinema(FilmBLL film, CinemaBLL cinema) 
+        {
+            return new List<SessionBLL>();
+        }
+
+
+        public List<CinemaBLL> GetCinemaByFilm(FilmBLL film)
+        {
+            return new List<CinemaBLL>();
+        }
+
+        public List<SessionBLL> GetSessionsByFilm(FilmBLL film)
+        {
+            return new List<SessionBLL>();
+        }
+
+        public List<SeatBLL> GetFreeSeatsBySession(SessionBLL session)
+        {
+            return new List<SeatBLL>();
+        }
     }
 }

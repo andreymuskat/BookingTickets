@@ -16,7 +16,7 @@ namespace BookingTickets.BLL.Roles
 
         public void AddNewFilm(FilmBLL newFilm)
         {
-            var filmDto = _instanceMapperBll.MapFilmInputModelToFilmDto(newFilm);
+            var filmDto = _instanceMapperBll.MapFilmBLLToFilmDto(newFilm);
             var filmByName = _filmRepository.GetFilmByName(filmDto.Name);
             if (filmByName == null)
             {

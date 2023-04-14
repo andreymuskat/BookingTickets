@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.Models;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -7,5 +8,8 @@ namespace BookingTickets.BLL.Roles
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
 
         public Admin() { }
+
+        public void CreateSession(SessionBLL session)
+        { }
     }
 }
