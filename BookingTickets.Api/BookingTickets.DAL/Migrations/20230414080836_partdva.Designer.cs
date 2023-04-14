@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingTickets.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230412142012_Migrations")]
-    partial class Migrations
+    [Migration("20230414080836_partdva")]
+    partial class partdva
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -294,7 +294,7 @@ namespace BookingTickets.DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("BookingTickets.DAL.Models.HallDto", "HallDto")
-                        .WithMany()
+                        .WithMany("Sessions")
                         .HasForeignKey("HallDtoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -314,6 +314,8 @@ namespace BookingTickets.DAL.Migrations
             modelBuilder.Entity("BookingTickets.DAL.Models.HallDto", b =>
                 {
                     b.Navigation("Seats");
+
+                    b.Navigation("Sessions");
                 });
 
             modelBuilder.Entity("BookingTickets.DAL.Models.OrderDto", b =>

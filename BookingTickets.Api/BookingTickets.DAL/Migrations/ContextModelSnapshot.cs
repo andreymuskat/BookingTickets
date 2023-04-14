@@ -291,7 +291,7 @@ namespace BookingTickets.DAL.Migrations
                         .IsRequired();
 
                     b.HasOne("BookingTickets.DAL.Models.HallDto", "HallDto")
-                        .WithMany()
+                        .WithMany("Sessions")
                         .HasForeignKey("HallDtoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -311,6 +311,8 @@ namespace BookingTickets.DAL.Migrations
             modelBuilder.Entity("BookingTickets.DAL.Models.HallDto", b =>
                 {
                     b.Navigation("Seats");
+
+                    b.Navigation("Sessions");
                 });
 
             modelBuilder.Entity("BookingTickets.DAL.Models.OrderDto", b =>
