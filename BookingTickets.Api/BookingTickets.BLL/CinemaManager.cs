@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookingTickets.BLL
 {
-    internal class CinemaManager
+    public class CinemaManager
     {
     }
 }

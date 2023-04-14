@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookingTickets.BLL.InterfacesBll
 {
-    internal class IAdmin
+    public interface IAdmin
     {
     }
 }

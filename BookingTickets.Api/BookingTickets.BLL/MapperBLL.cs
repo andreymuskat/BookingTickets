@@ -45,34 +45,29 @@ namespace BookingTickets.BLL
             return _configuration.CreateMapper().Map<FilmBLL>(film);
         }
 
-        public FilmDto MapFilmInputModelToFilmDto(FilmBLL film)
-        {
-            return _configuration.CreateMapper().Map<FilmDto>(film);
-        }
-
         public FilmDto MapFilmBLLToFilmDto(FilmBLL film)
         {
             return _configuration.CreateMapper().Map<FilmDto>(film);
         }
 
-        public CinemaDto MapCinemaInputModelToCinemaDto(CinemaBLL cinema)
+        public CinemaDto MapCinemaBLLToCinemaDto(CinemaBLL cinema)
         {
             return _configuration.CreateMapper().Map<CinemaDto>(cinema);
         }
 
-        public HallBLL MapHallDtoToFullHallOutputModel(HallDto hall)
+        public HallBLL MapHallDtoToFullHallBLL(HallDto hall)
         {
             return _configuration.CreateMapper().Map<HallBLL>(hall);
         }
 
-        public HallDto MapHallInputModelToHallDto(HallBLL hall)
+        public HallDto MapHallBLLModelToHallDto(HallBLL hall)
         {
             return _configuration.CreateMapper().Map<HallDto>(hall);
         }
 
-        public CinemaDto MapCinemaBLLToCinemaDto(CinemaBLL cinema)
+        public SessionDto MapSessionBLLToSessionDto(SessionBLL session)
         {
-            return _configuration.CreateMapper().Map<CinemaDto>(cinema);
+            return _configuration.CreateMapper().Map<SessionDto>(session);
         }
     }
 }
