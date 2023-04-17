@@ -11,15 +11,10 @@ namespace BookingTickets.DAL
         {
             context = new Context();
         }
+
         public HallDto CreateHall(HallDto hall)
         {
-            HallDto hallDto = new HallDto
-            {
-                Number = hall.Number,
-                Seats = hall.Seats
-            };
-
-            context.Add(hallDto);
+            context.Add(hall);
 
             context.SaveChanges();
 
