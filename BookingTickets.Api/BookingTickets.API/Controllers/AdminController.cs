@@ -6,26 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    [Route("[controller]")]
-    [ApiController]
-    public class AdminController: ControllerBase
-    {
-        private readonly IAdmin _admin;
-        private readonly IMapper _mapper;
-        private readonly ILogger<AdminController> _logger;
+    //[Route("[controller]")]
+    //[ApiController]
+    //public class AdminController: ControllerBase
+    //{
+    //    private readonly IAdmin _admin;
+    //    private readonly IMapper _mapper;
+    //    private readonly ILogger<AdminController> _logger;
 
-        public AdminController(IMapper map, IAdmin admin)
-        {
-            _mapper = map;
-            _admin = admin;
-        }
+    //    public AdminController(IMapper map, IAdmin admin)
+    //    {
+    //        _mapper = map;
+    //        _admin = admin;
+    //    }
 
-        [HttpPost("Create_New_Session")]
-        public IActionResult CreateNewSession(CreateSessionRequestModel newSession)
-        {
-            _admin.CreateSession(_mapper.Map<SessionBLL>(newSession));
+    //    [HttpPost("Create_New_Session")]
+    //    public IActionResult CreateNewSession(CreateSessionRequestModel newSession)
+    //    {
+    //        _admin.CreateSession(_mapper.Map<SessionBLL>(newSession));
 
-            return Ok("GOT IT");
-        }
-    }
+    //        return Ok("GOT IT");
+    //    }
+    //}
 }

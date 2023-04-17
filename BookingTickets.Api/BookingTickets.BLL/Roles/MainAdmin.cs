@@ -1,6 +1,6 @@
-﻿using BookingTickets.BLL.Models;
+﻿using BookingTickets.BLL;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.NewFolder;
-using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -10,10 +10,10 @@ namespace BookingTickets.BLL.Roles
         private readonly FilmManager _filmManager;
         private readonly CinemaManager _cinemaManager;
 
-        public MainAdmin(FilmManager filmManager, CinemaManager cinemaManager)
+        public MainAdmin()
         {
-            _filmManager = filmManager;
-            _cinemaManager = cinemaManager;
+            _filmManager = new FilmManager();
+            _cinemaManager = new CinemaManager();
         }
 
         public void CreateNewFilm(FilmBLL newFilm)

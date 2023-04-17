@@ -1,5 +1,7 @@
-﻿using BookingTickets.BLL.InterfacesBll;
+﻿using BookingTickets.BLL;
+using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
+using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.BLL.Roles
@@ -7,11 +9,11 @@ namespace BookingTickets.BLL.Roles
     public class Client : IClient
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private IFilmRepository _filmRepository;
+        public IFilmRepository _filmRepository;
 
-        public Client(IFilmRepository repository)
+        public Client()
         {
-            _filmRepository = repository;
+            _filmRepository = new FilmRepository();
         }
 
         public FilmBLL GetFilmByName(string name)
