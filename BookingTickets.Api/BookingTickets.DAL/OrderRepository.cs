@@ -8,9 +8,9 @@ namespace BookingTickets.DAL
     {
         private readonly Context _context;
 
-        public OrderRepository(Context context)
+        public OrderRepository()
         {
-            _context = context;
+            _context = new Context();
         }
 
         public OrderDto CreateOrder(OrderDto order)

@@ -34,9 +34,6 @@ namespace BookingTickets.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EmployesId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -45,8 +42,6 @@ namespace BookingTickets.DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployesId");
 
                     b.ToTable("Cinemas");
                 });
@@ -59,7 +54,7 @@ namespace BookingTickets.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CinemaDtoId")
+                    b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -70,7 +65,7 @@ namespace BookingTickets.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CinemaDtoId");
+                    b.HasIndex("CinemaId");
 
                     b.ToTable("Halls");
                 });
@@ -84,10 +79,11 @@ namespace BookingTickets.DAL.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Code")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SessionDtoId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("SessionId")
                         .HasColumnType("int");
@@ -95,17 +91,14 @@ namespace BookingTickets.DAL.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserDtoId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SessionDtoId");
+                    b.HasIndex("SessionId");
 
-                    b.HasIndex("UserDtoId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -118,7 +111,7 @@ namespace BookingTickets.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CinemaId")
+                    b.Property<int>("CinemaId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -132,14 +125,12 @@ namespace BookingTickets.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("UserStatus")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CinemaId");
 
                     b.ToTable("Users");
                 });
@@ -214,20 +205,11 @@ namespace BookingTickets.DAL.Migrations
                     b.Property<int>("FilmDtoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FilmId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HallDtoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HallId")
+                    b.Property<int?>("HallDtoId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("TimeStart")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -238,41 +220,45 @@ namespace BookingTickets.DAL.Migrations
                     b.ToTable("Sessions");
                 });
 
-            modelBuilder.Entity("BookingTickets.DAL.Models.CinemaDto", b =>
+            modelBuilder.Entity("BookingTickets.DAL.Models.HallDto", b =>
                 {
-                    b.HasOne("BookingTickets.DAL.Models.UserDto", "Employes")
+                    b.HasOne("BookingTickets.DAL.Models.CinemaDto", "Cinema")
                         .WithMany()
-                        .HasForeignKey("EmployesId")
+                        .HasForeignKey("CinemaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Employes");
-                });
-
-            modelBuilder.Entity("BookingTickets.DAL.Models.HallDto", b =>
-                {
-                    b.HasOne("BookingTickets.DAL.Models.CinemaDto", null)
-                        .WithMany("Halls")
-                        .HasForeignKey("CinemaDtoId");
+                    b.Navigation("Cinema");
                 });
 
             modelBuilder.Entity("BookingTickets.DAL.Models.OrderDto", b =>
                 {
-                    b.HasOne("SessionDto", "SessionDto")
+                    b.HasOne("SessionDto", "Session")
                         .WithMany()
-                        .HasForeignKey("SessionDtoId")
+                        .HasForeignKey("SessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookingTickets.DAL.Models.UserDto", "UserDto")
+                    b.HasOne("BookingTickets.DAL.Models.UserDto", "User")
                         .WithMany()
-                        .HasForeignKey("UserDtoId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("SessionDto");
+                    b.Navigation("Session");
 
-                    b.Navigation("UserDto");
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BookingTickets.DAL.Models.UserDto", b =>
+                {
+                    b.HasOne("BookingTickets.DAL.Models.CinemaDto", "Cinema")
+                        .WithMany()
+                        .HasForeignKey("CinemaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cinema");
                 });
 
             modelBuilder.Entity("SeatDto", b =>
@@ -294,20 +280,11 @@ namespace BookingTickets.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookingTickets.DAL.Models.HallDto", "HallDto")
+                    b.HasOne("BookingTickets.DAL.Models.HallDto", null)
                         .WithMany("Sessions")
-                        .HasForeignKey("HallDtoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("HallDtoId");
 
                     b.Navigation("FilmDto");
-
-                    b.Navigation("HallDto");
-                });
-
-            modelBuilder.Entity("BookingTickets.DAL.Models.CinemaDto", b =>
-                {
-                    b.Navigation("Halls");
                 });
 
             modelBuilder.Entity("BookingTickets.DAL.Models.HallDto", b =>

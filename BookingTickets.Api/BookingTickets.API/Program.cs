@@ -1,5 +1,6 @@
 using BookingTickets.API;
 using BookingTickets.BLL;
+using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.NewFolder;
 using BookingTickets.BLL.Roles;
 using BookingTickets.DAL;
@@ -14,7 +15,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IFilmRepository, FilmRepository>();
+builder.Services.AddScoped<ICinemaRepository, CinemaRepository>();
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IMainAdmin, MainAdmin>();
+builder.Services.AddScoped<IClient, Client>();
+builder.Services.AddScoped<IAdmin, Admin>();
+
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
 

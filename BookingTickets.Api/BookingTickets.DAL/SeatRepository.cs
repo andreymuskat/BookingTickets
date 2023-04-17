@@ -6,9 +6,9 @@ namespace BookingTickets.DAL
     {
         private static Context _context;
 
-        public SeatRepository(Context context)
+        public SeatRepository()
         {
-            _context = context;
+            _context = new Context();
         }
 
         public SeatDto CreateSeat(SeatDto seat)

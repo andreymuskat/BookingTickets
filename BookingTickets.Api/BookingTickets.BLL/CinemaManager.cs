@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.Models;
+using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.BLL
@@ -8,9 +9,9 @@ namespace BookingTickets.BLL
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly ICinemaRepository _repository;
 
-        public CinemaManager(ICinemaRepository repository)
+        public CinemaManager()
         {
-            _repository = repository;
+            _repository = new CinemaRepository();
         }
 
         public void CreateCinema(CinemaBLL cinema)
