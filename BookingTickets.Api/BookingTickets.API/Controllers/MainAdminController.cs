@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using BookingTickets.API.Model.RequestModels.CinemaRequestModel;
-using BookingTickets.API.Model.RequestModels.FilmRequestModel;
+using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
+using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.NewFolder;
 using Microsoft.AspNetCore.Mvc;

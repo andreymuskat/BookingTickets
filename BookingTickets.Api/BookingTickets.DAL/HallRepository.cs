@@ -15,8 +15,7 @@ namespace BookingTickets.DAL
         {
             HallDto hallDto = new HallDto
             {
-                Number = hall.Number,
-                Seats = hall.Seats
+                Number = hall.Number
             };
 
             context.Add(hallDto);
@@ -26,8 +25,7 @@ namespace BookingTickets.DAL
             return new HallDto
             {
                 Id = hall.Id,
-                Number = hall.Number,
-                Seats = hall.Seats
+                Number = hall.Number
             };
         }
 
