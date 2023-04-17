@@ -1,6 +1,6 @@
 ﻿using BookingTickets.BLL.Models;
 
-namespace BookingTickets.API.Model.RequestModels
+namespace BookingTickets.API.Model.RequestModels.SessionRequestModel
 {
     public class SessionRequestModel
     {
