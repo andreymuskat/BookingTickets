@@ -1,23 +1,18 @@
-﻿using AutoMapper;
-using Azure.Core;
-using BookingTickets.BLL.Authentication.AuthModels;
-using CompanyName.Application.Dal.Auth.Configurations;
-using CompanyName.Application.Dal.Auth.Models;
-using CompanyName.Application.Dal.Auth.Repository;
-using CompanyName.Application.Services.AuthService.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Reflection.Metadata.Ecma335;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using AutoMapper;
+using BookingTickets.BLL.Authentication.AuthModels;
+using BookingTickets.DAL.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BookingTickets.BLL.Authentication
 {
     public class AuthService : IAuthService
     {
         private readonly UserManager<IdentityUser> manager;
-        private readonly IAuthRepository repository;
+        private readonly IUserRepository repository;
         private readonly IJwtConfigurationSettings settings;
         private readonly IMapper mapper;
 
