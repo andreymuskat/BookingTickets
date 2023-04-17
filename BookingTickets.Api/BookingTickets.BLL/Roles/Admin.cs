@@ -18,5 +18,10 @@ namespace BookingTickets.BLL.Roles
         {
             _sessionManager.CreateSession(session);
         }
+
+        public void CreateCashier(UserBLL user)
+        {
+
+        }
     }
 }
