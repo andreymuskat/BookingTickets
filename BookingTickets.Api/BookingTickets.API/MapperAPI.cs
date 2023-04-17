@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels;
+using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.Models.OutputModels;
 
 namespace BookingTickets.API
@@ -16,6 +17,7 @@ namespace BookingTickets.API
                     cfg.CreateMap<FilmBLL, FilmResponseModel>();
                     cfg.CreateMap<FilmRequestModel, FilmBLL>();
                     cfg.CreateMap<CinemaRequestModel, CinemaBLL>();
+                    cfg.CreateMap<UserBLL, UserResponseModel>();
                 });
         }
 
@@ -32,6 +34,16 @@ namespace BookingTickets.API
         public CinemaBLL MapCinemaRequestModelToCinemaBLL(CinemaRequestModel model)
         {
             return _configuration.CreateMapper().Map<CinemaBLL>(model);
+        }
+
+        public UserResponseModel MapUserBLLToUserResponseModel(UserBLL userBLL)
+        {
+            return _configuration.CreateMapper().Map<UserResponseModel>(userBLL);
+        }
+
+        public UserBLL MapUserResponseModelToUserBLL(UserResponseModel user)
+        {
+            return _configuration.CreateMapper().Map<UserBLL>(user);
         }
     }
 }
