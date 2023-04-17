@@ -1,4 +1,4 @@
-﻿namespace BookingTickets.API.Model.RequestModels
+﻿namespace BookingTickets.API.Model.RequestModels.CinemaRequestModel
 {
     public class CinemaRequestModel
     {

@@ -4,8 +4,8 @@ namespace BookingTickets.BLL.NewFolder
 {
     public interface IMainAdmin
     {
-        public void AddNewFilm(FilmBLL newFilm);
+        public void CreateNewFilm(FilmBLL newFilm);
 
-        public FilmBLL GetFilmByName(string name);
+        public void CreateCinema(CinemaBLL newCinema);
     }
 }
