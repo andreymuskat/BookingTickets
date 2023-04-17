@@ -25,5 +25,15 @@ namespace BookingTickets.DAL
         {
 
         }
+
+        public List<SeatDto> GetAllSeatsByHallId(int idHall)
+        {
+            return new List<SeatDto>();
+        }
+
+        public List<SeatDto> GetAllSeatsBySessionId(int sessionId)
+        {
+            return new List<SeatDto>();
+        }
     }
 }
