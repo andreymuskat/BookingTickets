@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels;
-using BookingTickets.BLL;
-using BookingTickets.BLL.Models.InputModels;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.NewFolder;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +23,7 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Add_Film")]
         public IActionResult AddNewFilm(FilmRequestModel model)
         {
-            var res = _mapper.Map<FilmInputModel>(model);
+            var res = _mapper.Map<FilmBLL>(model);
             _mainAdmin.AddNewFilm(res);
             return Ok("GOT IT");
         }
