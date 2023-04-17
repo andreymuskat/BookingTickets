@@ -1,5 +1,4 @@
-﻿using BookingTickets.DAL.Models;
-using Core;
+﻿using Core;
 
 namespace BookingTickets.BLL.Models
 {
@@ -13,7 +12,7 @@ namespace BookingTickets.BLL.Models
 
         public string Password { get; set; }
 
-        public CinemaDto Cinema { get; set; }
+        public CinemaBLL Cinema { get; set; }
 
         public bool IsDeleted { get; set; }
     }

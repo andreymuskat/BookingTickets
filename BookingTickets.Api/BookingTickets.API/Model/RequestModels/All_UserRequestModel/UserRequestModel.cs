@@ -1,7 +1,7 @@
 ﻿using BookingTickets.API.Controllers.Options;
-using BookingTickets.BLL.Models;
+using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
 
-namespace BookingTickets.API.Model.RequestModels
+namespace BookingTickets.API.Model.RequestModels.All_UserRequestModel
 {
     public class UserRequestModel
     {
@@ -13,7 +13,7 @@ namespace BookingTickets.API.Model.RequestModels
 
         public string Password { get; set; }
 
-        public CinemaBLL CinemaId { get; set; }
+        public CinemaRequestModel CinemaId { get; set; }
 
         public bool IsDeleted { get; set; }
     }
