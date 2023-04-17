@@ -7,9 +7,9 @@ namespace BookingTickets.DAL
     {
         private readonly Context _context;
 
-        public CinemaRepository(Context context)
+        public CinemaRepository()
         {
-            _context = context;
+            _context = new Context();
         }
 
         public CinemaDto CreateCinema(CinemaDto cinema)
@@ -49,6 +49,11 @@ namespace BookingTickets.DAL
         public List<HallDto> GetAllHallByCinemaId(int idCinema)
         {
             return new List<HallDto>();
+        }
+
+        public List<CinemaDto> GetAllCinemaByFilm(int idFilm)
+        {
+            return new List<CinemaDto>();
         }
     }
 }

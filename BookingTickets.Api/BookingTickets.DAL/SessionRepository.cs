@@ -8,9 +8,9 @@ namespace BookingTickets.DAL
     {
         private readonly Context _context;
 
-        public SessionRepository (Context context)
+        public SessionRepository ()
         {
-            _context = context;
+            _context = new Context();
         }
         public SessionDto CreateSession(SessionDto session)
         { 
