@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure.Core;
+using BookingTickets.BLL.Authentication.AuthModels;
 using CompanyName.Application.Dal.Auth.Configurations;
 using CompanyName.Application.Dal.Auth.Models;
 using CompanyName.Application.Dal.Auth.Repository;
@@ -64,7 +65,7 @@ namespace BookingTickets.BLL.Authentication
             var roles = GetRole();
             var token = GetJwtToken(user, roles);
 
-            var userDal = mapper.Map<UserRegister, UserDal>(userRegister);
+            var userDal = mapper.Map<UserRegister, UserBLL>(userRegister);
 
             var userId = repository.AddUser(userDal);
 
@@ -106,25 +107,6 @@ namespace BookingTickets.BLL.Authentication
                 Success = true,
                 Token = token
             };
-        }
-
-        public async Task<AuthResult> ValidateUser(TokenRequest tokenRequest)
-        {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-
-            var tokenInValidation = jwtTokenHandler.ValidateToken(tokenRequest.Token, null, out var validatatedToken);
-
-            if (validatatedToken is JwtSecurityToken jwtSecurityToken)
-            {
-                var result = jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase);
-
-                if (!result)
-                {
-                    return new AuthResult { Success = false, Error = new[] { "" } };
-                }
-            }
-
-            return new AuthResult { Success = false, Error = new[] { "" } };
         }
 
         private string GetJwtToken(IdentityUser user, IEnumerable<string> userRoles)
