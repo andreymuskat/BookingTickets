@@ -7,32 +7,23 @@ namespace BookingTickets.BLL.Roles
     public class MainAdmin : IMainAdmin
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private IFilmRepository _filmRepository;
+        private readonly FilmManager _filmManager;
+        private readonly CinemaManager _cinemaManager;
 
-        public MainAdmin(IFilmRepository repository)
+        public MainAdmin(FilmManager filmManager, CinemaManager cinemaManager)
         {
-            _filmRepository = repository;
+            _filmManager = filmManager;
+            _cinemaManager = cinemaManager;
         }
 
-        public void AddNewFilm(FilmBLL newFilm)
+        public void CreateNewFilm(FilmBLL newFilm)
         {
-            var filmDto = _instanceMapperBll.MapFilmBLLToFilmDto(newFilm);
-            var filmByName = _filmRepository.GetFilmByName(filmDto.Name);
-            if (filmByName == null)
-            {
-                _filmRepository.CreateFilm(filmDto);
-            }
-            else
-            {
-                throw new Exception("Такой фильм уже есть в базе!");
-            }
+            _filmManager.CreateNewFilm(newFilm);
         }
 
-        public FilmBLL GetFilmByName(string name)
+        public void CreateCinema(CinemaBLL newCinema)
         {
-            var res = _filmRepository.GetFilmByName(name);
-
-            return _instanceMapperBll.MapFilmDtoToFilmBLL(res);
+            _cinemaManager.CreateCinema(newCinema);
         }
     }
 }

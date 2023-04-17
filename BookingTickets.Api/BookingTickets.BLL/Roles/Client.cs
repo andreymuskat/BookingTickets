@@ -26,7 +26,6 @@ namespace BookingTickets.BLL.Roles
             return new List<SessionBLL>();
         }
 
-
         public List<CinemaBLL> GetCinemaByFilm(FilmBLL film)
         {
             return new List<CinemaBLL>();
