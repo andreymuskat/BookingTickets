@@ -3,7 +3,9 @@ using System.Security.Claims;
 using System.Text;
 using AutoMapper;
 using BookingTickets.BLL.Authentication.AuthModels;
+using BookingTickets.DAL.Configuration;
 using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -18,7 +20,7 @@ namespace BookingTickets.BLL.Authentication
 
         public AuthService(
             UserManager<IdentityUser> userManager,
-            IAuthRepository authRepository,
+            IUserRepository authRepository,
             IJwtConfigurationSettings jwtConfigurationSettings,
             IMapper autoMapper)
         {
@@ -43,7 +45,7 @@ namespace BookingTickets.BLL.Authentication
             var user = new IdentityUser
             {
                 Email = userRegister.Email,
-                UserName = userRegister.UserName
+                UserName = userRegister.Name
             };
 
             var isUserCreated = await manager.CreateAsync(user, userRegister.Password);
@@ -60,9 +62,9 @@ namespace BookingTickets.BLL.Authentication
             var roles = GetRole();
             var token = GetJwtToken(user, roles);
 
-            var userDal = mapper.Map<UserRegister, UserBLL>(userRegister);
+            var userDTO = mapper.Map<UserRegister, UserDto>(userRegister);
 
-            var userId = repository.AddUser(userDal);
+            var userId = repository.AddUser(userDTO);
 
             return new AuthResult
             {
@@ -115,8 +117,7 @@ namespace BookingTickets.BLL.Authentication
             };
 
             claims.AddRange(userRoles.Select(ur => new Claim(ur, "true")));
-
-            // Token descriptor
+            
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),

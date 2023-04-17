@@ -1,4 +1,5 @@
 using AutoMapper;
+using BookingTickets.BLL.Authentication.AuthModels;
 using BookingTickets.BLL.Models.InputModels;
 using BookingTickets.BLL.Models.OutputModels;
 using BookingTickets.DAL.Models;
@@ -24,6 +25,7 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<CinemaOutputModel, CinemaDto>();
                     cfg.CreateMap<SessionDto,SessionOutputModel>();
                     cfg.CreateMap<SessionInputModel, SessionDto>();
+                    cfg.CreateMap<UserRegister, UserDto>();
                 });
         }
 
