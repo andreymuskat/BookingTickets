@@ -1,12 +1,11 @@
-﻿namespace CompanyName.Application.WebApi.OrdersApi.Controllers
+﻿namespace BookingTickets.API.Controllers
 {
     using AutoMapper;
-    using CompanyName.Application.Services.AuthService.Models;
-    using CompanyName.Application.Services.AuthService.Services;
-    using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Requests;
-    using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
+    using BookingTickets.API.Model.RequestModels;
+    using BookingTickets.API.Model.ResponseModels;
+    using BookingTickets.BLL.Authentication;
+    using BookingTickets.BLL.Authentication.AuthModels;
     using Microsoft.AspNetCore.Mvc;
-    using NLog;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -30,9 +29,8 @@
 
         [Route("register")]
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] UserRegisterRequest request) 
+        public async Task<IActionResult> Register([FromBody] UserRegisterRequest request)
         {
-            logger.Info("Register request recieved");
 
             if (!ModelState.IsValid)
             {
@@ -45,7 +43,7 @@
             var response = mapper.Map<AuthResult, AuthResponse>(authResult);
 
             if (response.Success)
-            { 
+            {
                 return Ok(response);
             }
 
@@ -65,7 +63,7 @@
             var loginResult = await service.LoginUser(userRegister);
 
             var response = mapper.Map<AuthResult, AuthResponse>(loginResult);
-            
+
             if (response.Success)
             {
                 return Ok(response);

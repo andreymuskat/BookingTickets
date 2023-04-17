@@ -1,7 +1,6 @@
 using BookingTickets.API;
 using BookingTickets.BLL;
 using BookingTickets.BLL.NewFolder;
-using BookingTickets.BLL.Roles;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
