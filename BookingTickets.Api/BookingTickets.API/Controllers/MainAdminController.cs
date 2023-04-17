@@ -35,5 +35,6 @@ namespace BookingTickets.API.Controllers
 
             return Ok(res);
         }
+
     }
 }

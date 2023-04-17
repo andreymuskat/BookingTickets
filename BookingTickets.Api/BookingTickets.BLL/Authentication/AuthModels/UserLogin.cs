@@ -1,4 +1,4 @@
-﻿namespace CompanyName.Application.Services.AuthService.Models
+﻿namespace BookingTickets.BLL.Authentication.AuthModels
 {
     public class UserLogin
     {

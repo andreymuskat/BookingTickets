@@ -1,4 +1,4 @@
-﻿using CompanyName.Application.Services.AuthService.Models;
+﻿using BookingTickets.BLL.Authentication.AuthModels;
 
 namespace BookingTickets.BLL.Authentication
 {
