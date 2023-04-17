@@ -2,10 +2,13 @@
 using BookingTickets.API.Model.RequestModels;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.NewFolder;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
+    [Authorize(Policy = "MainAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class MainAdminController: ControllerBase

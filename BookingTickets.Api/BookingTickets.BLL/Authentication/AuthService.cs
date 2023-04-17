@@ -64,7 +64,7 @@ namespace BookingTickets.BLL.Authentication
 
             var userDTO = mapper.Map<UserRegister, UserDto>(userRegister);
 
-            var userId = repository.AddUser(userDTO);
+            var userId = repository.AddNewUser(userDTO);
 
             return new AuthResult
             {
