@@ -1,5 +1,4 @@
-﻿using BookingTickets.DAL.Models;
-using Core;
+﻿using Core;
 
 namespace BookingTickets.BLL.Models
 {
@@ -7,11 +6,11 @@ namespace BookingTickets.BLL.Models
     {
         public int Id { get; set; }
 
-        public List<SeatDto> Seats { get; set; }
+        public List<SeatBLL> Seats { get; set; }
 
-        public UserDto User { get; set; }
+        public UserBLL User { get; set; }
 
-        public SessionDto Session { get; set; }
+        public SessionBLL Session { get; set; }
 
         public OrderStatus Status { get; set; }
 

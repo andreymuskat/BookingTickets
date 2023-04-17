@@ -1,7 +1,7 @@
 using AutoMapper;
-using BookingTickets.API.Model.RequestModels.CinemaRequestModel;
-using BookingTickets.API.Model.RequestModels.FilmRequestModel;
-using BookingTickets.API.Model.RequestModels.SessionRequestModel;
+using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
+using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
+using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.Models;
 

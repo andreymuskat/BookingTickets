@@ -1,6 +1,4 @@
-﻿using BookingTickets.DAL.Models;
-
-namespace BookingTickets.BLL.Models
+﻿namespace BookingTickets.BLL.Models
 {
     public class HallBLL
     {
@@ -8,11 +6,7 @@ namespace BookingTickets.BLL.Models
 
         public int Number { get; set; }
 
-        public List<SeatDto> Seats { get; set; }
-
-        public List<SessionDto> Sessions { get; set; }
-
-        public CinemaDto Cinema { get; set; }
+        public CinemaBLL Cinema { get; set; }
 
         public bool IsDeleted { get; set; }
     }

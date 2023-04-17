@@ -1,5 +1,4 @@
 ﻿using BookingTickets.API.Controllers.Options;
-using BookingTickets.BLL.Models;
 
 namespace BookingTickets.API.Model.ResponseModels
 {
@@ -13,7 +12,7 @@ namespace BookingTickets.API.Model.ResponseModels
 
         public string Password { get; set; }
 
-        public CinemaBLL CinemaId { get; set; }
+        public CinemaResponseModel Cinema { get; set; }
 
         public bool IsDeleted { get; set; }
     }
