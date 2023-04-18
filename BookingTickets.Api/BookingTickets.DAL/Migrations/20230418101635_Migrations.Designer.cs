@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingTickets.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230417090946_NewMigrations")]
-    partial class NewMigrations
+    [Migration("20230418101635_Migrations")]
+    partial class Migrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -170,7 +170,7 @@ namespace BookingTickets.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("HallDtoId")
+                    b.Property<int>("HallId")
                         .HasColumnType("int");
 
                     b.Property<int>("Number")
@@ -184,7 +184,7 @@ namespace BookingTickets.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HallDtoId");
+                    b.HasIndex("HallId");
 
                     b.HasIndex("OrderDtoId");
 
@@ -205,10 +205,10 @@ namespace BookingTickets.DAL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("FilmDtoId")
+                    b.Property<int>("FilmId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("HallDtoId")
+                    b.Property<int>("HallId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -216,9 +216,9 @@ namespace BookingTickets.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FilmDtoId");
+                    b.HasIndex("FilmId");
 
-                    b.HasIndex("HallDtoId");
+                    b.HasIndex("HallId");
 
                     b.ToTable("Sessions");
                 });
@@ -266,35 +266,36 @@ namespace BookingTickets.DAL.Migrations
 
             modelBuilder.Entity("SeatDto", b =>
                 {
-                    b.HasOne("BookingTickets.DAL.Models.HallDto", null)
-                        .WithMany("Seats")
-                        .HasForeignKey("HallDtoId");
+                    b.HasOne("BookingTickets.DAL.Models.HallDto", "Hall")
+                        .WithMany()
+                        .HasForeignKey("HallId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BookingTickets.DAL.Models.OrderDto", null)
                         .WithMany("Seats")
                         .HasForeignKey("OrderDtoId");
+
+                    b.Navigation("Hall");
                 });
 
             modelBuilder.Entity("SessionDto", b =>
                 {
-                    b.HasOne("FilmDto", "FilmDto")
+                    b.HasOne("FilmDto", "Film")
                         .WithMany()
-                        .HasForeignKey("FilmDtoId")
+                        .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("BookingTickets.DAL.Models.HallDto", null)
-                        .WithMany("Sessions")
-                        .HasForeignKey("HallDtoId");
+                    b.HasOne("BookingTickets.DAL.Models.HallDto", "Hall")
+                        .WithMany()
+                        .HasForeignKey("HallId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("FilmDto");
-                });
+                    b.Navigation("Film");
 
-            modelBuilder.Entity("BookingTickets.DAL.Models.HallDto", b =>
-                {
-                    b.Navigation("Seats");
-
-                    b.Navigation("Sessions");
+                    b.Navigation("Hall");
                 });
 
             modelBuilder.Entity("BookingTickets.DAL.Models.OrderDto", b =>

@@ -17,7 +17,6 @@ namespace BookingTickets.DAL.Models
         [Required]
         public string Password { get; set; }
 
-        [Required]
         public CinemaDto Cinema { get; set; }
 
         [Required]

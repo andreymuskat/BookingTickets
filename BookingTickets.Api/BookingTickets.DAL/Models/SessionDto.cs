@@ -9,9 +9,9 @@ public class SessionDto
     [Required]
     public DateTime Date { get; set; }
 
-    public FilmDto FilmId { get; set; }
+    public FilmDto Film { get; set; }
 
-    public HallDto HallId { get; set; }
+    public HallDto Hall { get; set; }
 
     [Required]
 	public int Cost { get; set; }

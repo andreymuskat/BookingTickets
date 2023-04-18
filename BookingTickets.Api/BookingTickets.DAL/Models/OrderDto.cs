@@ -8,13 +8,10 @@ namespace BookingTickets.DAL.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
         public List<SeatDto> Seats { get; set; }
 
-        [Required]
         public UserDto User { get; set; }
 
-        [Required]
         public SessionDto Session { get; set; }
 
         [Required]

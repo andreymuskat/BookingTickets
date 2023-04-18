@@ -7,7 +7,7 @@ namespace BookingTickets.DAL
     {
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(@"Server=localhost;Database=CinemaOrders;Trusted_Connection=True;TrustServerCertificate=True;");
+            builder.UseSqlServer(@"Server=localhost;Database=Cinema;Trusted_Connection=True;TrustServerCertificate=True;");
         }
 
         public DbSet<HallDto> Halls { get; set; }

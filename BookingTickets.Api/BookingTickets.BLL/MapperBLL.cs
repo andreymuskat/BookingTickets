@@ -81,5 +81,10 @@ namespace BookingTickets.BLL
         {
             return _configuration.CreateMapper().Map<UserDto>(user);
         }
+
+        public List<SessionBLL> MapListSessionDtoToListSessionBLL(List<SessionDto> session)
+        {
+            return _configuration.CreateMapper().Map<List<SessionBLL>>(session);
+        }
     }
 }
