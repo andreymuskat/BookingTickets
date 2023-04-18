@@ -1,5 +1,6 @@
-﻿using AutoMapper;
-using BookingTickets.API.Model.RequestModels;
+using AutoMapper;
+using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
+using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.NewFolder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,7 +12,7 @@ namespace BookingTickets.API.Controllers
     [Authorize(Policy = "MainAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
-    public class MainAdminController: ControllerBase
+    public class MainAdminController : ControllerBase
     {
         private readonly IMainAdmin _mainAdmin;
         private readonly IMapper _mapper;
@@ -24,19 +25,20 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpPost("Add_Film")]
-        public IActionResult AddNewFilm(FilmRequestModel model)
+        public IActionResult AddNewFilm(CreateFilmRequestModel model)
         {
             var res = _mapper.Map<FilmBLL>(model);
-            _mainAdmin.AddNewFilm(res);
+            _mainAdmin.CreateNewFilm(res);
+
             return Ok("GOT IT");
         }
 
-        [HttpGet(Name = "AllFilms")]
-        public IActionResult GetFilm(string name)
+        [HttpPost("Create_New_Cinema")]
+        public IActionResult CreateNewCinema(CreateCinemaRequestModel model)
         {
-            var res = _mainAdmin.GetFilmByName(name);
+            _mainAdmin.CreateCinema(_mapper.Map<CinemaBLL>(model));
 
-            return Ok(res);
+            return Ok("GOT IT");
         }
 
     }

@@ -6,9 +6,9 @@ namespace BookingTickets.DAL
     {
         private static Context _context;
 
-        public SeatRepository(Context context)
+        public SeatRepository()
         {
-            _context = context;
+            _context = new Context();
         }
 
         public SeatDto CreateSeat(SeatDto seat)
@@ -24,6 +24,16 @@ namespace BookingTickets.DAL
         public void UpdateSeat(SeatDto seat)
         {
 
+        }
+
+        public List<SeatDto> GetAllSeatsByHallId(int idHall)
+        {
+            return new List<SeatDto>();
+        }
+
+        public List<SeatDto> GetAllSeatsBySessionId(int sessionId)
+        {
+            return new List<SeatDto>();
         }
     }
 }

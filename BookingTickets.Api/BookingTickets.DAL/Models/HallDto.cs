@@ -10,7 +10,7 @@ namespace BookingTickets.DAL.Models
         [Required]
         public int Number { get; set; }
 
-        public List<SeatDto> Seats { get; set; }
+        public CinemaDto Cinema { get; set; }
 
         [Required]
         public bool IsDeleted { get; set; }

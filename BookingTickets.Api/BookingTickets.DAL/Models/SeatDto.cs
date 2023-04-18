@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookingTickets.DAL.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 public class SeatDto
@@ -11,4 +12,6 @@ public class SeatDto
 
 	[Required]
 	public int Row { get; set; }
+
+    public HallDto HallId { get; set; }
 }

@@ -1,10 +1,13 @@
-﻿using System;
-
-public class FilmResponseModel
+﻿namespace BookingTickets.API.Model.ResponseModels
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public int Duration { get; set; }
-    public bool IsDeleted { get; set; } 
+    public class FilmResponseModel
+    {
+        public int Id { get; set; }
 
+        public string Name { get; set; }
+
+        public int Duration { get; set; }
+
+        public bool IsDeleted { get; set; } 
+    }
 }

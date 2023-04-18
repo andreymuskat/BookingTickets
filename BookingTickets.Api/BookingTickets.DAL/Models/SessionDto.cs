@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using BookingTickets.DAL.Models;
 
 public class SessionDto
@@ -10,22 +9,13 @@ public class SessionDto
     [Required]
     public DateTime Date { get; set; }
 
-    [Required]
-    public DateTime TimeStart { get; set; }
+    public FilmDto FilmId { get; set; }
+
+    public HallDto HallId { get; set; }
 
     [Required]
-    public int HallId { get; set; }
-
-    [Required]
-    public int FilmId { get; set; }
-
-	[Required]
 	public int Cost { get; set; }
 
     [Required]
     public bool IsDeleted { get; set; }
-
-    public FilmDto FilmDto { get; set; }
-
-    public HallDto HallDto { get; set; }
 }
