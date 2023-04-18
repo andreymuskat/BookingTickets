@@ -13,5 +13,5 @@ public class SeatDto
 	[Required]
 	public int Row { get; set; }
 
-    public HallDto HallId { get; set; }
+    public HallDto Hall { get; set; }
 }
