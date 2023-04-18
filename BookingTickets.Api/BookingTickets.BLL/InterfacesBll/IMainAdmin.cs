@@ -1,4 +1,4 @@
-﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models;
 
 namespace BookingTickets.BLL.NewFolder
 {

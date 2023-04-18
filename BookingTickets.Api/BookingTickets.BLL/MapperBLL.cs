@@ -23,6 +23,8 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<CinemaBLL, CinemaDto>();
                     cfg.CreateMap<SessionDto, SessionBLL>();
                     cfg.CreateMap<SessionBLL, SessionDto>();
+                    cfg.CreateMap<UserDto, UserBLL>();
+                    cfg.CreateMap<UserBLL, UserDto>();
                 });
         }
 
@@ -68,6 +70,16 @@ namespace BookingTickets.BLL
         public SessionDto MapSessionBLLToSessionDto(SessionBLL session)
         {
             return _configuration.CreateMapper().Map<SessionDto>(session);
+        }
+
+        public UserBLL MapUserDtoUserBLL(UserDto user)
+        {
+            return _configuration.CreateMapper().Map<UserBLL>(user);
+        }
+
+        public UserDto MapUserBLLUserDto(UserBLL user)
+        {
+            return _configuration.CreateMapper().Map<UserDto>(user);
         }
 
         public List<SessionBLL> MapListSessionDtoToListSessionBLL(List<SessionDto> session)
