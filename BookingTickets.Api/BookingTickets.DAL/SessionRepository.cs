@@ -1,6 +1,7 @@
 ﻿using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Core;
+using System.Collections.Generic;
 
 namespace BookingTickets.DAL
 {
@@ -38,10 +39,18 @@ namespace BookingTickets.DAL
         {
             return new List<SessionDto>();
         }
+
         public List<SessionDto> GetAllSessionByDate(DateTime Date)
         {
-            return new List<SessionDto>();
+            DateOnly dateSearch = DateOnly.FromDateTime(Date);
+
+            List <SessionDto> sessionInDay = _context.Sessions
+                .Where(t => DateOnly.FromDateTime(t.Date) == dateSearch)
+                .ToList();
+
+            return sessionInDay;
         }
+
         public void DeleteSession(int idSession)
         {
 

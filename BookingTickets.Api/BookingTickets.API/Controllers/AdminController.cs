@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +18,14 @@ namespace BookingTickets.API.Controllers
         {
             _mapper = map;
             _admin = admin;
+        }
+
+        [HttpPost("Create_New_Session")]
+        public IActionResult CreateNewSession(SessionRequestModel session)
+        {
+            _admin.CreateSession(_mapper.Map<SessionBLL>(session));
+
+            return Ok("GOT IT");
         }
     }
 }
