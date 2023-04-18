@@ -1,4 +1,4 @@
-﻿using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL
@@ -17,8 +17,6 @@ namespace BookingTickets.DAL
             {
                 Number = hall.Number
             };
-
-            context.Add(hallDto);
 
             context.SaveChanges();
 

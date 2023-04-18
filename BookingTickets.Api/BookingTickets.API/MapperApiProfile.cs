@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
 using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
@@ -14,6 +14,9 @@ namespace BookingTickets.API
             CreateMap<CreateFilmRequestModel, FilmBLL>();
             CreateMap<FilmBLL, CreateFilmRequestModel>();
             CreateMap<CreateCinemaRequestModel, CinemaBLL>();
+            CreateMap<CreateSessionRequestModel,SessionBLL>();
+            CreateMap<UserRequestModel, UserBLL>();
+            CreateMap<UserBLL, UserResponseModel>();
         }
     }
 }
