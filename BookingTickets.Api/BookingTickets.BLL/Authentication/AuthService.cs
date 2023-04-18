@@ -62,9 +62,9 @@ namespace BookingTickets.BLL.Authentication
             var roles = GetRole();
             var token = GetJwtToken(user, roles);
 
-            var userDTO = mapper.Map<UserRegister, UserDto>(userRegister);
+            var userDto = mapper.Map<UserRegister, UserDto>(userRegister);
 
-            var userId = repository.AddNewUser(userDTO);
+            var userId = repository.AddNewUser(userDto);
 
             return new AuthResult
             {
@@ -75,7 +75,7 @@ namespace BookingTickets.BLL.Authentication
 
         public async Task<AuthResult> LoginUser(UserLogin userLogin)
         {
-            var existingUser = await manager.FindByNameAsync(userLogin.Email);
+            var existingUser = await manager.FindByNameAsync(userLogin.Name);
 
             if (existingUser == null)
             {
