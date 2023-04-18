@@ -57,19 +57,21 @@ void InjectSettingsConfiguration(WebApplicationBuilder builder)
 }
 
 void InjectAuthenticationDependencies(WebApplicationBuilder builder)
-{    
+{
     var jwtConfig = builder.Configuration.GetSection("JwtSettings")
         .Get<JwtConfigurationSettings>();
 
     builder.Services.AddSingleton<IJwtConfigurationSettings>(jwtConfig);
 
     builder.Services
-    .AddAuthentication(options => {
+    .AddAuthentication(options =>
+    {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     })
-    .AddJwtBearer(jwt => {
+    .AddJwtBearer(jwt =>
+    {
         var key = Encoding.ASCII.GetBytes(
             jwtConfig.Key);
 

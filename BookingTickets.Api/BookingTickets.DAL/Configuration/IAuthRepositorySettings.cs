@@ -1,6 +1,6 @@
 ﻿using CompanyName.Application.Core.Configurations;
 
-namespace CompanyName.Application.Dal.Auth.Configurations
+namespace BookingTickets.DAL.Configuration
 {
     public interface IAuthRepositorySettings : IRepositorySettings
     {

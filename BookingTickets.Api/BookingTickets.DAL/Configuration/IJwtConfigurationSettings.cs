@@ -1,4 +1,4 @@
-﻿namespace CompanyName.Application.Dal.Auth.Configurations
+﻿namespace BookingTickets.DAL.Configuration
 {
     public interface IJwtConfigurationSettings
     {

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL.Interfaces
 {
-    internal class UserRepository
+    public interface IUserRepository
     {
+        int AddNewUser(UserDto user);
     }
 }

@@ -1,11 +1,12 @@
-﻿namespace BookingTickets.API.Controllers
-{
-    using AutoMapper;
-    using BookingTickets.API.Model.RequestModels;
-    using BookingTickets.API.Model.ResponseModels;
-    using BookingTickets.BLL.Authentication;
+﻿    using AutoMapper;
+using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
+using BookingTickets.BLL.Authentication;
     using BookingTickets.BLL.Authentication.AuthModels;
-    using Microsoft.AspNetCore.Mvc;
+using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
+using Microsoft.AspNetCore.Mvc;
+
+namespace BookingTickets.API.Controllers
+{
 
     [Route("api/[controller]")]
     [ApiController]
