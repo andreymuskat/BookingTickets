@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
+using BookingTickets.BLL;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +14,17 @@ namespace BookingTickets.API.Controllers
         private readonly IAdmin _admin;
         private readonly IMapper _mapper;
         private readonly ILogger<AdminController> _logger;
+        private readonly FilmManager _filmManager;
 
         public AdminController(IMapper map, IAdmin admin)
         {
             _mapper = map;
             _admin = admin;
+            _filmManager = new FilmManager();
         }
 
         [HttpPost("Create_New_Session")]
-        public IActionResult CreateNewSession(SessionRequestModel session)
+        public IActionResult CreateNewSession(CreateSessionRequestModel session)
         {
             _admin.CreateSession(_mapper.Map<SessionBLL>(session));
 
