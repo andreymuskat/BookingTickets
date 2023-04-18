@@ -1,4 +1,4 @@
-﻿using BookingTickets.DAL.Models;
+using BookingTickets.DAL.Models;
 using BookingTickets.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,12 +1,15 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
 using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.NewFolder;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
+    [Authorize(Policy = "MainAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class MainAdminController : ControllerBase
@@ -37,5 +40,6 @@ namespace BookingTickets.API.Controllers
 
             return Ok("GOT IT");
         }
+
     }
 }
