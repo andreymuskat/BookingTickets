@@ -75,7 +75,7 @@ namespace BookingTickets.BLL.Authentication
 
         public async Task<AuthResult> LoginUser(UserLogin userLogin)
         {
-            var existingUser = await manager.FindByNameAsync(userLogin.UserName);
+            var existingUser = await manager.FindByNameAsync(userLogin.Email);
 
             if (existingUser == null)
             {
@@ -133,7 +133,7 @@ namespace BookingTickets.BLL.Authentication
 
         private IEnumerable<string> GetRole()
         {
-            return new[] { "Admin", "Sitter", "User" };
+            return new[] { "User" };
         }
 
     }
