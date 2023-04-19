@@ -1,4 +1,5 @@
-﻿using BookingTickets.DAL.Interfaces;
+﻿using System.Collections.Generic;
+using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.DAL
 {
@@ -34,6 +35,13 @@ namespace BookingTickets.DAL
         public List<SeatDto> GetAllSeatsBySessionId(int sessionId)
         {
             return new List<SeatDto>();
+        }
+        public int GetSeatIdByNumberAndRow(int row, int number)
+        {
+
+            int idSeat = _context.Seats
+
+            return idSeat;
         }
     }
 }
