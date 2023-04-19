@@ -1,7 +1,9 @@
 ﻿using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Core;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Collections;
 
 namespace BookingTickets.DAL
 {
@@ -37,7 +39,9 @@ namespace BookingTickets.DAL
 
         public List<SessionDto> GetAllSessionByCinemaId(int idCinema)
         {
-            return new List<SessionDto>();
+            return _context.Sessions
+                .Where(k => k.Hall.Cinema.Id == idCinema)
+                .ToList();
         }
 
         public List<SessionDto> GetAllSessionByDate(DateTime Date)
