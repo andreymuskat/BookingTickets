@@ -43,7 +43,7 @@ namespace BookingTickets.BLL
                     var SubtractSession = allTimeStartSession[i] - TimeOnly.FromDateTime(newSession.Date);
 
                     if (allTimeStartSession[i] <= TimeStartNewSession
-                        && TimeStartNewSession >= allTimeEndSession[i])
+                        || TimeStartNewSession >= allTimeEndSession[i])
                     {
                         throw new Exception("В это время уже идет сеанс!");
                     }
