@@ -46,13 +46,21 @@ namespace BookingTickets.DAL
 
         public List<SessionDto> GetAllSessionByDate(DateTime Date)
         {
+            List<SessionDto> AllSession = _context.Sessions.ToList();
+
             DateOnly dateSearch = DateOnly.FromDateTime(Date);
+            List<SessionDto> SessionInDay = new List<SessionDto>();
 
-            List <SessionDto> sessionInDay = _context.Sessions
-                .Where(t => DateOnly.FromDateTime(t.Date) == dateSearch)
-                .ToList();
+            for(int i = 0; i< AllSession.Count; i++)
+            {
+                DateOnly session = DateOnly.FromDateTime(AllSession[i].Date);
+                if (session == dateSearch)
+                {
+                    SessionInDay.Add(AllSession[i]);
+                }
+            }
 
-            return sessionInDay;
+            return SessionInDay;
         }
 
         public void DeleteSession(int idSession)

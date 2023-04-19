@@ -18,43 +18,48 @@ namespace BookingTickets.BLL
         public SessionManager()
         {
             _sessionRepository = new SessionRepository();
+            _filmRepository = new FilmRepository();
         }
 
         public void CreateSession(CreateSessionInputModel newSession)
         {
             TimeOnly TimeStartNewSession = TimeOnly.FromDateTime(newSession.Date);
+            FilmBLL FilmInNewSession = _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(newSession.FilmId));
 
-            FilmDto filmDto = _filmRepository.GetFilmById(newSession.FilmId);
-
-            FilmBLL FilmInNewSession = _instanceMapperBll.MapFilmDtoToFilmBLL(filmDto);
-
-            TimeSpan DurationSession = TimeSpan.FromHours(FilmInNewSession.Duration + timeoutInMin);
+            TimeSpan DurationSession = TimeSpan.FromMinutes(FilmInNewSession.Duration + timeoutInMin);
 
             List<TimeOnly> allTimeStartSession = new List<TimeOnly>();
             List<TimeOnly> allTimeEndSession = new List<TimeOnly>();
 
             List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByDate(newSession.Date));
 
-            for (int i = 0; i < AllSessionsInDate.Count; i++)
+            if(AllSessionsInDate.Count > 0)
             {
-                allTimeStartSession[i] = TimeOnly.FromDateTime(AllSessionsInDate[i].Date);
-                allTimeEndSession[i] = allTimeStartSession[i].AddMinutes(AllSessionsInDate[i].Film.Duration + timeoutInMin);
+                for (int i = 0; i < AllSessionsInDate.Count; i++)
+                {
+                    allTimeStartSession.Add(TimeOnly.FromDateTime(AllSessionsInDate[i].Date));
+                    allTimeEndSession.Add(allTimeStartSession[i].AddMinutes(FilmInNewSession.Duration + timeoutInMin));
 
-                var SubtractSession = allTimeStartSession[i] - TimeOnly.FromDateTime(newSession.Date);
+                    var SubtractSession = allTimeStartSession[i] - TimeOnly.FromDateTime(newSession.Date);
 
-                if (SubtractSession < DurationSession)
-                {
-                    throw new Exception("Длительность фильма превышет свободное время до следующего сеанса!");
+                    if (allTimeStartSession[i] <= TimeStartNewSession
+                        && TimeStartNewSession >= allTimeEndSession[i])
+                    {
+                        throw new Exception("В это время уже идет сеанс!");
+                    }
+                    else if (SubtractSession < DurationSession)
+                    {
+                        throw new Exception("Длительность фильма превышет свободное время до следующего сеанса!");
+                    }
+                    else
+                    {
+                        _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
+                    }
                 }
-                else if (allTimeStartSession[i] < TimeStartNewSession 
-                    && TimeStartNewSession > allTimeEndSession[i])
-                {
-                    throw new Exception("В это время уже идет сеанс!");
-                }
-                else
-                {
-                    _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
-                }
+            }
+            else
+            {
+                _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
             }
         }
     }
