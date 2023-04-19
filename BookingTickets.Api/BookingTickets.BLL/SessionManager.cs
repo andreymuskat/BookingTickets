@@ -1,4 +1,6 @@
-﻿using BookingTickets.BLL.Models;
+﻿using AutoMapper;
+using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
@@ -6,42 +8,50 @@ namespace BookingTickets.BLL
 {
     public class SessionManager
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
+        private readonly IMapper _mapper;
         private readonly ISessionRepository _sessionRepository;
+        private readonly IFilmRepository _filmRepository;
+
         const int timeoutInMin = 30;
 
-        public SessionManager()
+        public SessionManager(IMapper map)
         {
+            _mapper = map;
             _sessionRepository = new SessionRepository();
         }
 
-        public void CreateSession(SessionBLL session)
+        public void CreateSession(CreateSessionInputModel newSession)
         {
-            var TimeOnlySession = TimeOnly.FromDateTime(session.Date);
-            var DurationSession = TimeSpan.FromHours(session.Film.Duration + timeoutInMin);
+            TimeOnly TimeStartNewSession = TimeOnly.FromDateTime(newSession.Date);
+
+            FilmBLL FilmInNewSession = _mapper.Map<FilmBLL>(_filmRepository.GetFilmById(newSession.FilmId));
+
+            TimeSpan DurationSession = TimeSpan.FromHours(FilmInNewSession.Duration + timeoutInMin);
+
             List<TimeOnly> allTimeStartSession = new List<TimeOnly>();
             List<TimeOnly> allTimeEndSession = new List<TimeOnly>();
 
-            List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByDate(session.Date));
+            List<SessionBLL> AllSessionsInDate = _mapper.Map<List<SessionBLL>>(_sessionRepository.GetAllSessionByDate(newSession.Date));
 
-            for (int i = 0; i< AllSessionsInDate.Count; i++)
+            for (int i = 0; i < AllSessionsInDate.Count; i++)
             {
                 allTimeStartSession[i] = TimeOnly.FromDateTime(AllSessionsInDate[i].Date);
-                allTimeEndSession[i] = TimeOnly.FromDateTime(AllSessionsInDate[i].Date.AddMinutes(timeoutInMin));
+                allTimeEndSession[i] = allTimeStartSession[i].AddMinutes(AllSessionsInDate[i].Film.Duration + timeoutInMin);
 
-                var SubtractSession = allTimeStartSession[i] - TimeOnly.FromDateTime(session.Date);
+                var SubtractSession = allTimeStartSession[i] - TimeOnly.FromDateTime(newSession.Date);
 
                 if (SubtractSession < DurationSession)
                 {
                     throw new Exception("Длительность фильма превышет свободное время до следующего сеанса!");
                 }
-                else if(allTimeStartSession[i] < TimeOnlySession && TimeOnlySession > allTimeEndSession[i])
+                else if (allTimeStartSession[i] < TimeStartNewSession 
+                    && TimeStartNewSession > allTimeEndSession[i])
                 {
                     throw new Exception("В это время уже идет сеанс!");
                 }
                 else
                 {
-                    _sessionRepository.CreateSession(_instanceMapperBll.MapSessionBLLToSessionDto(session));
+                    _sessionRepository.CreateSession(_mapper.Map<SessionDto>(newSession));
                 }
             }
         }

@@ -1,9 +1,6 @@
-﻿using BookingTickets.DAL;
+﻿using BookingTickets.BLL;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.DAL;
 using System.Collections;
 
-SessionRepository SessionRepository= new SessionRepository();
-
-
-var ss  = SessionRepository.GetAllSessionByCinemaId(1);
-
-Console.WriteLine(ss);
+Console.WriteLine("");
