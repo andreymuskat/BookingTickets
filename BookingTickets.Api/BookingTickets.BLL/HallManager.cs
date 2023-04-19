@@ -17,5 +17,6 @@ namespace BookingTickets.BLL
         {
             _repository.CreateHall(_instanceMapperBll.MapHallBLLModelToHallDto(hall));
         }
+
     }
 }
