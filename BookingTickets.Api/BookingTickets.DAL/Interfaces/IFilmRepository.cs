@@ -12,7 +12,7 @@ namespace BookingTickets.DAL.Interfaces
 
         public List<FilmDto> GetAllFilm();
 
-        public FilmDto GetFilmByName(string name);
+        public FilmDto GetFilmById(int filmId);
 
         public void AddNewFilm(FilmDto film);
 

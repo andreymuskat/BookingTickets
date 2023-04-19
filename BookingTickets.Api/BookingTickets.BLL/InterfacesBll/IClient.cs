@@ -4,7 +4,7 @@ namespace BookingTickets.BLL.InterfacesBll
 {
     public interface IClient
     {
-        public FilmBLL GetFilmByName(string name);   
+        public FilmBLL GetFilmById(int filmId);   
         
         public List<SessionBLL> GetFilmsByCinema(FilmBLL film, CinemaBLL cinema);
 

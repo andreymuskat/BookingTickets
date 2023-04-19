@@ -16,11 +16,9 @@ namespace BookingTickets.BLL.Roles
             _filmRepository = new FilmRepository();
         }
 
-        public FilmBLL GetFilmByName(string name)
+        public FilmBLL GetFilmById(int filmId)
         {
-            var res = _filmRepository.GetFilmByName(name);
-
-            return _instanceMapperBll.MapFilmDtoToFilmBLL(res);
+            return new FilmBLL();
         }
 
         public List<SessionBLL> GetFilmsByCinema(FilmBLL film, CinemaBLL cinema) 
