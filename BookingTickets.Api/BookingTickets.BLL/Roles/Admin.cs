@@ -9,14 +9,14 @@ namespace BookingTickets.BLL.Roles
     {
         private readonly SessionManager _sessionManager;
 
-        public Admin(SessionManager sessionManager) 
+        public Admin() 
         {
-            _sessionManager = sessionManager;
+            _sessionManager = new SessionManager();
         }
 
         public void CreateSession(CreateSessionInputModel session)
         {
-            
+            _sessionManager.CreateSession(session);
         }
 
         public void CreateCashier(UserBLL user)

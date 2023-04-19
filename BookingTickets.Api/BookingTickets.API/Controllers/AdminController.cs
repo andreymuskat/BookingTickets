@@ -3,6 +3,7 @@ using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.BLL;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
@@ -26,7 +27,7 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Create_New_Session")]
         public IActionResult CreateNewSession(CreateSessionRequestModel session)
         {
-            _admin.CreateSession(_mapper.Map<SessionBLL>(session));
+            _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session));
 
             return Ok("GOT IT");
         }

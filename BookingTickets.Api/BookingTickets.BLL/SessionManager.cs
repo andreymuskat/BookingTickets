@@ -3,20 +3,20 @@ using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
 {
     public class SessionManager
     {
-        private readonly IMapper _mapper;
+        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly ISessionRepository _sessionRepository;
         private readonly IFilmRepository _filmRepository;
 
         const int timeoutInMin = 30;
 
-        public SessionManager(IMapper map)
+        public SessionManager()
         {
-            _mapper = map;
             _sessionRepository = new SessionRepository();
         }
 
@@ -24,14 +24,16 @@ namespace BookingTickets.BLL
         {
             TimeOnly TimeStartNewSession = TimeOnly.FromDateTime(newSession.Date);
 
-            FilmBLL FilmInNewSession = _mapper.Map<FilmBLL>(_filmRepository.GetFilmById(newSession.FilmId));
+            FilmDto filmDto = _filmRepository.GetFilmById(newSession.FilmId);
+
+            FilmBLL FilmInNewSession = _instanceMapperBll.MapFilmDtoToFilmBLL(filmDto);
 
             TimeSpan DurationSession = TimeSpan.FromHours(FilmInNewSession.Duration + timeoutInMin);
 
             List<TimeOnly> allTimeStartSession = new List<TimeOnly>();
             List<TimeOnly> allTimeEndSession = new List<TimeOnly>();
 
-            List<SessionBLL> AllSessionsInDate = _mapper.Map<List<SessionBLL>>(_sessionRepository.GetAllSessionByDate(newSession.Date));
+            List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByDate(newSession.Date));
 
             for (int i = 0; i < AllSessionsInDate.Count; i++)
             {
@@ -51,7 +53,7 @@ namespace BookingTickets.BLL
                 }
                 else
                 {
-                    _sessionRepository.CreateSession(_mapper.Map<SessionDto>(newSession));
+                    _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
                 }
             }
         }

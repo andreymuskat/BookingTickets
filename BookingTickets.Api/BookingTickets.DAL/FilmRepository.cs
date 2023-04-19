@@ -39,7 +39,7 @@ namespace BookingTickets.DAL
         public FilmDto GetFilmById(int filmId)
         {
             return _context.Films
-                .SingleOrDefault(k => k.Id == filmId);
+                .Single(k => k.Id == filmId);
         }
 
         public void AddNewFilm(FilmDto film)
