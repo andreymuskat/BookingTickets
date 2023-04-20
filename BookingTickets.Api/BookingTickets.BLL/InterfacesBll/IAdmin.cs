@@ -1,11 +1,12 @@
 ﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
 
 namespace BookingTickets.BLL.InterfacesBll
 {
     public interface IAdmin
     {
-        public void CreateSession(SessionBLL session);
+        public void CreateSession(CreateSessionInputModel session);
 
-        public void CreateCashier(UserBLL user);
+        public void DeleteSession(int sessionId);
     }
 }

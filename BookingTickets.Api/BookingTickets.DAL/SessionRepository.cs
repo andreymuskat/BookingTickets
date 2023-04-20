@@ -22,14 +22,14 @@ namespace BookingTickets.DAL
             return session;
         }
 
+        public SessionDto GetSessionById(int sessionId)
+        {
+            return _context.Sessions.FirstOrDefault(i => i.Id == sessionId);
+        }
+
         public List<SessionDto> GetAllSession()
         {
             return new List<SessionDto>();
-        }
-
-        public void UpdateSession(SessionDto session)
-        {
-
         }
 
         public List<SessionDto> GetAllSessionByFilmId(int idFilm)
@@ -46,16 +46,33 @@ namespace BookingTickets.DAL
 
         public List<SessionDto> GetAllSessionByDate(DateTime Date)
         {
-            DateOnly dateSearch = DateOnly.FromDateTime(Date);
-
-            List <SessionDto> sessionInDay = _context.Sessions
-                .Where(t => DateOnly.FromDateTime(t.Date) == dateSearch)
+            List<SessionDto> AllSession = _context.Sessions
+                .Where(k => k.IsDeleted == false)
                 .ToList();
 
-            return sessionInDay;
+            DateOnly dateSearch = DateOnly.FromDateTime(Date);
+            List<SessionDto> SessionInDay = new List<SessionDto>();
+
+            for(int i = 0; i< AllSession.Count; i++)
+            {
+                DateOnly session = DateOnly.FromDateTime(AllSession[i].Date);
+                if (session == dateSearch)
+                {
+                    SessionInDay.Add(AllSession[i]);
+                }
+            }
+
+            return SessionInDay;
         }
 
         public void DeleteSession(int idSession)
+        {
+            var sess = _context.Sessions.Single(i => i.Id == idSession).IsDeleted = true;
+
+            _context.SaveChanges();
+        }
+
+        public void UpdateSession(SessionDto session)
         {
 
         }

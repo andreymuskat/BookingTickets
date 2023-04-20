@@ -1,6 +1,9 @@
-﻿using BookingTickets.BLL.Models;
+﻿using AutoMapper;
+using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
 {
@@ -8,42 +11,67 @@ namespace BookingTickets.BLL
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly ISessionRepository _sessionRepository;
+        private readonly IFilmRepository _filmRepository;
+
         const int timeoutInMin = 30;
 
         public SessionManager()
         {
             _sessionRepository = new SessionRepository();
+            _filmRepository = new FilmRepository();
         }
 
-        public void CreateSession(SessionBLL session)
+        public void CreateSession(CreateSessionInputModel newSession)
         {
-            var TimeOnlySession = TimeOnly.FromDateTime(session.Date);
-            var DurationSession = TimeSpan.FromHours(session.Film.Duration + timeoutInMin);
+            TimeOnly TimeStartNewSession = TimeOnly.FromDateTime(newSession.Date);
+            FilmBLL FilmInNewSession = _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(newSession.FilmId));
+
+            TimeSpan DurationSession = TimeSpan.FromMinutes(FilmInNewSession.Duration + timeoutInMin);
+
             List<TimeOnly> allTimeStartSession = new List<TimeOnly>();
             List<TimeOnly> allTimeEndSession = new List<TimeOnly>();
 
-            List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByDate(session.Date));
+            List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByDate(newSession.Date));
 
-            for (int i = 0; i< AllSessionsInDate.Count; i++)
+            if(AllSessionsInDate.Count > 0)
             {
-                allTimeStartSession[i] = TimeOnly.FromDateTime(AllSessionsInDate[i].Date);
-                allTimeEndSession[i] = TimeOnly.FromDateTime(AllSessionsInDate[i].Date.AddMinutes(timeoutInMin));
+                for (int i = 0; i < AllSessionsInDate.Count; i++)
+                {
+                    allTimeStartSession.Add(TimeOnly.FromDateTime(AllSessionsInDate[i].Date));
+                    allTimeEndSession.Add(allTimeStartSession[i].AddMinutes(FilmInNewSession.Duration + timeoutInMin));
 
-                var SubtractSession = allTimeStartSession[i] - TimeOnly.FromDateTime(session.Date);
+                    var SubtractSession = allTimeStartSession[i] - TimeOnly.FromDateTime(newSession.Date);
 
-                if (SubtractSession < DurationSession)
-                {
-                    throw new Exception("Длительность фильма превышет свободное время до следующего сеанса!");
-                }
-                else if(allTimeStartSession[i] < TimeOnlySession && TimeOnlySession > allTimeEndSession[i])
-                {
-                    throw new Exception("В это время уже идет сеанс!");
-                }
-                else
-                {
-                    _sessionRepository.CreateSession(_instanceMapperBll.MapSessionBLLToSessionDto(session));
+                    if (allTimeStartSession[i] <= TimeStartNewSession
+                        || TimeStartNewSession >= allTimeEndSession[i])
+                    {
+                        throw new Exception("В это время уже идет сеанс!");
+                    }
+                    else if (SubtractSession < DurationSession)
+                    {
+                        throw new Exception("Длительность фильма превышет свободное время до следующего сеанса!");
+                    }
+                    else
+                    {
+                        _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
+                    }
                 }
             }
+            else
+            {
+                _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
+            }
+        }
+
+        public void DeleteSession(int idSession)
+        {
+            var sess = _sessionRepository.GetSessionById(idSession);
+
+            if (sess != null)
+            {
+                _sessionRepository.DeleteSession(idSession);
+            }
+            else { throw new Exception("Сессия, которую вы пытаетесь удалить, не найдена в базе!"); }
         }
     }
 }
