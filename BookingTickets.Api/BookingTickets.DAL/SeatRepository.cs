@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
@@ -16,8 +16,7 @@ namespace BookingTickets.DAL
 
         public SeatDto CreateSeat(SeatDto seat)
         {
-            _context.Seat.Add(seat);
-
+            _context.Seats.Add(seat);
             _context.SaveChanges();
 
             return seat;

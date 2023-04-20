@@ -1,4 +1,4 @@
-﻿using BookingTickets.BLL;
+using BookingTickets.BLL;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
@@ -10,23 +10,24 @@ namespace BookingTickets.BLL.Roles
     public class Client : IClient
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        public IFilmRepository _filmRepository;
+        private readonly FilmManager _filmManager;
+        private readonly SessionManager _sessionManager;
+
 
         public Client()
         {
-            _filmRepository = new FilmRepository();
+            _filmManager = new FilmManager();
+            _sessionManager = new SessionManager();
         }
 
-        public FilmBLL GetFilmByName(string name)
+        public FilmBLL GetFilmById(int id)
         {
-            var res = _filmRepository.GetFilmByName(name);
-
-            return _instanceMapperBll.MapFilmDtoToFilmBLL(res);
+            return _filmManager.GetFilmById(id);      
         }
 
-        public List<SessionBLL> GetFilmsByCinema(FilmBLL film, CinemaBLL cinema) 
+        public List<SessionBLL> GetFilmsByCinema(int cinemaId) 
         {
-            return new List<SessionBLL>();
+            return _sessionManager.GetAllSessionByCinemaId(cinemaId);
         }
 
         public List<CinemaBLL> GetCinemaByFilm(FilmBLL film)

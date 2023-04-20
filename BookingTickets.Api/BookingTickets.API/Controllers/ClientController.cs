@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.NewFolder;
+using BookingTickets.BLL.Roles;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
@@ -17,6 +20,18 @@ namespace BookingTickets.API.Controllers
         {
             _mapper = map;
             _client = client;
+        }
+
+        [HttpGet("GetAllSessionsByCinema")]
+        public IActionResult GetAllSessionByCinemaId(int cinemaId)
+        {
+            return Ok(_client.GetFilmsByCinema(cinemaId));
+        }
+
+        [HttpGet("GetFilmById")]
+        public IActionResult GetFilmById(int filmId)
+        {
+            return Ok(_client.GetFilmById(filmId));
         }
     }
 }

@@ -1,13 +1,13 @@
-﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 
 namespace BookingTickets.BLL.InterfacesBll
 {
     public interface IClient
     {
-        public FilmBLL GetFilmByName(string name);   
+        public FilmBLL GetFilmById(int filmId);   
         
-        public List<SessionBLL> GetFilmsByCinema(FilmBLL film, CinemaBLL cinema);
+        public List<SessionBLL> GetFilmsByCinema(int cinemaId);
 
         public List<CinemaBLL> GetCinemaByFilm(FilmBLL film);
 

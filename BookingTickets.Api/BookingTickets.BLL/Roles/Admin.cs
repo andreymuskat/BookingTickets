@@ -1,12 +1,12 @@
 ﻿using BookingTickets.BLL;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
 
 namespace BookingTickets.BLL.Roles
 {
     public class Admin : IAdmin
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly SessionManager _sessionManager;
 
         public Admin() 
@@ -14,14 +14,14 @@ namespace BookingTickets.BLL.Roles
             _sessionManager = new SessionManager();
         }
 
-        public void CreateSession(SessionBLL session)
+        public void CreateSession(CreateSessionInputModel session)
         {
             _sessionManager.CreateSession(session);
         }
 
-        public void CreateCashier(UserBLL user)
+        public void DeleteSession(int sessionId)
         {
-
+            _sessionManager.DeleteSession(sessionId);
         }
     }
 }

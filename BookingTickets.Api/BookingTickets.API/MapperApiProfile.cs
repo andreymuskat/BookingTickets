@@ -6,6 +6,7 @@ using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 
 namespace BookingTickets.API
@@ -17,7 +18,7 @@ namespace BookingTickets.API
             CreateMap<CreateFilmRequestModel, FilmBLL>();
             CreateMap<FilmBLL, CreateFilmRequestModel>();
             CreateMap<CreateCinemaRequestModel, CinemaBLL>();
-            CreateMap<CreateSessionRequestModel,SessionBLL>();
+            CreateMap<CreateSessionRequestModel, CreateSessionInputModel>();
             CreateMap<UserRequestModel, UserBLL>();
             CreateMap<UserBLL, UserResponseModel>();
             CreateMap<SessionRequestModel, SessionBLL>();

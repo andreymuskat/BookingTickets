@@ -7,9 +7,9 @@ namespace BookingTickets.API.Model.RequestModels.All_SessionRequestModel
     {
         public DateTime Date { get; set; }
 
-        public string Film { get; set; }
+        public int FilmId { get; set; }
 
-        public int Hall { get; set; }
+        public int HallId { get; set; }
 
         public int Cost { get; set; }
     }
