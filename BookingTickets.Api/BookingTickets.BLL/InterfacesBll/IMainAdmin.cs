@@ -1,4 +1,5 @@
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_Seat_InputModel;
 
 namespace BookingTickets.BLL.NewFolder
 {
@@ -8,5 +9,7 @@ namespace BookingTickets.BLL.NewFolder
 
         public void CreateCinema(CinemaBLL newCinema);
         public void CreateHall(HallBLL hall);
+
+        public void AddRowToHall(AddSeatsRowsInputModel rowSeats);
     }
 }
