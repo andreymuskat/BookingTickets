@@ -9,11 +9,13 @@ namespace BookingTickets.BLL.Roles
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly FilmManager _filmManager;
         private readonly CinemaManager _cinemaManager;
+        private readonly SeatManager _seatManager;
 
         public MainAdmin()
         {
             _filmManager = new FilmManager();
             _cinemaManager = new CinemaManager();
+            _seatManager = new SeatManager();
         }
 
         public void CreateNewFilm(FilmBLL newFilm)
@@ -25,5 +27,6 @@ namespace BookingTickets.BLL.Roles
         {
             _cinemaManager.CreateCinema(newCinema);
         }
-    }
+
+    }                                                                
 }

@@ -8,6 +8,6 @@ namespace BookingTickets.DAL.Interfaces
 
         public void UpdateSeat (SeatDto seat);
 
-
+        public void AddRowToHall(int hallId, int seatForBegin, int seatForEnd, int amountOfRows);
     }
 }

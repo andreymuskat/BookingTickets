@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.Models;
+using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.BLL
@@ -7,7 +8,6 @@ namespace BookingTickets.BLL
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly IHallRepository _repository;
-
         public HallManager(IHallRepository repository)
         {
             _repository = repository;
@@ -18,9 +18,12 @@ namespace BookingTickets.BLL
             _repository.CreateHall(_instanceMapperBll.MapHallBLLModelToHallDto(hall));
         }
 
-        public void AddRowToHall(int idHall, int seatForBegin, int seatForEnd, int numberOfRow)
-        {
-            _repository.AddRowToHall( idHall,  seatForBegin,  seatForEnd,  numberOfRow);
-        }
+        //var TimeOnlySession = TimeOnly.FromDateTime(session.Date);
+        //var DurationSession = TimeSpan.FromHours(session.Film.Duration + timeoutInMin);
+        //List<TimeOnly> allTimeStartSession = new List<TimeOnly>();
+        //List<TimeOnly> allTimeEndSession = new List<TimeOnly>();
+
+        //List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByDate(session.Date));
+
     }
 }

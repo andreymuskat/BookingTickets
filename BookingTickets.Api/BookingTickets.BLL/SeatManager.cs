@@ -9,9 +9,9 @@ namespace BookingTickets.BLL
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly ISeatRepository _repository;
 
-        public SeatManager(ISeatRepository repository)
+        public SeatManager()
         {
-            _repository = repository;
+            _repository = new SeatRepository();
         }
 
         public void CreateSeat(SeatBLL seat)
@@ -24,5 +24,18 @@ namespace BookingTickets.BLL
             _repository.UpdateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seat));
         }
 
+        public void AddRowToHall(int hallId, int seatForBegin, int seatForEnd, int numberOfRow)
+        {
+            for (int i = seatForBegin; i<= seatForEnd; i++)
+            {
+                 var newSeat = new SeatBLL()
+                 {
+                     Number=i,
+                     Row=numberOfRow,
+                     Hall=
+
+                 }
+            }
+        }
     }
 }
