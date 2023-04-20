@@ -4,8 +4,6 @@ namespace BookingTickets.API.Model.RequestModels.All_SeatRequestModel
 {
     public class SeatRequestModel
     {
-        public int Id { get; set; }
-
         public int Number { get; set; }
 
         public int Row { get; set; }

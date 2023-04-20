@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using BookingTickets.BLL.Models.All_Seat_InputModel;
+using Core;
 
 namespace BookingTickets.BLL.Models
 {
