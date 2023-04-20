@@ -1,5 +1,6 @@
 using AutoMapper;
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
@@ -27,6 +28,7 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<UserBLL, UserDto>();
                     cfg.CreateMap<SeatBLL, SeatDto>();
                     cfg.CreateMap<SeatDto, SeatBLL>();
+                    cfg.CreateMap<AddSeatsRowsInputModel, SeatDto>();
                 });
         }
 
@@ -70,6 +72,11 @@ namespace BookingTickets.BLL
         }
 
         public SeatDto MapSeatBLLToSeatDto(SeatBLL seat)
+        {
+            return _configuration.CreateMapper().Map<SeatDto>(seat);
+        }
+        //\\\
+        public SeatDto MapSeatInputToSeatDto(AddSeatsRowsInputModel seat)
         {
             return _configuration.CreateMapper().Map<SeatDto>(seat);
         }

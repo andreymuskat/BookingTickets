@@ -7,5 +7,6 @@ namespace BookingTickets.BLL.NewFolder
         public void CreateNewFilm(FilmBLL newFilm);
 
         public void CreateCinema(CinemaBLL newCinema);
+        public void CreateHall(HallBLL hall);
     }
 }

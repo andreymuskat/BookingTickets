@@ -8,6 +8,6 @@
 
         public int Row { get; set; }
 
-        public HallBLL Hall { get; set; }
+        public int HallId { get; set; }
     }
 }

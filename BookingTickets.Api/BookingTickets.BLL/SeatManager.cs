@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
@@ -24,17 +25,21 @@ namespace BookingTickets.BLL
             _repository.UpdateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seat));
         }
 
-        public void AddRowToHall(int hallId, int seatForBegin, int seatForEnd, int numberOfRow)
+        public void AddRowToHall(AddSeatsRowsInputModel rowSeats)
         {
-            for (int i = seatForBegin; i<= seatForEnd; i++)
+            var seatForBegin = rowSeats.SeatForBegin;
+            var SeatForEnd = rowSeats.SeatForEnd;
+            var numberOfRow = rowSeats.NumberOfRow;
+            var hallId = rowSeats.HallId;
+            for (var i = seatForBegin; i <= SeatForEnd; i++)
             {
-                 var newSeat = new SeatBLL()
-                 {
-                     Number=i,
-                     Row=numberOfRow,
-                     Hall=
-
-                 }
+                SeatBLL seatBll = new SeatBLL()
+                {
+                    Number = i,
+                    Row = numberOfRow,
+                    HallId = hallId
+                };
+                _repository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seatBll));
             }
         }
     }

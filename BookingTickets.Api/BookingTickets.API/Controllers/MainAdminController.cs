@@ -1,6 +1,7 @@
 using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
 using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
+using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.NewFolder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -41,5 +42,19 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
+        [HttpPost("Create_New_Hall")]
+        public IActionResult CreateHall(HallRequestModel model)
+        {
+            _mainAdmin.CreateHall(_mapper.Map<HallBLL>(model));
+
+            return Ok("GOT IT");
+        }
+        //[HttpPost("Create_New_Session")]
+        //public IActionResult CreateNewHall(HallRequestModel hall)
+        //{
+        //    _admin.CreateSession(_mapper.Map<SessionBLL>(hall));
+
+        //    return Ok("GOT IT");
+        //}
     }
 }
