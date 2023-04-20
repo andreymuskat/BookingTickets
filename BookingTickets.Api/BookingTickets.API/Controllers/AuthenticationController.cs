@@ -1,7 +1,7 @@
-﻿    using AutoMapper;
+﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.BLL.Authentication;
-    using BookingTickets.BLL.Authentication.AuthModels;
+using BookingTickets.BLL.Authentication.AuthModels;
 using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
 using Microsoft.AspNetCore.Mvc;
 

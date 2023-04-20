@@ -1,4 +1,5 @@
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
@@ -8,9 +9,9 @@ namespace BookingTickets.BLL
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly ISessionRepository _sessionRepository;
+        private readonly IFilmRepository _filmRepository;
         const int timeoutInMin = 30;
 
-        const int timeoutInMin = 30;
 
         public SessionManager()
         {
@@ -30,7 +31,7 @@ namespace BookingTickets.BLL
 
             List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByDate(newSession.Date));
 
-            if(AllSessionsInDate.Count > 0)
+            if (AllSessionsInDate.Count > 0)
             {
                 for (int i = 0; i < AllSessionsInDate.Count; i++)
                 {
@@ -70,14 +71,10 @@ namespace BookingTickets.BLL
             }
             else { throw new Exception("Сессия, которую вы пытаетесь удалить, не найдена в базе!"); }
         }
-    }
-}
-
-        }
 
         public List<SessionBLL> GetAllSessionByCinemaId(int idCinema)
         {
-          return _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByCinemaId(idCinema));
+            return _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByCinemaId(idCinema));
         }
     }
 }
