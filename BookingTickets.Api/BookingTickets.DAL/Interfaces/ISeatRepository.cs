@@ -7,5 +7,7 @@ namespace BookingTickets.DAL.Interfaces
         public SeatDto CreateSeat (SeatDto seat);
 
         public void UpdateSeat (SeatDto seat);
+
+
     }
 }

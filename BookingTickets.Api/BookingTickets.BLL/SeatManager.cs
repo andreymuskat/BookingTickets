@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.Models;
+using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.BLL
@@ -22,5 +23,6 @@ namespace BookingTickets.BLL
         {
             _repository.UpdateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seat));
         }
+
     }
 }

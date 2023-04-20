@@ -1,3 +1,4 @@
+using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 
@@ -6,7 +7,7 @@ namespace BookingTickets.DAL
     public class HallRepository : IHallRepository
     {
         private static Context context;
-
+        private SeatRepository seatRepository;
         public HallRepository()
         {
             context = new Context();
@@ -26,16 +27,15 @@ namespace BookingTickets.DAL
                 Number = hall.Number
             };
         }
-
         public void AddRowToHall(int idHall, int seatForBegin, int seatForEnd, int numberOfRow)
         { 
-            for (int i= seatForBegin; i<= seatForEnd; i++ )
-            {
-                
-            }
+            //for (int i= seatForBegin; i<= seatForEnd; i++ )
+            //{
+            //    var seatRepository.GetSeatIdByNumberAndRow(numberOfRow, i);
 
+                context.SaveChanges();
+            //}
         }
-
         public void UpdateHall(HallDto hall)
         {
 
