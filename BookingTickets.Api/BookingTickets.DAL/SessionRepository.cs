@@ -65,7 +65,11 @@ namespace BookingTickets.DAL
 
         public void DeleteSession(int idSession)
         {
+            var session = _context.Sessions
+                .Single(i => i.Id == idSession);
 
+            _context.Remove(session);
+            _context.SaveChanges();
         }
     }
 }
