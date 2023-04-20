@@ -7,10 +7,6 @@ namespace BookingTickets.DAL.Interfaces
     {
         public OrderDto CreateOrder(OrderDto order);
 
-        public void UpdateOrder(OrderDto order);
-
-        public void DeleteOrder(int idOrder);
-
         public OrderStatus EditOrderStatus(OrderStatus status);
     }
 }

@@ -16,20 +16,9 @@ namespace BookingTickets.DAL
         public OrderDto CreateOrder(OrderDto order)
         {
             _context.Orders.Add(order);
-
             _context.SaveChanges();
 
             return order;
-        }
-
-        public void UpdateOrder(OrderDto order)
-        {
-
-        }
-
-        public void DeleteOrder(int idOrder)
-        {
-
         }
 
         public OrderStatus EditOrderStatus(OrderStatus status)

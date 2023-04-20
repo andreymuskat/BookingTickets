@@ -17,7 +17,5 @@ namespace BookingTickets.API.Controllers
             _mapper = map;
             _cashier = cashier;
         }
-
-
     }
 }

@@ -1,4 +1,3 @@
-using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 
@@ -26,16 +25,6 @@ namespace BookingTickets.DAL
                 Id = hall.Id,
                 Number = hall.Number
             };
-        }
-
-        public void UpdateHall(HallDto hall)
-        {
-
-        }
-
-        public void DeleteHall(int idHall)
-        {
-
         }
 
         public List<SeatDto> GetAllSeatsByHallId(int idHall)

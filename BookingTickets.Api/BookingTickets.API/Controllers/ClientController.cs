@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
-using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.BLL.InterfacesBll;
-using BookingTickets.BLL.Models;
-using BookingTickets.BLL.NewFolder;
-using BookingTickets.BLL.Roles;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class ClientController: ControllerBase
+    public class ClientController : ControllerBase
     {
         private readonly IClient _client;
         private readonly IMapper _mapper;

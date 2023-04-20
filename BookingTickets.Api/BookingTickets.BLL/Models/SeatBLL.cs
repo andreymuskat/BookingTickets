@@ -1,4 +1,4 @@
-﻿namespace BookingTickets.BLL.Models.All_Seat_InputModel
+﻿namespace BookingTickets.BLL.Models
 {
     public class SeatBLL
     {

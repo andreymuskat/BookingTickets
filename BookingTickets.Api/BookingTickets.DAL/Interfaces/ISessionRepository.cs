@@ -15,7 +15,5 @@
         public List<SessionDto> GetAllSessionByDate(DateTime Date);
 
         public void DeleteSession(int idSession);
-
-        public void UpdateSession(SessionDto session);
     }
 }

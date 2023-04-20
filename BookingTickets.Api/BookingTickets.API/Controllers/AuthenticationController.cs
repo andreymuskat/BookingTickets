@@ -13,9 +13,7 @@ namespace BookingTickets.API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthService service;
-
         private readonly IMapper mapper;
-
         private readonly ILogger logger;
 
         public AuthenticationController(
@@ -32,7 +30,6 @@ namespace BookingTickets.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] UserRegisterRequest request)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest();

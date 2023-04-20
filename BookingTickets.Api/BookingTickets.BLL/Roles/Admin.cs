@@ -1,6 +1,4 @@
-﻿using BookingTickets.BLL;
-using BookingTickets.BLL.InterfacesBll;
-using BookingTickets.BLL.Models;
+﻿using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 
 namespace BookingTickets.BLL.Roles
@@ -9,7 +7,7 @@ namespace BookingTickets.BLL.Roles
     {
         private readonly SessionManager _sessionManager;
 
-        public Admin() 
+        public Admin()
         {
             _sessionManager = new SessionManager();
         }

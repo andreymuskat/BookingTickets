@@ -1,7 +1,7 @@
 using AutoMapper;
 using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
@@ -81,7 +81,7 @@ namespace BookingTickets.BLL
         {
             return _configuration.CreateMapper().Map<SeatDto>(seat);
         }
-        //\\\
+
         public SeatDto MapSeatInputToSeatDto(AddSeatsRowsInputModel seat)
         {
             return _configuration.CreateMapper().Map<SeatDto>(seat);
