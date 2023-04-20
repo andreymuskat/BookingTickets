@@ -14,11 +14,9 @@ namespace BookingTickets.DAL
         public SeatDto CreateSeat(SeatDto seat)
         {
             _context.Seats.Add(seat);
-
             _context.SaveChanges();
 
             return seat;
-
         }
 
         public void UpdateSeat(SeatDto seat)

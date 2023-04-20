@@ -46,7 +46,9 @@ namespace BookingTickets.DAL
 
         public List<SessionDto> GetAllSessionByDate(DateTime Date)
         {
-            List<SessionDto> AllSession = _context.Sessions.ToList();
+            List<SessionDto> AllSession = _context.Sessions
+                .Where(k => k.IsDeleted == false)
+                .ToList();
 
             DateOnly dateSearch = DateOnly.FromDateTime(Date);
             List<SessionDto> SessionInDay = new List<SessionDto>();
@@ -65,10 +67,8 @@ namespace BookingTickets.DAL
 
         public void DeleteSession(int idSession)
         {
-            var session = _context.Sessions
-                .Single(i => i.Id == idSession);
+            var sess = _context.Sessions.Single(i => i.Id == idSession).IsDeleted = true;
 
-            _context.Remove(session);
             _context.SaveChanges();
         }
     }
