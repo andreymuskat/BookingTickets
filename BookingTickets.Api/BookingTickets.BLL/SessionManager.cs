@@ -1,9 +1,6 @@
-﻿using AutoMapper;
 using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
-using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
 {
@@ -11,7 +8,7 @@ namespace BookingTickets.BLL
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly ISessionRepository _sessionRepository;
-        private readonly IFilmRepository _filmRepository;
+        const int timeoutInMin = 30;
 
         const int timeoutInMin = 30;
 
@@ -72,6 +69,15 @@ namespace BookingTickets.BLL
                 _sessionRepository.DeleteSession(idSession);
             }
             else { throw new Exception("Сессия, которую вы пытаетесь удалить, не найдена в базе!"); }
+        }
+    }
+}
+
+        }
+
+        public List<SessionBLL> GetAllSessionByCinemaId(int idCinema)
+        {
+          return _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByCinemaId(idCinema));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models;
 
 namespace BookingTickets.BLL.InterfacesBll
 {
@@ -6,7 +6,7 @@ namespace BookingTickets.BLL.InterfacesBll
     {
         public FilmBLL GetFilmById(int filmId);   
         
-        public List<SessionBLL> GetFilmsByCinema(FilmBLL film, CinemaBLL cinema);
+        public List<SessionBLL> GetFilmsByCinema(int cinemaId);
 
         public List<CinemaBLL> GetCinemaByFilm(FilmBLL film);
 
