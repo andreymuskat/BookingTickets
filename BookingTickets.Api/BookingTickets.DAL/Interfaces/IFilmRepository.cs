@@ -1,4 +1,4 @@
-﻿using BookingTickets.DAL.Models;
+using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL.Interfaces
 {
@@ -12,7 +12,7 @@ namespace BookingTickets.DAL.Interfaces
 
         public List<FilmDto> GetAllFilm();
 
-        public FilmDto GetFilmById(int Id);
+        public FilmDto GetFilmById(int filmId);
 
         public void AddNewFilm(FilmDto film);
 

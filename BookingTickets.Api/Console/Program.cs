@@ -1,9 +1,13 @@
-﻿using BookingTickets.DAL;
+﻿using BookingTickets.BLL;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.DAL;
 using System.Collections;
 
-SessionRepository SessionRepository= new SessionRepository();
+FilmRepository fi = new FilmRepository();
+SessionRepository ses =new SessionRepository();
 
+DateTime date = new DateTime(2023, 05, 04);
 
-var ss  = SessionRepository.GetAllSessionByCinemaId(1);
+var ss = ses.GetSessionById(1);
 
-Console.WriteLine(ss);
+Console.WriteLine(date);

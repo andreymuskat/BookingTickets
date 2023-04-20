@@ -1,4 +1,4 @@
-﻿using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -50,6 +50,11 @@ namespace BookingTickets.DAL
         public List<HallDto> GetAllHallByCinemaId(int idCinema)
         {
             return new List<HallDto>();
+        }
+
+        public List<CinemaDto> GetAllCinemaByFilm(int idFilm)
+        {
+            return new List<CinemaDto>();
         }
     }
 }

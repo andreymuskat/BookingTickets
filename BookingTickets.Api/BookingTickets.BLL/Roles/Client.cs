@@ -1,4 +1,4 @@
-﻿using BookingTickets.BLL;
+using BookingTickets.BLL;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.DAL;

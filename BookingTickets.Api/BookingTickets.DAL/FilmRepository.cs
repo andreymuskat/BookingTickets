@@ -36,10 +36,10 @@ namespace BookingTickets.DAL
             return new List<FilmDto>();
         }
 
-        public FilmDto GetFilmById(int Id)
+        public FilmDto GetFilmById(int filmId)
         {
             return _context.Films
-                .Single(k => k.Id == Id);
+                .Single(k => k.Id == filmId);
         }
 
         public void AddNewFilm(FilmDto film)
