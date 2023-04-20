@@ -62,5 +62,16 @@ namespace BookingTickets.BLL
                 _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
             }
         }
+
+        public void DeleteSession(int idSession)
+        {
+            var sess = _sessionRepository.GetSessionById(idSession);
+
+            if (sess != null)
+            {
+                _sessionRepository.DeleteSession(idSession);
+            }
+            else { throw new Exception("Сессия, которую вы пытаетесь удалить, не найдена в базе!"); }
+        }
     }
 }

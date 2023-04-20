@@ -7,6 +7,6 @@ namespace BookingTickets.BLL.InterfacesBll
     {
         public void CreateSession(CreateSessionInputModel session);
 
-        public void CreateCashier(UserBLL user);
+        public void DeleteSession(int sessionId);
     }
 }

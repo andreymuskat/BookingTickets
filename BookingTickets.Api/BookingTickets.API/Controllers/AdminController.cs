@@ -31,5 +31,12 @@ namespace BookingTickets.API.Controllers
 
             return Ok("GOT IT");
         }
+
+        [HttpDelete("Delete_Session")]
+        public IActionResult DeleteSession(int sessionId)
+        {
+            _admin.DeleteSession(sessionId);
+            return StatusCode(StatusCodes.Status204NoContent);
+        }
     }
 }

@@ -8,7 +8,6 @@ SessionRepository ses =new SessionRepository();
 
 DateTime date = new DateTime(2023, 05, 04);
 
-ses.DeleteSession(2);
-var ss = ses.GetAllSessionByDate(date);
+var ss = ses.GetSessionById(1);
 
 Console.WriteLine(date);
