@@ -1,6 +1,7 @@
 ﻿using BookingTickets.BLL.Models;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.BLL
 {
@@ -44,6 +45,11 @@ namespace BookingTickets.BLL
                     _sessionRepository.CreateSession(_instanceMapperBll.MapSessionBLLToSessionDto(session));
                 }
             }
+        }
+
+        public List<SessionBLL> GetAllSessionByCinemaId(int idCinema)
+        {
+          return _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByCinemaId(idCinema));
         }
     }
 }
