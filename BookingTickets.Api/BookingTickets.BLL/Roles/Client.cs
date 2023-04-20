@@ -50,5 +50,18 @@ namespace BookingTickets.BLL.Roles
         {
             return new List<SeatBLL>();
         }
+
+        public SessionBLL GetSessionById(int idSession)
+        {
+            var sb = _sessionManager.GetSessionById(idSession);
+            if (sb.IsDeleted == false && sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
+            {
+                return sb;
+            }
+            else
+            {
+                throw new Exception("Данный сеанс больше недоступен");
+            }
+        }
     }
 }

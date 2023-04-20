@@ -46,5 +46,13 @@ namespace BookingTickets.API.Controllers
             var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
             return Ok(res);
         }
+
+        [HttpGet("GetSessionById")]
+        public IActionResult GetSessionById(int idSession)
+        {
+            var sb = _client.GetSessionById(idSession);
+            var res = _mapper.Map<SessionResponseModelForClient>(sb);
+            return Ok(res);
+        }
     }
 }

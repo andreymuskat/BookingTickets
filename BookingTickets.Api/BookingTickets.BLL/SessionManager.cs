@@ -83,5 +83,12 @@ namespace BookingTickets.BLL
             var listSessionBLL = _instanceMapperBll.MapListSessionDtoToListSessionBLL(listSessionDto);
             return listSessionBLL;
         }
+
+        public SessionBLL GetSessionById(int idSession)
+        {
+            var sDto = _sessionRepository.GetSessionById(idSession);
+            var res = _instanceMapperBll.MapSessionDtoToSessionBLL(sDto);
+            return res;
+        }
     }
 }
