@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.DAL
@@ -14,7 +15,7 @@ namespace BookingTickets.DAL
 
         public SeatDto CreateSeat(SeatDto seat)
         {
-            _context.Seats.Add(seat);
+            _context.Seat.Add(seat);
 
             _context.SaveChanges();
 
@@ -38,10 +39,10 @@ namespace BookingTickets.DAL
         }
         public int GetSeatIdByNumberAndRow(int row, int number)
         {
-
-            int idSeat = _context.Seats
-
-            return idSeat;
+            var seat = _context.Seat.Find(row, number);
+            int seatId =seat.Id;
+            return seatId;
         }
+
     }
 }

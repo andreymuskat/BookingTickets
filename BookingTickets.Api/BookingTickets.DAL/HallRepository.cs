@@ -29,8 +29,6 @@ namespace BookingTickets.DAL
 
         public void AddRowToHall(int idHall, int seatForBegin, int seatForEnd, int numberOfRow)
         { 
-
-
             for (int i= seatForBegin; i<= seatForEnd; i++ )
             {
                 
