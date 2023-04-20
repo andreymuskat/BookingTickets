@@ -38,7 +38,7 @@ namespace BookingTickets.DAL
         }
         public int GetSeatIdByNumberAndRow(int row, int number)
         {
-            var seat = _context.Seat.Find(row, number);
+            var seat = _context.Seats.Find(row, number);
             int seatId =seat.Id;
             return seatId;
         }

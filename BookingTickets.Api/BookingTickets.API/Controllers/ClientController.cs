@@ -33,5 +33,11 @@ namespace BookingTickets.API.Controllers
         {
             return Ok(_client.GetFilmById(filmId));
         }
+
+        [HttpGet("GetCinemasByFilmId")]
+        public IActionResult GetCinemasByFilmId(int filmId)
+        {
+            return Ok(_client.GetCinemaByFilm(filmId));
+        }
     }
 }

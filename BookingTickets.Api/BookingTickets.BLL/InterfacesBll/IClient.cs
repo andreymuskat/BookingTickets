@@ -9,7 +9,7 @@ namespace BookingTickets.BLL.InterfacesBll
         
         public List<SessionBLL> GetFilmsByCinema(int cinemaId);
 
-        public List<CinemaBLL> GetCinemaByFilm(FilmBLL film);
+        public List<CinemaBLL> GetCinemaByFilm(int idFilm);
 
         public List<SessionBLL> GetSessionsByFilm(FilmBLL film);
 

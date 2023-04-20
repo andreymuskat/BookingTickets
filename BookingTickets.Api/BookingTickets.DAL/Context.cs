@@ -14,7 +14,7 @@ namespace BookingTickets.DAL
         public DbSet<FilmDto> Films { get; set; }
         public DbSet<CinemaDto> Cinemas { get; set; }
         public DbSet<OrderDto> Orders { get; set; }
-        public DbSet<SeatDto> Seat { get; set; }
+        public DbSet<SeatDto> Seats { get; set; }
         public DbSet<SessionDto> Sessions { get; set; }
         public DbSet<UserDto> Users { get; set; }
     }

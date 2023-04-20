@@ -12,12 +12,14 @@ namespace BookingTickets.BLL.Roles
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly FilmManager _filmManager;
         private readonly SessionManager _sessionManager;
+        private readonly CinemaManager _cinemaManager;
 
 
         public Client()
         {
             _filmManager = new FilmManager();
             _sessionManager = new SessionManager();
+            _cinemaManager = new CinemaManager();
         }
 
         public FilmBLL GetFilmById(int id)
@@ -30,9 +32,9 @@ namespace BookingTickets.BLL.Roles
             return _sessionManager.GetAllSessionByCinemaId(cinemaId);
         }
 
-        public List<CinemaBLL> GetCinemaByFilm(FilmBLL film)
+        public List<CinemaBLL> GetCinemaByFilm(int idFilm)
         {
-            return new List<CinemaBLL>();
+            return _cinemaManager.GetCinemaByFilm(idFilm);
         }
 
         public List<SessionBLL> GetSessionsByFilm(FilmBLL film)
