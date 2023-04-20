@@ -22,14 +22,14 @@ namespace BookingTickets.DAL
             return session;
         }
 
+        public SessionDto GetSessionById(int sessionId)
+        {
+            return _context.Sessions.FirstOrDefault(i => i.Id == sessionId);
+        }
+
         public List<SessionDto> GetAllSession()
         {
             return new List<SessionDto>();
-        }
-
-        public void UpdateSession(SessionDto session)
-        {
-
         }
 
         public List<SessionDto> GetAllSessionByFilmId(int idFilm)
@@ -70,6 +70,11 @@ namespace BookingTickets.DAL
             var sess = _context.Sessions.Single(i => i.Id == idSession).IsDeleted = true;
 
             _context.SaveChanges();
+        }
+
+        public void UpdateSession(SessionDto session)
+        {
+
         }
     }
 }
