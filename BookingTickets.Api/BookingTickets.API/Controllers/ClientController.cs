@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
+using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.InterfacesBll;
-using BookingTickets.BLL.Models;
-using BookingTickets.BLL.NewFolder;
-using BookingTickets.BLL.Roles;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class ClientController: ControllerBase
+    public class ClientController : ControllerBase
     {
         private readonly IClient _client;
         private readonly IMapper _mapper;
@@ -37,7 +34,17 @@ namespace BookingTickets.API.Controllers
         [HttpGet("GetCinemasByFilmId")]
         public IActionResult GetCinemasByFilmId(int filmId)
         {
-            return Ok(_client.GetCinemaByFilm(filmId));
+            var cb = _client.GetCinemaByFilm(filmId);
+            var res = _mapper.Map<List<CinemaResponseModelForClient>>(cb);
+            return Ok(res);
+        }
+
+        [HttpGet("GetCinemasByFilmId")]
+        public IActionResult GetAllSessionByFilmId(int idFilm)
+        {
+            var sb = _client.GetSessionsByFilm(idFilm);
+            var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
+            return Ok(res);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace BookingTickets.API
             CreateMap<UserBLL, UserResponseModel>();
             CreateMap<SessionRequestModel, SessionBLL>();
             CreateMap<AddSeatsRowsRequestModel, AddSeatsRowsInputModel>();
+            CreateMap<SessionBLL, SessionResponseModelForClient>();
 
         }
     }
