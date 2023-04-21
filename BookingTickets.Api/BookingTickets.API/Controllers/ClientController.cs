@@ -19,40 +19,82 @@ namespace BookingTickets.API.Controllers
             _client = client;
         }
 
-        [HttpGet("GetAllSessionsByCinema")]
+        [HttpGet("GetAllSession/{cinemaId}", Name = "GetAllSessionsByCinema")]
         public IActionResult GetAllSessionByCinemaId(int cinemaId)
         {
-            return Ok(_client.GetFilmsByCinema(cinemaId));
+            try
+            {
+                var ls = _client.GetFilmsByCinema(cinemaId);
+                var res = _mapper.Map<List<SessionResponseModelForClient>>(ls);
+                return Ok(res);
+            }
+            catch
+            {
+                return BadRequest();
+            };
         }
 
-        [HttpGet("GetFilmById")]
+        [HttpGet("GetFilm/{filmId}", Name = "GetFilmById")]
         public IActionResult GetFilmById(int filmId)
         {
-            return Ok(_client.GetFilmById(filmId));
+            try
+            {
+                var fb = _client.GetFilmById(filmId);
+                var res = _mapper.Map<FilmResponseModelForClient>(fb);
+                return Ok(res);
+            }
+            catch
+            {
+                return BadRequest();
+            };
         }
 
-        [HttpGet("GetCinemasByFilmId")]
+        [HttpGet("GetCinemas/{filmId}", Name = "GetCinemasByFilmId")]
         public IActionResult GetCinemasByFilmId(int filmId)
         {
-            var cb = _client.GetCinemaByFilm(filmId);
-            var res = _mapper.Map<List<CinemaResponseModelForClient>>(cb);
-            return Ok(res);
+            try
+            {
+                var cb = _client.GetCinemaByFilm(filmId);
+                var res = _mapper.Map<List<CinemaResponseModelForClient>>(cb);
+                return Ok(res);
+            }
+            catch
+            {
+                return BadRequest();
+            };
         }
 
-        [HttpGet("GetCinemasByFilmId")]
+        [HttpGet("GetSession/{idFilm}", Name = "GetSessionsByFilmId")]
         public IActionResult GetAllSessionByFilmId(int idFilm)
         {
-            var sb = _client.GetSessionsByFilm(idFilm);
-            var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
-            return Ok(res);
+            try
+            {
+
+                var sb = _client.GetSessionsByFilm(idFilm);
+                var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
+                return Ok(res);
+            }
+            catch
+            {
+                return BadRequest();
+            };
         }
 
-        [HttpGet("GetSessionById")]
+        [HttpGet("GetSession/{idSession}", Name = "GetSessionById")]
         public IActionResult GetSessionById(int idSession)
         {
-            var sb = _client.GetSessionById(idSession);
-            var res = _mapper.Map<SessionResponseModelForClient>(sb);
-            return Ok(res);
+            try
+            {
+
+                var sb = _client.GetSessionById(idSession);
+                var res = _mapper.Map<SessionResponseModelForClient>(sb);
+                return Ok(res);
+            }
+            catch
+            {
+                return BadRequest();
+            };
         }
     }
 }
+
