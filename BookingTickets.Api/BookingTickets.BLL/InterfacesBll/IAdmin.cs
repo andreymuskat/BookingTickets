@@ -1,5 +1,4 @@
-﻿using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
+﻿using BookingTickets.BLL.Models.All_SessionBLLModel;
 
 namespace BookingTickets.BLL.InterfacesBll
 {

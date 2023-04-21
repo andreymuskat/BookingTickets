@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    [Authorize(Policy = "MainAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(Policy = "MainAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class MainAdminController : ControllerBase
@@ -51,6 +51,7 @@ namespace BookingTickets.API.Controllers
 
             return Ok("GOT IT");
         }
+
         [HttpPost("Create_Row_With_Seats_In_Hall")]
         public IActionResult AddRowToHall(AddSeatsRowsRequestModel model)
         {

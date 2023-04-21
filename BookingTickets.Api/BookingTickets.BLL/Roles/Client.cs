@@ -60,7 +60,7 @@ namespace BookingTickets.BLL.Roles
             }
             else
             {
-                throw new Exception("Данный сеанс больше недоступен");
+                throw new Exception("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ");
             }
         }
     }

@@ -19,16 +19,6 @@ namespace BookingTickets.BLL
             var filmDto = _instanceMapperBll.MapFilmBLLToFilmDto(newFilm);
 
             _filmRepository.CreateFilm(filmDto);
-
-            //var filmByName = _filmRepository.GetFilmByName(filmDto.Name);
-            //if (filmByName == null)
-            //{
-            //    _filmRepository.CreateFilm(filmDto);
-            //}
-            //else
-            //{
-            //    throw new Exception("Такой фильм уже есть в базе!");
-            //}
         }
 
         public List<FilmBLL> GetAllFilmByCinema(CinemaBLL cinema)
@@ -58,7 +48,7 @@ namespace BookingTickets.BLL
             _filmRepository.UpdateFilm(_instanceMapperBll.MapFilmBLLToFilmDto(film));
         }
 
-        public FilmBLL GetFilmById(int Id) 
+        public FilmBLL GetFilmById(int Id)
         {
             return _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(Id));
         }

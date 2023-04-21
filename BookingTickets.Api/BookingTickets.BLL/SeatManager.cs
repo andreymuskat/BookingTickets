@@ -1,4 +1,5 @@
-﻿using BookingTickets.BLL.Models.All_Seat_InputModel;
+﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 

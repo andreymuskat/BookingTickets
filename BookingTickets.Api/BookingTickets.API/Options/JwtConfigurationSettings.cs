@@ -7,6 +7,5 @@ namespace BookingTickets.API.Options
         public string Key { get; set; } = null!;
 
         public int TokenTimeToLiveMinutes { get; set; }
-
     }
 }

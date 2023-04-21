@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.InterfacesBll;
 using Microsoft.AspNetCore.Mvc;

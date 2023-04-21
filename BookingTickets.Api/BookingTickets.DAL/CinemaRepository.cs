@@ -1,6 +1,5 @@
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
@@ -20,26 +19,6 @@ namespace BookingTickets.DAL
             _context.SaveChanges();
 
             return cinema;
-        }
-
-        public void UpdateCinema(CinemaDto cinema)
-        {
-
-        }
-
-        public void DeleteCinema(int idCinema)
-        {
-
-        }
-
-        public void AddNewEmployesInCinema(UserDto user)
-        {
-
-        }
-
-        public void DeleteEmployesInCinema(int userId)
-        {
-
         }
 
         public List<UserDto> GetAllEmployesInCinema(int idCinema)

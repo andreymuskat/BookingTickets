@@ -1,22 +1,17 @@
 ﻿using BookingTickets.DAL.Interfaces;
-using BookingTickets.DAL.Models;
-using Core;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Collections;
 
 namespace BookingTickets.DAL
 {
-    public class SessionRepository: ISessionRepository
+    public class SessionRepository : ISessionRepository
     {
         private readonly Context _context;
 
-        public SessionRepository ()
+        public SessionRepository()
         {
             _context = new Context();
         }
         public SessionDto CreateSession(SessionDto session)
-        { 
+        {
             _context.Sessions.Add(session);
             _context.SaveChanges();
             return session;
@@ -53,7 +48,7 @@ namespace BookingTickets.DAL
             DateOnly dateSearch = DateOnly.FromDateTime(Date);
             List<SessionDto> SessionInDay = new List<SessionDto>();
 
-            for(int i = 0; i< AllSession.Count; i++)
+            for (int i = 0; i < AllSession.Count; i++)
             {
                 DateOnly session = DateOnly.FromDateTime(AllSession[i].Date);
                 if (session == dateSearch)
@@ -70,11 +65,6 @@ namespace BookingTickets.DAL
             var sess = _context.Sessions.Single(i => i.Id == idSession).IsDeleted = true;
 
             _context.SaveChanges();
-        }
-
-        public void UpdateSession(SessionDto session)
-        {
-
         }
     }
 }
