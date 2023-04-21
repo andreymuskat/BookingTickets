@@ -29,7 +29,7 @@ namespace BookingTickets.DAL
 
         public List<SessionDto> GetAllSessionByFilmId(int idFilm)
         {
-            return new List<SessionDto>();
+            return _context.Sessions.Where(f=>f.Id == idFilm).ToList();            
         }
 
         public List<SessionDto> GetAllSessionByCinemaId(int idCinema)

@@ -116,5 +116,15 @@ namespace BookingTickets.BLL
         {
             return _configuration.CreateMapper().Map<SessionDto>(session);
         }
+
+        public List<CinemaBLL> MapListCinemaDtoToListCinemaBLL(List<CinemaDto> cinema)
+        {
+            return _configuration.CreateMapper().Map<List<CinemaBLL>>(cinema);
+        }
+
+        public SessionBLL MapSessionDtoToSessionBLL(SessionDto session)
+        {
+            return _configuration.CreateMapper().Map<SessionBLL>(session);
+        }
     }
 }

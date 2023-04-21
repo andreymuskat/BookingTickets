@@ -33,7 +33,15 @@ namespace BookingTickets.DAL
 
         public List<CinemaDto> GetAllCinemaByFilm(int idFilm)
         {
-            return new List<CinemaDto>();
+            var x = _context.Sessions.Include(h => h.Hall).ThenInclude(c => c.Cinema).Where(f => f.FilmId == idFilm).ToList();
+            List<CinemaDto> cinemaDtos = new List<CinemaDto>();
+
+            foreach (var cinema in x)
+            {
+                cinemaDtos.Add(cinema.Hall.Cinema);
+            }
+
+            return cinemaDtos;
         }
     }
 }
