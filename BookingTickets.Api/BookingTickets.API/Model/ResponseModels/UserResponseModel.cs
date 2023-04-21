@@ -8,7 +8,7 @@ namespace BookingTickets.API.Model.ResponseModels
 
         public string Name { get; set; }
 
-        public UserStatus UserStatus { get; set; }
+        public string UserStatus { get; set; }
 
         public string Password { get; set; }
 
