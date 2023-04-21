@@ -1,4 +1,5 @@
 using AutoMapper;
+
 using BookingTickets.BLL.Models;
 using BookingTickets.DAL.Models;
 
@@ -16,15 +17,16 @@ namespace BookingTickets.BLL
                 {
                     cfg.CreateMap<FilmDto, FilmBLL>();
                     cfg.CreateMap<FilmBLL, FilmDto>();
-                    cfg.CreateMap<FilmBLL, FilmDto>();
-                    cfg.CreateMap<CinemaBLL, CinemaDto>();
                     cfg.CreateMap<HallDto, HallBLL>();
                     cfg.CreateMap<HallBLL, HallDto>();
                     cfg.CreateMap<CinemaBLL, CinemaDto>();
                     cfg.CreateMap<SessionDto, SessionBLL>();
                     cfg.CreateMap<SessionBLL, SessionDto>();
-                    cfg.CreateMap<UserDto, UserBLL>();
-                    cfg.CreateMap<UserBLL, UserDto>();
+                    cfg.CreateMap<UserBLL, UserDto>()
+                    .ForMember(src => src.Name, opt => opt.MapFrom(x => x.Name))
+                    .ForMember(src => src.UserStatus, opt => opt.MapFrom(x => x.UserStatus))
+                    .ForMember(src => src.Password, opt => opt.MapFrom(x => x.Password))
+                    .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
                 });
         }
 
@@ -80,6 +82,11 @@ namespace BookingTickets.BLL
         public UserDto MapUserBLLUserDto(UserBLL user)
         {
             return _configuration.CreateMapper().Map<UserDto>(user);
+        }
+
+        public List<UserBLL> MapListUserDtoUserBLL(List<UserDto> users)
+        {
+            return _configuration.CreateMapper().Map<List<UserBLL>>(users);
         }
     }
 }
