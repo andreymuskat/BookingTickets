@@ -1,46 +1,67 @@
-﻿using BookingTickets.BLL;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
-using BookingTickets.DAL;
-using BookingTickets.DAL.Interfaces;
+using BookingTickets.BLL.Models.All_Seat_InputModel;
+using Core;
 
 namespace BookingTickets.BLL.Roles
 {
     public class Client : IClient
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        public IFilmRepository _filmRepository;
+        private readonly FilmManager _filmManager;
+        private readonly SessionManager _sessionManager;
+        private readonly CinemaManager _cinemaManager;
+        private const int advertisingTime = 15;
 
         public Client()
         {
-            _filmRepository = new FilmRepository();
+            _filmManager = new FilmManager();
+            _sessionManager = new SessionManager();
+            _cinemaManager = new CinemaManager();
         }
 
-        public FilmBLL GetFilmByName(string name)
+        public FilmBLL GetFilmById(int id)
         {
-            var res = _filmRepository.GetFilmByName(name);
-
-            return _instanceMapperBll.MapFilmDtoToFilmBLL(res);
+            return _filmManager.GetFilmById(id);
         }
 
-        public List<SessionBLL> GetFilmsByCinema(FilmBLL film, CinemaBLL cinema) 
+        public List<SessionBLL> GetFilmsByCinema(int cinemaId)
         {
-            return new List<SessionBLL>();
+            var listSession = _sessionManager.GetAllSessionByCinemaId(cinemaId);
+            var res = listSession.FindAll(d => d.IsDeleted == false);
+            return res;
         }
 
-        public List<CinemaBLL> GetCinemaByFilm(FilmBLL film)
+        public List<CinemaBLL> GetCinemaByFilm(int idFilm)
         {
-            return new List<CinemaBLL>();
+             var listCinema = _cinemaManager.GetCinemaByFilm(idFilm);
+            var res = listCinema.FindAll(d => d.IsDeleted == false);
+            return res;
         }
 
-        public List<SessionBLL> GetSessionsByFilm(FilmBLL film)
+        public List<SessionBLL> GetSessionsByFilm(int idFilm)
         {
-            return new List<SessionBLL>();
+            var listSession = _sessionManager.GetAllSessionByFilmId(idFilm);
+            var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
+            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now);
+            return res;
         }
 
         public List<SeatBLL> GetFreeSeatsBySession(SessionBLL session)
         {
             return new List<SeatBLL>();
+        }
+
+        public SessionBLL GetSessionById(int idSession)
+        {
+            var sb = _sessionManager.GetSessionById(idSession);
+            if (sb.IsDeleted == false && sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
+            {
+                return sb;
+            }
+            else
+            {
+                throw new Exception("������ ����� ������ ����������");
+            }
         }
     }
 }

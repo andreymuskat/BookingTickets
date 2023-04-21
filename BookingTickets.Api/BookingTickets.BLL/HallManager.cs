@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.Models;
+using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.BLL
@@ -7,10 +8,9 @@ namespace BookingTickets.BLL
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly IHallRepository _repository;
-
-        public HallManager(IHallRepository repository)
+        public HallManager()
         {
-            _repository = repository;
+            _repository = new HallRepository();
         }
 
         public void CreateHall(HallBLL hall)

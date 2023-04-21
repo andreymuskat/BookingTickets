@@ -1,5 +1,5 @@
-﻿using BookingTickets.BLL;
-using BookingTickets.BLL.Models;
+﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.NewFolder;
 
 namespace BookingTickets.BLL.Roles
@@ -9,11 +9,15 @@ namespace BookingTickets.BLL.Roles
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly FilmManager _filmManager;
         private readonly CinemaManager _cinemaManager;
+        private readonly SeatManager _seatManager;
+        private readonly HallManager _hallManager;
 
         public MainAdmin()
         {
             _filmManager = new FilmManager();
             _cinemaManager = new CinemaManager();
+            _seatManager = new SeatManager();
+            _hallManager = new HallManager();
         }
 
         public void CreateNewFilm(FilmBLL newFilm)
@@ -24,6 +28,16 @@ namespace BookingTickets.BLL.Roles
         public void CreateCinema(CinemaBLL newCinema)
         {
             _cinemaManager.CreateCinema(newCinema);
+        }
+
+        public void CreateHall(HallBLL hall)
+        {
+            _hallManager.CreateHall(hall);
+        }
+
+        public void AddRowToHall(AddSeatsRowsInputModel rowSeats)
+        {
+            _seatManager.AddRowToHall(rowSeats);
         }
     }
 }

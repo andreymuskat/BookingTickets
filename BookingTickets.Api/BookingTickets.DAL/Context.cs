@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL

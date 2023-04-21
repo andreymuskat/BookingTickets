@@ -6,7 +6,7 @@ namespace BookingTickets.DAL
     public class HallRepository : IHallRepository
     {
         private static Context context;
-
+        private SeatRepository seatRepository;
         public HallRepository()
         {
             context = new Context();
@@ -25,16 +25,6 @@ namespace BookingTickets.DAL
                 Id = hall.Id,
                 Number = hall.Number
             };
-        }
-
-        public void UpdateHall(HallDto hall)
-        {
-
-        }
-
-        public void DeleteHall(int idHall)
-        {
-
         }
 
         public List<SeatDto> GetAllSeatsByHallId(int idHall)

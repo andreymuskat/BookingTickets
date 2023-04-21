@@ -1,5 +1,5 @@
-﻿using BookingTickets.BLL;
 using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.BLL.Models;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
@@ -11,19 +11,20 @@ namespace BookingTickets.BLL.Roles
         private readonly SessionManager _sessionManager;
         private readonly UserManager _userManager;
 
-        public Admin() 
+        public Admin()
         {
             _sessionManager = new SessionManager();
             _userManager = new UserManager();
         }
 
-        public void CreateSession(SessionBLL session)
+        public void CreateSession(CreateSessionInputModel session)
         {
             _sessionManager.CreateSession(session);
         }
 
-        public void CreateCashier(UserBLL user)
+        public void DeleteSession(int sessionId)
         {
+            _sessionManager.DeleteSession(sessionId);
             
         }
         

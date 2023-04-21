@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingTickets.DAL", "Booki
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookingTickets.BLL", "BookingTickets.BLL\BookingTickets.BLL.csproj", "{EE866675-B819-4C69-BFA7-01AB43C21655}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{87835D9B-DB39-4B65-9200-232ADA4A8D70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{87835D9B-DB39-4B65-9200-232ADA4A8D70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console", "Console\Console.csproj", "{7F197142-34AA-4FB8-A786-ABEA062B0E54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{87835D9B-DB39-4B65-9200-232ADA4A8D70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87835D9B-DB39-4B65-9200-232ADA4A8D70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87835D9B-DB39-4B65-9200-232ADA4A8D70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F197142-34AA-4FB8-A786-ABEA062B0E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F197142-34AA-4FB8-A786-ABEA062B0E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F197142-34AA-4FB8-A786-ABEA062B0E54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F197142-34AA-4FB8-A786-ABEA062B0E54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

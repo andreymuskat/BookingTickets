@@ -1,4 +1,4 @@
-﻿using BookingTickets.DAL.Models;
+using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL.Interfaces
 {
@@ -9,5 +9,15 @@ namespace BookingTickets.DAL.Interfaces
         public UserDto GetUserById(int id);
 
         public void CreateCashier(UserDto cashier);
+    }
+}
+
+using BookingTickets.DAL.Models;
+
+namespace BookingTickets.DAL.Interfaces
+{
+    public interface IUserRepository
+    {
+        int AddNewUser(UserDto user);
     }
 }

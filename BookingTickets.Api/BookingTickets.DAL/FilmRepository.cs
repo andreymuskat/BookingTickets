@@ -1,6 +1,5 @@
-﻿using BookingTickets.DAL.Models;
 using BookingTickets.DAL.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL
 {
@@ -13,7 +12,7 @@ namespace BookingTickets.DAL
             _context = new Context();
         }
 
-        public FilmDto CreateFilm (FilmDto film)
+        public FilmDto CreateFilm(FilmDto film)
         {
             _context.Films.Add(film);
             _context.SaveChanges();
@@ -36,10 +35,10 @@ namespace BookingTickets.DAL
             return new List<FilmDto>();
         }
 
-        public FilmDto GetFilmByName(string name)
+        public FilmDto GetFilmById(int filmId)
         {
             return _context.Films
-                .Single(k => k.Name == name);
+                .Single(k => k.Id == filmId);
         }
 
         public void AddNewFilm(FilmDto film)

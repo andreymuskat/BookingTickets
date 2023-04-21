@@ -1,4 +1,4 @@
-﻿using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL
@@ -21,26 +21,6 @@ namespace BookingTickets.DAL
             return cinema;
         }
 
-        public void UpdateCinema(CinemaDto cinema)
-        {
-
-        }
-
-        public void DeleteCinema(int idCinema)
-        {
-
-        }
-
-        public void AddNewEmployesInCinema(UserDto user)
-        {
-
-        }
-
-        public void DeleteEmployesInCinema(int userId)
-        {
-
-        }
-
         public List<UserDto> GetAllEmployesInCinema(int idCinema)
         {
             return new List<UserDto>();
@@ -53,7 +33,15 @@ namespace BookingTickets.DAL
 
         public List<CinemaDto> GetAllCinemaByFilm(int idFilm)
         {
-            return new List<CinemaDto>();
+            var x = _context.Sessions.Include(h => h.Hall).ThenInclude(c => c.Cinema).Where(f => f.FilmId == idFilm).ToList();
+            List<CinemaDto> cinemaDtos = new List<CinemaDto>();
+
+            foreach (var cinema in x)
+            {
+                cinemaDtos.Add(cinema.Hall.Cinema);
+            }
+
+            return cinemaDtos;
         }
     }
 }

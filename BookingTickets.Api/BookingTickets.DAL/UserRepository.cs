@@ -1,4 +1,4 @@
-﻿using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,6 +44,20 @@ namespace BookingTickets.DAL
         public void CreateCashier(UserDto cashier)
         {
 
+        }
+    }
+}
+
+using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Models;
+
+namespace BookingTickets.DAL
+{
+    public class UserRepository : IUserRepository
+    {
+        public int AddNewUser(UserDto user)
+        {
+            throw new NotImplementedException();
         }
     }
 }
