@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Core;
 
 namespace BookingTickets.DAL.Models
@@ -9,16 +10,25 @@ namespace BookingTickets.DAL.Models
         public int Id { get; set; }
 
         [Required]
+        [ForeignKey(nameof(SeatId))]
         public List<SeatDto> Seats { get; set; }
 
+        public int SeatId { get; set; }
+
         [Required]
+        [ForeignKey(nameof(UserId))]
         public UserDto User { get; set; }
 
-        [Required]
-        public SessionDto Session { get; set; }
+        public int UserId { get; set; }
 
         [Required]
-        public OrderStatus Status { get; set; }
+        [ForeignKey(nameof(SessionId))]
+        public SessionDto Session { get; set; }
+
+        public int SessionId { get; set; }
+
+        [Required]
+        public string Status { get; set; }
 
         [Required]
         public string? Code { get; set; }

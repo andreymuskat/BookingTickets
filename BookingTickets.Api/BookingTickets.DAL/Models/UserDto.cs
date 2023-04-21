@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Core;
 
 namespace BookingTickets.DAL.Models
@@ -12,13 +13,16 @@ namespace BookingTickets.DAL.Models
         public string Name { get; set; }
 
         [Required]
-        public UserStatus UserStatus { get; set; }
+        public string UserStatus { get; set; }
 
         [Required]
         public string Password { get; set; }
 
         [Required]
+        [ForeignKey(nameof(CinemaId))]
         public CinemaDto Cinema { get; set; }
+
+        public int CinemaId { get; set; }
 
         [Required]
         public bool IsDeleted { get; set; }
