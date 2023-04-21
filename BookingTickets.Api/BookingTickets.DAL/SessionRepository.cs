@@ -60,6 +60,26 @@ namespace BookingTickets.DAL
             return SessionInDay;
         }
 
+        public List<SessionDto> GetAllSessionByDateWithDeleted(DateTime Date)
+        {
+            List<SessionDto> AllSession = _context.Sessions
+                .ToList();
+
+            DateOnly dateSearch = DateOnly.FromDateTime(Date);
+            List<SessionDto> SessionInDay = new List<SessionDto>();
+
+            for (int i = 0; i < AllSession.Count; i++)
+            {
+                DateOnly session = DateOnly.FromDateTime(AllSession[i].Date);
+                if (session == dateSearch)
+                {
+                    SessionInDay.Add(AllSession[i]);
+                }
+            }
+
+            return SessionInDay;
+        }
+
         public void DeleteSession(int idSession)
         {
             var sess = _context.Sessions.Single(i => i.Id == idSession).IsDeleted = true;

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingTickets.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230419122335_MigrationsNew")]
-    partial class MigrationsNew
+    [Migration("20230421095113_Migrations")]
+    partial class Migrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -199,8 +199,8 @@ namespace BookingTickets.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Cost")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");

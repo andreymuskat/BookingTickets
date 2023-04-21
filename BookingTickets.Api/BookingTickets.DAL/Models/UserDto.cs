@@ -13,6 +13,7 @@ namespace BookingTickets.DAL.Models
         public string Name { get; set; }
 
         [Required]
+        [EnumDataType(typeof(UserStatus))]
         public UserStatus UserStatus { get; set; }
 
         [Required]

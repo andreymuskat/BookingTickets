@@ -28,6 +28,7 @@ namespace BookingTickets.DAL.Models
         public int SessionId { get; set; }
 
         [Required]
+        [EnumDataType(typeof(OrderStatus))]
         public OrderStatus Status { get; set; }
 
         [Required]
