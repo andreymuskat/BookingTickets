@@ -27,22 +27,19 @@ namespace BookingTickets.BLL.Roles
         public List<SessionBLL> GetFilmsByCinema(int cinemaId)
         {
             var listSession = _sessionManager.GetAllSessionByCinemaId(cinemaId);
-            var res = listSession.FindAll(d => d.IsDeleted == false);
-            return res;
+            return listSession;
         }
 
         public List<CinemaBLL> GetCinemaByFilm(int idFilm)
         {
              var listCinema = _cinemaManager.GetCinemaByFilm(idFilm);
-            var res = listCinema.FindAll(d => d.IsDeleted == false);
-            return res;
+            return listCinema;
         }
 
         public List<SessionBLL> GetSessionsByFilm(int idFilm)
         {
             var listSession = _sessionManager.GetAllSessionByFilmId(idFilm);
-            var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
-            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now);
+            var res = listSession.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now);
             return res;
         }
 
@@ -54,7 +51,7 @@ namespace BookingTickets.BLL.Roles
         public SessionBLL GetSessionById(int idSession)
         {
             var sb = _sessionManager.GetSessionById(idSession);
-            if (sb.IsDeleted == false && sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
+            if (sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
             {
                 return sb;
             }

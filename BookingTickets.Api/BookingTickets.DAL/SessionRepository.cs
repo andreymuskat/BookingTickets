@@ -1,4 +1,5 @@
 ﻿using BookingTickets.DAL.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BookingTickets.DAL
 {
@@ -19,7 +20,15 @@ namespace BookingTickets.DAL
 
         public SessionDto GetSessionById(int sessionId)
         {
-            return _context.Sessions.FirstOrDefault(i => i.Id == sessionId);
+            try
+            {
+               var res = _context.Sessions.FirstOrDefault(i => i.Id == sessionId);
+                return res;
+            }
+            catch
+            {                
+                throw new Exception ("BadRequest");
+            }
         }
 
         public List<SessionDto> GetAllSession()
@@ -29,7 +38,8 @@ namespace BookingTickets.DAL
 
         public List<SessionDto> GetAllSessionByFilmId(int idFilm)
         {
-            return _context.Sessions.Where(f=>f.Id == idFilm).ToList();            
+            var list = _context.Sessions.Where(k => k.IsDeleted == false).Where(f=>f.Id == idFilm).ToList();            
+            return list;
         }
 
         public List<SessionDto> GetAllSessionByCinemaId(int idCinema)
