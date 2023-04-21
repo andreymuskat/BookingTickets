@@ -7,7 +7,8 @@ namespace BookingTickets.DAL
     {
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(@"Server=localhost;Database=CinemaOrders;Trusted_Connection=True;TrustServerCertificate=True;");
+            /*builder.UseSqlServer(@"Server=localhost;Database=CinemaOrders;Trusted_Connection=True;TrustServerCertificate=True;")*/;
+            builder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog = BookingTickets1; TrustServerCertificate=True;Integrated Security=SSPI", builder => builder.EnableRetryOnFailure());
         }
 
         public DbSet<HallDto> Halls { get; set; }
