@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Reflection.Metadata.Ecma335;
+using System.Security.Cryptography.X509Certificates;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
@@ -42,11 +44,39 @@ namespace BookingTickets.DAL
             int seatId =seat.Id;
             return seatId;
         }
-
+         
         public void AddRowToHall(int hallId, int seatForBegin, int seatForEnd, int numberOfRow)
         {
 
                 _context.SaveChanges();
         }
-    }
+
+        public List<SeatDto> GetAllFreeSeats(int idSession)
+        {
+            List<SeatDto> seatDtos = new List<SeatDto>();
+            List<SeatDto> seatsInHall = new List<SeatDto>();
+            var listOrders = _context.Orders.Where(s => s.Id == idSession);
+
+            foreach (var order in listOrders)
+            {
+                seatDtos.Add(order.Seats);
+            }
+
+            var kek = _context.Orders
+                .Include(s=>s.Session)
+                .ThenInclude(s => s.Hall)
+                .Include(o=>o.Seats)
+                .ToList()
+                .FindAll(o => o.SessionId == idSession).ToList();           
+
+            foreach (var order in kek)
+            {
+                seatsInHall.Add(order.Seats);
+            }
+
+            List<SeatDto> freeSeats = seatsInHall.Except(seatDtos).ToList();
+
+            return freeSeats;
+        }
+    } 
 }
