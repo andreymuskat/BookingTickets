@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.SqlTypes;
+using System.Runtime.CompilerServices;
 using BookingTickets.DAL.Models;
 
 public class SessionDto
