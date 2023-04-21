@@ -69,7 +69,6 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-
                 var sb = _client.GetSessionsByFilm(idFilm);
                 var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
                 return Ok(res);
@@ -85,7 +84,6 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-
                 var sb = _client.GetSessionById(idSession);
                 var res = _mapper.Map<SessionResponseModelForClient>(sb);
                 return Ok(res);
