@@ -5,6 +5,8 @@ using BookingTickets.BLL.NewFolder;
 using BookingTickets.BLL.Roles;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
+using BookingTickets.BLL;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,11 @@ builder.Services.AddScoped<IAdmin, Admin>();
 
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
+
+builder.Services.AddScoped<IAdmin, Admin>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
+builder.Services.AddSingleton<Context>();
 
 var app = builder.Build();
 
