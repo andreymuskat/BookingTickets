@@ -76,5 +76,19 @@ namespace BookingTickets.BLL
         {
             return _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByCinemaId(idCinema));
         }
+
+        public List<SessionBLL> GetAllSessionByFilmId(int idFilm)
+        {
+            var listSessionDto = _sessionRepository.GetAllSessionByFilmId(idFilm);
+            var listSessionBLL = _instanceMapperBll.MapListSessionDtoToListSessionBLL(listSessionDto);
+            return listSessionBLL;
+        }
+
+        public SessionBLL GetSessionById(int idSession)
+        {
+            var sDto = _sessionRepository.GetSessionById(idSession);
+            var res = _instanceMapperBll.MapSessionDtoToSessionBLL(sDto);
+            return res;
+        }
     }
 }
