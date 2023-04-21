@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
+using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -18,5 +20,16 @@ namespace BookingTickets.API.Controllers
             _mapper = map;
             _admin = admin;
         }
+
+        [HttpGet("GetAllUsers")]
+        public ActionResult<List<UserResponseModel>> GetAllCashier()
+        {
+
+
+            //var res = _mapper.Map<UserResponseModel>(x);
+
+            return Ok(_admin.GetAllUsers());
+        }
+
     }
 }

@@ -6,6 +6,8 @@ namespace BookingTickets.BLL.InterfacesBll
     {
         public void CreateSession(SessionBLL session);
 
-        public void CreateCashier(UserBLL user);
+        public void CreateCashier(UserBLL cashier);
+
+        public List<UserBLL> GetAllUsers();
     }
 }
