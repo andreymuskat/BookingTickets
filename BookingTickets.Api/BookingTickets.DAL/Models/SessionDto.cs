@@ -23,7 +23,8 @@ public class SessionDto
     public int HallId { get; set; }
 
     [Required]
-	public int Cost { get; set; }
+    [Column(TypeName = "decimal")]
+	public decimal Cost { get; set; }
 
     [Required]
     public bool IsDeleted { get; set; }

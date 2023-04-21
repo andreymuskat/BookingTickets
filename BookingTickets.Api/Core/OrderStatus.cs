@@ -2,8 +2,9 @@
 {
     public enum OrderStatus
     {
-        Booking,
-        Canceled,
-        Purchased
+        Booking = 0,
+        Canceled = 1,
+        PurchasedByСashbox = 2,
+        PurchasedBySite = 3,
     }
 }

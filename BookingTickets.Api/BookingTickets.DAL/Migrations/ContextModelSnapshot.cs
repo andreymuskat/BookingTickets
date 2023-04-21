@@ -196,8 +196,8 @@ namespace BookingTickets.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Cost")
-                        .HasColumnType("int");
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
