@@ -14,27 +14,49 @@ namespace BookingTickets.API.Controllers
         private readonly IAdmin _admin;
         private readonly IMapper _mapper;
         private readonly ILogger<AdminController> _logger;
-        private readonly FilmManager _filmManager;
 
-        public AdminController(IMapper map, IAdmin admin)
+        public AdminController(IMapper map, IAdmin admin, ILogger<AdminController> logger)
         {
             _mapper = map;
             _admin = admin;
-            _filmManager = new FilmManager();
+            _logger = logger;
         }
 
         [HttpPost("Create_New_Session")]
         public IActionResult CreateNewSession(CreateSessionRequestModel session)
         {
-            _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session));
+            _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
+
+            try
+            {
+                _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session));
+            }
+            catch (ExceptionSession ex)
+            {
+                switch (ex.Message)
+                {
+                    case "В это время уже идет сеанс!":
+                        return BadRequest(ex.Message);
+                    case "Длительность фильма превышет свободное время до следующего сеанса!":
+                        return BadRequest(ex.Message);
+                }
+            }
+
+            _logger.Log(LogLevel.Information, "The new session created by the admin written to the database.", session);
 
             return Ok("GOT IT");
         }
 
-        [HttpDelete("Delete_Session")]
+        [HttpDelete("Delete_Session/{sessionId}")]
         public IActionResult DeleteSession(int sessionId)
         {
-            _admin.DeleteSession(sessionId);
+            _logger.Log(LogLevel.Information, "Admin sent a request to delete a session.");
+
+            try { _admin.DeleteSession(sessionId); }
+            catch (ExceptionSession ex) { return BadRequest(ex.Message); }
+
+            _logger.Log(LogLevel.Information, "Session deleted by admin request.");
+
             return StatusCode(StatusCodes.Status204NoContent);
         }
     }
