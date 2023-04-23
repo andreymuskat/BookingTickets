@@ -42,7 +42,7 @@ namespace BookingTickets.API.Controllers
                 }
             }
 
-            _logger.Log(LogLevel.Information, "The new session created by the admin written to the database.", session);
+            _logger.Log(LogLevel.Information, "Admin request completed: new session written to the database.", session);
 
             return Ok("GOT IT");
         }
