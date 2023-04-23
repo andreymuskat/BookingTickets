@@ -3,6 +3,7 @@ using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
 using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
+using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.NewFolder;
@@ -66,6 +67,12 @@ namespace BookingTickets.API.Controllers
             _mainAdmin.AddRowToHall(_mapper.Map<AddSeatsRowsInputModel>(model));
 
             return Ok("GOT IT");
+        }
+
+        [HttpPost("Add_Admin")]
+        public IActionResult AddNewAdmin(CreateNewEmployeeRequestModel newAdmin)
+        {
+
         }
     }
 }
