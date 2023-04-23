@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    [Authorize(Policy = "1", AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Policy = "Cashier", AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class CashierController
