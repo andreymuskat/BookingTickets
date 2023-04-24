@@ -40,7 +40,10 @@ namespace BookingTickets.DAL
                 }
             }
 
-            var hallId = OrdersInSession[0].Seats.HallId;
+            var hallId = _context.Sessions
+                .Single(s => s.Id == idSession)
+                .HallId;
+
             AllSeatsInHall = _context.Seats.Where(s => s.HallId == hallId).ToList();
 
             FreeSeats = AllSeatsInHall.Except(BookingSeats).ToList();
@@ -48,9 +51,32 @@ namespace BookingTickets.DAL
             return FreeSeats;
         }
 
-        public List<SeatDto> GetAllSeatInHall(int idHall)
+        public List<SeatDto> GetAllPurchasedSeatsBySessionId(int idSession)
         {
-            return new List<SeatDto>();
+            List<SeatDto> PurchasedSeats = new List<SeatDto>();
+            List<SeatDto> AllSeatsInHall = new List<SeatDto>();
+
+            var OrdersInSession = _context.Orders
+                .Where(s => s.SessionId == idSession)
+                .Include(s => s.Seats)
+                .ToList();
+
+            foreach (var order in OrdersInSession)
+            {
+                if (order.Status == OrderStatus.PurchasedBy—ashbox || order.Status == OrderStatus.PurchasedBySite)
+                {
+                    PurchasedSeats.Add(order.Seats);
+                }
+            }
+
+            return PurchasedSeats;
+        }
+
+        public List<SeatDto> GetAllSeatInHall(int hallId)
+        {
+            return _context.Seats
+                .Where(h => h.HallId == hallId)
+                .ToList();
         }
     }
 }
