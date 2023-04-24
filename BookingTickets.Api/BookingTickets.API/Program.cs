@@ -25,6 +25,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFilmRepository, FilmRepository>();
 builder.Services.AddScoped<ICinemaRepository, CinemaRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMainAdmin, MainAdmin>();
 builder.Services.AddScoped<IClient, Client>();
 builder.Services.AddScoped<IAdmin, Admin>();
@@ -32,7 +33,7 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
-InjectSettingsConfiguration(builder);
+//InjectSettingsConfiguration(builder);
 InjectAuthenticationDependencies(builder);
 
 var app = builder.Build();
