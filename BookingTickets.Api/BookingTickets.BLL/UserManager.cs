@@ -13,9 +13,9 @@ namespace BookingTickets.BLL
         {
             _userRepository = new UserRepository();
         }
-        public int GetCashiersCinemaId(UserBLL user)
-        {
-            return _userRepository.GetCashiersCinemaId(_instanceMapperBll.MapUserBLLUserDto(user));
-        }
+        //public int GetUserCinemaId(UserBLL user)
+        //{
+        //    return _userRepository.GetUserCinemaId(_instanceMapperBll.MapUserBLLUserDto(user));
+        //}
     }
 }

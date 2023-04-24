@@ -13,7 +13,7 @@ namespace BookingTickets.BLL.Roles
         private readonly CinemaManager _cinemaManager;
         private readonly UserManager _userManager;
         private readonly OrderManager _orderManager;
-        private int cashiersCinemaId;
+        //private int cashiersCinemaId;
         private const int advertisingTime = 15;
 
         public Cashier(UserBLL userId)
@@ -22,7 +22,7 @@ namespace BookingTickets.BLL.Roles
             _sessionManager = new SessionManager();
             _cinemaManager = new CinemaManager();
             _userManager = new UserManager();
-            cashiersCinemaId = GetCashiersCinemaId(userId);
+            //cashiersCinemaId = GetUserCinemaId(userId);
         }
         public FilmBLL GetFilmById(int filmId)
         {
@@ -48,7 +48,7 @@ namespace BookingTickets.BLL.Roles
         public SessionBLL GetSessionByIdInHisCinema(int idSession)
         {
             //ЗАГЛУШКА
-            return freeSeats;
+            return new SessionBLL();
 
         }
         public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(SessionBLL session)

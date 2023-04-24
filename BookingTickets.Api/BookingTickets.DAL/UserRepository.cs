@@ -20,7 +20,7 @@ namespace BookingTickets.DAL
 
         //_____________
 
-        public int GetCashiersCinemaId(UserDto user)
+        public int GetUserCinemaId(UserDto user)
         {
             return user.CinemaId;
         }

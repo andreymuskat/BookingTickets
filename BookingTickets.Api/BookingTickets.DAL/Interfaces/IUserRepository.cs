@@ -6,6 +6,6 @@ namespace BookingTickets.DAL.Interfaces
     {
         int AddNewUser(UserDto user);
 
-        public int GetCashiersCinemaId(UserDto user);
+        public int GetUserCinemaId(UserDto user);
     }
 }
