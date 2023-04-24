@@ -5,8 +5,6 @@ namespace BookingTickets.DAL.Interfaces
         public SeatDto CreateSeat(SeatDto seat);
 
         public List<SeatDto> GetAllFreeSeatsBySessionId(int idSession);
-        public void UpdateSeat(SeatDto seat);
 
-        public List<SeatDto> GetFreeSeatsBySessionInHisCinema(SessionDto session);
     }
 }

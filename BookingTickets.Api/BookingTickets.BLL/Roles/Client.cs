@@ -46,7 +46,7 @@ namespace BookingTickets.BLL.Roles
             return res;
         }
 
-        public List<SeatBLL> GetFreeSeatsBySession(SessionBLL session)
+        public List<SeatBLL> GetFreeSeatsBySession(int sessionId)
         {
             return new List<SeatBLL>();
         }
@@ -63,5 +63,9 @@ namespace BookingTickets.BLL.Roles
                 throw new Exception("������ ����� ������ ����������");
             }
         }
+        //public OrderBLL BookTickets()
+        //{
+        //    return ;
+        //}
     }
 }

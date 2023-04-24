@@ -39,5 +39,10 @@ namespace BookingTickets.BLL
                 _repository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seatBll));
             }
         }
+        public List<SeatBLL> GetAllFreeSeatsBySessionId(int idSession)
+        {
+            return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_repository.GetAllFreeSeatsBySessionId(idSession));
+                
+        }
     }
 }

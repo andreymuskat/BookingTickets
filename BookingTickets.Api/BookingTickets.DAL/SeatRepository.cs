@@ -2,6 +2,7 @@ using BookingTickets.DAL.Interfaces;
 using Core;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace BookingTickets.DAL
 {
     public class SeatRepository : ISeatRepository
@@ -50,9 +51,5 @@ namespace BookingTickets.DAL
 
         //_____________
 
-        public List<SeatDto> GetFreeSeatsBySessionInHisCinema(SessionDto session)
-        {
-            return new List<SeatDto>();
-        }
     }
 }
