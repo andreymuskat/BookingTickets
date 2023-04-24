@@ -7,25 +7,13 @@ namespace BookingTickets.DAL
 {
     public class AuthContext : IdentityDbContext
     {
-        private readonly IAuthRepositorySettings settings;
+        protected override void OnConfiguring(DbContextOptionsBuilder builder)
+        {
+            builder.UseSqlServer(@"Server=localhost;Database=Booking;Trusted_Connection=True;TrustServerCertificate=True;");
+        }
 
         public DbSet<UserDto> Users { get; private set; }
 
-        public AuthContext(IAuthRepositorySettings repositorySettings) : base()
-        {
-            settings = repositorySettings;
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
-        {
-            if (settings.IsInMemory)
-            {
-                builder.UseInMemoryDatabase(settings.DatabaseName);
-            }
-            else
-            {
-                builder.UseSqlServer(settings.ConnectionString);
-            }
-        }
+        
     }
 }

@@ -2,6 +2,7 @@ using System.Text;
 using BookingTickets.API;
 using BookingTickets.API.Options;
 using BookingTickets.BLL;
+using BookingTickets.BLL.Authentication;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.NewFolder;
 using BookingTickets.BLL.Roles;
@@ -13,7 +14,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddSingleton<Context>();
+builder.Services.AddSingleton<AuthContext>();
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -26,9 +28,12 @@ builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IMainAdmin, MainAdmin>();
 builder.Services.AddScoped<IClient, Client>();
 builder.Services.AddScoped<IAdmin, Admin>();
-
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
+InjectSettingsConfiguration(builder);
+InjectAuthenticationDependencies(builder);
 
 var app = builder.Build();
 
