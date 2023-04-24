@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 using BookingTickets.DAL.Interfaces;
-using BookingTickets.DAL.Models;
+using Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
@@ -22,31 +21,31 @@ namespace BookingTickets.DAL
             return seat;
         }
 
-        public void UpdateSeat(SeatDto seat)
+        public List<SeatDto> GetAllFreeSeatsBySessionId(int idSession)
         {
-            
-        }
+            List<SeatDto> BookingSeats = new List<SeatDto>();
+            List<SeatDto> AllSeatsInHall = new List<SeatDto>();
+            List<SeatDto> FreeSeats = new List<SeatDto>();
 
-        public List<SeatDto> GetAllSeatsByHallId(int idHall)
-        {
-            return new List<SeatDto>();
-        }
+            var OrdersInSession = _context.Orders
+                .Where(s => s.SessionId == idSession)
+                .Include(s => s.Seats)
+                .ToList();
 
-        public List<SeatDto> GetAllSeatsBySessionId(int sessionId)
-        {
-            return new List<SeatDto>();
-        }
-        public int GetSeatIdByNumberAndRow(int row, int number)
-        {
-            var seat = _context.Seats.Find(row, number);
-            int seatId =seat.Id;
-            return seatId;
-        }
+            foreach (var order in OrdersInSession)
+            {
+                if (order.Status != OrderStatus.Canceled)
+                {
+                    BookingSeats.Add(order.Seats);
+                }
+            }
 
-        public void AddRowToHall(int hallId, int seatForBegin, int seatForEnd, int numberOfRow)
-        {
+            var hallId = OrdersInSession[0].Seats.HallId;
+            AllSeatsInHall = _context.Seats.Where(s => s.HallId == hallId).ToList();
 
-                _context.SaveChanges();
+            FreeSeats = AllSeatsInHall.Except(BookingSeats).ToList();
+
+            return FreeSeats;
         }
 
         //_____________
