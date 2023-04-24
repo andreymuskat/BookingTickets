@@ -1,4 +1,5 @@
 ﻿using BookingTickets.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
@@ -36,6 +37,8 @@ namespace BookingTickets.DAL
         {
             return _context.Sessions
                 .Where(k => k.Hall.Cinema.Id == idCinema)
+                .Include(f => f.Film)
+                .Include(h => h.Hall)
                 .ToList();
         }
 

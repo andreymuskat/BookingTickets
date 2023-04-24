@@ -47,5 +47,10 @@ namespace BookingTickets.DAL
 
             return FreeSeats;
         }
+
+        public List<SeatDto> GetAllSeatInHall(int idHall)
+        {
+            return new List<SeatDto>();
+        }
     }
 }

@@ -21,9 +21,9 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<FilmBLL, FilmDto>();
                     cfg.CreateMap<FilmBLL, FilmDto>();
                     cfg.CreateMap<CinemaBLL, CinemaDto>();
+                    cfg.CreateMap<CinemaDto, CinemaBLL>();
                     cfg.CreateMap<HallDto, HallBLL>();
                     cfg.CreateMap<HallBLL, HallDto>();
-                    cfg.CreateMap<CinemaBLL, CinemaDto>();
                     cfg.CreateMap<SessionDto, SessionBLL>();
                     cfg.CreateMap<SessionBLL, SessionDto>();
                     cfg.CreateMap<UserDto, UserBLL>();
