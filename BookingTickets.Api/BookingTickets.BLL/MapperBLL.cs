@@ -136,5 +136,10 @@ namespace BookingTickets.BLL
         {
             return _configuration.CreateMapper().Map<UserDto>(userEmploy);
         }
+
+        public List<SeatBLL> MapListSeatDtoToListSeatBLL(List<SeatDto> seat)
+        {
+            return _configuration.CreateMapper().Map<List<SeatBLL>>(seat);
+        }
     }
 }
