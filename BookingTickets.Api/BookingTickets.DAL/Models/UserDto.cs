@@ -19,7 +19,6 @@ namespace BookingTickets.DAL.Models
         [Required]
         public string Password { get; set; }
 
-        [Required]
         [ForeignKey(nameof(CinemaId))]
         public CinemaDto Cinema { get; set; }
 
