@@ -48,5 +48,12 @@ namespace BookingTickets.DAL
 
                 _context.SaveChanges();
         }
+
+        //_____________
+
+        public List<SeatDto> GetFreeSeatsBySessionInHisCinema(SessionDto session)
+        {
+            return new List<SeatDto>();
+        }
     }
 }

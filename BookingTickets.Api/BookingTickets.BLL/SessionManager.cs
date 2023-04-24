@@ -90,5 +90,11 @@ namespace BookingTickets.BLL
             var res = _instanceMapperBll.MapSessionDtoToSessionBLL(sDto);
             return res;
         }
+
+        //public List<SessionDto> GetFilmsInHisCinema(UserDto userId)
+        //{
+
+        //}
+
     }
 }

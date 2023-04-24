@@ -1,4 +1,6 @@
-﻿namespace BookingTickets.DAL.Interfaces
+﻿using BookingTickets.DAL.Models;
+
+namespace BookingTickets.DAL.Interfaces
 {
     public interface ISessionRepository
     {
@@ -15,5 +17,12 @@
         public List<SessionDto> GetAllSessionByDate(DateTime Date);
 
         public void DeleteSession(int idSession);
+        //_____
+        public List<SessionDto> GetFilmSessionInHisCinema(UserDto userId);
+
+        public List<SessionDto> GetSessionsByFilmInHisCinema(int idFilm);
+
+        public SessionDto GetSessionByIdInHisCinema(int idSession);
+
     }
 }

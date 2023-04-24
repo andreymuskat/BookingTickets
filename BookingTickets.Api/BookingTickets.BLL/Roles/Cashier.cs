@@ -1,5 +1,6 @@
 ﻿using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Authentication.AuthModels;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -10,35 +11,46 @@ namespace BookingTickets.BLL.Roles
         private readonly FilmManager _filmManager;
         private readonly SessionManager _sessionManager;
         private readonly CinemaManager _cinemaManager;
+        private readonly UserManager _userManager;
+        private readonly OrderManager _orderManager;
+        private int cashiersCinemaId;
         private const int advertisingTime = 15;
-        public Cashier()
+
+        public Cashier(UserBLL userId)
         {
             _filmManager = new FilmManager();
             _sessionManager = new SessionManager();
             _cinemaManager = new CinemaManager();
+            _userManager = new UserManager();
+            cashiersCinemaId = GetCashiersCinemaId(userId);
         }
         public FilmBLL GetFilmById(int filmId)
         {
             return _filmManager.GetFilmById(filmId);
         }
 
-        public List<SessionBLL> GetFilmsInHisCinema()
+        public List<SessionBLL> GetSessionsInHisCinema(UserBLL userId)
         {
-            //ЗАГЛУШКА
-            var listSession = _sessionManager.GetAllSessionByCinema();
+            var listSession = _sessionManager.GetAllSessionByCinemaId(cashiersCinemaId);
             var res = listSession.FindAll(d => d.IsDeleted == false);
             return res;
         }
 
         public List<SessionBLL> GetSessionsByFilmInHisCinema(int idFilm)
         {
-            //ЗАГЛУШКА
             var listSession = _sessionManager.GetAllSessionByFilmId(idFilm);
             var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
+            var cashierCinema = notDeleted.FindAll(k => k.Hall.Cinema.Id == cashiersCinemaId);
             var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now);
             return res;
         }
 
+        public SessionBLL GetSessionByIdInHisCinema(int idSession)
+        {
+            //ЗАГЛУШКА
+            return freeSeats;
+
+        }
         public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(SessionBLL session)
         {
             //ЗАГЛУШКА
@@ -46,24 +58,15 @@ namespace BookingTickets.BLL.Roles
             return freeSeats;
         }
 
-        public SessionBLL GetSessionByIdInHisCinema(int idSession)
+        public OrderBLL FindOrderByCodeNumber(string codeNumber)
         {
-            //ЗАГЛУШКА
-            var sb = _sessionManager.GetSessionById(idSession);
-            if (sb.IsDeleted == false && sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
-            {
-                return sb;
-            }
-            else
-            {
-                throw new Exception("������ ����� ������ ����������");
-            }
+            var order = _orderManager.FindOrderByCodeNumber(codeNumber);
+            return order;
         }
-        public OrderBLL FindOrderByCodeNumber(int codeNumber)
+        public int GetCashiersCinemaId(UserBLL user)
         {
-            //ЗАГЛУШКА
-            var clientOrder = new OrderBLL();
-            return clientOrder;
+            int cashiersCinemaId = user.Cinema.Id;
+            return cashiersCinemaId;
         }
     }
 }

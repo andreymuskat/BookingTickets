@@ -1,6 +1,7 @@
 ﻿using BookingTickets.BLL.Models;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
 {
@@ -52,5 +53,7 @@ namespace BookingTickets.BLL
         {
             return _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(Id));
         }
+
+
     }
 }

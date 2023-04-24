@@ -25,5 +25,15 @@ namespace BookingTickets.DAL
         {
             return OrderStatus.Canceled;
         }
+
+
+        //_____________
+
+
+        public OrderDto FindOrderByCodeNumber(string codeNumber)
+        {
+            return _context.Orders
+                    .Single(p => p.Code == codeNumber);
+        }
     }
 }

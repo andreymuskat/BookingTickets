@@ -33,7 +33,7 @@ namespace BookingTickets.BLL.Roles
 
         public List<CinemaBLL> GetCinemaByFilm(int idFilm)
         {
-             var listCinema = _cinemaManager.GetCinemaByFilm(idFilm);
+            var listCinema = _cinemaManager.GetCinemaByFilm(idFilm);
             var res = listCinema.FindAll(d => d.IsDeleted == false);
             return res;
         }

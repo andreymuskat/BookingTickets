@@ -1,4 +1,5 @@
 ﻿using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL
 {
@@ -56,7 +57,6 @@ namespace BookingTickets.DAL
                     SessionInDay.Add(AllSession[i]);
                 }
             }
-
             return SessionInDay;
         }
 
@@ -76,7 +76,6 @@ namespace BookingTickets.DAL
                     SessionInDay.Add(AllSession[i]);
                 }
             }
-
             return SessionInDay;
         }
 
@@ -85,6 +84,20 @@ namespace BookingTickets.DAL
             var sess = _context.Sessions.Single(i => i.Id == idSession).IsDeleted = true;
 
             _context.SaveChanges();
+        }
+
+        //---------------
+
+        public List<SessionDto> GetFilmSessionInHisCinema(UserDto userId)
+        { 
+        }
+
+        public List<SessionDto> GetSessionsByFilmInHisCinema(int idFilm)
+        { 
+        }
+
+        public SessionDto GetSessionByIdInHisCinema(int idSession)
+        { 
         }
     }
 }
