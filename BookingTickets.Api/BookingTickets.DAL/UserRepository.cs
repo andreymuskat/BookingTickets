@@ -5,6 +5,9 @@ namespace BookingTickets.DAL
 {
     public class UserRepository : IUserRepository
     {
+        private readonly AuthContext context;
+
+
         public int AddNewUser(UserDto user)
         {
             throw new NotImplementedException();

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BookingTickets.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class Create : Migration
+    public partial class Create2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

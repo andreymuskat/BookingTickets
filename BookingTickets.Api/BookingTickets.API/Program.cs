@@ -33,7 +33,7 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
-//InjectSettingsConfiguration(builder);
+InjectSettingsConfiguration(builder);
 InjectAuthenticationDependencies(builder);
 
 var app = builder.Build();

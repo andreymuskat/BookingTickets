@@ -14,13 +14,13 @@ namespace BookingTickets.BLL.Authentication
     public class AuthService : IAuthService
     {
         private readonly UserManager<IdentityUser> manager;
-        private readonly IUserRepository repository;
+        private readonly IAuthRepository repository;
         private readonly IJwtConfigurationSettings settings;
         private readonly IMapper mapper;
 
         public AuthService(
             UserManager<IdentityUser> userManager,
-            IUserRepository authRepository,
+            IAuthRepository authRepository,
             IJwtConfigurationSettings jwtConfigurationSettings,
             IMapper autoMapper)
         {
@@ -45,7 +45,7 @@ namespace BookingTickets.BLL.Authentication
             var user = new IdentityUser
             {
                 Email = userRegister.Email,
-                UserName = userRegister.Name
+                UserName = userRegister.UserName
             };
 
             var isUserCreated = await manager.CreateAsync(user, userRegister.Password);
@@ -64,7 +64,7 @@ namespace BookingTickets.BLL.Authentication
 
             var userDto = mapper.Map<UserRegister, UserDto>(userRegister);
 
-            var userId = repository.AddNewUser(userDto);
+            var userId = repository.AddUser(userDto);
 
             return new AuthResult
             {
@@ -75,7 +75,7 @@ namespace BookingTickets.BLL.Authentication
 
         public async Task<AuthResult> LoginUser(UserLogin userLogin)
         {
-            var existingUser = await manager.FindByNameAsync(userLogin.Name);
+            var existingUser = await manager.FindByNameAsync(userLogin.UserName);
 
             if (existingUser == null)
             {

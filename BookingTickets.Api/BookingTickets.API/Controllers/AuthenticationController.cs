@@ -14,16 +14,13 @@ namespace BookingTickets.API.Controllers
     {
         private readonly IAuthService service;
         private readonly IMapper mapper;
-        private readonly ILogger logger;
 
         public AuthenticationController(
             IAuthService authService,
-            IMapper autoMapper,
-            ILogger nLogger)
+            IMapper autoMapper)
         {
             service = authService;
             mapper = autoMapper;
-            logger = nLogger;
         }
 
         [Route("register")]

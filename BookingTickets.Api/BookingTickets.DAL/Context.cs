@@ -1,14 +1,27 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using BookingTickets.DAL.Models;
+using BookingTickets.DAL.Configuration;
 
 namespace BookingTickets.DAL
 {
     public class Context : DbContext
     {
+        private readonly IAuthRepositorySettings settings;
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(@"Server=localhost;Database=Booking;Trusted_Connection=True;TrustServerCertificate=True;");
+            if (settings.IsInMemory)
+            {
+                builder.UseInMemoryDatabase(settings.DatabaseName);
+            }
+            else
+            {
+                builder.UseSqlServer(settings.ConnectionString);
+            }
         }
+        //protected override void OnConfiguring(DbContextOptionsBuilder builder)
+        //{
+        //    builder.UseSqlServer(@"Server=localhost;Database=Booking;Trusted_Connection=True;TrustServerCertificate=True;");
+        //}
 
         public DbSet<HallDto> Halls { get; set; }
         public DbSet<FilmDto> Films { get; set; }
