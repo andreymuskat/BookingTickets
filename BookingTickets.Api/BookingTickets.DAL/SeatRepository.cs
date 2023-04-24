@@ -62,14 +62,14 @@ namespace BookingTickets.DAL
                 seatDtos.Add(order.Seats);
             }
 
-            var kek = _context.Orders
+            var listOrders2 = _context.Orders
                 .Include(s=>s.Session)
                 .ThenInclude(s => s.Hall)
                 .Include(o=>o.Seats)
                 .ToList()
                 .FindAll(o => o.SessionId == idSession).ToList();           
 
-            foreach (var order in kek)
+            foreach (var order in listOrders2)
             {
                 seatsInHall.Add(order.Seats);
             }
