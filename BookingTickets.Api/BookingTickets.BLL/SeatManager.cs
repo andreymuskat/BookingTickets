@@ -20,17 +20,13 @@ namespace BookingTickets.BLL
             _repository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seat));
         }
 
-        public void UpdateSeat(SeatBLL seat)
-        {
-            _repository.UpdateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seat));
-        }
-
         public void AddRowToHall(AddSeatsRowsInputModel rowSeats)
         {
             var seatForBegin = rowSeats.SeatForBegin;
             var SeatForEnd = rowSeats.SeatForEnd;
             var numberOfRow = rowSeats.NumberOfRow;
             var hallId = rowSeats.HallId;
+
             for (var i = seatForBegin; i <= SeatForEnd; i++)
             {
                 SeatBLL seatBll = new SeatBLL()
@@ -39,6 +35,7 @@ namespace BookingTickets.BLL
                     Row = numberOfRow,
                     HallId = hallId
                 };
+
                 _repository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seatBll));
             }
         }

@@ -1,4 +1,5 @@
 using BookingTickets.DAL.Interfaces;
+using Core;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
@@ -20,33 +21,31 @@ namespace BookingTickets.DAL
             return seat;
         }
 
-        public void UpdateSeat(SeatDto seat)
+        public List<SeatDto> GetAllFreeSeatsBySessionId(int idSession)
         {
+            List<SeatDto> BookingSeats = new List<SeatDto>();
+            List<SeatDto> AllSeatsInHall = new List<SeatDto>();
+            List<SeatDto> FreeSeats = new List<SeatDto>();
 
-        }
+            var OrdersInSession = _context.Orders
+                .Where(s => s.SessionId == idSession)
+                .Include(s => s.Seats)
+                .ToList();
 
-        public List<SeatDto> GetAllSeatsByCinemaId(int cinemaId)
-        {
-            _context.Seats
-                .Include(h => h.Hall)
-                .ThenInclude(c => c.CinemaId)
-        }
+            foreach (var order in OrdersInSession)
+            {
+                if (order.Status != OrderStatus.Canceled)
+                {
+                    BookingSeats.Add(order.Seats);
+                }
+            }
 
-        public List<SeatDto> GetAllSeatsByHallId(int idHall)
-        {
-            return new List<SeatDto>();
-        }
+            var hallId = OrdersInSession[0].Seats.HallId;
+            AllSeatsInHall = _context.Seats.Where(s => s.HallId == hallId).ToList();
 
-        public List<SeatDto> GetAllSeatsBySessionId(int sessionId)
-        {
-            return new List<SeatDto>();
-        }
+            FreeSeats = AllSeatsInHall.Except(BookingSeats).ToList();
 
-        public int GetSeatIdByNumberAndRow(int row, int number)
-        {
-            var seat = _context.Seats.Find(row, number);
-            int seatId = seat.Id;
-            return seatId;
+            return FreeSeats;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace BookingTickets.DAL
 
             context.SaveChanges();
 
-            return new HallDto
+            return new HallDto                                          
             {
                 Id = hall.Id,
                 Number = hall.Number
