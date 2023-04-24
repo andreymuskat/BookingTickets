@@ -9,9 +9,11 @@ namespace BookingTickets.BLL.InterfacesBll
         public List<SessionBLL> GetSessionsInHisCinema(UserBLL userId);
         public List<SessionBLL> GetSessionsByFilmInHisCinema(int idFilm);
 
-        public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(SessionBLL session);
+        public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(int sessionId);
 
+        //public List<SeatBLL> GetFreeSeatsBySession(int sessionId);
         public SessionBLL GetSessionByIdInHisCinema(int idSession);
+
 
         public OrderBLL FindOrderByCodeNumber(string codeNumber);
 

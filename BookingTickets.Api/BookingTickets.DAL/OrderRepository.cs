@@ -13,12 +13,10 @@ namespace BookingTickets.DAL
             _context = new Context();
         }
 
-        public OrderDto CreateOrder(OrderDto order)
+        public void CreateOrder(OrderDto order)
         {
             _context.Orders.Add(order);
             _context.SaveChanges();
-
-            return order;
         }
 
         public OrderStatus EditOrderStatus(OrderStatus status)

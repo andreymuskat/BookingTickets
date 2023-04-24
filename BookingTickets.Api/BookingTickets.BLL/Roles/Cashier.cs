@@ -51,7 +51,7 @@ namespace BookingTickets.BLL.Roles
             return new SessionBLL();
 
         }
-        public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(SessionBLL session)
+        public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(int sessionId)
         {
             //ЗАГЛУШКА
             var freeSeats = new List<SeatBLL>();
@@ -67,6 +67,11 @@ namespace BookingTickets.BLL.Roles
         {
             int cashiersCinemaId = user.Cinema.Id;
             return cashiersCinemaId;
+        }
+
+        public void CreateOrder(OrderBLL order)
+        {
+            _orderManager.CreateOrder(order);
         }
     }
 }

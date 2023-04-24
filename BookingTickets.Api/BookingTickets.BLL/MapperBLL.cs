@@ -36,6 +36,7 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<SeatDto, SeatBLL>();
                     cfg.CreateMap<AddSeatsRowsInputModel, SeatDto>();
                     cfg.CreateMap<OrderDto, OrderBLL>();
+                    cfg.CreateMap<OrderBLL, OrderDto>();
                     
                 });
         }
@@ -136,6 +137,11 @@ namespace BookingTickets.BLL
         public OrderBLL MapOrderDtoToOrderBll (OrderDto order)
         {
             return _configuration.CreateMapper().Map<OrderBLL>(order);
+        }
+
+        public OrderDto MapOrderBLLToOrderDto (OrderBLL order)
+        {
+            return _configuration.CreateMapper().Map<OrderDto>(order);
         }
     }
 }

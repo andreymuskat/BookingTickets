@@ -10,6 +10,7 @@ namespace BookingTickets.BLL.Roles
         private readonly FilmManager _filmManager;
         private readonly SessionManager _sessionManager;
         private readonly CinemaManager _cinemaManager;
+        private readonly OrderManager _orderManager;
         private const int advertisingTime = 15;
 
         public Client()
@@ -17,6 +18,7 @@ namespace BookingTickets.BLL.Roles
             _filmManager = new FilmManager();
             _sessionManager = new SessionManager();
             _cinemaManager = new CinemaManager();
+            _orderManager = new OrderManager();
         }
 
         public FilmBLL GetFilmById(int id)
@@ -63,9 +65,9 @@ namespace BookingTickets.BLL.Roles
                 throw new Exception("������ ����� ������ ����������");
             }
         }
-        //public OrderBLL BookTickets()
-        //{
-        //    return ;
-        //}
+        public void CreateOrder(OrderBLL order)
+        {
+            _orderManager.CreateOrder(order);
+        }
     }
 }
