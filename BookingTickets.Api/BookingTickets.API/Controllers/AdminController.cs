@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.BLL;
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace BookingTickets.API.Controllers
             {
                 _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session));
             }
-            catch (ExceptionSession ex)
+            catch (SessionException ex)
             {
                 switch (ex.Message)
                 {
@@ -53,7 +54,7 @@ namespace BookingTickets.API.Controllers
             _logger.Log(LogLevel.Information, "Admin sent a request to delete a session.");
 
             try { _admin.DeleteSession(sessionId); }
-            catch (ExceptionSession ex) { return BadRequest(ex.Message); }
+            catch (SessionException ex) { return BadRequest(ex.Message); }
 
             _logger.Log(LogLevel.Information, "Session deleted by admin request.");
 

@@ -12,7 +12,7 @@ namespace BookingTickets.BLL.Models
 
         public string Password { get; set; }
 
-        public CinemaBLL Cinema { get; set; }
+        public int CinemaId { get; set; }
 
         public bool IsDeleted { get; set; }
     }

@@ -1,4 +1,5 @@
 using BookingTickets.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
@@ -22,6 +23,13 @@ namespace BookingTickets.DAL
         public void UpdateSeat(SeatDto seat)
         {
 
+        }
+
+        public List<SeatDto> GetAllSeatsByCinemaId(int cinemaId)
+        {
+            _context.Seats
+                .Include(h => h.Hall)
+                .ThenInclude(c => c.CinemaId)
         }
 
         public List<SeatDto> GetAllSeatsByHallId(int idHall)

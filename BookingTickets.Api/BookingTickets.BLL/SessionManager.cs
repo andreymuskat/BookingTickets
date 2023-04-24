@@ -1,3 +1,4 @@
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.DAL;
@@ -43,11 +44,11 @@ namespace BookingTickets.BLL
                     if (allTimeStartSession[i] <= TimeStartNewSession
                         || TimeStartNewSession >= allTimeEndSession[i])
                     {
-                        throw new ExceptionSession("В это время уже идет сеанс!");
+                        throw new SessionException("В это время уже идет сеанс!");
                     }
                     else if (SubtractSession < DurationSession)
                     {
-                        throw new ExceptionSession("Длительность фильма превышет свободное время до следующего сеанса!");
+                        throw new SessionException("Длительность фильма превышет свободное время до следующего сеанса!");
                     }
                     else
                     {
@@ -69,7 +70,7 @@ namespace BookingTickets.BLL
             {
                 _sessionRepository.DeleteSession(idSession);
             }
-            else { throw new ExceptionSession("Сессия, которую вы пытаетесь удалить, не найдена в базе!"); }
+            else { throw new SessionException("Сессия, которую вы пытаетесь удалить, не найдена в базе!"); }
         }
 
         public List<SessionBLL> GetAllSessionByCinemaId(int idCinema)

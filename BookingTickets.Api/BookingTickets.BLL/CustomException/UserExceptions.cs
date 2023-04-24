@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookingTickets.BLL.CustomException
+﻿namespace BookingTickets.BLL.CustomException
 {
-    internal class UserExceptions
+    public class UserExceptions : Exception
     {
+        public UserExceptions() { }
+
+        public UserExceptions(string message) : base(message) { }
+
+        public UserExceptions(string message, Exception innerException) : base(message, innerException) { }
     }
 }

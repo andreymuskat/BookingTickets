@@ -2,6 +2,7 @@ using AutoMapper;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.BLL.Models.All_User_InputModel;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
@@ -35,6 +36,10 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<SeatBLL, SeatDto>();
                     cfg.CreateMap<SeatDto, SeatBLL>();
                     cfg.CreateMap<AddSeatsRowsInputModel, SeatDto>();
+                    cfg.CreateMap<CreateNewEmployeeInputModel, UserDto>()
+                    .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId))
+                    .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.Password))
+                    .ForMember(src => src.Name, opt => opt.MapFrom(x => x.Name));
                 });
         }
 
@@ -125,6 +130,11 @@ namespace BookingTickets.BLL
         public SessionBLL MapSessionDtoToSessionBLL(SessionDto session)
         {
             return _configuration.CreateMapper().Map<SessionBLL>(session);
+        }
+
+        public UserDto MapCreateNewEmployeeInputModelToUserDto(CreateNewEmployeeInputModel userEmploy)
+        {
+            return _configuration.CreateMapper().Map<UserDto>(userEmploy);
         }
     }
 }

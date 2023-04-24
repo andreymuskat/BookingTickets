@@ -42,5 +42,7 @@ namespace BookingTickets.BLL
                 _repository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seatBll));
             }
         }
+
+        public List<SeatDto> GetAllS
     }
 }

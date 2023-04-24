@@ -8,6 +8,7 @@ using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
+using BookingTickets.BLL.Models.All_User_InputModel;
 
 namespace BookingTickets.API
 {
@@ -24,7 +25,7 @@ namespace BookingTickets.API
             CreateMap<SessionRequestModel, SessionBLL>();
             CreateMap<AddSeatsRowsRequestModel, AddSeatsRowsInputModel>();
             CreateMap<SessionBLL, SessionResponseModelForClient>();
-            CreateMap<CreateNewEmployeeRequestModel, UserBLL>();
+            CreateMap<CreateNewEmployeeRequestModel, CreateNewEmployeeInputModel>();
         }
     }
 }

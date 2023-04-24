@@ -5,9 +5,19 @@ namespace BookingTickets.DAL
 {
     public class UserRepository : IUserRepository
     {
-        public int AddNewUser(UserDto user)
+        private readonly Context _context;
+
+        public UserRepository() 
         {
-            throw new NotImplementedException();
+            _context= new Context();
+        }
+
+        public UserDto AddNewUser(UserDto user)
+        {
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            return user;
         }
     }
 }

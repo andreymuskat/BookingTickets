@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookingTickets.BLL.Models.All_User_InputModel
+﻿namespace BookingTickets.BLL.Models.All_User_InputModel
 {
-    internal class CreateNewEmployeeInputModel
+    public class CreateNewEmployeeInputModel
     {
+        public string Name { get; set; }
+
+        public string Password { get; set; }
+
+        public int CinemaId { get; set; }
     }
 }
