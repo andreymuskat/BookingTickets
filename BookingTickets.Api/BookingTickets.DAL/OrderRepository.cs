@@ -19,14 +19,12 @@ namespace BookingTickets.DAL
             _context.SaveChanges();
         }
 
-        public OrderStatus EditOrderStatus(OrderStatus status)
+        public OrderStatus EditOrderStatus(OrderStatus status, string code)
         {
-            return OrderStatus.Canceled;
+            var order = _context.Orders.Single(i=>i.Code == code).Status = status;
+            _context.SaveChanges();
+            return order;
         }
-
-
-        //_____________
-
 
         public OrderDto FindOrderByCodeNumber(string codeNumber)
         {

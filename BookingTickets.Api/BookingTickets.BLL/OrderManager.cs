@@ -35,10 +35,16 @@ namespace BookingTickets.BLL
             }
             else if (order.User.UserStatus == UserStatus.Client)
             {
-                order.Status = OrderStatus.PurchasedBySite;
+                order.Status = OrderStatus.Booking;
             }
             _orderRepository.CreateOrder(_instanceMapperBll.MapOrderBLLToOrderDto(order));
         }
+
+        public OrderStatus EditOrderStatus(OrderStatus status, string code)
+        {
+            return _orderRepository.FindOrderByCodeNumber(code).Status = status;   
+        }
     }
+
 }
   

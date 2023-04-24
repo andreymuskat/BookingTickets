@@ -1,6 +1,6 @@
 ﻿using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Authentication.AuthModels;
+using Core;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -72,6 +72,11 @@ namespace BookingTickets.BLL.Roles
         public void CreateOrder(OrderBLL order)
         {
             _orderManager.CreateOrder(order);
+        }
+
+        public OrderStatus EditOrderStatus(OrderStatus status, string code)
+        {
+            return _orderManager.EditOrderStatus(status, code);
         }
     }
 }
