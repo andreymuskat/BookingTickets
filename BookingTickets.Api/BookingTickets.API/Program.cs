@@ -102,6 +102,8 @@ void InjectAuthenticationDependencies(WebApplicationBuilder builder)
     {
         options.AddPolicy("MainAdmin", policy =>
                           policy.RequireClaim("MainAdmin"));
+        options.AddPolicy("User", policy =>
+                          policy.RequireClaim("MainAdmin"));
 
 
     });

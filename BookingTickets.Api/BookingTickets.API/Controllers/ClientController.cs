@@ -1,10 +1,13 @@
 using AutoMapper;
 using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.InterfacesBll;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BookingTickets.API.Controllers
 {
+    [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
@@ -64,7 +67,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetSession/{idFilm}", Name = "GetSessionsByFilmId")]
+        [HttpGet("GetSession/Film/{idFilm}", Name = "GetSessionsByFilmId")]
         public IActionResult GetAllSessionByFilmId(int idFilm)
         {
             try
@@ -80,7 +83,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetSession/{idSession}", Name = "GetSessionById")]
+        [HttpGet("GetSession/Session/{idSession}", Name = "GetSessionById")]
         public IActionResult GetSessionById(int idSession)
         {
             try
