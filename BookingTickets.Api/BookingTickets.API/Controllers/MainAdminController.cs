@@ -69,10 +69,10 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPost("Add_Admin")]
-        public IActionResult AddNewAdmin(CreateNewEmployeeRequestModel newAdmin)
-        {
+        //[HttpPost("Add_Admin")]
+        //public IActionResult AddNewAdmin(CreateNewEmployeeRequestModel newAdmin)
+        //{
 
-        }
+        //}
     }
 }

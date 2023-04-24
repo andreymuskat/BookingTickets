@@ -17,7 +17,7 @@ namespace BookingTickets.BLL
 
         public void GetStatisticFilmsInCinema(int cinemaId)
         {
-            List<SeatDto> allSeats _seatRepository.GetAllFreeSeats(cinemaId);
+            //List<SeatDto> allSeats _seatRepository.GetAllFreeSeats(cinemaId);
         }
     }
 }
