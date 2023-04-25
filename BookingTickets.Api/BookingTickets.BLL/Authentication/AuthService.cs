@@ -141,15 +141,15 @@ namespace BookingTickets.BLL.Authentication
         {
             if (userDto.UserStatus == UserStatus.Admin)
             {
-                return new[] { "Admin" };
+                return new[] { "Admin", "{userDto.CinemaId}" };
             }
             else if (userDto.UserStatus == UserStatus.MainAdmin)
             {
-                return new[] { "MainAdmin" };
+                return new[] { "MainAdmin", "{userDto.CinemaId}" };
             }
             else if (userDto.UserStatus == UserStatus.Cashier)
             {
-                return new[] { "Cashier" };
+                return new[] { "Cashier", "{userDto.CinemaId}" };
             }
             else if (userDto.UserStatus == UserStatus.Client)
             { 

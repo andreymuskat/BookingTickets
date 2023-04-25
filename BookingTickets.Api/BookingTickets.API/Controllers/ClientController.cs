@@ -4,6 +4,7 @@ using BookingTickets.BLL.InterfacesBll;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace BookingTickets.API.Controllers
 {
@@ -72,7 +73,6 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-
                 var sb = _client.GetSessionsByFilm(idFilm);
                 var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
                 return Ok(res);
