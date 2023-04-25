@@ -24,7 +24,7 @@ namespace BookingTickets.API
             CreateMap<SessionRequestModel, SessionBLL>();
             CreateMap<AddSeatsRowsRequestModel, AddSeatsRowsInputModel>();
             CreateMap<SessionBLL, SessionResponseModelForClient>();
-
+            CreateMap<CinemaBLL, CinemaResponseModel>();
         }
     }
 }

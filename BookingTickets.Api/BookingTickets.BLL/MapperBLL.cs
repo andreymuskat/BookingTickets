@@ -19,14 +19,14 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<FilmDto, FilmBLL>();
                     cfg.CreateMap<FilmBLL, FilmDto>();
                     cfg.CreateMap<FilmBLL, FilmDto>();
-                    cfg.CreateMap<CinemaBLL, CinemaDto>();
                     cfg.CreateMap<HallDto, HallBLL>();
                     cfg.CreateMap<HallBLL, HallDto>();
                     cfg.CreateMap<CinemaBLL, CinemaDto>();
+                    cfg.CreateMap<CinemaDto, CinemaBLL>();
                     cfg.CreateMap<SessionDto, SessionBLL>();
                     cfg.CreateMap<SessionBLL, SessionDto>();
-                    cfg.CreateMap<UserDto, UserBLL>();
-                    cfg.CreateMap<UserBLL, UserDto>();
+                    cfg.CreateMap<UserDto, UserBLL>()
+                    .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
                     cfg.CreateMap<CreateSessionInputModel, SessionDto>()
                     .ForMember(src => src.FilmId, opt => opt.MapFrom(x => x.FilmId))
                     .ForMember(src => src.HallId, opt => opt.MapFrom(x => x.HallId))
@@ -35,6 +35,8 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<SeatBLL, SeatDto>();
                     cfg.CreateMap<SeatDto, SeatBLL>();
                     cfg.CreateMap<AddSeatsRowsInputModel, SeatDto>();
+                    cfg.CreateMap<UserBLL, UserDto>()
+                    .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
                 });
         }
 
@@ -125,6 +127,11 @@ namespace BookingTickets.BLL
         public SessionBLL MapSessionDtoToSessionBLL(SessionDto session)
         {
             return _configuration.CreateMapper().Map<SessionBLL>(session);
+        }
+
+        public List<UserBLL> MapListUserDtoToListUserBLL(List<UserDto> users)
+        {
+            return _configuration.CreateMapper().Map<List<UserBLL>>(users);
         }
     }
 }
