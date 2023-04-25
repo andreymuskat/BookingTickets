@@ -1,6 +1,8 @@
 ﻿using BookingTickets.BLL.Models;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL;
+using BookingTickets.DAL.Models;
+using BookingTickets.BLL.Models.All_UserBLLModels;
 
 namespace BookingTickets.BLL
 {
@@ -29,9 +31,12 @@ namespace BookingTickets.BLL
             return _instanceMapperBll.MapListUserDtoToListUserBLL(allUsers);
         }
 
-        public UserBLL AddNewUser(UserBLL user)
+        public UserBLL CreateNewCashier(CreateCashierInputModel user)
         {
+            var userDto = _instanceMapperBll.MapCreateCashierInputModelToUserDto(user);
+            var resUserBLL = _instanceMapperBll.MapUserDtoToUserBLL(_userRepository.CreateNewCashier(userDto));
 
+            return resUserBLL;
         }
     }
 }
