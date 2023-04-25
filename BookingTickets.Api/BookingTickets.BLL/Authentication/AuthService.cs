@@ -6,6 +6,7 @@ using BookingTickets.BLL.Authentication.AuthModels;
 using BookingTickets.DAL.Configuration;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
+using Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -95,8 +96,8 @@ namespace BookingTickets.BLL.Authentication
                     Error = new[] { "invalid credentials" }
                 };
             }
-
-            var roles = GetRole();
+            var userDto = repository.GetUser(userLogin.UserName);
+            var roles = GetRoleAuth(userDto);
             var token = GetJwtToken(existingUser, roles);
 
             return new AuthResult
@@ -117,7 +118,7 @@ namespace BookingTickets.BLL.Authentication
             };
 
             claims.AddRange(userRoles.Select(ur => new Claim(ur, "true")));
-            
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
@@ -136,5 +137,26 @@ namespace BookingTickets.BLL.Authentication
             return new[] { "User" };
         }
 
+        private IEnumerable<string> GetRoleAuth(UserDto userDto)
+        {
+            if (userDto.UserStatus == UserStatus.Admin)
+            {
+                return new[] { "Admin" };
+            }
+            else if (userDto.UserStatus == UserStatus.MainAdmin)
+            {
+                return new[] { "MainAdmin" };
+            }
+            else if (userDto.UserStatus == UserStatus.Cashier)
+            {
+                return new[] { "Cashier" };
+            }
+            else if (userDto.UserStatus == UserStatus.Client)
+            { 
+                return new[] { "User" }; 
+            }
+
+            return new[] { "User" };
+        }
     }
 }

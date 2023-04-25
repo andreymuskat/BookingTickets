@@ -19,5 +19,13 @@ namespace BookingTickets.DAL
 
             return user.Id;
         }
+
+        public UserDto GetUser(string name)
+        {
+            var res = context.Users.Single(s => s.Name == name);
+            return res;
+        }
+
+
     }
 }
