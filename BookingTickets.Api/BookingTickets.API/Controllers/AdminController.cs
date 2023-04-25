@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
+using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
@@ -36,6 +37,22 @@ namespace BookingTickets.API.Controllers
         {
             _admin.DeleteSession(sessionId);
             return StatusCode(StatusCodes.Status204NoContent);
+        }
+
+        [HttpGet("GetAllUsers")]
+        public ActionResult<List<UserResponseModel>> GetAllCashier()
+        {
+            //var res = _mapper.Map<UserResponseModel>(x);
+            var res = _admin.GetAllUsers();
+            return Ok(res);
+        }
+        
+        [HttpGet("GetAllCashiers")]
+        public ActionResult<List<UserResponseModel>> GetAllCashiers()
+        {
+            //var res = _mapper.Map<UserResponseModel>(x);
+            var res = _admin.GetAllCashiers();
+            return Ok(res);
         }
     }
 }
