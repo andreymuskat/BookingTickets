@@ -86,8 +86,6 @@ namespace BookingTickets.DAL
             _context.SaveChanges();
         }
 
-        //---------------
-
         public List<SessionDto> GetFilmSessionInHisCinema(UserDto userId)
         {
             //ЗАГЛУШКА

@@ -48,8 +48,5 @@ namespace BookingTickets.DAL
 
             return FreeSeats;
         }
-
-        //_____________
-
     }
 }
