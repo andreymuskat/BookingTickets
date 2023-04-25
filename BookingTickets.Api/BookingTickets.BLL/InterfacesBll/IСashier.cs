@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.Models;
+using Core;
 
 namespace BookingTickets.BLL.InterfacesBll
 {
@@ -11,12 +12,14 @@ namespace BookingTickets.BLL.InterfacesBll
 
         public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(int sessionId);
 
-        //public List<SeatBLL> GetFreeSeatsBySession(int sessionId);
         public SessionBLL GetSessionByIdInHisCinema(int idSession);
-
 
         public OrderBLL FindOrderByCodeNumber(string codeNumber);
 
         public int GetCashiersCinemaId(UserBLL user);
+
+        public void CreateOrder(OrderBLL order);
+
+        public OrderStatus EditOrderStatus(OrderStatus status, string code);
     }
 }

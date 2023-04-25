@@ -26,6 +26,7 @@ builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IMainAdmin, MainAdmin>();
 builder.Services.AddScoped<IClient, Client>();
 builder.Services.AddScoped<IAdmin, Admin>();
+builder.Services.AddScoped<IÑashier, Cashier>();
 
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
