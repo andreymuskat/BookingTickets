@@ -48,5 +48,10 @@ namespace BookingTickets.BLL.Roles
 
             return res;
         }
+
+        public void DeleteCashierById(int id)
+        {
+            _userManager.DeleteCashierById(id);
+        }
     }
 }

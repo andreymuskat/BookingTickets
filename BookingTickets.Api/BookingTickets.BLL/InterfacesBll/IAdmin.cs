@@ -15,5 +15,7 @@ namespace BookingTickets.BLL.InterfacesBll
         List<UserBLL> GetAllCashiers();
 
         UserBLL CreateNewCashier(CreateCashierInputModel newCashier);
+
+        void DeleteCashierById(int idCashier);
     }
 }

@@ -38,5 +38,10 @@ namespace BookingTickets.BLL
 
             return resUserBLL;
         }
+
+        public void DeleteCashierById(int idCashier)
+        {
+            _userRepository.DeleteCashierById(idCashier);
+        }
     }
 }

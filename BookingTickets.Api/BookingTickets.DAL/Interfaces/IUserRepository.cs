@@ -11,5 +11,7 @@ namespace BookingTickets.DAL.Interfaces
         List<UserDto> GetAllUsers();
 
         List<UserDto> GetAllCashiers();
+
+        void DeleteCashierById(int idCashier);
     }
 }

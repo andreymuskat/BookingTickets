@@ -63,5 +63,13 @@ namespace BookingTickets.DAL
         {
             throw new NotImplementedException();
         }
+
+        public void DeleteCashierById(int idCashier)
+        {
+            var cash = _context.Users
+                .Single(i => i.Id == idCashier).IsDeleted = true;
+
+            _context.SaveChanges();
+        }
     }
 }
