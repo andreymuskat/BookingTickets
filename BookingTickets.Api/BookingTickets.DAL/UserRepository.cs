@@ -58,5 +58,10 @@ namespace BookingTickets.DAL
 
             return result;
         }
+
+        public int AddNewUser(UserDto user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
