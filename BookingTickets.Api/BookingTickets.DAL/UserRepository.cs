@@ -52,6 +52,7 @@ namespace BookingTickets.DAL
 
             result = _context.Users
                 .Where(t => t.UserStatus == Core.UserStatus.Cashier)
+                .Where(t => !t.IsDeleted)
                 .Include(u => u.Cinema)
                 .AsNoTracking()
                 .ToList();
@@ -67,6 +68,7 @@ namespace BookingTickets.DAL
         public void DeleteCashierById(int idCashier)
         {
             var cash = _context.Users
+                .Where(t => t.UserStatus == Core.UserStatus.Cashier)
                 .Single(i => i.Id == idCashier).IsDeleted = true;
 
             _context.SaveChanges();
