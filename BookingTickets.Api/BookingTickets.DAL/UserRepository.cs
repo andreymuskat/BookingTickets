@@ -13,11 +13,22 @@ namespace BookingTickets.DAL
             _context = new Context();
         }
 
-        public UserDto AddNewUser(UserDto user)
+        public UserDto CreateNewCashier(UserDto user)
         {
-            _context.Users.Add(user);
+            var cashier = new UserDto
+            {
+                Name = user.Name,
+                UserStatus = Core.UserStatus.Cashier,
+                Password = user.Password,
+                CinemaId = 1,  // Должен брать кинотеатр в котором работает администратор, добавляющий кассира
+            };
+
+            _context.Users.Add(cashier);
             _context.SaveChanges();
-            return user;
+
+            return _context.Users
+                .Include(u => u.Cinema)
+                .Single(u => u.Id == cashier.Id);
         }
 
         public List<UserDto> GetAllUsers()

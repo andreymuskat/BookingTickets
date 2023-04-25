@@ -4,7 +4,7 @@ namespace BookingTickets.DAL.Interfaces
 {
     public interface IUserRepository
     {
-        UserDto AddNewUser(UserDto user);
+        UserDto CreateNewCashier(UserDto user);
 
         List<UserDto> GetAllUsers();
 
