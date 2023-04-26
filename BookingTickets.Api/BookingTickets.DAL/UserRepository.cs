@@ -18,8 +18,6 @@ namespace BookingTickets.DAL
             throw new NotImplementedException();
         }
 
-        //_____________
-
         public int GetUserCinemaId(UserDto user)
         {
             return user.CinemaId;

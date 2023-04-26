@@ -1,7 +1,5 @@
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Models.All_Seat_InputModel;
-using Core;
 
 namespace BookingTickets.BLL.Roles
 {

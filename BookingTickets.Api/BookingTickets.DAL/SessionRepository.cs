@@ -85,25 +85,5 @@ namespace BookingTickets.DAL
 
             _context.SaveChanges();
         }
-
-        public List<SessionDto> GetFilmSessionInHisCinema(UserDto userId)
-        {
-            //ЗАГЛУШКА
-
-            return new List<SessionDto>();
-        }
-
-        public List<SessionDto> GetSessionsByFilmInHisCinema(int idFilm)
-        {
-            //ЗАГЛУШКА
-            return new List<SessionDto>();
-        }
-
-        public SessionDto GetSessionByIdInHisCinema(int idSession)
-        {
-            //ЗАГЛУШКА
-            return new SessionDto();
-
-        }
     }
 }

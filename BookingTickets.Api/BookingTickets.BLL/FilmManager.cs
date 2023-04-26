@@ -1,7 +1,6 @@
 ﻿using BookingTickets.BLL.Models;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
-using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
 {

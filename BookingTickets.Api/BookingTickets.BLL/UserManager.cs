@@ -1,5 +1,4 @@
-﻿using BookingTickets.BLL.Models;
-using BookingTickets.DAL.Interfaces;
+﻿using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL;
 
 namespace BookingTickets.BLL

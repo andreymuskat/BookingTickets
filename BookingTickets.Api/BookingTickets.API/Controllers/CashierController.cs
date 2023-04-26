@@ -1,16 +1,10 @@
 ﻿using AutoMapper;
-using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
-using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
-using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
-using BookingTickets.API.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using BookingTickets.BLL.Roles;
 using Core;
 
 namespace BookingTickets.API.Controllers
