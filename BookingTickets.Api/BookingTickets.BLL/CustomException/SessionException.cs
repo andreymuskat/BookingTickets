@@ -1,11 +1,16 @@
-﻿namespace BookingTickets.BLL.CustomException
+﻿using Core;
+
+namespace BookingTickets.BLL.CustomException
 {
     public class SessionException: Exception
     {
-        public SessionException() { }
+        private CodeException _errorCode;
+        public CodeException ErrorCode { get { return _errorCode; } }
 
-        public SessionException(string message) : base(message) { }
-
-        public SessionException(string message,Exception innerException) : base(message, innerException) { }
+        public SessionException(int code) 
+            :base() 
+        {
+            _errorCode = (CodeException)(code);
+        }
     }
-}
+} 

@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
-using BookingTickets.BLL;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using Microsoft.AspNetCore.Mvc;
+using Core;
+using Azure;
 
 namespace BookingTickets.API.Controllers
 {
@@ -34,13 +35,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (SessionException ex)
             {
-                switch (ex.Message)
-                {
-                    case "В это время уже идет сеанс!":
-                        return BadRequest(ex.Message);
-                    case "Длительность фильма превышет свободное время до следующего сеанса!":
-                        return BadRequest(ex.Message);
-                }
+                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
             }
 
             _logger.Log(LogLevel.Information, "Admin request completed: new session written to the database.", session);
@@ -54,7 +49,7 @@ namespace BookingTickets.API.Controllers
             _logger.Log(LogLevel.Information, "Admin sent a request to delete a session.");
 
             try { _admin.DeleteSession(sessionId); }
-            catch (SessionException ex) { return BadRequest(ex.Message); }
+            catch (SessionException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
 
             _logger.Log(LogLevel.Information, "Session deleted by admin request.");
 
