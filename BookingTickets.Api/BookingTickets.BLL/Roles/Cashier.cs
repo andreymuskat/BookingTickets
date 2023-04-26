@@ -74,9 +74,9 @@ namespace BookingTickets.BLL.Roles
             _orderManager.CreateOrder(order);
         }
 
-        public OrderStatus EditOrderStatus(OrderStatus status, string code)
+        public void EditOrderStatus(OrderStatus status, string code)
         {
-            return _orderManager.EditOrderStatus(status, code);
+             _orderManager.EditOrderStatus(status, code);
         }
     }
 }

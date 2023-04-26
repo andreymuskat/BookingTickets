@@ -20,6 +20,6 @@ namespace BookingTickets.BLL.InterfacesBll
 
         public void CreateOrder(OrderBLL order);
 
-        public OrderStatus EditOrderStatus(OrderStatus status, string code);
+        public void EditOrderStatus(OrderStatus status, string code);
     }
 }

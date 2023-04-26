@@ -1,4 +1,4 @@
-﻿using BookingTickets.API.Controllers.Options;
+﻿using Core;
 using BookingTickets.BLL.Models;
 
 namespace BookingTickets.API.Model.ResponseModels

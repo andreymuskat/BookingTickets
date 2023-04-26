@@ -39,9 +39,9 @@ namespace BookingTickets.BLL
             _orderRepository.CreateOrder(_instanceMapperBll.MapOrderBLLToOrderDto(order));
         }
 
-        public OrderStatus EditOrderStatus(OrderStatus status, string code)
+        public void EditOrderStatus(OrderStatus status, string code)
         {
-            return _orderRepository.FindOrderByCodeNumber(code).Status = status;   
+            _orderRepository.FindOrderByCodeNumber(code).Status = status;   
         }
     }
 

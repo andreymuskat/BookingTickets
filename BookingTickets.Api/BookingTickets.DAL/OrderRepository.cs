@@ -19,11 +19,10 @@ namespace BookingTickets.DAL
             _context.SaveChanges();
         }
 
-        public OrderStatus EditOrderStatus(OrderStatus status, string code)
+        public void EditOrderStatus(OrderStatus status, string code)
         {
             var order = _context.Orders.Single(i=>i.Code == code).Status = status;
             _context.SaveChanges();
-            return order;
         }
 
         public OrderDto FindOrderByCodeNumber(string codeNumber)
