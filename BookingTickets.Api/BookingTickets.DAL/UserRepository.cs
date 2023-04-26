@@ -5,8 +5,12 @@ namespace BookingTickets.DAL
 {
     public class UserRepository : IUserRepository
     {
-        private readonly AuthContext context;
+        private readonly Context _context;
 
+        public UserRepository()
+        {
+            _context = new Context();
+        }
 
         public int AddNewUser(UserDto user)
         {

@@ -25,7 +25,7 @@ namespace BookingTickets.API.Controllers
 
         [HttpGet("GetAllSession/{cinemaId}", Name = "GetAllSessionsByCinema")]
         public IActionResult GetAllSessionByCinemaId(int cinemaId)
-        {
+        {            
             try
             {
                 var ls = _client.GetFilmsByCinema(cinemaId);

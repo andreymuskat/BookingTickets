@@ -15,7 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Context>();
-builder.Services.AddSingleton<AuthContext>();
+builder.Services.AddSingleton<Context>();
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -113,5 +113,5 @@ void InjectAuthenticationDependencies(WebApplicationBuilder builder)
     });
 
     builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-        .AddEntityFrameworkStores<AuthContext>();
+        .AddEntityFrameworkStores<Context>();
 }

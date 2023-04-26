@@ -5,24 +5,24 @@ namespace BookingTickets.DAL
 {
     public class AuthRepository : IAuthRepository
     {
-        private readonly AuthContext context;
+        private readonly Context _context;
 
-        public AuthRepository(AuthContext authContext)
+        public AuthRepository()
         {
-            context = authContext;
+            _context = new Context();
         }
 
         public int AddUser(UserDto user)
         {
-            context.Users.Add(user);
-            context.SaveChanges();
+            _context.Users.Add(user);
+            _context.SaveChanges();
 
             return user.Id;
         }
 
         public UserDto GetUser(string name)
         {
-            var res = context.Users.Single(s => s.Name == name);
+            var res = _context.Users.Single(s => s.Name == name);
             return res;
         }
 
