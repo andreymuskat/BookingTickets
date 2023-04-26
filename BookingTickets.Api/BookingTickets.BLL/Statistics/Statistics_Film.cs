@@ -18,17 +18,19 @@ namespace BookingTickets.BLL.Statistics
             _sessionRepository = new SessionRepository();
         }
 
+        public List<SessionBLL> GetAllSessionByCinemaAndFilm(int cinemaId, int filmId)
+        {
+            return _instanceMapperBll.MapListSessionDtoToListSessionBLL
+                (_sessionRepository.GetAllSessionByCinemaId(cinemaId)
+                .Where(k => k.Film.Id == filmId)
+                .ToList());
+        }
+
         public int NotPurchasedTicketsOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)
         {
             int AmountNotPurchasedTickets = 0;
             List<SeatBLL> NotBuySeats = new List<SeatBLL>();
-            List<SessionBLL> AllSession = new List<SessionBLL>();
-
-            AllSession = _instanceMapperBll.MapListSessionDtoToListSessionBLL
-                (_sessionRepository.GetAllSessionInTheIntervalDate(dateStart, dateEnd)
-                .Where(k => k.Film.Id == filmId)
-                .Where(k => k.Hall.CinemaId == cinemaId)
-                .ToList());
+            List<SessionBLL> AllSession = GetAllSessionByCinemaAndFilm(cinemaId, filmId);
 
             for (int i = 0; i < AllSession.Count; i++)
             {
@@ -45,13 +47,7 @@ namespace BookingTickets.BLL.Statistics
         {
             int AmountPurchasedTickets = 0;
             List<SeatBLL> AllPurchasedSeats = new List<SeatBLL>();
-            List<SessionBLL> AllSession = new List<SessionBLL>();
-
-            AllSession = _instanceMapperBll.MapListSessionDtoToListSessionBLL
-                (_sessionRepository.GetAllSessionInTheIntervalDate(dateStart, dateEnd)
-                .Where(k => k.Film.Id == filmId)
-                .Where(k => k.Hall.CinemaId == cinemaId)
-                .ToList());
+            List<SessionBLL> AllSession = GetAllSessionByCinemaAndFilm(cinemaId, filmId);
 
             for(int i = 0; i < AllSession.Count; i++)
             {
@@ -69,14 +65,8 @@ namespace BookingTickets.BLL.Statistics
         public int AmountTicketsOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)
         {
             int AmountTickets = 0;
-            List<SessionBLL> AllSession = new List<SessionBLL>();
             List<SeatBLL> AllSeats = new List<SeatBLL>();
-
-            AllSession = _instanceMapperBll.MapListSessionDtoToListSessionBLL
-                (_sessionRepository.GetAllSessionInTheIntervalDate(dateStart, dateEnd)
-                .Where(k => k.Film.Id == filmId)
-                .Where(k => k.Hall.CinemaId == cinemaId)
-                .ToList());
+            List<SessionBLL> AllSession = GetAllSessionByCinemaAndFilm(cinemaId, filmId);
 
             for (int i = 0; i < AllSession.Count; i++)
             {
@@ -87,6 +77,12 @@ namespace BookingTickets.BLL.Statistics
             AmountTickets = AllSeats.Count;
 
             return AmountTickets;
+        }
+
+        public void BoxOfficeOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)
+        {
+            var BoxOffice = 0;
+            List<SessionBLL> AllSession = GetAllSessionByCinemaAndFilm(cinemaId, filmId);
         }
     }
 }
