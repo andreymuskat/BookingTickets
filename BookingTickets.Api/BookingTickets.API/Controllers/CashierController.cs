@@ -10,10 +10,12 @@ using BookingTickets.API.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using BookingTickets.BLL.Roles;
+using Core;
 
 namespace BookingTickets.API.Controllers
 {
-    [Authorize(Policy = "Cashier", AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Policy = "Cashier", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class CashierController : ControllerBase
@@ -34,6 +36,13 @@ namespace BookingTickets.API.Controllers
             var res = _mapper.Map<OrderBLL>(model);
             _cashier.CreateOrder(res);
 
+            return Ok("GOT IT");
+        }
+
+        [HttpPost("EditOrderStatus/{code}", Name = "EditOrderStatus")]
+        public IActionResult EditOrderStatus(OrderStatus status, string code)
+        {
+            _cashier.EditOrderStatus(status, code);
             return Ok("GOT IT");
         }
     }
