@@ -140,7 +140,7 @@ namespace BookingTickets.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CinemaId")
+                    b.Property<int?>("CinemaId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -460,9 +460,7 @@ namespace BookingTickets.DAL.Migrations
                 {
                     b.HasOne("BookingTickets.DAL.Models.CinemaDto", "Cinema")
                         .WithMany()
-                        .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CinemaId");
 
                     b.Navigation("Cinema");
                 });

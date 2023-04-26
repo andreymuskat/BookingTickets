@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookingTickets.DAL.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20230426064327_createInitial")]
+    [Migration("20230426071820_createInitial")]
     partial class createInitial
     {
         /// <inheritdoc />
@@ -143,7 +143,7 @@ namespace BookingTickets.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CinemaId")
+                    b.Property<int?>("CinemaId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
@@ -463,9 +463,7 @@ namespace BookingTickets.DAL.Migrations
                 {
                     b.HasOne("BookingTickets.DAL.Models.CinemaDto", "Cinema")
                         .WithMany()
-                        .HasForeignKey("CinemaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CinemaId");
 
                     b.Navigation("Cinema");
                 });

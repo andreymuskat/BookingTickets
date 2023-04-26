@@ -20,9 +20,9 @@ namespace BookingTickets.DAL.Models
         public string Password { get; set; }
 
         [ForeignKey(nameof(CinemaId))]
-        public CinemaDto Cinema { get; set; }
+        public virtual CinemaDto? Cinema { get; set; }
 
-        public int CinemaId { get; set; }
+        public int? CinemaId { get; set; }
 
         [Required]
         public bool IsDeleted { get; set; }

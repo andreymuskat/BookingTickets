@@ -33,6 +33,7 @@ namespace BookingTickets.API
             CreateMap<UserRegister, UserDto>()
                 .ForMember(src => src.Name, opt => opt.MapFrom(x => x.UserName))
                 .ForMember(src => src.Id, opt => opt.Ignore()); ;
+            CreateMap<UserLoginRequest, UserLogin>();
 
         }
     }

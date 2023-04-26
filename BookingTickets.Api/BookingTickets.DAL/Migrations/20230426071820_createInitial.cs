@@ -216,7 +216,7 @@ namespace BookingTickets.DAL.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserStatus = table.Column<int>(type: "int", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CinemaId = table.Column<int>(type: "int", nullable: false),
+                    CinemaId = table.Column<int>(type: "int", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -226,8 +226,7 @@ namespace BookingTickets.DAL.Migrations
                         name: "FK_Users_Cinemas_CinemaId",
                         column: x => x.CinemaId,
                         principalTable: "Cinemas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
