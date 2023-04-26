@@ -4,6 +4,7 @@
     {
         Booking,
         Canceled,
-        Purchased
+        PurchasedByСashbox,
+        PurchasedBySite,
     }
 }

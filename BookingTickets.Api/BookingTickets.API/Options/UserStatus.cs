@@ -2,6 +2,7 @@
 {
     public enum UserStatus
     {
+        NoLogger,
         Cashier,
         Client,
         Admin,
