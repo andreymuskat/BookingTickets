@@ -7,30 +7,20 @@ namespace BookingTickets.BLL.Statistics
     public class Statistics_Film
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private readonly IOrderRepository _orderRepository;
         private readonly ISeatRepository _seatRepository;
-        private readonly ISessionRepository _sessionRepository;
+        private readonly SessionManager _sessionManager;
 
         public Statistics_Film()
         {
-            _orderRepository = new OrderRepository();
             _seatRepository = new SeatRepository();
-            _sessionRepository = new SessionRepository();
-        }
-
-        public List<SessionBLL> GetAllSessionByCinemaAndFilm(int cinemaId, int filmId)
-        {
-            return _instanceMapperBll.MapListSessionDtoToListSessionBLL
-                (_sessionRepository.GetAllSessionByCinemaId(cinemaId)
-                .Where(k => k.Film.Id == filmId)
-                .ToList());
+            _sessionManager = new SessionManager();
         }
 
         public int NotPurchasedTicketsOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)
         {
             int AmountNotPurchasedTickets = 0;
             List<SeatBLL> NotBuySeats = new List<SeatBLL>();
-            List<SessionBLL> AllSession = GetAllSessionByCinemaAndFilm(cinemaId, filmId);
+            List<SessionBLL> AllSession = _sessionManager.GetAllSessionByCinemaAndFilm(cinemaId, filmId);
 
             for (int i = 0; i < AllSession.Count; i++)
             {
@@ -47,7 +37,7 @@ namespace BookingTickets.BLL.Statistics
         {
             int AmountPurchasedTickets = 0;
             List<SeatBLL> AllPurchasedSeats = new List<SeatBLL>();
-            List<SessionBLL> AllSession = GetAllSessionByCinemaAndFilm(cinemaId, filmId);
+            List<SessionBLL> AllSession = _sessionManager.GetAllSessionByCinemaAndFilm(cinemaId, filmId);
 
             for(int i = 0; i < AllSession.Count; i++)
             {
@@ -66,7 +56,7 @@ namespace BookingTickets.BLL.Statistics
         {
             int AmountTickets = 0;
             List<SeatBLL> AllSeats = new List<SeatBLL>();
-            List<SessionBLL> AllSession = GetAllSessionByCinemaAndFilm(cinemaId, filmId);
+            List<SessionBLL> AllSession = _sessionManager.GetAllSessionByCinemaAndFilm(cinemaId, filmId);
 
             for (int i = 0; i < AllSession.Count; i++)
             {
@@ -82,7 +72,7 @@ namespace BookingTickets.BLL.Statistics
         public void BoxOfficeOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)
         {
             var BoxOffice = 0;
-            List<SessionBLL> AllSession = GetAllSessionByCinemaAndFilm(cinemaId, filmId);
+            List<SessionBLL> AllSession = _sessionManager.GetAllSessionByCinemaAndFilm(cinemaId, filmId);
         }
     }
 }
