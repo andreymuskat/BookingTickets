@@ -1,4 +1,4 @@
-﻿using BookingTickets.API.Controllers.Options;
+﻿using Core;
 using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
 
 namespace BookingTickets.API.Model.RequestModels.All_UserRequestModel
