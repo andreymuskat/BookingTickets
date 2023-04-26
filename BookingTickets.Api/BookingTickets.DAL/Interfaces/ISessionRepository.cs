@@ -12,7 +12,9 @@
 
         public List<SessionDto> GetAllSessionByCinemaId(int idCinema);
 
-        public List<SessionDto> GetAllSessionByDate(DateTime Date);
+        public List<SessionDto> GetAllSessionByDate(DateTime date);
+
+        public List<SessionDto> GetAllSessionInTheIntervalDate(DateOnly dateStart, DateOnly dateEnd);
 
         public void DeleteSession(int idSession);
     }

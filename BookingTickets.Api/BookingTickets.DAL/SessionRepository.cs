@@ -42,15 +42,16 @@ namespace BookingTickets.DAL
                 .ToList();
         }
 
-        public List<SessionDto> GetAllSessionByDate(DateTime Date)
+        public List<SessionDto> GetAllSessionByDate(DateTime date)
         {
+            List<SessionDto> SessionInDay = new List<SessionDto>();
             List<SessionDto> AllSession = _context.Sessions
                 .Where(k => k.IsDeleted == false)
+                .Include(k => k.Film)
+                .Include(h => h.Hall)
                 .ToList();
 
-            DateOnly dateSearch = DateOnly.FromDateTime(Date);
-            List<SessionDto> SessionInDay = new List<SessionDto>();
-
+            DateOnly dateSearch = DateOnly.FromDateTime(date);
             for (int i = 0; i < AllSession.Count; i++)
             {
                 DateOnly session = DateOnly.FromDateTime(AllSession[i].Date);
