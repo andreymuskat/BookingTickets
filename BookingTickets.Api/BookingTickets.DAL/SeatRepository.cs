@@ -21,6 +21,17 @@ namespace BookingTickets.DAL
             return seat;
         }
 
+        public List<SeatDto> GetAllSeatsBySessionId(int  sessionId)
+        {
+            var hallId = _context.Sessions
+                .Single(k => k.Id == sessionId)
+                .HallId;
+
+            return _context.Seats
+                .Where(k => k.HallId == hallId)
+                .ToList();
+        }
+
         public List<SeatDto> GetAllFreeSeatsBySessionId(int idSession)
         {
             List<SeatDto> BookingSeats = new List<SeatDto>();
@@ -63,7 +74,7 @@ namespace BookingTickets.DAL
 
             foreach (var order in OrdersInSession)
             {
-                if (order.Status == OrderStatus.PurchasedByÑashbox || order.Status == OrderStatus.PurchasedBySite)
+                if (order.Status == OrderStatus.PurchasedByï¿½ashbox || order.Status == OrderStatus.PurchasedBySite)
                 {
                     PurchasedSeats.Add(order.Seats);
                 }
