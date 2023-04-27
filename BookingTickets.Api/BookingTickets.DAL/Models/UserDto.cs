@@ -1,16 +1,19 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL.Models
 {
+    [Index(nameof(UserName), IsUnique = true)]
     public class UserDto
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        [StringLength(100)]
+        public string UserName { get; set; }
 
         [Required]
         [EnumDataType(typeof(UserStatus))]

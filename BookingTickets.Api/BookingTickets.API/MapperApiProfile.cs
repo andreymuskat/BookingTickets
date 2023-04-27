@@ -31,7 +31,7 @@ namespace BookingTickets.API
             CreateMap<AuthResult, AuthResponse>();
             CreateMap<AuthResponse, AuthResult>();
             CreateMap<UserRegister, UserDto>()
-                .ForMember(src => src.Name, opt => opt.MapFrom(x => x.UserName))
+                .ForMember(src => src.UserName, opt => opt.MapFrom(x => x.UserName))
                 .ForMember(src => src.Id, opt => opt.Ignore()); ;
             CreateMap<UserLoginRequest, UserLogin>();
             CreateMap<UserDto, UserBLL>();

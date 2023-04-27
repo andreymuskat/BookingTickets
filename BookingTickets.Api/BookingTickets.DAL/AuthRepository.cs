@@ -22,7 +22,7 @@ namespace BookingTickets.DAL
 
         public UserDto GetUserByName(string name)
         {
-            var res = _context.Users.Single(s => s.Name == name);
+            var res = _context.Users.Single(s => s.UserName == name);
             return res;
         }
 
