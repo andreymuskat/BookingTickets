@@ -1,5 +1,6 @@
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -63,7 +64,7 @@ namespace BookingTickets.BLL.Roles
                 throw new Exception("������ ����� ������ ����������");
             }
         }
-        public void CreateOrder(OrderBLL order)
+        public void CreateOrder(CreateOrderInputModel order)
         {
             _orderManager.CreateOrder(order);
         }

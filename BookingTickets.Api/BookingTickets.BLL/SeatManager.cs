@@ -8,16 +8,17 @@ namespace BookingTickets.BLL
     public class SeatManager
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private readonly ISeatRepository _repository;
+        private readonly ISeatRepository _seatRepository;
+        
 
         public SeatManager()
         {
-            _repository = new SeatRepository();
+            _seatRepository = new SeatRepository();
         }
 
         public void CreateSeat(SeatBLL seat)
         {
-            _repository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seat));
+            _seatRepository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seat));
         }
 
         public void AddRowToHall(AddSeatsRowsInputModel rowSeats)
@@ -36,13 +37,17 @@ namespace BookingTickets.BLL
                     HallId = hallId
                 };
 
-                _repository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seatBll));
+                _seatRepository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seatBll));
             }
         }
         public List<SeatBLL> GetAllFreeSeatsBySessionId(int idSession)
         {
-            return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_repository.GetAllFreeSeatsBySessionId(idSession));
-                
+            return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllFreeSeatsBySessionId(idSession));  
+        }
+
+        public SeatBLL GetSeatById(int seatId)
+        {
+        return _instanceMapperBll.MapSeatDtoToSeatBLL(_seatRepository.GetSeatById(seatId));    
         }
     }
 }

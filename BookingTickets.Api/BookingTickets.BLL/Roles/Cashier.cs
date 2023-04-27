@@ -1,5 +1,6 @@
 ﻿using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
 using Core;
 
 namespace BookingTickets.BLL.Roles
@@ -69,7 +70,7 @@ namespace BookingTickets.BLL.Roles
             return cashiersCinemaId;
         }
 
-        public void CreateOrder(OrderBLL order)
+        public void CreateOrder(CreateOrderInputModel order)
         {
             _orderManager.CreateOrder(order);
         }
@@ -77,6 +78,11 @@ namespace BookingTickets.BLL.Roles
         public void EditOrderStatus(OrderStatus status, string code)
         {
              _orderManager.EditOrderStatus(status, code);
+        }
+
+        public SeatBLL GetSeatById(int seatId)
+        {
+
         }
     }
 }

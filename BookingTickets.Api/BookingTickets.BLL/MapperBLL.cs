@@ -1,5 +1,6 @@
 using AutoMapper;
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.DAL.Models;
@@ -37,6 +38,7 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<AddSeatsRowsInputModel, SeatDto>();
                     cfg.CreateMap<OrderDto, OrderBLL>();
                     cfg.CreateMap<OrderBLL, OrderDto>();
+                    cfg.CreateMap<CreateSessionInputModel, SeatDto>();
                     
                 });
         }
@@ -123,6 +125,10 @@ namespace BookingTickets.BLL
         public SessionDto MapCreateSessionInputModelToSessionDto(CreateSessionInputModel session)
         {
             return _configuration.CreateMapper().Map<SessionDto>(session);
+        }
+        public OrderDto MapCreateOrderInputModelToOrderDto(CreateOrderInputModel session)
+        {
+            return _configuration.CreateMapper().Map<OrderDto>(session);
         }
 
         public List<CinemaBLL> MapListCinemaDtoToListCinemaBLL(List<CinemaDto> cinema)

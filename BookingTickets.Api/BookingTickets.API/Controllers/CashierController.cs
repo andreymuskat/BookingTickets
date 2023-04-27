@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Core;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
 
 namespace BookingTickets.API.Controllers
 {
@@ -25,9 +26,9 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpPost("CreateOrder")]
-        public IActionResult CreateOrder(OrderRequestModel model)
+        public IActionResult CreateOrder(CreateOrderRequestModel model)
         {
-            var res = _mapper.Map<OrderBLL>(model);
+            var res = _mapper.Map<CreateOrderInputModel>(model);
             _cashier.CreateOrder(res);
 
             return Ok("GOT IT");

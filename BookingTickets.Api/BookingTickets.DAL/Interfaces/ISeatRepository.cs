@@ -6,5 +6,7 @@ namespace BookingTickets.DAL.Interfaces
 
         public List<SeatDto> GetAllFreeSeatsBySessionId(int idSession);
 
+        public SeatDto GetSeatById(int seatId);
+
     }
 }

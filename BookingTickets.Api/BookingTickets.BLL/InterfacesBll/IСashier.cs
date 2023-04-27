@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
 using Core;
 
 namespace BookingTickets.BLL.InterfacesBll
@@ -18,7 +19,7 @@ namespace BookingTickets.BLL.InterfacesBll
 
         public int GetCashiersCinemaId(UserBLL user);
 
-        public void CreateOrder(OrderBLL order);
+        public void CreateOrder(CreateOrderInputModel order);
 
         public void EditOrderStatus(OrderStatus status, string code);
     }

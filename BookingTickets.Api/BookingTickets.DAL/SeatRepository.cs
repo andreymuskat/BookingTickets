@@ -1,4 +1,6 @@
+using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Models;
 using Core;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,6 +49,11 @@ namespace BookingTickets.DAL
             FreeSeats = AllSeatsInHall.Except(BookingSeats).ToList();
 
             return FreeSeats;
+        }
+        public SeatDto GetSeatById(int seatId) 
+        {
+            return _context.Seats
+                .Single(k=> k.Id == seatId);
         }
     }
 }

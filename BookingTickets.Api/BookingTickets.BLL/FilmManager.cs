@@ -52,7 +52,5 @@ namespace BookingTickets.BLL
         {
             return _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(Id));
         }
-
-
     }
 }
