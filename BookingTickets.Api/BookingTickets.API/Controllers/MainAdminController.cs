@@ -9,10 +9,12 @@ using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.All_User_InputModel;
 using BookingTickets.BLL.NewFolder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookingTickets.API.Controllers
 {
-    //[Authorize(Policy = "MainAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Policy = "MainAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class MainAdminController : ControllerBase
@@ -53,7 +55,7 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPost("Create_New_Hall")]
+        [HttpPost("Create/Hall")]
         public IActionResult CreateHall(HallRequestModel model)
         {
             _mainAdmin.CreateHall(_mapper.Map<HallBLL>(model));
@@ -61,7 +63,7 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPost("Create_Row_With_Seats_In_Hall")]
+        [HttpPost("Create/Hall/Row_With_Seats", Name = "Add Row with seats in hall")]
         public IActionResult AddRowToHall(AddSeatsRowsRequestModel model)
         {
             _mainAdmin.AddRowToHall(_mapper.Map<AddSeatsRowsInputModel>(model));
