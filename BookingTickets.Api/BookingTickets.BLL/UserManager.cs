@@ -9,11 +9,12 @@ namespace BookingTickets.BLL
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly IUserRepository _userRepository;
+        private readonly IAuthRepository _authRepository;
 
         public UserManager()
         {
             _userRepository = new UserRepository();
-
+            _authRepository = new AuthRepository();
         }
 
         public List<UserBLL> GetAllUsers()
@@ -42,17 +43,10 @@ namespace BookingTickets.BLL
         {
             _userRepository.DeleteCashierById(idCashier);
         }
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private readonly IAuthRepository _authRepository;
 
-
-        public UserManager()
-        {
-            _authRepository = new AuthRepository();
-        }
         public UserBLL GetUserByName(string name)
         {
-            return _instanceMapperBll.MapUserDtoUserBLL(_authRepository.GetUserByName(name));
+            return _instanceMapperBll.MapUserDtoToUserBLL(_authRepository.GetUserByName(name));
         }
     }
 }

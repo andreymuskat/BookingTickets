@@ -17,7 +17,7 @@ namespace BookingTickets.DAL
         {
             var cashier = new UserDto
             {
-                Name = user.Name,
+                UserName = user.UserName,
                 UserStatus = Core.UserStatus.Cashier,
                 Password = user.Password,
                 CinemaId = 1,  // Должен брать кинотеатр в котором работает администратор, добавляющий кассира
