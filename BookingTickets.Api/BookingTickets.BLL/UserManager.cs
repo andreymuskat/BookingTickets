@@ -10,10 +10,12 @@ namespace BookingTickets.BLL
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly IUserRepository _userRepository;
         private readonly IAuthRepository _authRepository;
+        private readonly ISessionRepository _sessionRepository;
 
         public UserManager()
         {
             _userRepository = new UserRepository();
+            _sessionRepository = new SessionRepository();
             _authRepository = new AuthRepository();
         }
 
@@ -23,7 +25,7 @@ namespace BookingTickets.BLL
 
             return _instanceMapperBll.MapListUserDtoToListUserBLL(allUsers);
         }
-        
+
         public List<UserBLL> GetAllCashiers()
         {
             var allUsers = _userRepository.GetAllCashiers();
@@ -39,6 +41,14 @@ namespace BookingTickets.BLL
             return resUserBLL;
         }
 
+        public UserBLL UpdateCashier(UpdateCashierInputModel user)
+        {
+            var userDto = _instanceMapperBll.MapUpdateCashierInputModelToUserDto(user);
+            var resUserBLL = _instanceMapperBll.MapUserDtoToUserBLL(_userRepository.UpdateCashier(userDto));
+
+            return resUserBLL;
+        }
+
         public void DeleteCashierById(int idCashier)
         {
             _userRepository.DeleteCashierById(idCashier);
@@ -47,6 +57,18 @@ namespace BookingTickets.BLL
         public UserBLL GetUserByName(string name)
         {
             return _instanceMapperBll.MapUserDtoToUserBLL(_authRepository.GetUserByName(name));
+        }
+
+        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
+        {
+            var allTrueSessions = _sessionRepository.GetAllSessionByDate(dateCopy);
+            var newSessions = new List<SessionDto>();
+            
+            foreach (var session in allTrueSessions)
+            {
+                session.Date = dateWhereToCopy;
+                _sessionRepository.CreateSession(session);
+            }
         }
     }
 }

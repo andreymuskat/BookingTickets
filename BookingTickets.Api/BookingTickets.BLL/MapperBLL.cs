@@ -20,12 +20,10 @@ namespace BookingTickets.BLL
                 {
                     cfg.CreateMap<FilmDto, FilmBLL>();
                     cfg.CreateMap<FilmBLL, FilmDto>();
-                    cfg.CreateMap<FilmBLL, FilmDto>();
                     cfg.CreateMap<CinemaBLL, CinemaDto>();
                     cfg.CreateMap<CinemaDto, CinemaBLL>();
                     cfg.CreateMap<HallDto, HallBLL>();
                     cfg.CreateMap<HallBLL, HallDto>();
-                    cfg.CreateMap<CinemaBLL, CinemaDto>();
                     cfg.CreateMap<SessionDto, SessionBLL>();
                     cfg.CreateMap<SessionBLL, SessionDto>();
                     cfg.CreateMap<UserDto, UserBLL>()
@@ -41,6 +39,8 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<UserBLL, UserDto>()
                     .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
                     cfg.CreateMap<CreateCashierInputModel, UserDto>();
+                    cfg.CreateMap<UpdateCashierInputModel, UserDto>()
+                    .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId));
                     cfg.CreateMap<CreateNewEmployeeInputModel, UserDto>()
                     .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId))
                     .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.Password))
@@ -143,6 +143,11 @@ namespace BookingTickets.BLL
         }
         
         public UserDto MapCreateCashierInputModelToUserDto(CreateCashierInputModel user)
+        {
+            return _configuration.CreateMapper().Map<UserDto>(user);
+        }
+
+        public UserDto MapUpdateCashierInputModelToUserDto(UpdateCashierInputModel user)
         {
             return _configuration.CreateMapper().Map<UserDto>(user);
         }

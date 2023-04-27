@@ -49,9 +49,21 @@ namespace BookingTickets.BLL.Roles
             return res;
         }
 
+        public UserBLL UpdateCashier(UpdateCashierInputModel user)
+        {
+            var res = _userManager.UpdateCashier(user);
+
+            return res;
+        }
+
         public void DeleteCashierById(int id)
         {
             _userManager.DeleteCashierById(id);
+        }
+
+        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
+        {
+            _userManager.CopySession(dateCopy, dateWhereToCopy, CinemaId);
         }
     }
 }

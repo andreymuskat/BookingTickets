@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    [Authorize(Policy = "MainAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(Policy = "MainAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class MainAdminController : ControllerBase
@@ -43,11 +43,11 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Create_New_Cinema")]
         public IActionResult CreateNewCinema(CreateCinemaRequestModel model)
         {
-            _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a cinema.");
+            //_logger.Log(LogLevel.Information, "MainAdmin sent a request to create a cinema.");
 
             _mainAdmin.CreateCinema(_mapper.Map<CinemaBLL>(model));
 
-            _logger.Log(LogLevel.Information, "MainAdmin request completed: cinema written to the database.", model);
+            //_logger.Log(LogLevel.Information, "MainAdmin request completed: cinema written to the database.", model);
 
             return Ok("GOT IT");
         }

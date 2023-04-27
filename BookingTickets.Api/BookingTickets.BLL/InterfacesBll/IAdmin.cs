@@ -16,6 +16,10 @@ namespace BookingTickets.BLL.InterfacesBll
 
         UserBLL CreateNewCashier(CreateCashierInputModel newCashier);
 
+        UserBLL UpdateCashier(UpdateCashierInputModel cashier);
+
         void DeleteCashierById(int idCashier);
+
+        void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
     }
 }

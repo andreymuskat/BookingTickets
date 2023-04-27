@@ -8,6 +8,8 @@ namespace BookingTickets.DAL.Interfaces
 
         UserDto CreateNewCashier(UserDto user);
 
+        UserDto UpdateCashier(UserDto user);
+
         List<UserDto> GetAllUsers();
 
         List<UserDto> GetAllCashiers();

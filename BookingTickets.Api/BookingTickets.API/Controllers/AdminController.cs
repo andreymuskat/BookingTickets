@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    [Authorize(Policy = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(Policy = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -76,15 +76,35 @@ namespace BookingTickets.API.Controllers
         public ActionResult<UserResponseModel> CreateNewCashier(CreateCashierRequestModel cashierModel)
         {
             var cashierInputModel = _mapper.Map<CreateCashierInputModel>(cashierModel);
+            cashierInputModel.CinemaId = 1;
             var res = _mapper.Map<UserResponseModel>(_admin.CreateNewCashier(cashierInputModel));
 
             return Ok(res);
         }
 
-        [HttpDelete("Delete_Cashier")]
+        [HttpPost("Update_Cashier")]
+        public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier)
+        {
+            var cashierInputModel = _mapper.Map<UpdateCashierInputModel>(cashier);
+            cashierInputModel.CinemaId = 1;
+            var res = _mapper.Map<UserResponseModel>(_admin.UpdateCashier(cashierInputModel));
+
+            return Ok(res);
+        }
+
+        [HttpDelete("Delete_Cashier/{cashierId}")]
         public IActionResult DeleteCashierById(int cashierId)
         {
             _admin.DeleteCashierById(cashierId);
+
+            return Ok();
+        }
+
+        [HttpPost("Copy_Sessions_From_OneDay_By_DateCopy_To_DateWhereToCopy")]
+        public IActionResult CopySessionsFromOneDayToAnotherByDateCopy(DateTime dateCopy, DateTime dateWhereToCopy)
+        {
+            var CinemaId = 8;
+            _admin.CopySession(dateCopy, dateWhereToCopy, CinemaId);
 
             return Ok();
         }

@@ -42,6 +42,8 @@ namespace BookingTickets.API
             CreateMap<UserLoginRequest, UserLogin>();
             CreateMap<UserDto, UserBLL>();
             CreateMap<CreateNewEmployeeRequestModel, CreateNewEmployeeInputModel>();
+            CreateMap<UpdateCashierRequestModel, UpdateCashierInputModel>();
+
         }
     }
 }

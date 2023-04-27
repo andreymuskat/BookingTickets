@@ -1,3 +1,4 @@
+using System;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ namespace BookingTickets.DAL
         public UserRepository()
         {
             _context = new Context();
+
         }
 
         public UserDto CreateNewCashier(UserDto user)
@@ -20,7 +22,7 @@ namespace BookingTickets.DAL
                 UserName = user.UserName,
                 UserStatus = Core.UserStatus.Cashier,
                 Password = user.Password,
-                CinemaId = 1,
+                CinemaId = user.CinemaId,
             };
 
             _context.Users.Add(cashier);
@@ -29,6 +31,27 @@ namespace BookingTickets.DAL
             return _context.Users
                 .Include(u => u.Cinema)
                 .Single(u => u.Id == cashier.Id);
+        }
+
+        public UserDto UpdateCashier(UserDto user)
+        {
+            try
+            {
+                var cashierDb = _context.Users.Single(a => a.Id == user.Id);
+                cashierDb.UserName = user.UserName;
+                cashierDb.Password = user.Password;
+
+                _context.SaveChanges();
+
+                return _context.Users
+                    .Include(u => u.Cinema)
+                    .Single(u => u.Id == cashierDb.Id);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                throw new Exception($"Id:{user.Id} - отсутствует");
+            }
         }
 
         public List<UserDto> GetAllUsers()
