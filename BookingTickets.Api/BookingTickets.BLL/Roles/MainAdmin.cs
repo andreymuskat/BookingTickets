@@ -1,8 +1,6 @@
 ﻿using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
-using BookingTickets.BLL.Models.All_User_InputModel;
 using BookingTickets.BLL.NewFolder;
-using Microsoft.AspNetCore.Http;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -21,11 +19,11 @@ namespace BookingTickets.BLL.Roles
             _cinemaManager = new CinemaManager();
             _seatManager = new SeatManager();
             _hallManager = new HallManager();
-            _userManager= new UserManager();
+            _userManager = new UserManager();
         }
 
         public void CreateNewFilm(FilmBLL newFilm)
-        {            
+        {
             _filmManager.CreateNewFilm(newFilm);
         }
 
@@ -42,11 +40,6 @@ namespace BookingTickets.BLL.Roles
         public void AddRowToHall(AddSeatsRowsInputModel rowSeats)
         {
             _seatManager.AddRowToHall(rowSeats);
-        }
-
-        public void AddNewAdmin(CreateNewEmployeeInputModel newEmployee)
-        {
-            _userManager.AddNewAdmin(newEmployee);
         }
     }
 }

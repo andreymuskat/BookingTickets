@@ -44,7 +44,7 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<CreateNewEmployeeInputModel, UserDto>()
                     .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId))
                     .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.Password))
-                    .ForMember(src => src.Name, opt => opt.MapFrom(x => x.Name));
+                    .ForMember(src => src.UserName, opt => opt.MapFrom(x => x.Name));
                 });
         }
 

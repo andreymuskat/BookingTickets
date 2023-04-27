@@ -2,15 +2,14 @@ using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels;
-using BookingTickets.BLL;
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.BLL.Models.All_UserBLLModels;
+using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using BookingTickets.BLL.Models.All_UserBLLModels;
 using Microsoft.AspNetCore.Mvc;
-using Core;
-using Azure;
 
 namespace BookingTickets.API.Controllers
 {
@@ -65,7 +64,7 @@ namespace BookingTickets.API.Controllers
 
             return StatusCode(StatusCodes.Status204NoContent);
         }
-      
+
         [HttpGet("GetAllCashiers")]
         public ActionResult<List<UserResponseModel>> GetAllCashiers()
         {

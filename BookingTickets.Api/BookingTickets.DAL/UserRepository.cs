@@ -20,7 +20,7 @@ namespace BookingTickets.DAL
                 UserName = user.UserName,
                 UserStatus = Core.UserStatus.Cashier,
                 Password = user.Password,
-                CinemaId = 1,  // Должен брать кинотеатр в котором работает администратор, добавляющий кассира
+                CinemaId = 1,
             };
 
             _context.Users.Add(cashier);
@@ -33,7 +33,6 @@ namespace BookingTickets.DAL
 
         public List<UserDto> GetAllUsers()
         {
-            //return _context.Users.Where(t => !t.IsDeleted).ToList();
             var result = new List<UserDto>();
 
             result = _context.Users
@@ -47,7 +46,6 @@ namespace BookingTickets.DAL
 
         public List<UserDto> GetAllCashiers()
         {
-
             var result = new List<UserDto>();
 
             result = _context.Users
