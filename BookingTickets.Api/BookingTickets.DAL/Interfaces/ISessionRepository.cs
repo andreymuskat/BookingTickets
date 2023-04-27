@@ -1,6 +1,4 @@
-﻿using BookingTickets.DAL.Models;
-
-namespace BookingTickets.DAL.Interfaces
+﻿namespace BookingTickets.DAL.Interfaces
 {
     public interface ISessionRepository
     {
