@@ -1,8 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
 using BookingTickets.BLL.Authentication.AuthModels;
+using BookingTickets.BLL.Models;
 using BookingTickets.DAL.Configuration;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
@@ -58,13 +60,11 @@ namespace BookingTickets.BLL.Authentication
                     Success = false,
                     Error = isUserCreated.Errors.Select(error => error.Description)
                 };
-            }
-
+            }                      
+            
             var roles = GetRole();
             var token = GetJwtToken(user, roles);
-
             var userDto = mapper.Map<UserRegister, UserDto>(userRegister);
-
             var userId = repository.AddUser(userDto);
 
             return new AuthResult
@@ -96,8 +96,9 @@ namespace BookingTickets.BLL.Authentication
                     Error = new[] { "invalid credentials" }
                 };
             }
-            var userDto = repository.GetUser(userLogin.UserName);
+            var userDto = repository.GetUserByName(userLogin.UserName);
             var roles = GetRoleAuth(userDto);
+
             var token = GetJwtToken(existingUser, roles);
 
             return new AuthResult
@@ -105,20 +106,20 @@ namespace BookingTickets.BLL.Authentication
                 Success = true,
                 Token = token
             };
-        }
+        }        
 
         private string GetJwtToken(IdentityUser user, IEnumerable<string> userRoles)
         {
-            var key = Encoding.UTF8.GetBytes(settings.Key);
+            var key = Encoding.UTF8.GetBytes(settings.Key);     
 
             var claims = new List<Claim>{
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
             claims.AddRange(userRoles.Select(ur => new Claim(ur, "true")));
-
+            
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
@@ -141,22 +142,22 @@ namespace BookingTickets.BLL.Authentication
         {
             if (userDto.UserStatus == UserStatus.Admin)
             {
-                return new[] { "Admin", "Cashier", "User", "{userDto.CinemaId}" };
+                return new[] { "Admin", "Cashier", "User"};
             }
             else if (userDto.UserStatus == UserStatus.MainAdmin)
             {
-                return new[] { "MainAdmin", "Admin", "Cashier", "User", "{userDto.CinemaId}" };
+                return new[] { "MainAdmin", "Admin", "Cashier", "User"};
             }
             else if (userDto.UserStatus == UserStatus.Cashier)
             {
-                return new[] { "Cashier", "User", "{userDto.CinemaId}" };
+                return new[] { "Cashier", "User"};
             }
             else if (userDto.UserStatus == UserStatus.Client)
-            { 
-                return new[] { "User" }; 
+            {
+                return new[] { "User" };
             }
 
             return new[] { "User" };
-        }
+        }        
     }
 }

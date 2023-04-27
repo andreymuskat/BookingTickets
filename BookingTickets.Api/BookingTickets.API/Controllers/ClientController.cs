@@ -1,10 +1,9 @@
 using AutoMapper;
 using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.InterfacesBll;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace BookingTickets.API.Controllers
 {
@@ -25,7 +24,7 @@ namespace BookingTickets.API.Controllers
 
         [HttpGet("GetAllSession/{cinemaId}", Name = "GetAllSessionsByCinema")]
         public IActionResult GetAllSessionByCinemaId(int cinemaId)
-        {            
+        {
             try
             {
                 var ls = _client.GetFilmsByCinema(cinemaId);
@@ -55,7 +54,7 @@ namespace BookingTickets.API.Controllers
 
         [HttpGet("GetCinemas/{filmId}", Name = "GetCinemasByFilmId")]
         public IActionResult GetCinemasByFilmId(int filmId)
-        {
+        {          
             try
             {
                 var cb = _client.GetCinemaByFilm(filmId);

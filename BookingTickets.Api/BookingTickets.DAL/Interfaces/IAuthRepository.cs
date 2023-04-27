@@ -5,7 +5,7 @@ namespace BookingTickets.DAL.Interfaces
     public interface IAuthRepository
     {
         int AddUser(UserDto user);
-        UserDto GetUser(string name);
+        UserDto GetUserByName(string name);
     }
 }
 
