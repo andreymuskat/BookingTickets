@@ -1,15 +1,18 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using BookingTickets.BLL.Models.All_UserBLLModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
+    [Authorize(Policy = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -29,6 +32,9 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Create_New_Session")]
         public IActionResult CreateNewSession(CreateSessionRequestModel session)
         {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+            string userName = nameClaim?.Value;
+
             _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session));
 
             return Ok("GOT IT");

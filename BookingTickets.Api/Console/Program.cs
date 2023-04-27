@@ -1,4 +1,1 @@
-﻿using BookingTickets.DAL;
-
-
-Console.WriteLine("");
+﻿Console.WriteLine("");

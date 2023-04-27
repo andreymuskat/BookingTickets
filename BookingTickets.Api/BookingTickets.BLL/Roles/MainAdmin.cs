@@ -1,6 +1,7 @@
 ﻿using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.NewFolder;
+using Microsoft.AspNetCore.Http;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -21,7 +22,7 @@ namespace BookingTickets.BLL.Roles
         }
 
         public void CreateNewFilm(FilmBLL newFilm)
-        {
+        {            
             _filmManager.CreateNewFilm(newFilm);
         }
 

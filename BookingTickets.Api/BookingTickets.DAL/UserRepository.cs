@@ -1,4 +1,4 @@
-﻿using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -62,7 +62,10 @@ namespace BookingTickets.DAL
 
         public int AddNewUser(UserDto user)
         {
-            throw new NotImplementedException();
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            return user.Id;
         }
 
         public void DeleteCashierById(int idCashier)

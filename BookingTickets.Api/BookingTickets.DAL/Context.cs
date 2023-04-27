@@ -1,13 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using BookingTickets.DAL.Models;
+﻿using BookingTickets.DAL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext
+
     {
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(@"Server=localhost;Database=Cinema;Trusted_Connection=True;TrustServerCertificate=True;");
+            builder.UseSqlServer(@"Server=localhost;Database=Booking;Trusted_Connection=True;TrustServerCertificate=True;");
         }
 
         public DbSet<HallDto> Halls { get; set; }

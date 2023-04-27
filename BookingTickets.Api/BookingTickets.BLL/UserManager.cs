@@ -1,4 +1,4 @@
-﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL;
 using BookingTickets.BLL.Models.All_UserBLLModels;
@@ -41,6 +41,18 @@ namespace BookingTickets.BLL
         public void DeleteCashierById(int idCashier)
         {
             _userRepository.DeleteCashierById(idCashier);
+        }
+        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
+        private readonly IAuthRepository _authRepository;
+
+
+        public UserManager()
+        {
+            _authRepository = new AuthRepository();
+        }
+        public UserBLL GetUserByName(string name)
+        {
+            return _instanceMapperBll.MapUserDtoUserBLL(_authRepository.GetUserByName(name));
         }
     }
 }
