@@ -8,16 +8,16 @@ namespace BookingTickets.BLL
     public class SeatManager
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private readonly ISeatRepository _repository;
+        private readonly ISeatRepository _seatRepository;
 
         public SeatManager()
         {
-            _repository = new SeatRepository();
+            _seatRepository = new SeatRepository();
         }
 
         public void CreateSeat(SeatBLL seat)
         {
-            _repository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seat));
+            _seatRepository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seat));
         }
 
         public void AddRowToHall(AddSeatsRowsInputModel rowSeats)
@@ -36,8 +36,13 @@ namespace BookingTickets.BLL
                     HallId = hallId
                 };
 
-                _repository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seatBll));
+                _seatRepository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seatBll));
             }
+        }
+
+        public List<SeatBLL> GetFreeSeatsBySessionId(int sessionId)
+        {
+            return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllFreeSeatsBySessionId(sessionId));
         }
     }
 }

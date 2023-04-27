@@ -35,7 +35,6 @@ namespace BookingTickets.API.Controllers
             var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
             string userName = nameClaim?.Value;
 
-            _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session));
             _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
 
             try
