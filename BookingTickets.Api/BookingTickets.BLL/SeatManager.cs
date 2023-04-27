@@ -1,4 +1,4 @@
-﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
@@ -9,7 +9,6 @@ namespace BookingTickets.BLL
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly ISeatRepository _seatRepository;
-        
 
         public SeatManager()
         {
@@ -40,14 +39,10 @@ namespace BookingTickets.BLL
                 _seatRepository.CreateSeat(_instanceMapperBll.MapSeatBLLToSeatDto(seatBll));
             }
         }
-        public List<SeatBLL> GetAllFreeSeatsBySessionId(int idSession)
-        {
-            return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllFreeSeatsBySessionId(idSession));  
-        }
 
-        public SeatBLL GetSeatById(int seatId)
+        public List<SeatBLL> GetFreeSeatsBySessionId(int sessionId)
         {
-        return _instanceMapperBll.MapSeatDtoToSeatBLL(_seatRepository.GetSeatById(seatId));    
+            return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllFreeSeatsBySessionId(sessionId));
         }
     }
 }

@@ -19,10 +19,11 @@ namespace BookingTickets.API.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<MainAdminController> _logger;
 
-        public MainAdminController(IMapper map, IMainAdmin mainAdmin)
+        public MainAdminController(IMapper map, IMainAdmin mainAdmin, ILogger<MainAdminController> log)
         {
             _mapper = map;
             _mainAdmin = mainAdmin;
+            _logger = log;
         }
 
         [HttpPost("Create_Film")]
