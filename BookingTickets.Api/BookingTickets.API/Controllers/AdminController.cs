@@ -7,12 +7,13 @@ using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.BLL.Models.All_UserBLLModels;
 using Core;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    [Authorize(Policy = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(Policy = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -101,7 +102,7 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Copy_Sessions_From_OneDay_By_DateCopy_To_DateWhereToCopy")]
         public IActionResult CopySessionsFromOneDayToAnotherByDateCopy(CopySessionsRequestModel model)
         {
-            var CinemaId = 8;
+            var CinemaId = 1;
             _admin.CopySession(model.DateCopy, model.DateWhereToCopy, CinemaId);
 
             return Ok();

@@ -61,7 +61,7 @@ namespace BookingTickets.BLL
 
         public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
         {
-            var allTrueSessions = _instanceMapperBll.MapListSessionsDtoToListCreateSessionInputModel(_sessionRepository.GetAllSessionByDate(dateCopy));
+            var allTrueSessions = _instanceMapperBll.MapListSessionsDtoToListCreateSessionInputModel(_sessionRepository.GetAllSessionByDate(dateCopy).Where(a => a.Hall.CinemaId == CinemaId).ToList());
             
             foreach (var session in allTrueSessions)
             {
