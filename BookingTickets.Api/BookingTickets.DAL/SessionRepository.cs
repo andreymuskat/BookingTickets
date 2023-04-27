@@ -1,4 +1,5 @@
-﻿using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL
@@ -11,6 +12,7 @@ namespace BookingTickets.DAL
         {
             _context = new Context();
         }
+
         public SessionDto CreateSession(SessionDto session)
         {
             _context.Sessions.Add(session);
@@ -37,18 +39,21 @@ namespace BookingTickets.DAL
         {
             return _context.Sessions
                 .Where(k => k.Hall.Cinema.Id == idCinema)
+                .Include(f => f.Film)
+                .Include(h => h.Hall)
                 .ToList();
         }
 
-        public List<SessionDto> GetAllSessionByDate(DateTime Date)
+        public List<SessionDto> GetAllSessionByDate(DateTime date)
         {
+            List<SessionDto> SessionInDay = new List<SessionDto>();
             List<SessionDto> AllSession = _context.Sessions
                 .Where(k => k.IsDeleted == false)
+                .Include(k => k.Film)
+                .Include(h => h.Hall)
                 .ToList();
 
-            DateOnly dateSearch = DateOnly.FromDateTime(Date);
-            List<SessionDto> SessionInDay = new List<SessionDto>();
-
+            DateOnly dateSearch = DateOnly.FromDateTime(date);
             for (int i = 0; i < AllSession.Count; i++)
             {
                 DateOnly session = DateOnly.FromDateTime(AllSession[i].Date);
@@ -77,6 +82,27 @@ namespace BookingTickets.DAL
                 }
             }
             return SessionInDay;
+        }
+
+        public List<SessionDto> GetAllSessionInTheIntervalDate(DateOnly dateStart, DateOnly dateEnd)
+        {
+            List<SessionDto> SessionInTheInterval = new List<SessionDto>();
+            List<SessionDto> AllSession = _context.Sessions
+                .Where(k => k.IsDeleted == false)
+                .Include(k => k.Film)
+                .Include(h => h.Hall)
+                .ToList();
+
+            for (int i = 0; i < AllSession.Count; i++)
+            {
+                DateOnly session = DateOnly.FromDateTime(AllSession[i].Date);
+                if (dateStart <= session && session <= dateEnd)
+                {
+                    SessionInTheInterval.Add(AllSession[i]);
+                }
+            }
+
+            return SessionInTheInterval;
         }
 
         public void DeleteSession(int idSession)

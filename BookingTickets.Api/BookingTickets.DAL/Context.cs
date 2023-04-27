@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using BookingTickets.DAL.Models;
+﻿using BookingTickets.DAL.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext
+
     {
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -17,5 +19,16 @@ namespace BookingTickets.DAL
         public DbSet<SeatDto> Seats { get; set; }
         public DbSet<SessionDto> Sessions { get; set; }
         public DbSet<UserDto> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            foreach (var fkey in builder.Model.GetEntityTypes().SelectMany(k => k.GetForeignKeys()))
+            {
+                fkey.DeleteBehavior = DeleteBehavior.NoAction;    
+            }
+
+        }
     }
 }

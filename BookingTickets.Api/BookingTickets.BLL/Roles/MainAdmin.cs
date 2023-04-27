@@ -11,6 +11,7 @@ namespace BookingTickets.BLL.Roles
         private readonly CinemaManager _cinemaManager;
         private readonly SeatManager _seatManager;
         private readonly HallManager _hallManager;
+        private readonly UserManager _userManager;
 
         public MainAdmin()
         {
@@ -18,6 +19,7 @@ namespace BookingTickets.BLL.Roles
             _cinemaManager = new CinemaManager();
             _seatManager = new SeatManager();
             _hallManager = new HallManager();
+            _userManager = new UserManager();
         }
 
         public void CreateNewFilm(FilmBLL newFilm)

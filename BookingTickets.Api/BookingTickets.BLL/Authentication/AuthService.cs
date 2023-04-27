@@ -1,11 +1,14 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
 using BookingTickets.BLL.Authentication.AuthModels;
+using BookingTickets.BLL.Models;
 using BookingTickets.DAL.Configuration;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
+using Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
@@ -14,13 +17,13 @@ namespace BookingTickets.BLL.Authentication
     public class AuthService : IAuthService
     {
         private readonly UserManager<IdentityUser> manager;
-        private readonly IUserRepository repository;
+        private readonly IAuthRepository repository;
         private readonly IJwtConfigurationSettings settings;
         private readonly IMapper mapper;
 
         public AuthService(
             UserManager<IdentityUser> userManager,
-            IUserRepository authRepository,
+            IAuthRepository authRepository,
             IJwtConfigurationSettings jwtConfigurationSettings,
             IMapper autoMapper)
         {
@@ -45,7 +48,7 @@ namespace BookingTickets.BLL.Authentication
             var user = new IdentityUser
             {
                 Email = userRegister.Email,
-                UserName = userRegister.Name
+                UserName = userRegister.UserName
             };
 
             var isUserCreated = await manager.CreateAsync(user, userRegister.Password);
@@ -57,14 +60,12 @@ namespace BookingTickets.BLL.Authentication
                     Success = false,
                     Error = isUserCreated.Errors.Select(error => error.Description)
                 };
-            }
-
+            }                      
+            
             var roles = GetRole();
             var token = GetJwtToken(user, roles);
-
             var userDto = mapper.Map<UserRegister, UserDto>(userRegister);
-
-            var userId = repository.AddNewUser(userDto);
+            var userId = repository.AddUser(userDto);
 
             return new AuthResult
             {
@@ -75,7 +76,7 @@ namespace BookingTickets.BLL.Authentication
 
         public async Task<AuthResult> LoginUser(UserLogin userLogin)
         {
-            var existingUser = await manager.FindByNameAsync(userLogin.Name);
+            var existingUser = await manager.FindByNameAsync(userLogin.UserName);
 
             if (existingUser == null)
             {
@@ -95,8 +96,9 @@ namespace BookingTickets.BLL.Authentication
                     Error = new[] { "invalid credentials" }
                 };
             }
+            var userDto = repository.GetUserByName(userLogin.UserName);
+            var roles = GetRoleAuth(userDto);
 
-            var roles = GetRole();
             var token = GetJwtToken(existingUser, roles);
 
             return new AuthResult
@@ -104,16 +106,16 @@ namespace BookingTickets.BLL.Authentication
                 Success = true,
                 Token = token
             };
-        }
+        }        
 
         private string GetJwtToken(IdentityUser user, IEnumerable<string> userRoles)
         {
-            var key = Encoding.UTF8.GetBytes(settings.Key);
+            var key = Encoding.UTF8.GetBytes(settings.Key);     
 
             var claims = new List<Claim>{
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
             claims.AddRange(userRoles.Select(ur => new Claim(ur, "true")));
@@ -136,5 +138,26 @@ namespace BookingTickets.BLL.Authentication
             return new[] { "User" };
         }
 
+        private IEnumerable<string> GetRoleAuth(UserDto userDto)
+        {
+            if (userDto.UserStatus == UserStatus.Admin)
+            {
+                return new[] { "Admin", "Cashier", "User"};
+            }
+            else if (userDto.UserStatus == UserStatus.MainAdmin)
+            {
+                return new[] { "MainAdmin", "Admin", "Cashier", "User"};
+            }
+            else if (userDto.UserStatus == UserStatus.Cashier)
+            {
+                return new[] { "Cashier", "User"};
+            }
+            else if (userDto.UserStatus == UserStatus.Client)
+            {
+                return new[] { "User" };
+            }
+
+            return new[] { "User" };
+        }        
     }
 }

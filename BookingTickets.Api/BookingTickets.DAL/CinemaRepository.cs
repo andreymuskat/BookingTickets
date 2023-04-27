@@ -22,6 +22,12 @@ namespace BookingTickets.DAL
             return cinema;
         }
 
+        public CinemaDto GetCinemaById(int cinemaId)
+        {
+            return _context.Cinemas
+                .SingleOrDefault(i => i.Id == cinemaId);
+        }
+
         public List<UserDto> GetAllEmployesInCinema(int idCinema)
         {
             return new List<UserDto>();
