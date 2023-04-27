@@ -100,10 +100,10 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpPost("Copy_Sessions_From_OneDay_By_DateCopy_To_DateWhereToCopy")]
-        public IActionResult CopySessionsFromOneDayToAnotherByDateCopy(DateTime dateCopy, DateTime dateWhereToCopy)
+        public IActionResult CopySessionsFromOneDayToAnotherByDateCopy(CopySessionsRequestModel model)
         {
             var CinemaId = 8;
-            _admin.CopySession(dateCopy, dateWhereToCopy, CinemaId);
+            _admin.CopySession(model.DateCopy, model.DateWhereToCopy, CinemaId);
 
             return Ok();
         }

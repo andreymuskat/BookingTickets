@@ -61,13 +61,13 @@ namespace BookingTickets.BLL
 
         public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
         {
-            var allTrueSessions = _sessionRepository.GetAllSessionByDate(dateCopy);
-            var newSessions = new List<SessionDto>();
+            var allTrueSessions = _instanceMapperBll.MapListSessionsDtoToListCreateSessionInputModel(_sessionRepository.GetAllSessionByDate(dateCopy));
             
             foreach (var session in allTrueSessions)
             {
-                session.Date = dateWhereToCopy;
-                _sessionRepository.CreateSession(session);
+                session.Date = dateWhereToCopy.AddHours(session.Date.Hour).AddMinutes(session.Date.Minute).AddSeconds(session.Date.Second);
+                var res = _instanceMapperBll.MapCreateSessionInputModelToSessionDto(session);
+                _sessionRepository.CreateSession(res);
             }
         }
     }

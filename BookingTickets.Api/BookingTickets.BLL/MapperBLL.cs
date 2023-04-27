@@ -45,6 +45,7 @@ namespace BookingTickets.BLL
                     .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId))
                     .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.Password))
                     .ForMember(src => src.UserName, opt => opt.MapFrom(x => x.Name));
+                    cfg.CreateMap<SessionDto, CreateSessionInputModel>();
                 });
         }
 
@@ -160,6 +161,11 @@ namespace BookingTickets.BLL
         public List<SeatBLL> MapListSeatDtoToListSeatBLL(List<SeatDto> seat)
         {
             return _configuration.CreateMapper().Map<List<SeatBLL>>(seat);
+        }
+
+        public List<CreateSessionInputModel> MapListSessionsDtoToListCreateSessionInputModel(List <SessionDto> sessions)
+        {
+            return _configuration.CreateMapper().Map< List<CreateSessionInputModel>>(sessions);
         }
     }
 }
