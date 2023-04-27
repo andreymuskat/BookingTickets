@@ -75,9 +75,9 @@ namespace BookingTickets.DAL
             _context.SaveChanges();
         }
 
-        public int GetUserCinemaId(UserDto user)
-        {
-            return user.CinemaId;
-        }
+        //public int GetUserCinemaId(UserDto user)
+        //{
+        //    return user.CinemaId;
+        //}
     }
 }

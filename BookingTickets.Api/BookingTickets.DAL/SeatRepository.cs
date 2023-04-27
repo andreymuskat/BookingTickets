@@ -77,7 +77,7 @@ namespace BookingTickets.DAL
 
             foreach (var order in OrdersInSession)
             {
-                if (order.Status == OrderStatus.PurchasedBy�ashbox || order.Status == OrderStatus.PurchasedBySite)
+                if (order.Status == OrderStatus.PurchasedByСashbox || order.Status == OrderStatus.PurchasedBySite)
                 {
                     PurchasedSeats.Add(order.Seats);
                 }
