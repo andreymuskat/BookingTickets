@@ -10,7 +10,7 @@
 
         public HallBLL Hall { get; set; }
 
-        public int Cost { get; set; }
+        public decimal Cost { get; set; }
 
         public bool IsDeleted { get; set; }
     }

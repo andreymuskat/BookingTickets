@@ -9,7 +9,7 @@ namespace BookingTickets.DAL
     {
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            builder.UseSqlServer(@"Server=localhost;Database=Booking;Trusted_Connection=True;TrustServerCertificate=True;");
+            builder.UseSqlServer(Environment.GetEnvironmentVariable("BookingTickets"));
         }
 
         public DbSet<HallDto> Halls { get; set; }
@@ -19,5 +19,16 @@ namespace BookingTickets.DAL
         public DbSet<SeatDto> Seats { get; set; }
         public DbSet<SessionDto> Sessions { get; set; }
         public DbSet<UserDto> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            foreach (var fkey in builder.Model.GetEntityTypes().SelectMany(k => k.GetForeignKeys()))
+            {
+                fkey.DeleteBehavior = DeleteBehavior.NoAction;    
+            }
+
+        }
     }
 }

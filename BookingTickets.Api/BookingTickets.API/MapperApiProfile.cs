@@ -13,6 +13,7 @@ using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.All_UserBLLModels;
 using BookingTickets.DAL.Models;
 using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
+using BookingTickets.BLL.Models.All_User_InputModel;
 
 namespace BookingTickets.API
 {
@@ -40,6 +41,7 @@ namespace BookingTickets.API
                 .ForMember(src => src.Id, opt => opt.Ignore()); ;
             CreateMap<UserLoginRequest, UserLogin>();
             CreateMap<UserDto, UserBLL>();
+            CreateMap<CreateNewEmployeeRequestModel, CreateNewEmployeeInputModel>();
         }
     }
 }

@@ -6,6 +6,8 @@ namespace BookingTickets.DAL.Interfaces
     {
         public CinemaDto CreateCinema(CinemaDto cinema);
 
+        public CinemaDto GetCinemaById(int cinemaId);
+
         public List<UserDto> GetAllEmployesInCinema(int idCinema);
 
         public List<HallDto> GetAllHallByCinemaId(int idCinema);
