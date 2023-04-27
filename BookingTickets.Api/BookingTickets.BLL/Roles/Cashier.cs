@@ -14,16 +14,15 @@ namespace BookingTickets.BLL.Roles
         private readonly CinemaManager _cinemaManager;
         private readonly UserManager _userManager;
         private readonly OrderManager _orderManager;
-        //private int cashiersCinemaId;
         private const int advertisingTime = 15;
 
-        public Cashier(UserBLL userId)
+        public Cashier()
         {
             _filmManager = new FilmManager();
             _sessionManager = new SessionManager();
             _cinemaManager = new CinemaManager();
             _userManager = new UserManager();
-            //cashiersCinemaId = GetUserCinemaId(userId);
+            _orderManager = new OrderManager();
         }
         public FilmBLL GetFilmById(int filmId)
         {
@@ -32,12 +31,13 @@ namespace BookingTickets.BLL.Roles
 
         public List<SessionBLL> GetSessionsInHisCinema(UserBLL userId)
         {
+            int cashiersCinemaId = userId.Cinema.Id;
             var listSession = _sessionManager.GetAllSessionByCinemaId(cashiersCinemaId);
             var res = listSession.FindAll(d => d.IsDeleted == false);
             return res;
         }
 
-        public List<SessionBLL> GetSessionsByFilmInHisCinema(int idFilm)
+        public List<SessionBLL> GetSessionsByFilmInHisCinema(int idFilm, int cashiersCinemaId)
         {
             var listSession = _sessionManager.GetAllSessionByFilmId(idFilm);
             var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
@@ -59,7 +59,7 @@ namespace BookingTickets.BLL.Roles
             return freeSeats;
         }
 
-        public OrderBLL FindOrderByCodeNumber(string codeNumber)
+        public List <OrderBLL> FindOrderByCodeNumber(string codeNumber)
         {
             var order = _orderManager.FindOrderByCodeNumber(codeNumber);
             return order;

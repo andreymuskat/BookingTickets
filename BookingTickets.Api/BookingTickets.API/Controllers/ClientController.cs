@@ -1,8 +1,6 @@
 using AutoMapper;
-using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.InterfacesBll;
-using BookingTickets.BLL.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers

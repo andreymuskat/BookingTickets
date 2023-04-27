@@ -9,6 +9,6 @@ namespace BookingTickets.DAL.Interfaces
 
         public void EditOrderStatus(OrderStatus status, string code);
 
-        public OrderDto FindOrderByCodeNumber(string codeNumber);
+        public List <OrderDto> FindOrderByCodeNumber(string codeNumber);
     }
 }

@@ -39,12 +39,23 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<AddSeatsRowsInputModel, SeatDto>();
                     cfg.CreateMap<OrderDto, OrderBLL>();
                     cfg.CreateMap<OrderBLL, OrderDto>();
-                    cfg.CreateMap<CreateOrderInputModel, OrderDto>()
+                    cfg.CreateMap<CreateOrderInputModel, OrderDto, >()
                     .ForMember(src => src.SeatsId, opt => opt.MapFrom(x => x.SeatsId))
-                    .ForMember(src => src.SessionId, opt => opt.MapFrom(x => x.SessionId));
+                    .ForMember(src => src.SessionId, opt => opt.MapFrom(x => x.SessionId))
+                    .ForMember (src => src.Status, opt => opt.MapFrom(x => x.Status))
+                    .ForMember(src => src.Date , opt => opt.MapFrom(x => x.Date))
+                    .ForMember(src => src.Code, opt => opt.MapFrom(x => x.Code))
+                    ;
+                    cfg.CreateMap<OrderDto, CreateOrderInputModel>()
+                .ForMember(src => src.SeatsId , opt => opt.MapFrom(x => x.SeatsId))
+                .ForMember(src => src.SessionId, opt => opt.MapFrom(x => x.SessionId))
+                .ForMember(src => src.Status, opt => opt.MapFrom(x => x.Status))
+                .ForMember(src => src.Date, opt => opt.MapFrom(x => x.Date))
+                .ForMember(src => src.Code, opt => opt.MapFrom(x => x.Code))
+                .ForMember (src=> src.UserId, opt =>opt.MapFrom(x => x.UserId))
+                ;
                 });
         }
-
         public static MapperBLL getInstance()
         {
             if (_instanceMapperBll is null)
@@ -131,6 +142,11 @@ namespace BookingTickets.BLL
         public OrderDto MapCreateOrderInputModelToOrderDto(CreateOrderInputModel session)
         {
             return _configuration.CreateMapper().Map<OrderDto>(session);
+        }
+
+        public List <OrderDto> MapCreateListOrderInputModelToListOrderDto (List <CreateOrderInputModel> session)
+        {
+            return _configuration.CreateMapper().Map<List<OrderDto>>(session);
         }
 
         public List<CinemaBLL> MapListCinemaDtoToListCinemaBLL(List<CinemaDto> cinema)

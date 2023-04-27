@@ -1,6 +1,5 @@
 ﻿using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
-using BookingTickets.BLL.Roles;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 using Core;
@@ -21,9 +20,9 @@ namespace BookingTickets.BLL
             _seatRepository = new SeatRepository();
         }
 
-        public OrderBLL FindOrderByCodeNumber(string codeNumber)
+        public List <OrderBLL> FindOrderByCodeNumber(string codeNumber)
         {
-            return _instanceMapperBll.MapOrderDtoToOrderBll(_orderRepository.FindOrderByCodeNumber(codeNumber));
+            return _instanceMapperBll.MapCreateListOrderInputModelToListOrderDto(_orderRepository.FindOrderByCodeNumber(codeNumber));
         }
 
         public void CreateOrder(CreateOrderInputModel order)
@@ -43,9 +42,13 @@ namespace BookingTickets.BLL
 
         public void EditOrderStatus(OrderStatus status, string code)
         {
-            _orderRepository.FindOrderByCodeNumber(code).Status = status;   
+            var bookingOrders = _orderRepository.FindOrderByCodeNumber(code);
+            foreach (var bookingOrder in bookingOrders)
+            { 
+                bookingOrder.Status = status; 
+            _orderRepository.EditOrderStatus(status, code);
+            }
         }
     }
-
 }
   
