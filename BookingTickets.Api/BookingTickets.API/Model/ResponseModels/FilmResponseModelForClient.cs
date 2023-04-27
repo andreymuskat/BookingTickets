@@ -1,6 +1,6 @@
 ﻿namespace BookingTickets.API.Model.ResponseModels
 {
-    public class FilmResponseModelForClient : FilmResponseModel
+    public class FilmResponseModelForClient
     {
         public string Name { get; set; }
 

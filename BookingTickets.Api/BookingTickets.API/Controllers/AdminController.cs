@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    [Authorize(Policy = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(Policy = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -35,7 +35,6 @@ namespace BookingTickets.API.Controllers
             var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
             string userName = nameClaim?.Value;
 
-            _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session));
             _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
 
             try

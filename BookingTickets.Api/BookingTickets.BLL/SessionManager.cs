@@ -23,6 +23,7 @@ namespace BookingTickets.BLL
 
         public void CreateSession(CreateSessionInputModel newSession)
         {
+            int hh = 0;
             TimeOnly TimeStartNewSession = TimeOnly.FromDateTime(newSession.Date);
             FilmBLL FilmInNewSession = _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(newSession.FilmId));
 
@@ -43,21 +44,30 @@ namespace BookingTickets.BLL
                     var SubtractSession = allTimeStartSession[i] - TimeOnly.FromDateTime(newSession.Date);
 
                     if (allTimeStartSession[i] <= TimeStartNewSession
-                        || TimeStartNewSession >= allTimeEndSession[i])
+                        && TimeStartNewSession <= allTimeEndSession[i])
                     {
                         throw new SessionException(100);
+
+                        return;
                     }
                     else if (SubtractSession < DurationSession)
                     {
                         throw new SessionException(101);
+
+                        return;
                     }
                     else
                     {
-                        _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
+                        hh++;
                     }
                 }
             }
             else
+            {
+                _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
+            }
+
+            if (hh > 0)
             {
                 _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
             }
