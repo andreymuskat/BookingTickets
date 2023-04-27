@@ -2,6 +2,7 @@ using BookingTickets.BLL.Models;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL;
 using BookingTickets.BLL.Models.All_UserBLLModels;
+using BookingTickets.BLL.Models.All_User_InputModel;
 
 namespace BookingTickets.BLL
 {
@@ -47,6 +48,15 @@ namespace BookingTickets.BLL
         public UserBLL GetUserByName(string name)
         {
             return _instanceMapperBll.MapUserDtoToUserBLL(_authRepository.GetUserByName(name));
+        }
+
+        public void ChangeUserStatus(ChangeUserStatusInputModel newUser)
+        {
+            var user = _userRepository.GetUserById(newUser.userId);
+
+            user.UserStatus = (Core.UserStatus)(newUser.newUserStatus);
+
+            _userRepository.UdateUserStatus(user);
         }
     }
 }
