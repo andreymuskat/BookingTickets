@@ -53,7 +53,6 @@ namespace BookingTickets.API.Controllers
         {
             var cashierInputModel = _mapper.Map<CreateCashierInputModel>(cashierModel);
             var res = _mapper.Map<UserResponseModel>(_admin.CreateNewCashier(cashierInputModel));
-            
 
             return Ok(res);
         }
@@ -62,13 +61,8 @@ namespace BookingTickets.API.Controllers
         public IActionResult DeleteCashierById(int cashierId)
         {
             _admin.DeleteCashierById(cashierId);
+
             return Ok();
         }
-
-        //[HttpPost("Copy_Sessions_From_OneDay_ToAnother_By_DateCopy")]
-        //public IActionResult CopySessionsFromOneDayToAnotherByDateCopy(CreateCashierRequestModel cashierModel)
-        //{
-        //    return Ok();
-        //}
     }
 }
