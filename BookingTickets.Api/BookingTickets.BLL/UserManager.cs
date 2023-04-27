@@ -1,7 +1,7 @@
-﻿using BookingTickets.BLL.CustomException;
-using BookingTickets.BLL.Models.All_User_InputModel;
-using BookingTickets.DAL;
+using BookingTickets.BLL.Models;
 using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL;
+using BookingTickets.BLL.Models.All_UserBLLModels;
 
 namespace BookingTickets.BLL
 {
@@ -9,24 +9,44 @@ namespace BookingTickets.BLL
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly IUserRepository _userRepository;
-        private readonly ICinemaRepository _cinemaRepository;
+        private readonly IAuthRepository _authRepository;
 
         public UserManager()
         {
             _userRepository = new UserRepository();
-            _cinemaRepository= new CinemaRepository();
+            _authRepository = new AuthRepository();
         }
 
-        public void AddNewAdmin(CreateNewEmployeeInputModel user)
+        public List<UserBLL> GetAllUsers()
         {
-            var cinema = _cinemaRepository.GetCinemaById(user.CinemaId);
+            var allUsers = _userRepository.GetAllUsers();
 
-            if(cinema == null) 
-            { throw new UserExceptions("Кинотеатра, в который вы хотите записать администратора, не существует."); }
-            else
-            {
-                _userRepository.AddNewUser(_instanceMapperBll.MapCreateNewEmployeeInputModelToUserDto(user));
-            }
+            return _instanceMapperBll.MapListUserDtoToListUserBLL(allUsers);
+        }
+        
+        public List<UserBLL> GetAllCashiers()
+        {
+            var allUsers = _userRepository.GetAllCashiers();
+
+            return _instanceMapperBll.MapListUserDtoToListUserBLL(allUsers);
+        }
+
+        public UserBLL CreateNewCashier(CreateCashierInputModel user)
+        {
+            var userDto = _instanceMapperBll.MapCreateCashierInputModelToUserDto(user);
+            var resUserBLL = _instanceMapperBll.MapUserDtoToUserBLL(_userRepository.CreateNewCashier(userDto));
+
+            return resUserBLL;
+        }
+
+        public void DeleteCashierById(int idCashier)
+        {
+            _userRepository.DeleteCashierById(idCashier);
+        }
+
+        public UserBLL GetUserByName(string name)
+        {
+            return _instanceMapperBll.MapUserDtoToUserBLL(_authRepository.GetUserByName(name));
         }
     }
 }

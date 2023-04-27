@@ -1,10 +1,13 @@
 using AutoMapper;
 using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.BLL.InterfacesBll;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
+    [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
@@ -51,7 +54,7 @@ namespace BookingTickets.API.Controllers
 
         [HttpGet("GetCinemas/{filmId}", Name = "GetCinemasByFilmId")]
         public IActionResult GetCinemasByFilmId(int filmId)
-        {
+        {          
             try
             {
                 var cb = _client.GetCinemaByFilm(filmId);
@@ -64,12 +67,11 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetSession/{idFilm}", Name = "GetSessionsByFilmId")]
+        [HttpGet("GetSession/Film/{idFilm}", Name = "GetSessionsByFilmId")]
         public IActionResult GetAllSessionByFilmId(int idFilm)
         {
             try
             {
-
                 var sb = _client.GetSessionsByFilm(idFilm);
                 var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
                 return Ok(res);
@@ -80,7 +82,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetSession/{idSession}", Name = "GetSessionById")]
+        [HttpGet("GetSession/Session/{idSession}", Name = "GetSessionById")]
         public IActionResult GetSessionById(int idSession)
         {
             try

@@ -2,6 +2,7 @@ using AutoMapper;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.BLL.Models.All_UserBLLModels;
 using BookingTickets.BLL.Models.All_User_InputModel;
 using BookingTickets.DAL.Models;
 
@@ -24,10 +25,11 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<CinemaDto, CinemaBLL>();
                     cfg.CreateMap<HallDto, HallBLL>();
                     cfg.CreateMap<HallBLL, HallDto>();
+                    cfg.CreateMap<CinemaBLL, CinemaDto>();
                     cfg.CreateMap<SessionDto, SessionBLL>();
                     cfg.CreateMap<SessionBLL, SessionDto>();
-                    cfg.CreateMap<UserDto, UserBLL>();
-                    cfg.CreateMap<UserBLL, UserDto>();
+                    cfg.CreateMap<UserDto, UserBLL>()
+                    .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
                     cfg.CreateMap<CreateSessionInputModel, SessionDto>()
                     .ForMember(src => src.FilmId, opt => opt.MapFrom(x => x.FilmId))
                     .ForMember(src => src.HallId, opt => opt.MapFrom(x => x.HallId))
@@ -36,6 +38,9 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<SeatBLL, SeatDto>();
                     cfg.CreateMap<SeatDto, SeatBLL>();
                     cfg.CreateMap<AddSeatsRowsInputModel, SeatDto>();
+                    cfg.CreateMap<UserBLL, UserDto>()
+                    .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
+                    cfg.CreateMap<CreateCashierInputModel, UserDto>();
                     cfg.CreateMap<CreateNewEmployeeInputModel, UserDto>()
                     .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId))
                     .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.Password))
@@ -102,12 +107,12 @@ namespace BookingTickets.BLL
             return _configuration.CreateMapper().Map<SessionDto>(session);
         }
 
-        public UserBLL MapUserDtoUserBLL(UserDto user)
+        public UserBLL MapUserDtoToUserBLL(UserDto user)
         {
             return _configuration.CreateMapper().Map<UserBLL>(user);
         }
 
-        public UserDto MapUserBLLUserDto(UserBLL user)
+        public UserDto MapUserBLLToUserDto(UserBLL user)
         {
             return _configuration.CreateMapper().Map<UserDto>(user);
         }
@@ -130,6 +135,16 @@ namespace BookingTickets.BLL
         public SessionBLL MapSessionDtoToSessionBLL(SessionDto session)
         {
             return _configuration.CreateMapper().Map<SessionBLL>(session);
+        }
+
+        public List<UserBLL> MapListUserDtoToListUserBLL(List<UserDto> users)
+        {
+            return _configuration.CreateMapper().Map<List<UserBLL>>(users);
+        }
+        
+        public UserDto MapCreateCashierInputModelToUserDto(CreateCashierInputModel user)
+        {
+            return _configuration.CreateMapper().Map<UserDto>(user);
         }
 
         public UserDto MapCreateNewEmployeeInputModelToUserDto(CreateNewEmployeeInputModel userEmploy)
