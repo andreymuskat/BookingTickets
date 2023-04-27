@@ -1,5 +1,6 @@
 ﻿using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
+using BookingTickets.BLL.Roles;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 using Core;
@@ -34,29 +35,11 @@ namespace BookingTickets.BLL
             int secondPart = order.SessionId;
             int thirdPart = order.SeatsId;
             string code = String.Concat(firstPart, secondPart, thirdPart);
-            sessionInNewOrder. = code;
-            if (order.User.UserStatus == UserStatus.Cashier)
-            {
-                order.Status = OrderStatus.PurchasedByСashbox;
-            }
-            //else if (order.User.UserStatus == UserStatus.Client)
-            //{
-            //    order.Status = OrderStatus.Booking;
-            //}
-            //_orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+            order.Code = code;
+            order.Date = DateTime.Now;
+            order.Status = OrderStatus.PurchasedByСashbox;
+            _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
         }
-
-        //        {
-        //    TimeOnly TimeStartNewSession = TimeOnly.FromDateTime(newSession.Date);
-        //FilmBLL FilmInNewSession = _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(newSession.FilmId));
-
-        //TimeSpan DurationSession = TimeSpan.FromMinutes(FilmInNewSession.Duration + timeoutInMin);
-
-        //List<TimeOnly> allTimeStartSession = new List<TimeOnly>();
-        //List<TimeOnly> allTimeEndSession = new List<TimeOnly>();
-
-        //List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByDate(newSession.Date));
-
 
         public void EditOrderStatus(OrderStatus status, string code)
         {

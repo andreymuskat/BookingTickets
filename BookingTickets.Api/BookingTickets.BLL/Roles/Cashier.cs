@@ -79,10 +79,5 @@ namespace BookingTickets.BLL.Roles
         {
              _orderManager.EditOrderStatus(status, code);
         }
-
-        public SeatBLL GetSeatById(int seatId)
-        {
-
-        }
     }
 }

@@ -1,4 +1,5 @@
 using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
 
 namespace BookingTickets.BLL.InterfacesBll
 {
@@ -16,6 +17,6 @@ namespace BookingTickets.BLL.InterfacesBll
 
         public SessionBLL GetSessionById(int idSession);
 
-        public void CreateOrder(OrderBLL order);
+        public void CreateOrder(CreateOrderInputModel order);
     }
 }

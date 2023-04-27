@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
@@ -38,8 +39,9 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<AddSeatsRowsInputModel, SeatDto>();
                     cfg.CreateMap<OrderDto, OrderBLL>();
                     cfg.CreateMap<OrderBLL, OrderDto>();
-                    cfg.CreateMap<CreateSessionInputModel, SeatDto>();
-                    
+                    cfg.CreateMap<CreateOrderInputModel, OrderDto>()
+                    .ForMember(src => src.SeatsId, opt => opt.MapFrom(x => x.SeatsId))
+                    .ForMember(src => src.SessionId, opt => opt.MapFrom(x => x.SessionId));
                 });
         }
 

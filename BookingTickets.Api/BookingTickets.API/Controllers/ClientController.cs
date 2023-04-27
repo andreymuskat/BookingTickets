@@ -97,15 +97,6 @@ namespace BookingTickets.API.Controllers
                 return BadRequest();
             };
         }
-
-        [HttpPost("CreateOrder")]
-        public IActionResult CreateOrder(OrderRequestModel model)
-        {
-            var res = _mapper.Map<OrderBLL>(model);
-            _client.CreateOrder(res);
-
-            return Ok("GOT IT");
-        }
     }
 }
 
