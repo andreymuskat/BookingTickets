@@ -27,11 +27,15 @@ namespace BookingTickets.API.Controllers
             _mainAdmin = mainAdmin;
         }
 
-        [HttpPost("Add_Film")]
-        public IActionResult AddNewFilm(CreateFilmRequestModel model)
+        [HttpPost("Create_Film")]
+        public IActionResult CreateFilm(CreateFilmRequestModel model)
         {
+            _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a film.");
+
             var res = _mapper.Map<FilmBLL>(model);
             _mainAdmin.CreateNewFilm(res);
+
+            _logger.Log(LogLevel.Information, "MainAdmin request completed: film written to the database.", model);
 
             return Ok("GOT IT");
         }
@@ -39,7 +43,11 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Create_New_Cinema")]
         public IActionResult CreateNewCinema(CreateCinemaRequestModel model)
         {
+            _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a cinema.");
+
             _mainAdmin.CreateCinema(_mapper.Map<CinemaBLL>(model));
+
+            _logger.Log(LogLevel.Information, "MainAdmin request completed: cinema written to the database.", model);
 
             return Ok("GOT IT");
         }
@@ -59,5 +67,11 @@ namespace BookingTickets.API.Controllers
 
             return Ok("GOT IT");
         }
+
+        //[HttpPost("Add_Admin")]
+        //public IActionResult AddNewAdmin(CreateNewEmployeeRequestModel newAdmin)
+        //{
+
+        //}
     }
 }

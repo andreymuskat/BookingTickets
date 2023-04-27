@@ -3,6 +3,7 @@ using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.BLL.Models.All_UserBLLModels;
+using BookingTickets.BLL.Models.All_User_InputModel;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
@@ -20,10 +21,11 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<FilmDto, FilmBLL>();
                     cfg.CreateMap<FilmBLL, FilmDto>();
                     cfg.CreateMap<FilmBLL, FilmDto>();
+                    cfg.CreateMap<CinemaBLL, CinemaDto>();
+                    cfg.CreateMap<CinemaDto, CinemaBLL>();
                     cfg.CreateMap<HallDto, HallBLL>();
                     cfg.CreateMap<HallBLL, HallDto>();
                     cfg.CreateMap<CinemaBLL, CinemaDto>();
-                    cfg.CreateMap<CinemaDto, CinemaBLL>();
                     cfg.CreateMap<SessionDto, SessionBLL>();
                     cfg.CreateMap<SessionBLL, SessionDto>();
                     cfg.CreateMap<UserDto, UserBLL>()
@@ -39,6 +41,10 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<UserBLL, UserDto>()
                     .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
                     cfg.CreateMap<CreateCashierInputModel, UserDto>();
+                    cfg.CreateMap<CreateNewEmployeeInputModel, UserDto>()
+                    .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId))
+                    .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.Password))
+                    .ForMember(src => src.UserName, opt => opt.MapFrom(x => x.Name));
                 });
         }
 
@@ -139,6 +145,16 @@ namespace BookingTickets.BLL
         public UserDto MapCreateCashierInputModelToUserDto(CreateCashierInputModel user)
         {
             return _configuration.CreateMapper().Map<UserDto>(user);
+        }
+
+        public UserDto MapCreateNewEmployeeInputModelToUserDto(CreateNewEmployeeInputModel userEmploy)
+        {
+            return _configuration.CreateMapper().Map<UserDto>(userEmploy);
+        }
+
+        public List<SeatBLL> MapListSeatDtoToListSeatBLL(List<SeatDto> seat)
+        {
+            return _configuration.CreateMapper().Map<List<SeatBLL>>(seat);
         }
     }
 }

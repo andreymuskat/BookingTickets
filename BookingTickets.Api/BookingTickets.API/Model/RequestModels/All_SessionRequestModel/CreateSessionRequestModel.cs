@@ -11,6 +11,6 @@ namespace BookingTickets.API.Model.RequestModels.All_SessionRequestModel
 
         public int HallId { get; set; }
 
-        public int Cost { get; set; }
+        public decimal Cost { get; set; }
     }
 }
