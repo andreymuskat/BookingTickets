@@ -32,10 +32,10 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Create_New_Session")]
         public IActionResult CreateNewSession(CreateSessionRequestModel session)
         {
+            _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
+
             var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
             string userName = nameClaim?.Value;
-
-            _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
 
             try
             {

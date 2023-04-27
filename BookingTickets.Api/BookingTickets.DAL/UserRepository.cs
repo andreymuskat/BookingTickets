@@ -74,5 +74,19 @@ namespace BookingTickets.DAL
 
             _context.SaveChanges();
         }
+
+        public UserDto GetUserById(int idUser) 
+        {
+            return _context.Users.SingleOrDefault(t => t.Id == idUser);
+        }
+
+        public void UdateUserStatus(UserDto user)
+        {
+            var searchUser =  _context.Users.SingleOrDefault(t => t.Id == user.Id);
+
+            searchUser.UserStatus = user.UserStatus;
+
+            _context.SaveChanges();
+        }
     }
 }
