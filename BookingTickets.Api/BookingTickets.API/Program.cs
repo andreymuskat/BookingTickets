@@ -2,6 +2,7 @@ using System.Text;
 using BookingTickets.API;
 using BookingTickets.API.Options;
 using BookingTickets.BLL;
+using BookingTickets.BLL.Authentication;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.NewFolder;
 using BookingTickets.BLL.Roles;
@@ -13,7 +14,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddSingleton<Context>();
+builder.Services.AddSingleton<Context>();
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,12 +25,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IFilmRepository, FilmRepository>();
 builder.Services.AddScoped<ICinemaRepository, CinemaRepository>();
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMainAdmin, MainAdmin>();
 builder.Services.AddScoped<IClient, Client>();
 builder.Services.AddScoped<IAdmin, Admin>();
-
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
+InjectSettingsConfiguration(builder);
+InjectAuthenticationDependencies(builder);
 
 var app = builder.Build();
 
@@ -96,10 +102,16 @@ void InjectAuthenticationDependencies(WebApplicationBuilder builder)
     {
         options.AddPolicy("MainAdmin", policy =>
                           policy.RequireClaim("MainAdmin"));
+        options.AddPolicy("User", policy =>
+                          policy.RequireClaim("User"));
+        options.AddPolicy("Cashier", policy =>
+                          policy.RequireClaim("Cashier"));
+        options.AddPolicy("Admin", policy =>
+                          policy.RequireClaim("Admin"));
 
 
     });
 
     builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-        .AddEntityFrameworkStores<AuthContext>();
+        .AddEntityFrameworkStores<Context>();
 }

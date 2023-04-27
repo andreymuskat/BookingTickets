@@ -3,22 +3,29 @@ using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL
 {
-    public class UserRepository : IUserRepository
+    public class AuthRepository : IAuthRepository
     {
         private readonly Context _context;
 
-        public UserRepository()
+        public AuthRepository()
         {
             _context = new Context();
         }
 
-        public int AddNewUser(UserDto user)
+        public int AddUser(UserDto user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
 
             return user.Id;
         }
+
+        public UserDto GetUserByName(string name)
+        {
+            var res = _context.Users.Single(s => s.Name == name);
+            return res;
+        }
+
 
     }
 }
