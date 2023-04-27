@@ -22,7 +22,7 @@ namespace BookingTickets.BLL
 
         public List <OrderBLL> FindOrderByCodeNumber(string codeNumber)
         {
-            return _instanceMapperBll.MapCreateListOrderInputModelToListOrderDto(_orderRepository.FindOrderByCodeNumber(codeNumber));
+            return _instanceMapperBll.MapCreateListOrderDtoModelToListOrderBll(_orderRepository.FindOrderByCodeNumber(codeNumber));
         }
 
         public void CreateOrder(CreateOrderInputModel order)

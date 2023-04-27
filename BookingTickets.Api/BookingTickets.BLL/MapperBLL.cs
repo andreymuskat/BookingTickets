@@ -39,7 +39,8 @@ namespace BookingTickets.BLL
                     cfg.CreateMap<AddSeatsRowsInputModel, SeatDto>();
                     cfg.CreateMap<OrderDto, OrderBLL>();
                     cfg.CreateMap<OrderBLL, OrderDto>();
-                    cfg.CreateMap<CreateOrderInputModel, OrderDto, >()
+                    cfg.CreateMap<OrderDto, OrderDto>();
+                    cfg.CreateMap<CreateOrderInputModel, OrderDto>()
                     .ForMember(src => src.SeatsId, opt => opt.MapFrom(x => x.SeatsId))
                     .ForMember(src => src.SessionId, opt => opt.MapFrom(x => x.SessionId))
                     .ForMember (src => src.Status, opt => opt.MapFrom(x => x.Status))
@@ -149,6 +150,10 @@ namespace BookingTickets.BLL
             return _configuration.CreateMapper().Map<List<OrderDto>>(session);
         }
 
+        public List<OrderBLL> MapCreateListOrderDtoModelToListOrderBll(List<OrderDto> session)
+        {
+            return _configuration.CreateMapper().Map<List<OrderBLL>>(session);
+        }
         public List<CinemaBLL> MapListCinemaDtoToListCinemaBLL(List<CinemaDto> cinema)
         {
             return _configuration.CreateMapper().Map<List<CinemaBLL>>(cinema);
