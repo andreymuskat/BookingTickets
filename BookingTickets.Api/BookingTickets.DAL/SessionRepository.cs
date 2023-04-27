@@ -10,6 +10,7 @@ namespace BookingTickets.DAL
         {
             _context = new Context();
         }
+
         public SessionDto CreateSession(SessionDto session)
         {
             _context.Sessions.Add(session);

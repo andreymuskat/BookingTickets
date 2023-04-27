@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using AutoMapper;
+﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.BLL;
 using BookingTickets.BLL.InterfacesBll;
@@ -32,7 +31,7 @@ namespace BookingTickets.API.Controllers
         {
             var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
             string userName = nameClaim?.Value;
-            
+
 
             _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session));
 

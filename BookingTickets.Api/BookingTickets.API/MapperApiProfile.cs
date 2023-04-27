@@ -35,7 +35,6 @@ namespace BookingTickets.API
                 .ForMember(src => src.Id, opt => opt.Ignore()); ;
             CreateMap<UserLoginRequest, UserLogin>();
             CreateMap<UserDto, UserBLL>();
-
         }
     }
 }
