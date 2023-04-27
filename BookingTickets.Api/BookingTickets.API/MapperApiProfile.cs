@@ -9,6 +9,8 @@ using BookingTickets.BLL.Authentication.AuthModels;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.BLL.Models.All_Seat_InputModel;
+using BookingTickets.BLL.Models.All_UserBLLModels;
 using BookingTickets.DAL.Models;
 using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
 
@@ -27,6 +29,9 @@ namespace BookingTickets.API
             CreateMap<SessionRequestModel, SessionBLL>();
             CreateMap<AddSeatsRowsRequestModel, AddSeatsRowsInputModel>();
             CreateMap<SessionBLL, SessionResponseModelForClient>();
+            CreateMap<CinemaBLL, CinemaResponseModel>();
+            CreateMap<UserBLL, UserResponseModel>();
+            CreateMap<CreateCashierRequestModel, CreateCashierInputModel>();
             CreateMap<UserRegisterRequest, UserRegister>();
             CreateMap<AuthResult, AuthResponse>();
             CreateMap<AuthResponse, AuthResult>();
