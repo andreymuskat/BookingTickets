@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
@@ -34,7 +35,7 @@ namespace BookingTickets.API.Controllers
         {
             _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
 
-            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub);
             string userName = nameClaim?.Value;
 
             try

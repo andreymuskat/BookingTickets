@@ -1,13 +1,8 @@
 using BookingTickets.BLL.Statistics;
 
-Statistics_Film stat = new Statistics_Film();
+DateTime trueDate = new DateTime(2023, 4, 20, 10, 30, 0);
+DateTime dateCopy = new DateTime(2023, 4, 20);
 
-DateOnly start = new DateOnly(2023, 01, 20);
-DateOnly end = new DateOnly(2024, 01, 20);
+var x = dateCopy.AddHours(trueDate.Hour).AddMinutes(trueDate.Minute);
 
-int a = stat.NotPurchasedTicketsOnFilmInCinema(7, 5, start, end);
-int b = stat.PurchasedTicketsOnFilmInCinema(7, 5, start, end);
-int c = stat.AmountTicketsOnFilmInCinema(7, 5, start, end);
-
-
-Console.WriteLine("");
+Console.WriteLine(x);
