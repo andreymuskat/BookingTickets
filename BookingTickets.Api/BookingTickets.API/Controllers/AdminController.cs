@@ -90,7 +90,7 @@ namespace BookingTickets.API.Controllers
         private int TakeIdCinemaByAdminAuth()
         {
             var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CinemaId");
-            string userName = nameClaim?.Value;
+            string userName = nameClaim?.Value!;
             var userCinemaId = Convert.ToInt32(userName);
 
             return userCinemaId;
