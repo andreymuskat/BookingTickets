@@ -1,6 +1,7 @@
-﻿using BookingTickets.BLL.Models;
+﻿using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
+using BookingTickets.BLL.Models;
 
-namespace BookingTickets.API.Model.ResponseModels
+namespace BookingTickets.API.Model.ResponseModels.All_HallResponseModels
 {
     public class HallResponseModel
     {

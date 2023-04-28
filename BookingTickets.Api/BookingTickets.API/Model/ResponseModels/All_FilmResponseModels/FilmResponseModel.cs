@@ -1,4 +1,4 @@
-﻿namespace BookingTickets.API.Model.ResponseModels
+﻿namespace BookingTickets.API.Model.ResponseModels.All_FilmResponseModels
 {
     public class FilmResponseModel
     {
@@ -8,6 +8,6 @@
 
         public int Duration { get; set; }
 
-        public bool IsDeleted { get; set; } 
+        public bool IsDeleted { get; set; }
     }
 }

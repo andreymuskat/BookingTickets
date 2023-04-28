@@ -1,6 +1,9 @@
-﻿using Core;
+﻿using BookingTickets.API.Model.ResponseModels.All_SeatResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
+using Core;
 
-namespace BookingTickets.API.Model.ResponseModels
+namespace BookingTickets.API.Model.ResponseModels.All_OrderResponseModels
 {
     public class OrderResponseModel
     {

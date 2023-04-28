@@ -1,4 +1,7 @@
-﻿namespace BookingTickets.API.Model.ResponseModels
+﻿using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_HallResponseModels;
+
+namespace BookingTickets.API.Model.ResponseModels.All_SessionResponseModels
 {
     public class SessionResponseModelForClient
     {

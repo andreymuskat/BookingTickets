@@ -26,10 +26,5 @@ namespace BookingTickets.DAL
                 Number = hall.Number
             };
         }
-
-        public List<SeatDto> GetAllSeatsByHallId(int idHall)
-        {
-            return new List<SeatDto>();
-        }
     }
 }
