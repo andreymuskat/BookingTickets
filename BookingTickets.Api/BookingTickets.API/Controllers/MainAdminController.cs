@@ -30,7 +30,7 @@ namespace BookingTickets.API.Controllers
             _logger = log;
         }
 
-        [HttpPost("Create_Film")]
+        [HttpPost("Film/")]
         public IActionResult CreateFilm(CreateFilmRequestModel model)
         {
             _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a film.");
@@ -43,7 +43,7 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPost("Create_New_Cinema")]
+        [HttpPost("Cinema/")]
         public IActionResult CreateNewCinema(CreateCinemaRequestModel model)
         {
             _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a cinema.");
@@ -51,6 +51,14 @@ namespace BookingTickets.API.Controllers
             _mainAdmin.CreateCinema(_mapper.Map<CinemaBLL>(model));
 
             _logger.Log(LogLevel.Information, "MainAdmin request completed: cinema written to the database.", model);
+
+            return Ok("GOT IT");
+        }
+
+        [HttpDelete("Cinema/{id}")]
+        public IActionResult DeleteCinema([FromBody]int id)
+        {
+            _mainAdmin.DeleteCinema(id);
 
             return Ok("GOT IT");
         }
@@ -71,7 +79,7 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPost("ChangeUserStatus")]
+        [HttpPatch("User/ChangeStatus")]
         public IActionResult UserMakeAdmin(ChangeUserStatusRequesModel newUser)
         {
             _mainAdmin.ChangeUserStatus(_mapper.Map<ChangeUserStatusInputModel>(newUser));

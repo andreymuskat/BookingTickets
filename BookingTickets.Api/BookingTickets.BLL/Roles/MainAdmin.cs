@@ -33,6 +33,11 @@ namespace BookingTickets.BLL.Roles
             _cinemaManager.CreateCinema(newCinema);
         }
 
+        public void DeleteCinema(int cinemaId)
+        {
+            _cinemaManager.DeleteCinema(cinemaId);
+        }
+
         public void CreateHall(HallBLL hall)
         {
             _hallManager.CreateHall(hall);

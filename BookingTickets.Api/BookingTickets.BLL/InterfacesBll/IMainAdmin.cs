@@ -10,6 +10,8 @@ namespace BookingTickets.BLL.NewFolder
 
         public void CreateCinema(CinemaBLL newCinema);
 
+        public void DeleteCinema(int cinemaId);
+
         public void CreateHall(HallBLL hall);
 
         public void AddRowToHall(AddSeatsRowsInputModel rowSeats);
