@@ -5,5 +5,6 @@
         DataTimeIsBusy = 100,
         NotEnoughTime = 101,
         NotFoundInDatabase = 777,
+        ItsNotYourCinema = 205,
     }
 }
