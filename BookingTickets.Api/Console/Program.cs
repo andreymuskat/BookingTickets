@@ -1,8 +1,8 @@
+using BookingTickets.BLL;
 using BookingTickets.BLL.Statistics;
 
-DateTime trueDate = new DateTime(2023, 4, 20, 10, 30, 0);
-DateTime dateCopy = new DateTime(2023, 4, 20);
+CinemaManager cin = new CinemaManager();
 
-var x = dateCopy.AddHours(trueDate.Hour).AddMinutes(trueDate.Minute);
+var pp = cin.GetCinemaByHallId(21);
 
-Console.WriteLine(x);
+Console.WriteLine(" ");

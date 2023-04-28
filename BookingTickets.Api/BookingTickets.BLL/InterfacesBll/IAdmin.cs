@@ -6,7 +6,7 @@ namespace BookingTickets.BLL.InterfacesBll
 {
     public interface IAdmin
     {
-        void CreateSession(CreateSessionInputModel session);
+        void CreateSession(CreateSessionInputModel session, int cinemaId);
 
         void DeleteSession(int sessionId);
 
