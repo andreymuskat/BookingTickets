@@ -61,11 +61,11 @@ namespace BookingTickets.BLL.Authentication
                     Error = isUserCreated.Errors.Select(error => error.Description)
                 };
             }
+            var userAddDto = mapper.Map<UserRegister, UserDto>(userRegister);
+            var userId = repository.AddUser(userAddDto);
             var userDto = repository.GetUserByName(userRegister.UserName);
             var roles = GetRole();
             var token = GetJwtToken(user, roles, userDto);
-            var userAddDto = mapper.Map<UserRegister, UserDto>(userRegister);
-            var userId = repository.AddUser(userAddDto);
 
             return new AuthResult
             {
@@ -117,6 +117,7 @@ namespace BookingTickets.BLL.Authentication
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("CinemaId",userDto.CinemaId.ToString()!),
+                new Claim(ClaimTypes.Role, userDto.UserStatus.ToString()),
             };
 
             claims.AddRange(userRoles.Select(ur => new Claim(ur, "true")));
@@ -143,19 +144,19 @@ namespace BookingTickets.BLL.Authentication
         {
             if (userDto.UserStatus == UserStatus.Admin)
             {
-                return new[] { "Admin", "Cashier", "User"};
+                return new[] { "User", "Cashier", "Admin" };
             }
             else if (userDto.UserStatus == UserStatus.MainAdmin)
             {
-                return new[] { "MainAdmin", "Admin", "Cashier", "User"};
+                return new[] { "User", "Cashier", "Admin", "MainAdmin" };
             }
             else if (userDto.UserStatus == UserStatus.Cashier)
             {
-                return new[] { "Cashier", "User"};
+                return new[] { "User", "Cashier", "Admin" };
             }
             else if (userDto.UserStatus == UserStatus.Client)
             {
-                return new[] { "User" };
+                return new[] { "User"};
             }
 
             return new[] { "User" };
