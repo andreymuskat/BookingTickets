@@ -1,30 +1,31 @@
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
     public class HallRepository : IHallRepository
     {
-        private static Context context;
-        private SeatRepository seatRepository;
+        private static Context _context;
+
         public HallRepository()
         {
-            context = new Context();
+            _context = new Context();
         }
-        public HallDto CreateHall(HallDto hall)
+
+        public void CreateHall(HallDto hall)
         {
-            HallDto hallDto = new HallDto
-            {
-                Number = hall.Number
-            };
+            _context.Halls.Add(hall);
 
-            context.SaveChanges();
+            _context.SaveChanges();
+        }
 
-            return new HallDto                                          
-            {
-                Id = hall.Id,
-                Number = hall.Number
-            };
+        public void DeleteHall(int hallId)
+        {
+            var hall = _context.Halls.Single(i => i.Id == hallId).IsDeleted = true;
+
+            _context.SaveChanges();
         }
     }
 }

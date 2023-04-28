@@ -1,4 +1,4 @@
-﻿namespace BookingTickets.BLL.Models.All_SessionBLLModel
+﻿namespace BookingTickets.BLL.Models.InputModel.All_Session_InputModel
 {
     public class CreateSessionInputModel
     {

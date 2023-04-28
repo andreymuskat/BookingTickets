@@ -4,13 +4,15 @@ using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
+using BookingTickets.API.Model.ResponseModels.All_HallResponseModels;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
-using BookingTickets.BLL.Models.All_User_InputModel;
+using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
+using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.NewFolder;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
@@ -43,7 +45,7 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPost("Cinema/")]
+        [HttpPost("Cinema")]
         public IActionResult CreateNewCinema(CreateCinemaRequestModel model)
         {
             _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a cinema.");
@@ -56,17 +58,25 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpDelete("Cinema/{id}")]
-        public IActionResult DeleteCinema([FromBody]int id)
+        public IActionResult DeleteCinema(int cinemaId)
         {
-            _mainAdmin.DeleteCinema(id);
+            _mainAdmin.DeleteCinema(cinemaId);
 
             return Ok("GOT IT");
         }
 
-        [HttpPost("Create/Hall")]
+        [HttpPost("Hall")]
         public IActionResult CreateHall(HallRequestModel model)
         {
-            _mainAdmin.CreateHall(_mapper.Map<HallBLL>(model));
+            _mainAdmin.CreateHall(_mapper.Map<CreateHallInputModel>(model));
+
+            return Ok("GOT IT");
+        }
+
+        [HttpDelete("Hall/{id}")]
+        public IActionResult DeleteHall(int hallId)
+        {
+            _mainAdmin.DeleteHall(hallId);
 
             return Ok("GOT IT");
         }

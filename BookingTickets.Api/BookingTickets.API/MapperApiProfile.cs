@@ -1,21 +1,24 @@
 using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
 using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
+using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
+using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_HallResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
 using BookingTickets.BLL.Authentication.AuthModels;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
-using BookingTickets.BLL.Models.All_UserBLLModels;
+using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
+using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
+using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
+using BookingTickets.BLL.Models.OutputModel.All_Hall_OutputModels;
 using BookingTickets.DAL.Models;
 using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
-using BookingTickets.BLL.Models.All_User_InputModel;
-using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
-using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
-using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
-using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
 
 namespace BookingTickets.API
 {
@@ -48,6 +51,7 @@ namespace BookingTickets.API
             CreateMap<FilmResponseModelForClient, FilmBLL>();
             CreateMap<ChangeUserStatusInputModel, ChangeUserStatusRequesModel>();
             CreateMap<ChangeUserStatusRequesModel, ChangeUserStatusInputModel>();
+            CreateMap<HallRequestModel, CreateHallInputModel>();
         }
     }
 }

@@ -3,6 +3,6 @@ using BookingTickets.BLL.Statistics;
 
 CinemaManager cin = new CinemaManager();
 
-var pp = cin.GetCinemaByHallId(21);
+var pp = cin.GetCinemaByHallId(31);
 
 Console.WriteLine(" ");

@@ -1,4 +1,5 @@
-﻿using BookingTickets.BLL.Models;
+﻿using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
+using BookingTickets.BLL.Models.OutputModel.All_Hall_OutputModels;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
@@ -7,15 +8,22 @@ namespace BookingTickets.BLL
     public class HallManager
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private readonly IHallRepository _repository;
+        private readonly IHallRepository _hallRepository;
+        private readonly ICinemaRepository _cinemaRepository;
         public HallManager()
         {
-            _repository = new HallRepository();
+            _hallRepository = new HallRepository();
+            _cinemaRepository = new CinemaRepository();
         }
 
-        public void CreateHall(HallBLL hall)
+        public void CreateHall(CreateHallInputModel hall)
         {
-            _repository.CreateHall(_instanceMapperBll.MapHallBLLModelToHallDto(hall));
+            _hallRepository.CreateHall(_instanceMapperBll.MapCreateHallInputModelToHallDto(hall));
+        }
+
+        public void DeleteHall(int hallId)
+        {
+            _hallRepository.DeleteHall(hallId);
         }
     }
 }
