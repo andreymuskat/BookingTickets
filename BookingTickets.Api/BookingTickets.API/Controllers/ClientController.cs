@@ -1,5 +1,7 @@
 using AutoMapper;
-using BookingTickets.API.Model.ResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
 using BookingTickets.BLL.InterfacesBll;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    //[Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
@@ -87,9 +89,9 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-
                 var sb = _client.GetSessionById(idSession);
                 var res = _mapper.Map<SessionResponseModelForClient>(sb);
+
                 return Ok(res);
             }
             catch

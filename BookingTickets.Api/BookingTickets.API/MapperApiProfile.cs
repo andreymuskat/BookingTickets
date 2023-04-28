@@ -14,6 +14,10 @@ using BookingTickets.BLL.Models.All_UserBLLModels;
 using BookingTickets.DAL.Models;
 using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
 using BookingTickets.BLL.Models.All_User_InputModel;
+using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
 
 namespace BookingTickets.API
 {
@@ -52,6 +56,8 @@ namespace BookingTickets.API
             CreateMap<CreateNewEmployeeRequestModel, CreateNewEmployeeInputModel>();
             CreateMap<FilmBLL, FilmResponseModelForClient>();
             CreateMap<FilmResponseModelForClient, FilmBLL>();
+            CreateMap<ChangeUserStatusInputModel, ChangeUserStatusRequesModel>();
+            CreateMap<ChangeUserStatusRequesModel, ChangeUserStatusInputModel>();
         }
     }
 }

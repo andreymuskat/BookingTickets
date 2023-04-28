@@ -60,12 +60,12 @@ namespace BookingTickets.BLL.Authentication
                     Success = false,
                     Error = isUserCreated.Errors.Select(error => error.Description)
                 };
-            }                      
-            
+            }
+            var userAddDto = mapper.Map<UserRegister, UserDto>(userRegister);
+            var userId = repository.AddUser(userAddDto);
+            var userDto = repository.GetUserByName(userRegister.UserName);
             var roles = GetRole();
-            var token = GetJwtToken(user, roles);
-            var userDto = mapper.Map<UserRegister, UserDto>(userRegister);
-            var userId = repository.AddUser(userDto);
+            var token = GetJwtToken(user, roles, userDto);
 
             return new AuthResult
             {
@@ -99,7 +99,7 @@ namespace BookingTickets.BLL.Authentication
             var userDto = repository.GetUserByName(userLogin.UserName);
             var roles = GetRoleAuth(userDto);
 
-            var token = GetJwtToken(existingUser, roles);
+            var token = GetJwtToken(existingUser, roles, userDto);
 
             return new AuthResult
             {
@@ -108,14 +108,16 @@ namespace BookingTickets.BLL.Authentication
             };
         }        
 
-        private string GetJwtToken(IdentityUser user, IEnumerable<string> userRoles)
+        private string GetJwtToken(IdentityUser user, IEnumerable<string> userRoles, UserDto userDto)
         {
-            var key = Encoding.UTF8.GetBytes(settings.Key);     
+            var key = Encoding.UTF8.GetBytes(settings.Key);
 
             var claims = new List<Claim>{
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("CinemaId",userDto.CinemaId.ToString()!),
+                new Claim(ClaimTypes.Role, userDto.UserStatus.ToString()),
             };
 
             claims.AddRange(userRoles.Select(ur => new Claim(ur, "true")));
@@ -142,19 +144,19 @@ namespace BookingTickets.BLL.Authentication
         {
             if (userDto.UserStatus == UserStatus.Admin)
             {
-                return new[] { "Admin", "Cashier", "User"};
+                return new[] { "User", "Cashier", "Admin" };
             }
             else if (userDto.UserStatus == UserStatus.MainAdmin)
             {
-                return new[] { "MainAdmin", "Admin", "Cashier", "User"};
+                return new[] { "User", "Cashier", "Admin", "MainAdmin" };
             }
             else if (userDto.UserStatus == UserStatus.Cashier)
             {
-                return new[] { "Cashier", "User"};
+                return new[] { "User", "Cashier", "Admin" };
             }
             else if (userDto.UserStatus == UserStatus.Client)
             {
-                return new[] { "User" };
+                return new[] { "User"};
             }
 
             return new[] { "User" };

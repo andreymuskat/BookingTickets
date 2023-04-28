@@ -44,5 +44,15 @@ namespace BookingTickets.BLL
         {
             return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllFreeSeatsBySessionId(sessionId));
         }
+
+        public List<SeatBLL> GetPurchasedSeatsBySessionId(int sessionId)
+        {
+            return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllPurchasedSeatsBySessionId(sessionId));
+        }
+
+        public List<SeatBLL> GetAllSeatsBySessionId(int sessionId)
+        {
+            return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllSeatsBySessionId(sessionId));
+        }
     }
 }

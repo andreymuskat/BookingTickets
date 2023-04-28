@@ -7,21 +7,26 @@ namespace BookingTickets.BLL
     public class CinemaManager
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private readonly ICinemaRepository _repository;
+        private readonly ICinemaRepository _cinemaRepository;
 
         public CinemaManager()
         {
-            _repository = new CinemaRepository();
+            _cinemaRepository = new CinemaRepository();
         }
 
         public void CreateCinema(CinemaBLL cinema)
         {
-            _repository.CreateCinema(_instanceMapperBll.MapCinemaBLLToCinemaDto(cinema));
+            _cinemaRepository.CreateCinema(_instanceMapperBll.MapCinemaBLLToCinemaDto(cinema));
         }
 
         public List<CinemaBLL> GetCinemaByFilm(int idFilm)
         {
-           return _instanceMapperBll.MapListCinemaDtoToListCinemaBLL(_repository.GetAllCinemaByFilm(idFilm));
+           return _instanceMapperBll.MapListCinemaDtoToListCinemaBLL(_cinemaRepository.GetAllCinemaByFilm(idFilm));
+        }
+
+        public CinemaBLL GetCinemaByHallId(int idHallId)
+        {
+            return _instanceMapperBll.MapCinemaDtoToCinemaBLL(_cinemaRepository.GetCinemaByHallId(idHallId));
         }
     }
 }

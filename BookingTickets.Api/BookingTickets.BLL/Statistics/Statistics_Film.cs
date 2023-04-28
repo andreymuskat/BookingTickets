@@ -7,12 +7,12 @@ namespace BookingTickets.BLL.Statistics
     public class Statistics_Film
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private readonly ISeatRepository _seatRepository;
+        private readonly SeatManager _seatManager;
         private readonly SessionManager _sessionManager;
 
         public Statistics_Film()
         {
-            _seatRepository = new SeatRepository();
+            _seatManager = new SeatManager();
             _sessionManager = new SessionManager();
         }
 
@@ -24,7 +24,7 @@ namespace BookingTickets.BLL.Statistics
 
             for (int i = 0; i < AllSession.Count; i++)
             {
-                var NotBuySeatsInHall = _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllFreeSeatsBySessionId(AllSession[i].Id));
+                var NotBuySeatsInHall = _seatManager.GetFreeSeatsBySessionId(AllSession[i].Id);
                 NotBuySeats.AddRange(NotBuySeatsInHall);
             }
 
@@ -41,8 +41,7 @@ namespace BookingTickets.BLL.Statistics
 
             for(int i = 0; i < AllSession.Count; i++)
             {
-                var PurchasedSeats = _instanceMapperBll.MapListSeatDtoToListSeatBLL
-                    (_seatRepository.GetAllPurchasedSeatsBySessionId(AllSession[i].Id));
+                var PurchasedSeats = _seatManager.GetPurchasedSeatsBySessionId(AllSession[i].Id);
 
                 AllPurchasedSeats.AddRange(PurchasedSeats);
             }
@@ -60,7 +59,7 @@ namespace BookingTickets.BLL.Statistics
 
             for (int i = 0; i < AllSession.Count; i++)
             {
-                var SeatsInSession = _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllSeatsBySessionId(AllSession[i].Id));
+                var SeatsInSession = _seatManager.GetAllSeatsBySessionId(AllSession[i].Id);
                 AllSeats.AddRange(SeatsInSession);
             }
 

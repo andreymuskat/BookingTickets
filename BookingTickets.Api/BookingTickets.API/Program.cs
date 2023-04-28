@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using BookingTickets.API;
 using BookingTickets.API.Options;
@@ -101,16 +102,31 @@ void InjectAuthenticationDependencies(WebApplicationBuilder builder)
 
     builder.Services.AddAuthorization(options =>
     {
-        options.AddPolicy("MainAdmin", policy =>
-                          policy.RequireClaim("MainAdmin"));
-        options.AddPolicy("User", policy =>
-                          policy.RequireClaim("User"));
-        options.AddPolicy("Cashier", policy =>
-                          policy.RequireClaim("Cashier"));
-        options.AddPolicy("Admin", policy =>
-                          policy.RequireClaim("Admin"));
+        options.AddPolicy("MainAdmin", builder =>
+        {
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin"));
+        });
 
+        options.AddPolicy("Admin", builder =>
+        {
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin")
+                                        || k.User.HasClaim(ClaimTypes.Role, "Admin"));
+        });
 
+        options.AddPolicy("Cashier", builder =>
+        {
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin")
+                                        || k.User.HasClaim(ClaimTypes.Role, "Admin")
+                                            || k.User.HasClaim(ClaimTypes.Role, "Cashier"));
+        });
+
+        options.AddPolicy("User", builder =>
+        {
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin")
+                                        || k.User.HasClaim(ClaimTypes.Role, "Admin")
+                                            || k.User.HasClaim(ClaimTypes.Role, "Cashier")
+                                                || k.User.HasClaim(ClaimTypes.Role, "Client"));
+        });
     });
 
     builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)

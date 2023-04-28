@@ -1,4 +1,5 @@
-﻿using BookingTickets.BLL.InterfacesBll;
+﻿using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.BLL.Models.All_UserBLLModels;
@@ -10,16 +11,27 @@ namespace BookingTickets.BLL.Roles
     {
         private readonly SessionManager _sessionManager;
         private readonly UserManager _userManager;
+        private readonly CinemaManager _cinemaManager;
 
         public Admin()
         {
             _sessionManager = new SessionManager();
             _userManager = new UserManager();
+            _cinemaManager = new CinemaManager();
         }
 
-        public void CreateSession(CreateSessionInputModel session)
+        public void CreateSession(CreateSessionInputModel session, int cinemaId)
         {
-            _sessionManager.CreateSession(session);
+            var cinemaBll = _cinemaManager.GetCinemaByHallId(session.HallId);
+
+            if (cinemaBll.Id == cinemaId)
+            {
+                _sessionManager.CreateSession(session);
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
         }
 
         public void DeleteSession(int sessionId)

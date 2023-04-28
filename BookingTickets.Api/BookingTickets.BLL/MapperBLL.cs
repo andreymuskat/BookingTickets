@@ -96,6 +96,11 @@ namespace BookingTickets.BLL
             return _configuration.CreateMapper().Map<CinemaDto>(cinema);
         }
 
+        public CinemaBLL MapCinemaDtoToCinemaBLL(CinemaDto cinema)
+        {
+            return _configuration.CreateMapper().Map<CinemaBLL>(cinema);
+        }
+
         public HallBLL MapHallDtoToFullHallBLL(HallDto hall)
         {
             return _configuration.CreateMapper().Map<HallBLL>(hall);

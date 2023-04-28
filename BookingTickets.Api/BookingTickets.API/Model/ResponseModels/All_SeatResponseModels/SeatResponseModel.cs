@@ -1,4 +1,6 @@
-﻿namespace BookingTickets.API.Model.ResponseModels
+﻿using BookingTickets.API.Model.ResponseModels.All_HallResponseModels;
+
+namespace BookingTickets.API.Model.ResponseModels.All_SeatResponseModels
 {
     public class SeatResponseModel
     {

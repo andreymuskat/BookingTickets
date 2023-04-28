@@ -1,6 +1,7 @@
-﻿using Core;
+﻿using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
+using Core;
 
-namespace BookingTickets.API.Model.ResponseModels
+namespace BookingTickets.API.Model.ResponseModels.All_UserResponseModels
 {
     public class UserResponseModel
     {
@@ -13,7 +14,5 @@ namespace BookingTickets.API.Model.ResponseModels
         public string Password { get; set; }
 
         public CinemaResponseModel Cinema { get; set; }
-
-        public bool IsDeleted { get; set; }
     }
 }

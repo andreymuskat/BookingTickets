@@ -1,7 +1,7 @@
 using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
-using BookingTickets.API.Model.ResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    //[Authorize(Policy = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Policy = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
@@ -32,14 +32,13 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Create_New_Session")]
         public IActionResult CreateNewSession(CreateSessionRequestModel session)
         {
-            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-            string userName = nameClaim?.Value;
-
             _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
+
+            var cinemaId = TakeIdCinemaByAdminAuth();
 
             try
             {
-                _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session));
+                _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session), cinemaId);
             }
             catch (SessionException ex)
             {
@@ -86,6 +85,15 @@ namespace BookingTickets.API.Controllers
             _admin.DeleteCashierById(cashierId);
 
             return Ok();
+        }
+
+        private int TakeIdCinemaByAdminAuth()
+        {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CinemaId");
+            string userName = nameClaim?.Value!;
+            var userCinemaId = Convert.ToInt32(userName);
+
+            return userCinemaId;
         }
     }
 }

@@ -25,17 +25,7 @@ namespace BookingTickets.DAL
         public CinemaDto GetCinemaById(int cinemaId)
         {
             return _context.Cinemas
-                .SingleOrDefault(i => i.Id == cinemaId);
-        }
-
-        public List<UserDto> GetAllEmployesInCinema(int idCinema)
-        {
-            return new List<UserDto>();
-        }
-
-        public List<HallDto> GetAllHallByCinemaId(int idCinema)
-        {
-            return new List<HallDto>();
+                .SingleOrDefault(i => i.Id == cinemaId)!;
         }
 
         public List<CinemaDto> GetAllCinemaByFilm(int idFilm)
@@ -49,6 +39,15 @@ namespace BookingTickets.DAL
             }
 
             return cinemaDtos;
+        }
+
+        public CinemaDto GetCinemaByHallId(int hallId)
+        {
+            var cinemaId = _context.Halls.SingleOrDefault(k => k.Id == hallId).CinemaId;
+
+            var cinemaDto = GetCinemaById(cinemaId);
+
+            return cinemaDto;
         }
     }
 }

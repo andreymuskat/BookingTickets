@@ -1,5 +1,6 @@
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
+using BookingTickets.BLL.Models.All_User_InputModel;
 
 namespace BookingTickets.BLL.NewFolder
 {
@@ -12,5 +13,7 @@ namespace BookingTickets.BLL.NewFolder
         public void CreateHall(HallBLL hall);
 
         public void AddRowToHall(AddSeatsRowsInputModel rowSeats);
+
+        public void ChangeUserStatus(ChangeUserStatusInputModel newUser);
     }
 }
