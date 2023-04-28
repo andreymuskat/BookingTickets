@@ -27,5 +27,12 @@ namespace BookingTickets.DAL
 
             _context.SaveChanges();
         }
+
+        public HallDto GetHallByNumber(int hallNumber)
+        {
+            var searchHall = _context.Halls.SingleOrDefault(k => k.Number == hallNumber);
+
+            return searchHall;
+        }
     }
 }

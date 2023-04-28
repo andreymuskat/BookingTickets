@@ -1,5 +1,5 @@
-﻿using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
-using BookingTickets.BLL.Models.OutputModel.All_Hall_OutputModels;
+﻿using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
@@ -18,7 +18,14 @@ namespace BookingTickets.BLL
 
         public void CreateHall(CreateHallInputModel hall)
         {
-            _hallRepository.CreateHall(_instanceMapperBll.MapCreateHallInputModelToHallDto(hall));
+            var checkHall = _hallRepository.GetHallByNumber(hall.Number);
+
+            if (checkHall == null)
+            {
+                _hallRepository.CreateHall(_instanceMapperBll.MapCreateHallInputModelToHallDto(hall));
+            }
+            else { throw new HallException(105); }
+
         }
 
         public void DeleteHall(int hallId)

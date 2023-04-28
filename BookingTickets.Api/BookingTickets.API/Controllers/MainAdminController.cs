@@ -4,12 +4,13 @@ using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
-using BookingTickets.API.Model.ResponseModels.All_HallResponseModels;
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.NewFolder;
+using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -68,7 +69,14 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Hall")]
         public IActionResult CreateHall(HallRequestModel model)
         {
-            _mainAdmin.CreateHall(_mapper.Map<CreateHallInputModel>(model));
+            try
+            {
+                _mainAdmin.CreateHall(_mapper.Map<CreateHallInputModel>(model));
+            }
+            catch (HallException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+            }
 
             return Ok("GOT IT");
         }
