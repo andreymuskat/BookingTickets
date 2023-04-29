@@ -1,4 +1,5 @@
-﻿using BookingTickets.BLL.CustomException;
+﻿using System.Collections.Generic;
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
@@ -66,11 +67,18 @@ namespace BookingTickets.BLL.Roles
         }
         public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(int sessionId, int cashiersCinemaId)
         {
-            //ЗАГЛУШКА
-            var freeSeats = new List<SeatBLL>();
-            return freeSeats;
+            var allSeats = _seatManager.GetFreeSeatsBySessionId(sessionId);
+            int hallId = allSeats.SingleOrDefault().HallId;
+            var cinemaId=_cinemaManager.GetCinemaByHallId(hallId);
+            if (cinemaId.Id == cashiersCinemaId)
+            {
+                return allSeats;
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
         }
-
         public List <OrderBLL> FindOrderByCodeNumber(string codeNumber)
         {
             var order = _orderManager.FindOrdersByCodeNumber(codeNumber);

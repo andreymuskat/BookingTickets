@@ -110,5 +110,6 @@ namespace BookingTickets.BLL
                 .Where(k => k.Film.Id == filmId)
                 .ToList());
         }
+
     }
 }

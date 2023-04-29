@@ -10,7 +10,6 @@ namespace BookingTickets.DAL.Interfaces
 
         public SeatDto GetSeatById(int seatId);
 
-
         public List<SeatDto> GetAllSeatInHall(int hallId);
 
         public List<SeatDto> GetAllPurchasedSeatsBySessionId(int idSession); 

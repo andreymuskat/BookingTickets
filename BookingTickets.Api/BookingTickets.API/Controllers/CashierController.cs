@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
+using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
@@ -113,6 +114,21 @@ namespace BookingTickets.API.Controllers
                 var res = _mapper.Map<List<SessionResponseModel>>(allSessions);
                 return Ok(res);
             }
+            catch
+            {
+                return BadRequest();
+            };
+        }
+
+        [HttpGet("GetFreeSeats/{sessionId}", Name = "GetFreeSeatsBySessionInHisCinema")]
+        public IActionResult GetFreeSeatsBySessionInHisCinema()
+        {
+            try
+            {
+                int cashiersCinemaId = TakeIdCinemaByCashierAuth();
+                var freeSeats = _cashier.GetFreeSeatsBySessionInHisCinema(sessionId, cashiersCinemaId);
+                var res = _mapper.Map<List<SeatRequestModel>>(freeSeats);
+                return Ok(res);
             catch
             {
                 return BadRequest();
