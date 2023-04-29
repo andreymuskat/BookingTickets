@@ -54,7 +54,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
 void InjectSettingsConfiguration(WebApplicationBuilder builder)
 {
 

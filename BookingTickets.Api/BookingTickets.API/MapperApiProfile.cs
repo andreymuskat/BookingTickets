@@ -44,7 +44,6 @@ namespace BookingTickets.API
             CreateMap<SeatBLL, SeatRequestModel>();
             CreateMap<SeatResponseModel, SeatBLL>();
             CreateMap<CreateOrderRequestModel,CreateSessionInputModel>();
-
             CreateMap<CinemaBLL, CinemaResponseModel>();
             CreateMap<UserBLL, UserResponseModel>();
             CreateMap<CreateCashierRequestModel, CreateCashierInputModel>();
