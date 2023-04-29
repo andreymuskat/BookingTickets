@@ -56,7 +56,7 @@ namespace BookingTickets.BLL
 
             user.UserStatus = (Core.UserStatus)(newUser.newUserStatus);
 
-            _userRepository.UdateUserStatus(user);
+            _userRepository.UpdateUserStatus(user);
         }
     }
 }

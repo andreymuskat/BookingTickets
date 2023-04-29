@@ -87,7 +87,7 @@ namespace BookingTickets.BLL.Roles
 
                 if (requestedCinemaId==cinemaId)
             {
-                _orderManager.CreateOrderByCashier(order, /*requestedCinemaId, */cinemaId,  name);
+                _orderManager.CreateOrderByCashier(order, cinemaId,  name);
             }
                 else
             {

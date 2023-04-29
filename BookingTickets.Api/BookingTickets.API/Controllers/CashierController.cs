@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
+using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
+using BookingTickets.BLL.Roles;
 using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -68,6 +70,20 @@ namespace BookingTickets.API.Controllers
             };
         }
 
+        [HttpGet("GetFilm/{filmId}", Name = "GetFilmById")]
+        public IActionResult GetFilmById(int filmId)
+        {
+            try
+            {
+                var fb = _cashier.GetFilmById(filmId);
+                var res = _mapper.Map<FilmResponseModelForClient>(fb);
+                return Ok(res);
+            }
+            catch
+            {
+                return BadRequest();
+            };
+        }
         private int TakeIdCinemaByCashierAuth()
         {
             {

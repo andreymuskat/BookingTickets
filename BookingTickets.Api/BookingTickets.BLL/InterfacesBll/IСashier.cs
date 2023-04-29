@@ -15,8 +15,6 @@ namespace BookingTickets.BLL.InterfacesBll
 
         public List <OrderBLL> FindOrderByCodeNumber(string codeNumber);
 
-        public int GetCashiersCinemaId(UserBLL user);
-
         public void CreateOrderByCashier(CreateOrderInputModel order, int requestedCinemaId, int cinemaId, string name);
 
         public void EditOrderStatus(OrderStatus status, string code);
