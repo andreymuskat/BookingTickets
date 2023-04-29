@@ -1,12 +1,7 @@
-<<<<<<< HEAD:BookingTickets.Api/BookingTickets.API/Model/ResponseModels/OrderResponseModel.cs
 using Core;
-using BookingTickets.BLL.Models;
-=======
 ﻿using BookingTickets.API.Model.ResponseModels.All_SeatResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
-using Core;
->>>>>>> main:BookingTickets.Api/BookingTickets.API/Model/ResponseModels/All_OrderResponseModels/OrderResponseModel.cs
 
 namespace BookingTickets.API.Model.ResponseModels.All_OrderResponseModels
 {
@@ -14,7 +9,7 @@ namespace BookingTickets.API.Model.ResponseModels.All_OrderResponseModels
     {
         public int Id { get; set; }
 
-        public List<SeatResponseModel> Seats { get; set; }
+        public List <SeatResponseModel>  Seats { get; set; }
 
         public UserResponseModel User { get; set; }
 
@@ -27,3 +22,4 @@ namespace BookingTickets.API.Model.ResponseModels.All_OrderResponseModels
         public DateTime Date { get; set; }
     }
 }
+

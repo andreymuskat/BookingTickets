@@ -70,7 +70,7 @@ namespace BookingTickets.BLL.Roles
             return cashiersCinemaId;
         }
 
-        public void CreateOrder(CreateOrderInputModel order)
+        public void CreateOrder(CreateOrderInputModel order, int cinemaId,string name)
         {
             _orderManager.CreateOrder(order);
         }

@@ -18,6 +18,9 @@ using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_OrderResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_HallResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_SeatResponseModels;
 
 namespace BookingTickets.API
 {
@@ -34,9 +37,9 @@ namespace BookingTickets.API
             CreateMap<SessionRequestModel, SessionBLL>();
             CreateMap<AddSeatsRowsRequestModel, AddSeatsRowsInputModel>();
             CreateMap<SessionBLL, SessionResponseModelForClient>();
-            CreateMap<OrderResponseModel, OrderBLL>();
+            CreateMap<OrderResponseModel, OrderBLL > ();
             CreateMap<OrderBLL, OrderRequestModel>();
-            CreateMap<HallBLL, HallResponseModelForClient>();
+            CreateMap<HallBLL, HallResponseModelForClient> ();
             CreateMap<HallResponseModel, HallBLL>();
             CreateMap<SeatBLL, SeatRequestModel>();
             CreateMap<SeatResponseModel, SeatBLL>();

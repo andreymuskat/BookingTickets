@@ -19,7 +19,7 @@ namespace BookingTickets.BLL.InterfacesBll
 
         public int GetCashiersCinemaId(UserBLL user);
 
-        public void CreateOrder(CreateOrderInputModel order);
+        public void CreateOrder(CreateOrderInputModel order, int cinemaId, string name);
 
         public void EditOrderStatus(OrderStatus status, string code);
     }
