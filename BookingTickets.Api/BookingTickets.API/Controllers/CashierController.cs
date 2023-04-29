@@ -30,7 +30,7 @@ namespace BookingTickets.API.Controllers
             _cashier = cashier;
         }
 
-        [HttpPost("CreateOrder/{requestedCinemaId}", Name = "CreateOrder")]
+        [HttpPost("CreateOrder/{requestedCinemaId}", Name = "CreateOrderByCashier")]
         public IActionResult CreateOrder(CreateOrderRequestModel model, int requestedCinemaId)
         {
             _logger.Log(LogLevel.Information, "Cashier wanted to create a new order.");
@@ -73,7 +73,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetOrder/{Code}", Name = "GetOrder")]
+        [HttpGet("GetOrder/{Code}", Name = "GetOrderInBoxOffice")]
         public IActionResult FindOrderByCodeNumber(string codeNumber)
         {
             try
@@ -88,7 +88,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetFilm/{filmId}", Name = "GetFilmById")]
+        [HttpGet("GetFilm/{filmId}", Name = "GetFilmByIdByCashier")]
         public IActionResult GetFilmById(int filmId)
         {
             try
