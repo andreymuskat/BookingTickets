@@ -52,7 +52,8 @@ namespace BookingTickets.API.Controllers
         [HttpPost("EditOrderStatus/{code}", Name = "EditOrderStatus")]
         public IActionResult EditOrderStatus(OrderStatus status, string code)
         {
-            _cashier.EditOrderStatus(status, code);
+            var cinemaId = TakeIdCinemaByCashierAuth();
+            _cashier.EditOrderStatus(status, code, cinemaId);
             return Ok("GOT IT");
         }
 

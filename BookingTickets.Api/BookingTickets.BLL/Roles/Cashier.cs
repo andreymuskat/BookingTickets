@@ -109,9 +109,19 @@ namespace BookingTickets.BLL.Roles
             }
         }
 
-        public void EditOrderStatus(OrderStatus status, string code)
+        public void EditOrderStatus(OrderStatus status, string code, int cinemaId)
         {
+            var orderBll = _orderManager.FindOrdersByCodeNumber(code);
+            var cinemaIdInOrder = orderBll.SingleOrDefault().Session.Hall.Cinema.Id;
+
+            if (cinemaIdInOrder == cinemaId)
+            {
              _orderManager.EditOrderStatus(status, code);
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
         }
     }
 }
