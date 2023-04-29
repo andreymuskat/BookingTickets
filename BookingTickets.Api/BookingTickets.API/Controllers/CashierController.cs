@@ -58,7 +58,7 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpGet("GetSession/{idSession)", Name = "GetSession")]
+        [HttpGet("GetSession/{idSession}", Name = "GetSession")]
         public IActionResult GetSessionById(int idSession)
         {
             try
