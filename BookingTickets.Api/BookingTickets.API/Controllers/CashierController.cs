@@ -4,6 +4,7 @@ using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
 using BookingTickets.BLL.Roles;
 using Core;
@@ -62,6 +63,21 @@ namespace BookingTickets.API.Controllers
             {
                 var session = _cashier.GetSessionById(idSession);
                 var res = _mapper.Map<SessionRequestModel>(session);
+                return Ok(res);
+            }
+            catch
+            {
+                return BadRequest();
+            };
+        }
+
+        [HttpGet("GetOrder/{Code)", Name = "GetOrder")]
+        public IActionResult FindOrderByCodeNumber(string codeNumber)
+        {
+            try
+            {
+                var orders= _cashier.FindOrderByCodeNumber(codeNumber);
+                var res = _mapper.Map<SessionRequestModel>(orders);
                 return Ok(res);
             }
             catch

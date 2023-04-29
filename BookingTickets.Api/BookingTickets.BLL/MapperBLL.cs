@@ -49,7 +49,6 @@ namespace BookingTickets.BLL
                     .ForMember(src => src.UserName, opt => opt.MapFrom(x => x.Name));
                     cfg.CreateMap<OrderDto, OrderBLL>();
                     cfg.CreateMap<OrderBLL, OrderDto>();
-                    cfg.CreateMap<OrderDto, OrderDto>();
                     cfg.CreateMap<CreateOrderInputModel, OrderDto>()
                     .ForMember(src => src.SeatsId, opt => opt.MapFrom(x => x.SeatsId))
                     .ForMember(src => src.SessionId, opt => opt.MapFrom(x => x.SessionId))
