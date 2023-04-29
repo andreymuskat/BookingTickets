@@ -12,22 +12,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-
-using AutoMapper;
-using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
-using BookingTickets.BLL.InterfacesBll;
-using BookingTickets.BLL.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Core;
-using BookingTickets.BLL.Models.All_OrderBLLModel;
-using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
-using BookingTickets.BLL.CustomException;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
-using BookingTickets.BLL.Roles;
-
-
 namespace BookingTickets.API.Controllers
 {
     [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

@@ -11,9 +11,7 @@ namespace BookingTickets.BLL.InterfacesBll
         public List<SessionBLL> GetSessionsInHisCinema(UserBLL userId);
         public List<SessionBLL> GetSessionsByFilmInHisCinema(int idFilm, int cashiersCinemaId);
 
-        public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(int sessionId);
-
-        public SessionBLL GetSessionByIdInHisCinema(int idSession);
+        public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(int sessionId, int cashiersCinemaId);
 
         public List <OrderBLL> FindOrderByCodeNumber(string codeNumber);
 
@@ -22,5 +20,7 @@ namespace BookingTickets.BLL.InterfacesBll
         public void CreateOrderByCashier(CreateOrderInputModel order, int requestedCinemaId, int cinemaId, string name);
 
         public void EditOrderStatus(OrderStatus status, string code);
+
+        public SessionBLL GetSessionById(int idSession);
     }
 }

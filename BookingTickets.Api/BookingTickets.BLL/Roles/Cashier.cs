@@ -16,6 +16,7 @@ namespace BookingTickets.BLL.Roles
         private readonly CinemaManager _cinemaManager;
         private readonly UserManager _userManager;
         private readonly OrderManager _orderManager;
+        private readonly SeatManager _seatManager;
         private const int advertisingTime = 15;
 
         public Cashier()
@@ -25,6 +26,7 @@ namespace BookingTickets.BLL.Roles
             _cinemaManager = new CinemaManager();
             _userManager = new UserManager();
             _orderManager = new OrderManager();
+            _seatManager = new SeatManager();
         }
         public FilmBLL GetFilmById(int filmId)
         {
@@ -48,13 +50,21 @@ namespace BookingTickets.BLL.Roles
             return res;
         }
 
-        public SessionBLL GetSessionByIdInHisCinema(int idSession)
+        public SessionBLL GetSessionById(int idSession)
         {
-            //ЗАГЛУШКА
-            return new SessionBLL();
+                var allSession = _sessionManager.GetSessionById(idSession);
+                if (allSession.IsDeleted == false && allSession.Date.AddMinutes(advertisingTime) > DateTime.Now)
+                {
+                    return allSession;
+                }
+                else
+                {
+                    throw new SessionException(205);
+                }
 
+            return allSession;
         }
-        public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(int sessionId)
+        public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(int sessionId, int cashiersCinemaId)
         {
             //ЗАГЛУШКА
             var freeSeats = new List<SeatBLL>();

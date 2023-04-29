@@ -1,3 +1,4 @@
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
@@ -61,7 +62,7 @@ namespace BookingTickets.BLL.Roles
             }
             else
             {
-                throw new Exception("������ ����� ������ ����������");
+                throw new SessionException(205);
             }
         }
         public void CreateOrderByCustomer(CreateOrderInputModel order, string name)

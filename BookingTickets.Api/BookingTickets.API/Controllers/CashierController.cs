@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
+using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
-using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
+using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Core;
-using BookingTickets.BLL.Models.All_OrderBLLModel;
-using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
-using BookingTickets.BLL.CustomException;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
-using BookingTickets.BLL.Roles;
 
 namespace BookingTickets.API.Controllers
 {
@@ -29,7 +26,7 @@ namespace BookingTickets.API.Controllers
             _cashier = cashier;
         }
 
-        [HttpPost("CreateOrder/{requestedCinemaId}",Name = "CreateOrder")]
+        [HttpPost("CreateOrder/{requestedCinemaId}", Name = "CreateOrder")]
         public IActionResult CreateOrder(CreateOrderRequestModel model, int requestedCinemaId)
         {
             _logger.Log(LogLevel.Information, "Cashier wanted to create a new order.");
@@ -39,7 +36,7 @@ namespace BookingTickets.API.Controllers
 
             try
             {
-            _cashier.CreateOrderByCashier(_mapper.Map<CreateOrderInputModel>(model), requestedCinemaId, cinemaId, name);
+                _cashier.CreateOrderByCashier(_mapper.Map<CreateOrderInputModel>(model), requestedCinemaId, cinemaId, name);
             }
             catch (SessionException ex)
             {
@@ -55,13 +52,30 @@ namespace BookingTickets.API.Controllers
             _cashier.EditOrderStatus(status, code);
             return Ok("GOT IT");
         }
+
+        [HttpGet("GetSession/{idSession)", Name = "GetSession")]
+        public IActionResult GetSessionById(int idSession)
+        {
+            try
+            {
+                var session = _cashier.GetSessionById(idSession);
+                var res = _mapper.Map<SessionRequestModel>(session);
+                return Ok(res);
+            }
+            catch
+            {
+                return BadRequest();
+            };
+        }
+
         private int TakeIdCinemaByCashierAuth()
         {
-            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CinemaId");
-            string userName = nameClaim?.Value!;
-            var userCinemaId = Convert.ToInt32(userName);
-
-            return userCinemaId;
+            {
+                var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CinemaId");
+                string userName = nameClaim?.Value!;
+                var userCinemaId = Convert.ToInt32(userName);
+                return userCinemaId;
+            }
         }
         private string TakeUsernameByCashierAuth()
         {

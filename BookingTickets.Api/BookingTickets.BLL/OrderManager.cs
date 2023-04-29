@@ -35,7 +35,7 @@ namespace BookingTickets.BLL
             }
         }
 
-        public void CreateOrderByCashier(CreateOrderInputModel order,/*int requestedCinemaId,*/ int cinemaId, string name)
+        public void CreateOrderByCashier(CreateOrderInputModel order, int cinemaId, string name)
         {
             SessionBLL sessionInNewOrder = _instanceMapperBll.MapSessionDtoToSessionBLL(_sessionRepository.GetSessionById(order.SessionId));
             SeatBLL seatInNewOrder = _instanceMapperBll.MapSeatDtoToSeatBLL(_seatRepository.GetSeatById(order.SeatsId));
