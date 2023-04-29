@@ -63,7 +63,7 @@ namespace BookingTickets.BLL
                 .ForMember(src => src.Status, opt => opt.MapFrom(x => x.Status))
                 .ForMember(src => src.Date, opt => opt.MapFrom(x => x.Date))
                 .ForMember(src => src.Code, opt => opt.MapFrom(x => x.Code))
-                .ForMember (src=> src.UserId, opt =>opt.MapFrom(x => x.UserId))
+                .ForMember (src=> src.User, opt =>opt.MapFrom(x => x.User))
                 ;
                 });
         }

@@ -2,7 +2,6 @@
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Core;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL

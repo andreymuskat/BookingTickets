@@ -1,6 +1,8 @@
-﻿using BookingTickets.BLL.InterfacesBll;
+﻿using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
 using Core;
 
 namespace BookingTickets.BLL.Roles
@@ -61,7 +63,7 @@ namespace BookingTickets.BLL.Roles
 
         public List <OrderBLL> FindOrderByCodeNumber(string codeNumber)
         {
-            var order = _orderManager.FindOrderByCodeNumber(codeNumber);
+            var order = _orderManager.FindOrdersByCodeNumber(codeNumber);
             return order;
         }
         public int GetCashiersCinemaId(UserBLL user)
@@ -70,9 +72,31 @@ namespace BookingTickets.BLL.Roles
             return cashiersCinemaId;
         }
 
-        public void CreateOrder(CreateOrderInputModel order, int cinemaId,string name)
+        public void CreateOrderByCashier(CreateOrderInputModel order,int requestedCinemaId, int cinemaId, string name)
         {
-            _orderManager.CreateOrder(order);
+
+                if (requestedCinemaId==cinemaId)
+            {
+                _orderManager.CreateOrderByCashier(order, /*requestedCinemaId, */cinemaId,  name);
+            }
+                else
+            {
+                throw new SessionException(205);
+            }
+        }
+
+        public void CreateSession(CreateSessionInputModel session, int cinemaId)
+        {
+            var cinemaBll = _cinemaManager.GetCinemaByHallId(session.HallId);
+
+            if (cinemaBll.Id == cinemaId)
+            {
+                _sessionManager.CreateSession(session);
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
         }
 
         public void EditOrderStatus(OrderStatus status, string code)

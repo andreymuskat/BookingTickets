@@ -29,8 +29,8 @@ namespace BookingTickets.API.Controllers
             _cashier = cashier;
         }
 
-        [HttpPost("CreateOrder")]
-        public IActionResult CreateOrder(CreateOrderRequestModel model)
+        [HttpPost("CreateOrder/{requestedCinemaId}",Name = "CreateOrder")]
+        public IActionResult CreateOrder(CreateOrderRequestModel model, int requestedCinemaId)
         {
             _logger.Log(LogLevel.Information, "Cashier wanted to create a new order.");
 
@@ -39,7 +39,7 @@ namespace BookingTickets.API.Controllers
 
             try
             {
-            _cashier.CreateOrder(_mapper.Map<CreateOrderInputModel>(model), cinemaId, name);
+            _cashier.CreateOrderByCashier(_mapper.Map<CreateOrderInputModel>(model), requestedCinemaId, cinemaId, name);
             }
             catch (SessionException ex)
             {

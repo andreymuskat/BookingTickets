@@ -1,11 +1,32 @@
 using AutoMapper;
+using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
+using BookingTickets.BLL.Roles;
+using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+
+using AutoMapper;
+using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
+using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Core;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
+using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
+using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.BLL.Roles;
+
 
 namespace BookingTickets.API.Controllers
 {
@@ -98,6 +119,32 @@ namespace BookingTickets.API.Controllers
             {
                 return BadRequest();
             };
+        }
+        [HttpPost("CreateOrder/{requestedCinemaId}", Name = "CreateOrder")]
+        public IActionResult CreateOrder(CreateOrderRequestModel model, int requestedCinemaId)
+        {
+            _logger.Log(LogLevel.Information, "Client wanted to create a new order.");
+
+ 
+            var name = TakeUsernameByClientAuth();
+
+            try
+            {
+                _client.CreateOrderByCustomer(_mapper.Map<CreateOrderInputModel>(model), name);
+            }
+            catch (SessionException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+            }
+            _logger.Log(LogLevel.Information, "Client's request completed: new order written to the database.", model);
+            return Ok("GOT IT");
+        }
+        private string TakeUsernameByClientAuth()
+        {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Name");
+            string userName = nameClaim?.Value!;
+
+            return userName;
         }
     }
 }

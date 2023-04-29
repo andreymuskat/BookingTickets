@@ -64,9 +64,9 @@ namespace BookingTickets.BLL.Roles
                 throw new Exception("������ ����� ������ ����������");
             }
         }
-        public void CreateOrder(CreateOrderInputModel order)
+        public void CreateOrderByCustomer(CreateOrderInputModel order, string name)
         {
-            _orderManager.CreateOrder(order);
+            _orderManager.CreateOrderByCustomer(order, name);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace BookingTickets.BLL.Models.All_OrderBLLModel
         public int SeatsId { get; set; }
 
         public int SessionId { get; set; }
-        public int UserId { get; set; }
+        public UserBLL User { get; set; }
         public OrderStatus Status { get; set; }
 
         public string? Code { get; set; }
