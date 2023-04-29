@@ -73,12 +73,12 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetOrder/{Code}", Name = "GetOrderInBoxOffice")]
-        public IActionResult FindOrderByCodeNumber(string codeNumber)
+        [HttpGet("GetOrder/{code}", Name = "GetOrderInBoxOffice")]
+        public IActionResult FindOrderByCodeNumber(string code)
         {
             try
             {
-                var orders= _cashier.FindOrderByCodeNumber(codeNumber);
+                var orders= _cashier.FindOrderByCodeNumber(code);
                 var res = _mapper.Map<SessionRequestModel>(orders);
                 return Ok(res);
             }
