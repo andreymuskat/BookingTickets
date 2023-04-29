@@ -2,6 +2,7 @@
 using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
@@ -72,7 +73,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetOrder/{Code)", Name = "GetOrder")]
+        [HttpGet("GetOrder/{Code}", Name = "GetOrder")]
         public IActionResult FindOrderByCodeNumber(string codeNumber)
         {
             try
@@ -101,6 +102,23 @@ namespace BookingTickets.API.Controllers
                 return BadRequest();
             };
         }
+
+        [HttpGet("GetSession/{cinemaId}", Name = "GetSessionInHisCinema")]
+        public IActionResult GetSessionsInHisCinema()
+        {
+            try
+            {
+                int cinemaId = TakeIdCinemaByCashierAuth();
+                var allSessions  = _cashier.GetSessionsInHisCinema(cinemaId);
+                var res = _mapper.Map<List<SessionResponseModel>>(allSessions);
+                return Ok(res);
+            }
+            catch
+            {
+                return BadRequest();
+            };
+        }
+
         private int TakeIdCinemaByCashierAuth()
         {
             {

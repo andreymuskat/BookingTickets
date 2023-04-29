@@ -123,5 +123,10 @@ namespace BookingTickets.BLL.Roles
                 throw new SessionException(205);
             }
         }
+        public List<SessionBLL> GetSessionsInHisCinema(int cashierId)
+        {
+            var allSession = _sessionManager.GetAllSessionByCinemaId(cashierId);
+            return allSession;
+        }
     }
 }

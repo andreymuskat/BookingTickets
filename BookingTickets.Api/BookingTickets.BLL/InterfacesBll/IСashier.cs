@@ -15,8 +15,8 @@ namespace BookingTickets.BLL.InterfacesBll
 
 
         public SessionBLL GetSessionById(int idSession); /*+*/
-        public void EditOrderStatus(OrderStatus status, string code, int cinemaId); /*+ ПРОВЕРИТЬ ЧТО ЭТО ЕГО КИНОТЕАТР*/
-        public List<SessionBLL> GetSessionsInHisCinema(UserBLL userId);
+        public void EditOrderStatus(OrderStatus status, string code, int cinemaId); /*+*/
+        public List<SessionBLL> GetSessionsInHisCinema(int cashierId);
         public List<SessionBLL> GetSessionsByFilmInHisCinema(int idFilm, int cashiersCinemaId);
 
         public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(int sessionId, int cashiersCinemaId);
