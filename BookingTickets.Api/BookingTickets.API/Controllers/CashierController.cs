@@ -121,7 +121,7 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpGet("GetFreeSeats/{sessionId}", Name = "GetFreeSeatsBySessionInHisCinema")]
-        public IActionResult GetFreeSeatsBySessionInHisCinema()
+        public IActionResult GetFreeSeatsBySessionInHisCinema(int sessionId)
         {
             try
             {
@@ -129,6 +129,7 @@ namespace BookingTickets.API.Controllers
                 var freeSeats = _cashier.GetFreeSeatsBySessionInHisCinema(sessionId, cashiersCinemaId);
                 var res = _mapper.Map<List<SeatRequestModel>>(freeSeats);
                 return Ok(res);
+            }
             catch
             {
                 return BadRequest();
