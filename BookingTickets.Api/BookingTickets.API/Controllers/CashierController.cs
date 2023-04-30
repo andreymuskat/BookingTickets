@@ -1,9 +1,10 @@
-﻿using AutoMapper;
+using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_OrderResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SeatResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
+using BookingTickets.BLL;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
@@ -63,6 +64,7 @@ namespace BookingTickets.API.Controllers
             _cashier.EditOrderStatus(status, code, cinemaId);
 
             _logger.Log(LogLevel.Information, "Cashier's request completed: new order status written to the database", status, code);
+            
             return Ok("GOT IT");
         }
 
@@ -111,12 +113,13 @@ namespace BookingTickets.API.Controllers
         [HttpGet("Film/{filmId}", Name = "GetFilmByIdByCashier")]
         public IActionResult GetFilmById(int filmId)
         {
-            //_logger.Log(LogLevel.Information, "Cashier sent a request to get film by film id");
+            _logger.Log(LogLevel.Information, "Cashier sent a request to get film by film id");
             try
             {
                 var fb = _cashier.GetFilmById(filmId);
                 var res = _mapper.Map<FilmResponseModelForClient>(fb);
-                //_logger.Log(LogLevel.Information, "Cashier's request get film by id was completed", filmId);
+                _logger.Log(LogLevel.Information, "Cashier's request get film by id was completed", filmId);
+                
                 return Ok(res);
             }
             catch
@@ -128,7 +131,7 @@ namespace BookingTickets.API.Controllers
         [HttpGet("Session", Name = "GetSessionInHisCinema")]
         public IActionResult GetSessionsInHisCinema()
         {
-            //_logger.Log(LogLevel.Information, "Cashier sent a request to get session in his cinema");
+            _logger.Log(LogLevel.Information, "Cashier sent a request to get session in his cinema");
             try
             {
                 int cinemaId = TakeIdCinemaByCashierAuth();
