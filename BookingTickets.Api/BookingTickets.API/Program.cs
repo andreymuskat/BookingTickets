@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization;
 using BookingTickets.API;
 using BookingTickets.API.Options;
 using BookingTickets.BLL;
@@ -130,4 +131,9 @@ void InjectAuthenticationDependencies(WebApplicationBuilder builder)
 
     builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
         .AddEntityFrameworkStores<Context>();
+
+    builder.Services
+    .AddControllersWithViews() 
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 }
