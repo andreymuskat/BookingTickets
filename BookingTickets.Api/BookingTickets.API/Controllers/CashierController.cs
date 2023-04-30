@@ -8,7 +8,7 @@ using BookingTickets.BLL;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Models.All_OrderBLLModel;
+using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

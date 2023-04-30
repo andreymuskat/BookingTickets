@@ -1,6 +1,6 @@
 ﻿using Core;
 
-namespace BookingTickets.BLL.Models.All_OrderBLLModel
+namespace BookingTickets.BLL.Models.InputModel.All_Order_InputModels
 {
     public class CreateOrderInputModel
     {

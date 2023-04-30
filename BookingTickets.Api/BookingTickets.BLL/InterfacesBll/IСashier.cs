@@ -1,5 +1,7 @@
 using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Models.All_OrderBLLModel;
+using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
+using BookingTickets.BLL.Models.OutputModel.All_Seats_OutputModels;
+using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
 using Core;
 
 namespace BookingTickets.BLL.InterfacesBll

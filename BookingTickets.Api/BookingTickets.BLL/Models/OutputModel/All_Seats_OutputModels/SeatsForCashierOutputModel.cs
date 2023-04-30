@@ -1,4 +1,4 @@
-﻿namespace BookingTickets.BLL.Models
+﻿namespace BookingTickets.BLL.Models.OutputModel.All_Seats_OutputModels
 {
     public class SeatsForCashierOutputModel
     {
