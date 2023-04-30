@@ -1,6 +1,4 @@
 ﻿using BookingTickets.BLL.Models;
-using BookingTickets.DAL;
-using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.BLL.Statistics
 {
@@ -39,7 +37,7 @@ namespace BookingTickets.BLL.Statistics
             List<SeatBLL> AllPurchasedSeats = new List<SeatBLL>();
             List<SessionBLL> AllSession = _sessionManager.GetAllSessionByCinemaAndFilm(cinemaId, filmId);
 
-            for(int i = 0; i < AllSession.Count; i++)
+            for (int i = 0; i < AllSession.Count; i++)
             {
                 var PurchasedSeats = _seatManager.GetPurchasedSeatsBySessionId(AllSession[i].Id);
 

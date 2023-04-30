@@ -6,5 +6,6 @@
         NotEnoughTime = 101,
         NotFoundInDatabase = 777,
         ItsNotYourCinema = 205,
+        SuchAnObjectAlreadyExists = 105,
     }
 }

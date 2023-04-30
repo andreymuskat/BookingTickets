@@ -1,5 +1,5 @@
 ﻿using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Models.All_OrderBLLModel;
+using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 using Core;

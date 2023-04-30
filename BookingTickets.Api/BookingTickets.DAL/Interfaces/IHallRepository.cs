@@ -4,6 +4,10 @@ namespace BookingTickets.DAL.Interfaces
 {
     public interface IHallRepository
     {
-        public HallDto CreateHall(HallDto hall);
+        public void CreateHall(HallDto hall);
+
+        public void DeleteHall(int hallId);
+
+        public HallDto GetHallByNumber(int hallNumber);
     }
 }

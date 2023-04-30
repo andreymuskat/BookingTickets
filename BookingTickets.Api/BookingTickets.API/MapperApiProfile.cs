@@ -1,26 +1,29 @@
 using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
 using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
+using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
+using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
-using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
+using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_HallResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_OrderResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_SeatResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
 using BookingTickets.BLL.Authentication.AuthModels;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
-using BookingTickets.BLL.Models.All_UserBLLModels;
+using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
+using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
+using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
+using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
+using BookingTickets.BLL.Models.OutputModel.All_Seats_OutputModels;
+using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
 using BookingTickets.DAL.Models;
 using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
-using BookingTickets.BLL.Models.All_User_InputModel;
-using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
-using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
-using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
-using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
-using BookingTickets.API.Model.ResponseModels.All_OrderResponseModels;
-using BookingTickets.API.Model.ResponseModels.All_HallResponseModels;
-using BookingTickets.API.Model.ResponseModels.All_SeatResponseModels;
-using BookingTickets.BLL.Models.All_OrderBLLModel;
 
 namespace BookingTickets.API
 {
@@ -37,7 +40,7 @@ namespace BookingTickets.API
             CreateMap<SessionRequestModel, SessionBLL>();
             CreateMap<AddSeatsRowsRequestModel, AddSeatsRowsInputModel>();
             CreateMap<SessionBLL, SessionResponseModelForClient>();
-            CreateMap<OrderForCashierResponseModel, OrderBLL > ();
+            CreateMap<OrderForCashierResponseModel, OrderBLL>();
             CreateMap<OrderBLL, OrderRequestModel>();
             CreateMap<OrderBLL, OrderForCashierResponseModel>()
                 .ForMember(src => src.NumberSeat, opt => opt.MapFrom(x => x.Seats.Number))
@@ -48,7 +51,7 @@ namespace BookingTickets.API
                 .ForMember(src => src.CostSession, opt => opt.MapFrom(x => x.Session.Cost))
                 .ForMember(src => src.Status, opt => opt.MapFrom(x => x.Status));
             CreateMap<OrderForCashierResponseModel, OrderBLL>();
-            CreateMap<HallBLL, HallResponseModelForClient> ();
+            CreateMap<HallBLL, HallResponseModelForClient>();
             CreateMap<HallResponseModel, HallBLL>();
             CreateMap<SeatBLL, SeatResponseModel>();
             CreateMap<SeatResponseModel, SeatBLL>();
@@ -69,6 +72,7 @@ namespace BookingTickets.API
             CreateMap<FilmResponseModelForClient, FilmBLL>();
             CreateMap<ChangeUserStatusInputModel, ChangeUserStatusRequesModel>();
             CreateMap<ChangeUserStatusRequesModel, ChangeUserStatusInputModel>();
+            CreateMap<HallRequestModel, CreateHallInputModel>();
             CreateMap<SessionOutputModel, SessionResponseModelForClient>();
             CreateMap<SessionBLL, SessionForCashierResponseModel>()
                 .ForMember(src => src.Date, opt => opt.MapFrom(x => x.Date))

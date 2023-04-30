@@ -4,8 +4,8 @@ using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
-using BookingTickets.BLL.Models.All_UserBLLModels;
+using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
+using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -90,7 +90,8 @@ namespace BookingTickets.API.Controllers
         private int TakeIdCinemaByAdminAuth()
         {
             var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CinemaId");
-            string userName = nameClaim?.Value!;
+            string userName = nameClaim?.Value!
+                ;
             var userCinemaId = Convert.ToInt32(userName);
 
             return userCinemaId;

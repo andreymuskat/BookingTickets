@@ -1,4 +1,4 @@
-﻿namespace BookingTickets.BLL.Models.All_User_InputModel
+﻿namespace BookingTickets.BLL.Models.InputModel.All_User_InputModel
 {
     public class CreateNewEmployeeInputModel
     {

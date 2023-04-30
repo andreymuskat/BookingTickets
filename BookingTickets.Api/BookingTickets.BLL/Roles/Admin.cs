@@ -1,8 +1,8 @@
-﻿using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
-using BookingTickets.BLL.Models.All_UserBLLModels;
+using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
+using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 
 namespace BookingTickets.BLL.Roles
 {

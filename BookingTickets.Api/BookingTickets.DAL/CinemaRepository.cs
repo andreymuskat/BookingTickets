@@ -22,6 +22,13 @@ namespace BookingTickets.DAL
             return cinema;
         }
 
+        public void DeleteCinemaById(int cinemaId)
+        {
+            _context.Cinemas.Single(k => k.Id == cinemaId).IsDeleted = true;
+
+            _context.SaveChanges();
+        }
+
         public CinemaDto GetCinemaById(int cinemaId)
         {
             return _context.Cinemas

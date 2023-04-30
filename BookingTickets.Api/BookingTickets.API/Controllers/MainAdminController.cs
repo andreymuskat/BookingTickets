@@ -4,13 +4,16 @@ using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
-using BookingTickets.BLL.Models.All_User_InputModel;
+using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
+using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.NewFolder;
-using Microsoft.AspNetCore.Mvc;
+using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
@@ -30,7 +33,7 @@ namespace BookingTickets.API.Controllers
             _logger = log;
         }
 
-        [HttpPost("Create_Film")]
+        [HttpPost("Film/")]
         public IActionResult CreateFilm(CreateFilmRequestModel model)
         {
             _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a film.");
@@ -43,7 +46,7 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPost("Create_New_Cinema")]
+        [HttpPost("Cinema")]
         public IActionResult CreateNewCinema(CreateCinemaRequestModel model)
         {
             _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a cinema.");
@@ -55,10 +58,33 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPost("Create/Hall")]
+        [HttpDelete("Cinema/{id}")]
+        public IActionResult DeleteCinema(int cinemaId)
+        {
+            _mainAdmin.DeleteCinema(cinemaId);
+
+            return Ok("GOT IT");
+        }
+
+        [HttpPost("Hall")]
         public IActionResult CreateHall(HallRequestModel model)
         {
-            _mainAdmin.CreateHall(_mapper.Map<HallBLL>(model));
+            try
+            {
+                _mainAdmin.CreateHall(_mapper.Map<CreateHallInputModel>(model));
+            }
+            catch (HallException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+            }
+
+            return Ok("GOT IT");
+        }
+
+        [HttpDelete("Hall/{id}")]
+        public IActionResult DeleteHall(int hallId)
+        {
+            _mainAdmin.DeleteHall(hallId);
 
             return Ok("GOT IT");
         }
@@ -71,7 +97,7 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPost("ChangeUserStatus")]
+        [HttpPatch("User/ChangeStatus")]
         public IActionResult UserMakeAdmin(ChangeUserStatusRequesModel newUser)
         {
             _mainAdmin.ChangeUserStatus(_mapper.Map<ChangeUserStatusInputModel>(newUser));
