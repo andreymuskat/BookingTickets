@@ -8,7 +8,7 @@ namespace BookingTickets.BLL.InterfacesBll
     {
         public FilmBLL GetFilmById(int filmId);
         public List <OrderBLL> FindOrderByCodeNumber(string codeNumber); 
-        public void CreateOrderByCashier(CreateOrderInputModel order, int requestedCinemaId, int cinemaId, string name); 
+        public void CreateOrderByCashier(CreateOrderInputModel order, int cinemaId, string name); 
         public SessionBLL GetSessionById(int idSession); 
         public void EditOrderStatus(OrderStatus status, string code, int cinemaId); 
         public List<SessionBLL> GetSessionsInHisCinema(int cashierId); 

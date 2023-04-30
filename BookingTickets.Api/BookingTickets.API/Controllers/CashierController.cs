@@ -4,6 +4,7 @@ using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
+using BookingTickets.BLL;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
@@ -40,34 +41,38 @@ namespace BookingTickets.API.Controllers
             try
             {
                 _cashier.CreateOrderByCashier(_mapper.Map<CreateOrderInputModel>(model), requestedCinemaId, cinemaId, name);
+            _logger.Log(LogLevel.Information, "Cashier's request completed: new order written to the database.", model);
             }
             catch (SessionException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
             }
-            _logger.Log(LogLevel.Information, "Cashier's request completed: new order written to the database.", model);
+            
             return Ok("GOT IT");
         }
-
-        [HttpPost("EditOrderStatus/{code}", Name = "EditOrderStatus")]
+        
+        [HttpPatch("EditOrderStatus/{code}", Name = "EditOrderStatus")]
         public IActionResult EditOrderStatus(OrderStatus status, string code)
         {
             _logger.Log(LogLevel.Information, "Cashier sent a request to edit order status");
             var cinemaId = TakeIdCinemaByCashierAuth();
             _cashier.EditOrderStatus(status, code, cinemaId);
             _logger.Log(LogLevel.Information, "Cashier's request completed: new order status written to the database", status, code);
+            
             return Ok("GOT IT");
         }
+
+
 
         [HttpGet("GetSession/{idSession}", Name = "GetSession")]
         public IActionResult GetSessionById(int idSession)
         {
-            //_logger.Log(LogLevel.Information, "Cashier sent a request to get session by id");
+            _logger.Log(LogLevel.Information, "Cashier sent a request to get session by id");
             try
             {
                 var session = _cashier.GetSessionById(idSession);
                 var res = _mapper.Map<SessionRequestModel>(session);
-                //_logger.Log(LogLevel.Information, "Cashier's request find session by id was completed", idSession);
+                _logger.Log(LogLevel.Information, "Cashier's request find session by id was completed", idSession);
                 return Ok(res);
             }
             catch
@@ -96,12 +101,13 @@ namespace BookingTickets.API.Controllers
         [HttpGet("GetFilm/{filmId}", Name = "GetFilmByIdByCashier")]
         public IActionResult GetFilmById(int filmId)
         {
-            //_logger.Log(LogLevel.Information, "Cashier sent a request to get film by film id");
+            _logger.Log(LogLevel.Information, "Cashier sent a request to get film by film id");
             try
             {
                 var fb = _cashier.GetFilmById(filmId);
                 var res = _mapper.Map<FilmResponseModelForClient>(fb);
-                //_logger.Log(LogLevel.Information, "Cashier's request get film by id was completed", filmId);
+                _logger.Log(LogLevel.Information, "Cashier's request get film by id was completed", filmId);
+                
                 return Ok(res);
             }
             catch
@@ -113,13 +119,14 @@ namespace BookingTickets.API.Controllers
         [HttpGet("GetSession/{cinemaId}", Name = "GetSessionInHisCinema")]
         public IActionResult GetSessionsInHisCinema()
         {
-            //_logger.Log(LogLevel.Information, "Cashier sent a request to get session in his cinema");
+            _logger.Log(LogLevel.Information, "Cashier sent a request to get session in his cinema");
             try
             {
                 int cinemaId = TakeIdCinemaByCashierAuth();
                 var allSessions  = _cashier.GetSessionsInHisCinema(cinemaId);
                 var res = _mapper.Map<List<SessionResponseModel>>(allSessions);
-                //_logger.Log(LogLevel.Information, "Cashier's request get sessions in his cinema was completed", cinemaId);
+                _logger.Log(LogLevel.Information, "Cashier's request get sessions in his cinema was completed", cinemaId);
+               
                 return Ok(res);
             }
             catch
@@ -136,6 +143,7 @@ namespace BookingTickets.API.Controllers
                 int cashiersCinemaId = TakeIdCinemaByCashierAuth();
                 var freeSeats = _cashier.GetFreeSeatsBySessionInHisCinema(sessionId, cashiersCinemaId);
                 var res = _mapper.Map<List<SeatRequestModel>>(freeSeats);
+
                 return Ok(res);
             }
             catch

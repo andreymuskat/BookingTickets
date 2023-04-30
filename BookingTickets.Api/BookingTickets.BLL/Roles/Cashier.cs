@@ -38,6 +38,7 @@ namespace BookingTickets.BLL.Roles
             int cashiersCinemaId = userId.Cinema.Id;
             var listSession = _sessionManager.GetAllSessionByCinemaId(cashiersCinemaId);
             var res = listSession.FindAll(d => d.IsDeleted == false);
+            
             return res;
         }
 
@@ -83,23 +84,27 @@ namespace BookingTickets.BLL.Roles
             var order = _orderManager.FindOrdersByCodeNumber(codeNumber);
             return order;
         }
+
         public int GetCashiersCinemaId(UserBLL user)
         {
             int cashiersCinemaId = user.Cinema.Id;
             return cashiersCinemaId;
         }
 
-        public void CreateOrderByCashier(CreateOrderInputModel order,int requestedCinemaId, int cinemaId, string name)
+        public void CreateOrderByCashier(CreateOrderInputModel order, int cinemaId, string name)
         {
-                if (requestedCinemaId==cinemaId)
+            var sess = _sessionManager.GetAllSessionByCinemaId(cinemaId).Where(k => k.Id == order.SessionId);
+
+            if (sess != null)
             {
-                _orderManager.CreateOrderByCashier(order, cinemaId,  name);
+                _orderManager.CreateOrderByCashier(order, cinemaId, name);
             }
-                else
+            else
             {
                 throw new SessionException(205);
             }
         }
+
 
         public void CreateSession(CreateSessionInputModel session, int cinemaId)
         {
