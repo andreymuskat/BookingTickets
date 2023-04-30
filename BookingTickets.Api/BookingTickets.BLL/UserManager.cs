@@ -60,7 +60,7 @@ namespace BookingTickets.BLL
             }
             else { throw new UserExceptions(777); }
 
-            _userRepository.UdateUserStatus(user);
+            _userRepository.UpdateUserStatus(user);
         }
     }
 }

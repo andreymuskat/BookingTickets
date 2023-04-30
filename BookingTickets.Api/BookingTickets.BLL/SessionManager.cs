@@ -3,7 +3,6 @@ using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
-using Core;
 
 namespace BookingTickets.BLL
 {
@@ -96,10 +95,11 @@ namespace BookingTickets.BLL
             return listSessionBLL;
         }
 
-        public SessionBLL GetSessionById(int idSession)
+        public SessionOutputModel GetSessionById(int idSession)
         {
             var sDto = _sessionRepository.GetSessionById(idSession);
-            var res = _instanceMapperBll.MapSessionDtoToSessionBLL(sDto);
+            var res = _instanceMapperBll.MapSessionDtoToSessionOutputModels(sDto);
+
             return res;
         }
 

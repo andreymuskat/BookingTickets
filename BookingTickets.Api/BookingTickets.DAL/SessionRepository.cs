@@ -61,7 +61,6 @@ namespace BookingTickets.DAL
                     SessionInDay.Add(AllSession[i]);
                 }
             }
-
             return SessionInDay;
         }
 
@@ -81,7 +80,6 @@ namespace BookingTickets.DAL
                     SessionInDay.Add(AllSession[i]);
                 }
             }
-
             return SessionInDay;
         }
 

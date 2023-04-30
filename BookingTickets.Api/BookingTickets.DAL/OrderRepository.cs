@@ -1,6 +1,8 @@
-﻿using BookingTickets.DAL.Interfaces;
+﻿using BookingTickets.DAL;
+using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Core;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
@@ -13,17 +15,37 @@ namespace BookingTickets.DAL
             _context = new Context();
         }
 
-        public OrderDto CreateOrder(OrderDto order)
+        public void CreateOrder(OrderDto order)
         {
             _context.Orders.Add(order);
-            _context.SaveChanges();
 
-            return order;
+            _context.SaveChanges();
         }
 
-        public OrderStatus EditOrderStatus(OrderStatus status)
+        public void EditOrderStatus(OrderStatus status, string code)
         {
-            return OrderStatus.Canceled;
+            var order = _context.Orders
+                .Where(i => i.Code == code)
+                .ToList();
+
+            foreach (var item in order)
+            {
+                item.Status = status;
+                _context.SaveChanges();
+            }
+        }
+
+        public List <OrderDto> FindOrderByCodeNumber(string codeNumber)
+        {
+            return _context.Orders
+                    .Where (p => p.Code == codeNumber)
+                    .Include(p=>p.Session)
+                    .Include(p => p.Session.Film)
+                    .Include(p => p.Session.Hall)
+                    .Include(p => p.Session.Hall.Cinema)
+                    .Include(p=>p.Seats)
+                    .Include(p=>p.User)
+                    .ToList();
         }
     }
 }
