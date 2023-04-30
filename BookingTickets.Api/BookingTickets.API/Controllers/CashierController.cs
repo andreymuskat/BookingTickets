@@ -40,7 +40,7 @@ namespace BookingTickets.API.Controllers
 
             try
             {
-                _cashier.CreateOrderByCashier(_mapper.Map<CreateOrderInputModel>(model), requestedCinemaId, cinemaId, name);
+                _cashier.CreateOrderByCashier(_mapper.Map<CreateOrderInputModel>(model), cinemaId, name);
             _logger.Log(LogLevel.Information, "Cashier's request completed: new order written to the database.", model);
             }
             catch (SessionException ex)
