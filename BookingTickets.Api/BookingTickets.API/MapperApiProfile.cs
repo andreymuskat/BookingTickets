@@ -12,6 +12,7 @@ using BookingTickets.API.Model.ResponseModels.All_HallResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_OrderResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SeatResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
 using BookingTickets.BLL.Authentication.AuthModels;
 using BookingTickets.BLL.Models;
@@ -19,9 +20,11 @@ using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
+using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Seats_OutputModels;
 using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
+using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
 using BookingTickets.DAL.Models;
 using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
 
@@ -82,6 +85,8 @@ namespace BookingTickets.API
                 .ForMember(src => src.Cost, opt => opt.MapFrom(x => x.Cost));
             CreateMap<SeatsForCashierOutputModel, SeatResponseModel>()
                 .ForMember(src => src.NumderHall, opt => opt.MapFrom(x => x.Hall.Number));
+            CreateMap<StatisticsFilm_ForAdmin_ResquestModels, StatisticsFilm_ForAdmin_InputModels>();
+            CreateMap<StatisticsFilm_ForAdmin_OutputModels, StatisticsFilm_ForAdmin_ResponseModels>();
         }
     }
 }

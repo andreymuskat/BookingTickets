@@ -14,6 +14,28 @@ namespace BookingTickets.BLL.Statistics
             _sessionManager = new SessionManager();
         }
 
+        public int AmountTicketsOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)
+        {
+            int AmountTickets = 0;
+            List<SeatBLL> AllSeats = new List<SeatBLL>();
+            List<SessionBLL> AllSession = _sessionManager.GetAllSessionByCinemaAndFilm(cinemaId, filmId);
+
+            for (int i = 0; i < AllSession.Count; i++)
+            {
+                var dateThisSession = DateOnly.FromDateTime(AllSession[i].Date);
+
+                if (dateStart <= dateThisSession && dateThisSession <= dateEnd)
+                {
+                    var SeatsInSession = _seatManager.GetAllSeatsBySessionId(AllSession[i].Id);
+                    AllSeats.AddRange(SeatsInSession);
+                }
+            }
+
+            AmountTickets = AllSeats.Count;
+
+            return AmountTickets;
+        }
+
         public int NotPurchasedTicketsOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)
         {
             int AmountNotPurchasedTickets = 0;
@@ -22,8 +44,13 @@ namespace BookingTickets.BLL.Statistics
 
             for (int i = 0; i < AllSession.Count; i++)
             {
-                var NotBuySeatsInHall = _seatManager.GetFreeSeatsBySessionId(AllSession[i].Id);
-                NotBuySeats.AddRange(NotBuySeatsInHall);
+                var dateThisSession = DateOnly.FromDateTime(AllSession[i].Date);
+
+                if (dateStart <= dateThisSession && dateThisSession <= dateEnd)
+                {
+                    var NotBuySeatsInHall = _seatManager.GetFreeSeatsBySessionId(AllSession[i].Id);
+                    NotBuySeats.AddRange(NotBuySeatsInHall);
+                }
             }
 
             AmountNotPurchasedTickets = NotBuySeats.Count;
@@ -39,9 +66,13 @@ namespace BookingTickets.BLL.Statistics
 
             for (int i = 0; i < AllSession.Count; i++)
             {
-                var PurchasedSeats = _seatManager.GetPurchasedSeatsBySessionId(AllSession[i].Id);
+                var dateThisSession = DateOnly.FromDateTime(AllSession[i].Date);
 
-                AllPurchasedSeats.AddRange(PurchasedSeats);
+                if (dateStart <= dateThisSession && dateThisSession <= dateEnd)
+                {
+                    var PurchasedSeats = _seatManager.GetPurchasedSeatsBySessionId(AllSession[i].Id);
+                    AllPurchasedSeats.AddRange(PurchasedSeats);
+                }
             }
 
             AmountPurchasedTickets = AllPurchasedSeats.Count;
@@ -49,27 +80,26 @@ namespace BookingTickets.BLL.Statistics
             return AmountPurchasedTickets;
         }
 
-        public int AmountTicketsOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)
+        public decimal BoxOfficeOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)
         {
-            int AmountTickets = 0;
-            List<SeatBLL> AllSeats = new List<SeatBLL>();
+            decimal BoxOffice = 0;
             List<SessionBLL> AllSession = _sessionManager.GetAllSessionByCinemaAndFilm(cinemaId, filmId);
+            List<SeatBLL> AllPurchasedSeats = new List<SeatBLL>();
 
             for (int i = 0; i < AllSession.Count; i++)
             {
-                var SeatsInSession = _seatManager.GetAllSeatsBySessionId(AllSession[i].Id);
-                AllSeats.AddRange(SeatsInSession);
+                var dateThisSession = DateOnly.FromDateTime(AllSession[i].Date);
+
+                if (dateStart <= dateThisSession && dateThisSession <= dateEnd)
+                {
+                    var costSession = AllSession[i].Cost;
+                    var PurchasedSeats = _seatManager.GetPurchasedSeatsBySessionId(AllSession[i].Id);
+
+                    BoxOffice += (costSession * PurchasedSeats.Count);
+                }
             }
 
-            AmountTickets = AllSeats.Count;
-
-            return AmountTickets;
-        }
-
-        public void BoxOfficeOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)
-        {
-            var BoxOffice = 0;
-            List<SessionBLL> AllSession = _sessionManager.GetAllSessionByCinemaAndFilm(cinemaId, filmId);
+            return BoxOffice;
         }
     }
 }

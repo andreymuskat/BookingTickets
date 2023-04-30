@@ -2,7 +2,10 @@ using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
+using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
+using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
+using BookingTickets.BLL.Statistics;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -11,12 +14,14 @@ namespace BookingTickets.BLL.Roles
         private readonly SessionManager _sessionManager;
         private readonly UserManager _userManager;
         private readonly CinemaManager _cinemaManager;
+        private readonly Statistics_Film _statisticsFilm;
 
         public Admin()
         {
             _sessionManager = new SessionManager();
             _userManager = new UserManager();
             _cinemaManager = new CinemaManager();
+            _statisticsFilm = new Statistics_Film();
         }
 
         public void CreateSession(CreateSessionInputModel session, int cinemaId)
@@ -63,6 +68,21 @@ namespace BookingTickets.BLL.Roles
         public void DeleteCashierById(int id)
         {
             _userManager.DeleteCashierById(id);
+        }
+
+        public StatisticsFilm_ForAdmin_OutputModels GetStatisticsByFilm(StatisticsFilm_ForAdmin_InputModels infoForStatic, int cinemaId)
+        {
+            StatisticsFilm_ForAdmin_OutputModels outputStat = new StatisticsFilm_ForAdmin_OutputModels();
+            DateOnly dateStart = DateOnly.Parse(infoForStatic.DataStart);
+            DateOnly dateEnd = DateOnly.Parse(infoForStatic.DataEnd);
+
+
+            outputStat.TotalAmountTickets = _statisticsFilm.AmountTicketsOnFilmInCinema(cinemaId, infoForStatic.FilmId, dateStart, dateEnd);
+            outputStat.PurchasedTickets = _statisticsFilm.PurchasedTicketsOnFilmInCinema(cinemaId, infoForStatic.FilmId, dateStart, dateEnd);
+            outputStat.NotPurchasedTickets = _statisticsFilm.NotPurchasedTicketsOnFilmInCinema(cinemaId, infoForStatic.FilmId, dateStart, dateEnd);
+            outputStat.BoxOfficeOnFilm = _statisticsFilm.BoxOfficeOnFilmInCinema(cinemaId, infoForStatic.FilmId, dateStart, dateEnd);
+
+            return outputStat;
         }
     }
 }

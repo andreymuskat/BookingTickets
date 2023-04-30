@@ -22,15 +22,31 @@ namespace BookingTickets.DAL
             return seat;
         }
 
+        public SeatDto GetSeatById(int seatId) 
+        {
+            return _context.Seats
+                .Single(k=> k.Id == seatId);
+        }
+
+        public List<SeatDto> GetAllSeatInHall(int hallId)
+        {
+            return _context.Seats
+                .Where(h => h.HallId == hallId)
+                .ToList();
+        }
+
         public List<SeatDto> GetAllSeatsBySessionId(int  sessionId)
         {
             var hallId = _context.Sessions
+                .Where(k => k.IsDeleted == false)
                 .Single(k => k.Id == sessionId)
                 .HallId;
 
-            return _context.Seats
+            var allSeats = _context.Seats
                 .Where(k => k.HallId == hallId)
                 .ToList();
+
+            return allSeats;
         }
 
         public List<SeatDto> GetAllFreeSeatsBySessionId(int idSession)
@@ -54,6 +70,7 @@ namespace BookingTickets.DAL
             }
 
             var hallId = _context.Sessions
+                .Where(s => s.IsDeleted == false)
                 .Single(s => s.Id == idSession)
                 .HallId;
 
@@ -72,6 +89,7 @@ namespace BookingTickets.DAL
             var OrdersInSession = _context.Orders
                 .Where(s => s.SessionId == idSession)
                 .Include(s => s.Seats)
+                .Include(s => s.Seats.Hall)
                 .ToList();
 
             foreach (var order in OrdersInSession)
@@ -83,18 +101,6 @@ namespace BookingTickets.DAL
             }
 
             return PurchasedSeats;
-        }
-
-        public List<SeatDto> GetAllSeatInHall(int hallId)
-        {
-            return _context.Seats
-                .Where(h => h.HallId == hallId)
-                .ToList();
-        }
-        public SeatDto GetSeatById(int seatId) 
-        {
-            return _context.Seats
-                .Single(k=> k.Id == seatId);
         }
     }
 }

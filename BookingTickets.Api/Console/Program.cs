@@ -1,8 +1,8 @@
 using BookingTickets.BLL;
 using BookingTickets.BLL.Statistics;
 
-CinemaManager cin = new CinemaManager();
+SessionManager cin = new SessionManager();
 
-var pp = cin.GetCinemaByHallId(31);
+var pp = cin.GetAllSessionByCinemaId(7);
 
 Console.WriteLine(" ");

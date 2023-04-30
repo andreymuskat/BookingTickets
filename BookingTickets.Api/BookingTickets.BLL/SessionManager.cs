@@ -93,6 +93,7 @@ namespace BookingTickets.BLL
         {
             var listSessionDto = _sessionRepository.GetAllSessionByFilmId(idFilm);
             var listSessionBLL = _instanceMapperBll.MapListSessionDtoToListSessionBLL(listSessionDto);
+
             return listSessionBLL;
         }
 
@@ -106,10 +107,13 @@ namespace BookingTickets.BLL
 
         public List<SessionBLL> GetAllSessionByCinemaAndFilm(int cinemaId, int filmId)
         {
-            return _instanceMapperBll.MapListSessionDtoToListSessionBLL
-                (_sessionRepository.GetAllSessionByCinemaId(cinemaId)
+            List<SessionDto> allSession = _sessionRepository.GetAllSessionByCinemaId(cinemaId)
                 .Where(k => k.Film.Id == filmId)
-                .ToList());
+                .ToList();
+
+            var allSessionByFilm = _instanceMapperBll.MapListSessionDtoToListSessionBLL(allSession);
+
+            return allSessionByFilm;
         }
     }
 }
