@@ -1,8 +1,12 @@
 using AutoMapper;
+using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
+using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -84,20 +88,47 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetSession/Session/{idSession}", Name = "GetSessionById")]
-        public IActionResult GetSessionById(int idSession)
+        //[HttpGet("GetSession/Session/{idSession}", Name = "GetSessionById")]
+        //public IActionResult GetSessionById(int idSession)
+        //{
+        //    //try
+        //    //{
+        //    //    var sb = _client.GetSessionById(idSession);
+        //    //    var res = _mapper.Map<SessionResponseModelForClient>(sb);
+
+        //    //    return Ok(res);
+        //    //}
+        //    //catch
+        //    //{
+        //    //    return BadRequest();
+        //    //};
+        //}
+        [HttpPost("CreateOrder/{requestedCinemaId}", Name = "CreateOrder")]
+        public IActionResult CreateOrder(CreateOrderRequestModel model, int requestedCinemaId)
         {
+            _logger.Log(LogLevel.Information, "Client wanted to create a new order.");
+            var userId = TakeIdByClientAuth();
+
             try
             {
-                var sb = _client.GetSessionById(idSession);
-                var res = _mapper.Map<SessionResponseModelForClient>(sb);
-
-                return Ok(res);
+                _client.CreateOrderByCustomer(_mapper.Map<CreateOrderInputModel>(model), userId);
             }
-            catch
+            catch (SessionException ex)
             {
-                return BadRequest();
-            };
+                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+            }
+            _logger.Log(LogLevel.Information, "Client's request completed: new order written to the database.", model);
+
+            return Ok("GOT IT");
+        }
+
+        private int TakeIdByClientAuth()
+        {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            string userName = nameClaim?.Value!;
+            var userId = Convert.ToInt32(userName);
+
+            return userId;
         }
     }
 }

@@ -1,9 +1,134 @@
-﻿using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models.All_OrderBLLModel;
+using BookingTickets.BLL.Models.All_SessionBLLModel;
+using Core;
 
 namespace BookingTickets.BLL.Roles
 {
     public class Cashier : IСashier
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
+
+        private readonly FilmManager _filmManager;
+        private readonly SessionManager _sessionManager;
+        private readonly CinemaManager _cinemaManager;
+        private readonly UserManager _userManager;
+        private readonly OrderManager _orderManager;
+        private readonly SeatManager _seatManager;
+
+        public Cashier()
+        {
+            _filmManager = new FilmManager();
+            _sessionManager = new SessionManager();
+            _cinemaManager = new CinemaManager();
+            _userManager = new UserManager();
+            _orderManager = new OrderManager();
+            _seatManager = new SeatManager();
+        }
+        public FilmBLL GetFilmById(int filmId)
+        {
+            return _filmManager.GetFilmById(filmId);
+        }
+
+        public List<SessionBLL> GetSessionsInHisCinema(int cashiersCinemaId)
+        {
+            var listSession = _sessionManager.GetAllSessionByCinemaId(cashiersCinemaId)
+                .Where(k => k.IsDeleted == false)
+                .ToList();
+
+            return listSession;
+        }
+
+        public List<SessionBLL> GetSessionsByFilmInHisCinema(int idFilm, int cashiersCinemaId)
+        {
+            var listSession = _sessionManager.GetAllSessionByCinemaAndFilm(idFilm, cashiersCinemaId)
+                .Where(k => k.IsDeleted == false)
+                .ToList();
+
+            return listSession;
+        }
+
+        public SessionOutputModel GetSessionById(int idSession, int cashiersCinemaId)
+        {
+            var session = _sessionManager.GetSessionById(idSession);
+            var cinema = _cinemaManager.GetCinemaByHallId(session.HallId);
+
+            if (cinema.Id == cashiersCinemaId)
+            {
+                return session;
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
+        }
+
+        public List<SeatsForCashierOutputModel> GetFreeSeatsBySessionInHisCinema(int sessionId, int cashiersCinemaId)
+        {
+            var allSeats = _seatManager.GetFreeSeatsBySessionIdForCashier(sessionId);
+            int hallId = allSeats.First().Hall.Id;
+            var cinemaId = _cinemaManager.GetCinemaByHallId(hallId);
+
+            if (cinemaId.Id == cashiersCinemaId)
+            {
+                return allSeats;
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
+        }
+         
+        public List<OrderBLL> FindOrderByCodeNumber(string codeNumber)
+        {
+            var order = _orderManager.FindOrdersByCodeNumber(codeNumber);
+            return order;
+        }
+
+        public void CreateOrderByCashier(CreateOrderInputModel order, int cinemaId, int userId)
+        {
+            var sess = _sessionManager.GetAllSessionByCinemaId(cinemaId).Where(k => k.Id == order.SessionId);
+
+            if (sess != null)
+            {
+                _orderManager.CreateOrderByCashier(order, userId);
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
+        }
+
+
+        public void CreateSession(CreateSessionInputModel session, int cinemaId)
+        {
+            var cinemaBll = _cinemaManager.GetCinemaByHallId(session.HallId);
+
+            if (cinemaBll.Id == cinemaId)
+            {
+                _sessionManager.CreateSession(session);
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
+        }
+
+        public void EditOrderStatus(OrderStatus status, string code, int cinemaId)
+        {
+            var orderBll = _orderManager.FindOrdersByCodeNumber(code);
+            var cinemaInOrder = _cinemaManager.GetCinemaByHallId(orderBll.First().Seats.HallId);
+
+            if (cinemaInOrder.Id == cinemaId)
+            {
+                _orderManager.EditOrderStatus(status, code);
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
+        }
     }
 }

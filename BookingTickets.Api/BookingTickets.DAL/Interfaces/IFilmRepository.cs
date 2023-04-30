@@ -17,5 +17,6 @@ namespace BookingTickets.DAL.Interfaces
         public void AddNewFilm(FilmDto film);
 
         public void UpdateFilm(FilmDto film);
+
     }
 }

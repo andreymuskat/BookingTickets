@@ -1,6 +1,4 @@
-﻿using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
-
-namespace BookingTickets.API.Model.RequestModels.All_SeatRequestModel
+﻿namespace BookingTickets.API.Model.RequestModels.All_SeatRequestModel
 {
     public class AddSeatsRowsRequestModel
     { 

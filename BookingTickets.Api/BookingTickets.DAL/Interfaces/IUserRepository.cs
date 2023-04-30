@@ -16,6 +16,6 @@ namespace BookingTickets.DAL.Interfaces
 
         public UserDto GetUserById(int idUser);
 
-        public void UdateUserStatus(UserDto user);
+        public void UpdateUserStatus(UserDto user);
     }
 }

@@ -39,13 +39,12 @@ namespace BookingTickets.API.Controllers
             try
             {
                 _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session), cinemaId);
+            _logger.Log(LogLevel.Information, "Admin request completed: new session written to the database.", session);
             }
             catch (SessionException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
             }
-
-            _logger.Log(LogLevel.Information, "Admin request completed: new session written to the database.", session);
 
             return Ok("GOT IT");
         }
@@ -67,6 +66,7 @@ namespace BookingTickets.API.Controllers
         public ActionResult<List<UserResponseModel>> GetAllCashiers()
         {
             var res = _admin.GetAllCashiers();
+
             return Ok(res);
         }
 

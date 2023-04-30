@@ -17,5 +17,6 @@
         public List<SessionDto> GetAllSessionInTheIntervalDate(DateOnly dateStart, DateOnly dateEnd);
 
         public void DeleteSession(int idSession);
+
     }
 }

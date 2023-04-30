@@ -2,6 +2,7 @@ using BookingTickets.DAL.Interfaces;
 using Core;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace BookingTickets.DAL
 {
     public class SeatRepository : ISeatRepository
@@ -41,6 +42,7 @@ namespace BookingTickets.DAL
             var OrdersInSession = _context.Orders
                 .Where(s => s.SessionId == idSession)
                 .Include(s => s.Seats)
+                .Include(s => s.Seats.Hall)
                 .ToList();
 
             foreach (var order in OrdersInSession)
@@ -74,7 +76,7 @@ namespace BookingTickets.DAL
 
             foreach (var order in OrdersInSession)
             {
-                if (order.Status == OrderStatus.PurchasedByÑashbox || order.Status == OrderStatus.PurchasedBySite)
+                if (order.Status == OrderStatus.PurchasedByÐ¡ashbox || order.Status == OrderStatus.PurchasedBySite)
                 {
                     PurchasedSeats.Add(order.Seats);
                 }
@@ -88,6 +90,11 @@ namespace BookingTickets.DAL
             return _context.Seats
                 .Where(h => h.HallId == hallId)
                 .ToList();
+        }
+        public SeatDto GetSeatById(int seatId) 
+        {
+            return _context.Seats
+                .Single(k=> k.Id == seatId);
         }
     }
 }

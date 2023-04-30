@@ -1,4 +1,4 @@
-﻿namespace BookingTickets.DAL.Interfaces
+namespace BookingTickets.DAL.Interfaces
 {
     public interface ISeatRepository
     {
@@ -7,6 +7,8 @@
         public List<SeatDto> GetAllSeatsBySessionId(int sessionId);
 
         public List<SeatDto> GetAllFreeSeatsBySessionId(int idSession);
+
+        public SeatDto GetSeatById(int seatId);
 
         public List<SeatDto> GetAllSeatInHall(int hallId);
 

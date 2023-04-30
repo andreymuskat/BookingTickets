@@ -80,7 +80,7 @@ namespace BookingTickets.DAL
             return _context.Users.SingleOrDefault(t => t.Id == idUser);
         }
 
-        public void UdateUserStatus(UserDto user)
+        public void UpdateUserStatus(UserDto user)
         {
             var searchUser =  _context.Users.SingleOrDefault(t => t.Id == user.Id);
 
