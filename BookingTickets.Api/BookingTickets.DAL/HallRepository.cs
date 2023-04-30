@@ -1,6 +1,5 @@
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {

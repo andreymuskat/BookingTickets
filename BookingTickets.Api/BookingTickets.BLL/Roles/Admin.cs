@@ -3,7 +3,6 @@ using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.BLL.Models.All_UserBLLModels;
-using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL.Roles
 {

@@ -3,7 +3,6 @@ using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
-using Core;
 
 namespace BookingTickets.BLL
 {
@@ -110,6 +109,5 @@ namespace BookingTickets.BLL
                 .Where(k => k.Film.Id == filmId)
                 .ToList());
         }
-
     }
 }

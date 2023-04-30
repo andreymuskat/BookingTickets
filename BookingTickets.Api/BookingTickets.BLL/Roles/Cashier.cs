@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using BookingTickets.BLL.CustomException;
+﻿using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
@@ -92,7 +91,6 @@ namespace BookingTickets.BLL.Roles
 
         public void CreateOrderByCashier(CreateOrderInputModel order,int requestedCinemaId, int cinemaId, string name)
         {
-
                 if (requestedCinemaId==cinemaId)
             {
                 _orderManager.CreateOrderByCashier(order, cinemaId,  name);

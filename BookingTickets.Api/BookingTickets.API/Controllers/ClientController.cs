@@ -6,7 +6,6 @@ using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
-using BookingTickets.BLL.Roles;
 using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -108,8 +107,6 @@ namespace BookingTickets.API.Controllers
         public IActionResult CreateOrder(CreateOrderRequestModel model, int requestedCinemaId)
         {
             _logger.Log(LogLevel.Information, "Client wanted to create a new order.");
-
- 
             var name = TakeUsernameByClientAuth();
 
             try
