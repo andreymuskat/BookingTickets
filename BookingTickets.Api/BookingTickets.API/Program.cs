@@ -30,7 +30,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMainAdmin, MainAdmin>();
 builder.Services.AddScoped<IClient, Client>();
 builder.Services.AddScoped<IAdmin, Admin>();
-builder.Services.AddScoped < IСashier, Cashier >();
+builder.Services.AddScoped<IСashier, Cashier>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 

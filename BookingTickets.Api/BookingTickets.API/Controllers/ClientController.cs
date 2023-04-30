@@ -88,44 +88,47 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetSession/Session/{idSession}", Name = "GetSessionById")]
-        public IActionResult GetSessionById(int idSession)
-        {
-            try
-            {
-                var sb = _client.GetSessionById(idSession);
-                var res = _mapper.Map<SessionResponseModelForClient>(sb);
+        //[HttpGet("GetSession/Session/{idSession}", Name = "GetSessionById")]
+        //public IActionResult GetSessionById(int idSession)
+        //{
+        //    //try
+        //    //{
+        //    //    var sb = _client.GetSessionById(idSession);
+        //    //    var res = _mapper.Map<SessionResponseModelForClient>(sb);
 
-                return Ok(res);
-            }
-            catch
-            {
-                return BadRequest();
-            };
-        }
+        //    //    return Ok(res);
+        //    //}
+        //    //catch
+        //    //{
+        //    //    return BadRequest();
+        //    //};
+        //}
         [HttpPost("CreateOrder/{requestedCinemaId}", Name = "CreateOrder")]
         public IActionResult CreateOrder(CreateOrderRequestModel model, int requestedCinemaId)
         {
             _logger.Log(LogLevel.Information, "Client wanted to create a new order.");
-            var name = TakeUsernameByClientAuth();
+            var userId = TakeIdByClientAuth();
 
             try
             {
-                _client.CreateOrderByCustomer(_mapper.Map<CreateOrderInputModel>(model), name);
+                _client.CreateOrderByCustomer(_mapper.Map<CreateOrderInputModel>(model), userId);
             }
             catch (SessionException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
             }
             _logger.Log(LogLevel.Information, "Client's request completed: new order written to the database.", model);
+
             return Ok("GOT IT");
         }
-        private string TakeUsernameByClientAuth()
-        {
-            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Name");
-            string userName = nameClaim?.Value!;
 
-            return userName;
+        private int TakeIdByClientAuth()
+        {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            string userName = nameClaim?.Value!;
+            var userId = Convert.ToInt32(userName);
+
+            return userId;
         }
     }
 }

@@ -17,7 +17,6 @@ namespace BookingTickets.BLL.Roles
         private readonly UserManager _userManager;
         private readonly OrderManager _orderManager;
         private readonly SeatManager _seatManager;
-        private const int advertisingTime = 15;
 
         public Cashier()
         {
@@ -33,42 +32,45 @@ namespace BookingTickets.BLL.Roles
             return _filmManager.GetFilmById(filmId);
         }
 
-        public List<SessionBLL> GetSessionsInHisCinema(UserBLL userId)
+        public List<SessionBLL> GetSessionsInHisCinema(int cashiersCinemaId)
         {
-            int cashiersCinemaId = userId.Cinema.Id;
-            var listSession = _sessionManager.GetAllSessionByCinemaId(cashiersCinemaId);
-            var res = listSession.FindAll(d => d.IsDeleted == false);
-            return res;
+            var listSession = _sessionManager.GetAllSessionByCinemaId(cashiersCinemaId)
+                .Where(k => k.IsDeleted == false)
+                .ToList();
+
+            return listSession;
         }
 
         public List<SessionBLL> GetSessionsByFilmInHisCinema(int idFilm, int cashiersCinemaId)
         {
-            var listSession = _sessionManager.GetAllSessionByFilmId(idFilm);
-            var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
-            var cashierCinema = notDeleted.FindAll(k => k.Hall.Cinema.Id == cashiersCinemaId);
-            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now);
-            return res;
+            var listSession = _sessionManager.GetAllSessionByCinemaAndFilm(idFilm, cashiersCinemaId)
+                .Where(k => k.IsDeleted == false)
+                .ToList();
+
+            return listSession;
         }
 
-        public SessionBLL GetSessionById(int idSession)
+        public SessionOutputModel GetSessionById(int idSession, int cashiersCinemaId)
         {
-                var allSession = _sessionManager.GetSessionById(idSession);
-                if (allSession.IsDeleted == false && allSession.Date.AddMinutes(advertisingTime) > DateTime.Now)
-                {
-                    return allSession;
-                }
-                else
-                {
-                    throw new SessionException(205);
-                }
+            var session = _sessionManager.GetSessionById(idSession);
+            var cinema = _cinemaManager.GetCinemaByHallId(session.HallId);
 
-            return allSession;
+            if (cinema.Id == cashiersCinemaId)
+            {
+                return session;
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
         }
-        public List<SeatBLL> GetFreeSeatsBySessionInHisCinema(int sessionId, int cashiersCinemaId)
+
+        public List<SeatsForCashierOutputModel> GetFreeSeatsBySessionInHisCinema(int sessionId, int cashiersCinemaId)
         {
-            var allSeats = _seatManager.GetFreeSeatsBySessionId(sessionId);
-            int hallId = allSeats.SingleOrDefault().HallId;
-            var cinemaId=_cinemaManager.GetCinemaByHallId(hallId);
+            var allSeats = _seatManager.GetFreeSeatsBySessionIdForCashier(sessionId);
+            int hallId = allSeats.First().Hall.Id;
+            var cinemaId = _cinemaManager.GetCinemaByHallId(hallId);
+
             if (cinemaId.Id == cashiersCinemaId)
             {
                 return allSeats;
@@ -78,24 +80,22 @@ namespace BookingTickets.BLL.Roles
                 throw new SessionException(205);
             }
         }
-        public List <OrderBLL> FindOrderByCodeNumber(string codeNumber)
+         
+        public List<OrderBLL> FindOrderByCodeNumber(string codeNumber)
         {
             var order = _orderManager.FindOrdersByCodeNumber(codeNumber);
             return order;
         }
-        public int GetCashiersCinemaId(UserBLL user)
-        {
-            int cashiersCinemaId = user.Cinema.Id;
-            return cashiersCinemaId;
-        }
 
-        public void CreateOrderByCashier(CreateOrderInputModel order,int requestedCinemaId, int cinemaId, string name)
+        public void CreateOrderByCashier(CreateOrderInputModel order, int cinemaId, int userId)
         {
-                if (requestedCinemaId==cinemaId)
+            var sess = _sessionManager.GetAllSessionByCinemaId(cinemaId).Where(k => k.Id == order.SessionId);
+
+            if (sess != null)
             {
-                _orderManager.CreateOrderByCashier(order, cinemaId,  name);
+                _orderManager.CreateOrderByCashier(order, userId);
             }
-                else
+            else
             {
                 throw new SessionException(205);
             }
@@ -118,21 +118,16 @@ namespace BookingTickets.BLL.Roles
         public void EditOrderStatus(OrderStatus status, string code, int cinemaId)
         {
             var orderBll = _orderManager.FindOrdersByCodeNumber(code);
-            var cinemaIdInOrder = orderBll.SingleOrDefault().Session.Hall.Cinema.Id;
+            var cinemaInOrder = _cinemaManager.GetCinemaByHallId(orderBll.First().Seats.HallId);
 
-            if (cinemaIdInOrder == cinemaId)
+            if (cinemaInOrder.Id == cinemaId)
             {
-             _orderManager.EditOrderStatus(status, code);
+                _orderManager.EditOrderStatus(status, code);
             }
             else
             {
                 throw new SessionException(205);
             }
-        }
-        public List<SessionBLL> GetSessionsInHisCinema(int cashierId)
-        {
-            var allSession = _sessionManager.GetAllSessionByCinemaId(cashierId);
-            return allSession;
         }
     }
 }

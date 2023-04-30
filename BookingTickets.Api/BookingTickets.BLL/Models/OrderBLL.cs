@@ -4,9 +4,7 @@ namespace BookingTickets.BLL.Models
 {
     public class OrderBLL
     {
-        public int Id { get; set; }
-
-        public List<SeatBLL> Seats { get; set; }
+        public SeatBLL Seats { get; set; }
 
         public UserBLL User { get; set; }
 

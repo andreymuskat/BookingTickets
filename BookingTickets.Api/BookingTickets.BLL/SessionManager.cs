@@ -95,10 +95,11 @@ namespace BookingTickets.BLL
             return listSessionBLL;
         }
 
-        public SessionBLL GetSessionById(int idSession)
+        public SessionOutputModel GetSessionById(int idSession)
         {
             var sDto = _sessionRepository.GetSessionById(idSession);
-            var res = _instanceMapperBll.MapSessionDtoToSessionBLL(sDto);
+            var res = _instanceMapperBll.MapSessionDtoToSessionOutputModels(sDto);
+
             return res;
         }
 

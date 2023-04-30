@@ -15,8 +15,8 @@ namespace BookingTickets.BLL.InterfacesBll
 
         public List<SeatBLL> GetFreeSeatsBySession(int sessionId);
 
-        public SessionBLL GetSessionById(int idSession);
+        //public SessionBLL GetSessionById(int idSession);
 
-        public void CreateOrderByCustomer(CreateOrderInputModel order, string name);
+        public void CreateOrderByCustomer(CreateOrderInputModel order, int userId);
     }
 }

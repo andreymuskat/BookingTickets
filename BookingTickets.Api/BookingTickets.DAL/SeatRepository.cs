@@ -42,6 +42,7 @@ namespace BookingTickets.DAL
             var OrdersInSession = _context.Orders
                 .Where(s => s.SessionId == idSession)
                 .Include(s => s.Seats)
+                .Include(s => s.Seats.Hall)
                 .ToList();
 
             foreach (var order in OrdersInSession)

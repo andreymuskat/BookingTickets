@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
-using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
-using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_OrderResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_SeatResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_OrderBLLModel;
 using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -23,50 +24,57 @@ namespace BookingTickets.API.Controllers
         private readonly IMapper _mapper;
         private readonly ILogger<CashierController> _logger;
 
-        public CashierController(IMapper map, IСashier cashier)
+        public CashierController(IMapper map, IСashier cashier, ILogger<CashierController> logger)
         {
             _mapper = map;
             _cashier = cashier;
+            _logger = logger;
         }
 
-        [HttpPost("CreateOrder/{requestedCinemaId}", Name = "CreateOrderByCashier")]
-        public IActionResult CreateOrder(CreateOrderRequestModel model, int requestedCinemaId)
+        [HttpPost("Order", Name = "CreateOrderByCashier")]
+        public IActionResult CreateOrder(CreateOrderRequestModel model)
         {
             _logger.Log(LogLevel.Information, "Cashier wanted to create a new order.");
 
             var cinemaId = TakeIdCinemaByCashierAuth();
-            var name = TakeUsernameByCashierAuth();
+            var userId = TakeIdByCashierAuth();
 
             try
             {
-                _cashier.CreateOrderByCashier(_mapper.Map<CreateOrderInputModel>(model), requestedCinemaId, cinemaId, name);
+                _cashier.CreateOrderByCashier(_mapper.Map<CreateOrderInputModel>(model), cinemaId, userId);
             }
+
             catch (SessionException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
             }
+
             _logger.Log(LogLevel.Information, "Cashier's request completed: new order written to the database.", model);
+
             return Ok("GOT IT");
         }
 
-        [HttpPost("EditOrderStatus/{code}", Name = "EditOrderStatus")]
+        [HttpPatch("Order/Status", Name = "EditOrderStatus")]
         public IActionResult EditOrderStatus(OrderStatus status, string code)
         {
             _logger.Log(LogLevel.Information, "Cashier sent a request to edit order status");
+
             var cinemaId = TakeIdCinemaByCashierAuth();
             _cashier.EditOrderStatus(status, code, cinemaId);
+
             _logger.Log(LogLevel.Information, "Cashier's request completed: new order status written to the database", status, code);
             return Ok("GOT IT");
         }
 
-        [HttpGet("GetSession/{idSession}", Name = "GetSession")]
+        [HttpGet("Session/{idSession:int}", Name = "Ses")]
         public IActionResult GetSessionById(int idSession)
         {
+            var cinemaId = TakeIdCinemaByCashierAuth();
             //_logger.Log(LogLevel.Information, "Cashier sent a request to get session by id");
             try
             {
-                var session = _cashier.GetSessionById(idSession);
-                var res = _mapper.Map<SessionRequestModel>(session);
+                var session = _cashier.GetSessionById(idSession, cinemaId);
+                var res = _mapper.Map<SessionResponseModelForClient>(session);
                 //_logger.Log(LogLevel.Information, "Cashier's request find session by id was completed", idSession);
                 return Ok(res);
             }
@@ -76,16 +84,23 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetOrder/{code}", Name = "GetOrderInBoxOffice")]
+        [HttpGet("Order/{code}", Name = "GetOrderInBoxOffice")]
         public IActionResult FindOrderByCodeNumber(string code)
         {
             _logger.Log(LogLevel.Information, "Cashier sent a request to get order by code");
             try
             {
-                var orders= _cashier.FindOrderByCodeNumber(code);
-                var res = _mapper.Map<SessionRequestModel>(orders);
+                List<OrderBLL> orders = _cashier.FindOrderByCodeNumber(code);
+                List<OrderForCashierResponseModel> findeOrders = new List<OrderForCashierResponseModel>();
+
+                for (int i = 0; i < orders.Count; i++)
+                {
+                    findeOrders.Add(_mapper.Map<OrderForCashierResponseModel>(orders[i]));
+                }
+
                 _logger.Log(LogLevel.Information, "Cashier's request get order by code was completed", code);
-                return Ok(res);
+
+                return Ok(findeOrders);
             }
             catch
             {
@@ -93,7 +108,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetFilm/{filmId}", Name = "GetFilmByIdByCashier")]
+        [HttpGet("Film/{filmId}", Name = "GetFilmByIdByCashier")]
         public IActionResult GetFilmById(int filmId)
         {
             //_logger.Log(LogLevel.Information, "Cashier sent a request to get film by film id");
@@ -110,15 +125,15 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetSession/{cinemaId}", Name = "GetSessionInHisCinema")]
+        [HttpGet("Session", Name = "GetSessionInHisCinema")]
         public IActionResult GetSessionsInHisCinema()
         {
             //_logger.Log(LogLevel.Information, "Cashier sent a request to get session in his cinema");
             try
             {
                 int cinemaId = TakeIdCinemaByCashierAuth();
-                var allSessions  = _cashier.GetSessionsInHisCinema(cinemaId);
-                var res = _mapper.Map<List<SessionResponseModel>>(allSessions);
+                var allSessions = _cashier.GetSessionsInHisCinema(cinemaId);
+                var res = _mapper.Map<List<SessionForCashierResponseModel>>(allSessions);
                 //_logger.Log(LogLevel.Information, "Cashier's request get sessions in his cinema was completed", cinemaId);
                 return Ok(res);
             }
@@ -128,14 +143,14 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetFreeSeats/{sessionId}", Name = "GetFreeSeatsBySessionInHisCinema")]
+        [HttpGet("FreeSeats/{sessionId}", Name = "GetFreeSeatsBySessionInHisCinema")]
         public IActionResult GetFreeSeatsBySessionInHisCinema(int sessionId)
         {
             try
             {
                 int cashiersCinemaId = TakeIdCinemaByCashierAuth();
                 var freeSeats = _cashier.GetFreeSeatsBySessionInHisCinema(sessionId, cashiersCinemaId);
-                var res = _mapper.Map<List<SeatRequestModel>>(freeSeats);
+                var res = _mapper.Map<List<SeatResponseModel>>(freeSeats);
                 return Ok(res);
             }
             catch
@@ -146,19 +161,20 @@ namespace BookingTickets.API.Controllers
 
         private int TakeIdCinemaByCashierAuth()
         {
-            {
-                var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CinemaId");
-                string userName = nameClaim?.Value!;
-                var userCinemaId = Convert.ToInt32(userName);
-                return userCinemaId;
-            }
-        }
-        private string TakeUsernameByCashierAuth()
-        {
-            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Name");
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CinemaId");
             string userName = nameClaim?.Value!;
+            var userCinemaId = Convert.ToInt32(userName);
 
-            return userName;
+            return userCinemaId;
+        }
+
+        private int TakeIdByCashierAuth()
+        {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            string userName = nameClaim?.Value!;
+            var userId = Convert.ToInt32(userName);
+
+            return userId;
         }
     }
 }

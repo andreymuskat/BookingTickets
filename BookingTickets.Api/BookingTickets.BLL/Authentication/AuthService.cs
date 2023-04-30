@@ -117,6 +117,8 @@ namespace BookingTickets.BLL.Authentication
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("CinemaId",userDto.CinemaId.ToString()!),
+                new Claim("UserName",userDto.UserName.ToString()!),
+                new Claim("UserId",userDto.Id.ToString()!),
                 new Claim(ClaimTypes.Role, userDto.UserStatus.ToString()),
             };
 

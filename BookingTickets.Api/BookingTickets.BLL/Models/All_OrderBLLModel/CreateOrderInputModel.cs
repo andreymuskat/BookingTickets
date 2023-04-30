@@ -1,7 +1,4 @@
-﻿using BookingTickets.DAL.Models;
-using Core;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using Core;
 
 namespace BookingTickets.BLL.Models.All_OrderBLLModel
 {
@@ -9,12 +6,16 @@ namespace BookingTickets.BLL.Models.All_OrderBLLModel
     {
         public int SeatsId { get; set; }
 
+        public int UserId { get; set; }
+
         public int SessionId { get; set; }
-        public UserBLL User { get; set; }
+
         public OrderStatus Status { get; set; }
 
         public string? Code { get; set; }
+
         public DateTime Date { get; set; }
+
     }
 }
 
