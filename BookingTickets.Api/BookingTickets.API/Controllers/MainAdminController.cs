@@ -99,7 +99,7 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpDelete("Cinema/{id}/Delete")]
-        public IActionResult DeleteCinema(int cinemaId)
+        public IActionResult DeleteCinema([FromHeader] int cinemaId)
         {
             _mainAdmin.DeleteCinema(cinemaId);
 
@@ -122,7 +122,7 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpPut("Hall/{id}/Edit")]
-        public IActionResult HallCinema([FromHeader] HallRequestModel newHall, [FromHeader] int hallId)
+        public IActionResult EditHall([FromHeader] HallRequestModel newHall, [FromHeader] int hallId)
         {
             var newHallBLL = _mapper.Map<CreateAndUpdateHallInputModel>(newHall);
 
@@ -136,15 +136,15 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpDelete("Hall/{id}/Delete")]
-        public IActionResult DeleteHall(int hallId)
+        public IActionResult DeleteHall([FromHeader] int hallId)
         {
             _mainAdmin.DeleteHall(hallId);
 
             return Ok("GOT IT");
         }
 
-        [HttpPost("Create/Hall/Row_With_Seats", Name = "Add Row with seats in hall")]
-        public IActionResult AddRowToHall(AddSeatsRowsRequestModel model)
+        [HttpPost("/Hall/Row", Name = "Add Row with seats in hall")]
+        public IActionResult AddRowToHall([FromHeader] AddSeatsRowsRequestModel model)
         {
             _mainAdmin.AddRowToHall(_mapper.Map<AddSeatsRowsInputModel>(model));
 
