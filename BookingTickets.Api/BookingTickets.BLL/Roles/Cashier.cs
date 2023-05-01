@@ -29,6 +29,7 @@ namespace BookingTickets.BLL.Roles
             _orderManager = new OrderManager();
             _seatManager = new SeatManager();
         }
+
         public FilmBLL GetFilmById(int filmId)
         {
             return _filmManager.GetFilmById(filmId);
@@ -40,7 +41,14 @@ namespace BookingTickets.BLL.Roles
                 .Where(k => k.IsDeleted == false)
                 .ToList();
 
-            return listSession;
+            if (listSession != null)
+            {
+                return listSession;
+            }
+            else
+            {
+                throw new SessionException(777);
+            }
         }
 
         public List<SessionBLL> GetSessionsByFilmInHisCinema(int idFilm, int cashiersCinemaId)
@@ -48,8 +56,14 @@ namespace BookingTickets.BLL.Roles
             var listSession = _sessionManager.GetAllSessionByCinemaAndFilm(idFilm, cashiersCinemaId)
                 .Where(k => k.IsDeleted == false)
                 .ToList();
-
-            return listSession;
+            if (listSession != null)
+            {
+                return listSession;
+            }
+            else
+            {
+                throw new SessionException(777);
+            }
         }
 
         public SessionOutputModel GetSessionById(int idSession, int cashiersCinemaId)
@@ -86,7 +100,14 @@ namespace BookingTickets.BLL.Roles
         public List<OrderBLL> FindOrderByCodeNumber(string codeNumber)
         {
             var order = _orderManager.FindOrdersByCodeNumber(codeNumber);
-            return order;
+            if (order != null)
+            {
+                return order;
+            }
+            else
+            {
+                throw new SessionException(777);
+            }
         }
 
         public void CreateOrderByCashier(CreateOrderInputModel order, int cinemaId, int userId)
