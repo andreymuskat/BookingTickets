@@ -67,7 +67,8 @@ namespace BookingTickets.API.Controllers
         [HttpGet("GetAllCashiers")]
         public ActionResult<List<UserResponseModel>> GetAllCashiers()
         {
-            var res = _admin.GetAllCashiers();
+            var listUserBll = _admin.GetAllCashiers();
+            var res = _mapper.Map<List<UserResponseModel>>(listUserBll);
             return Ok(res);
         }
 

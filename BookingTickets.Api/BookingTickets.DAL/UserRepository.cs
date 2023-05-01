@@ -61,7 +61,6 @@ namespace BookingTickets.DAL
             result = _context.Users
                 .Where(t => !t.IsDeleted)
                 .Include(u => u.Cinema)
-                .AsNoTracking()
                 .ToList();
 
             return result;
@@ -75,7 +74,6 @@ namespace BookingTickets.DAL
                 .Where(t => t.UserStatus == Core.UserStatus.Cashier)
                 .Where(t => !t.IsDeleted)
                 .Include(u => u.Cinema)
-                .AsNoTracking()
                 .ToList();
 
             return result;
