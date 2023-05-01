@@ -1,5 +1,6 @@
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
+using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
 
 namespace BookingTickets.BLL.InterfacesBll
 {
@@ -15,8 +16,8 @@ namespace BookingTickets.BLL.InterfacesBll
 
         public List<SeatBLL> GetFreeSeatsBySession(int sessionId);
 
-        //public SessionBLL GetSessionById(int idSession);
+        public SessionOutputModel GetSessionById(int idSession);
 
-        public void CreateOrderByCustomer(CreateOrderInputModel order, int userId);
+        public string CreateOrderByCustomer(CreateOrderInputModel order, int userId);
     }
 }

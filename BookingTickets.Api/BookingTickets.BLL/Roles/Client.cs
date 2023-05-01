@@ -2,6 +2,7 @@ using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
+using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -53,10 +54,10 @@ namespace BookingTickets.BLL.Roles
             return new List<SeatBLL>();
         }
 
-        public SessionBLL GetSessionById(int idSession)
+        public SessionOutputModel GetSessionById(int idSession)
         {
             var sb = _sessionManager.GetSessionById(idSession);
-            if (sb. == false && sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
+            if (sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
             {
                 return sb;
             }
@@ -66,9 +67,10 @@ namespace BookingTickets.BLL.Roles
             }
         }
 
-        public void CreateOrderByCustomer(CreateOrderInputModel order, int userId)
+        public string CreateOrderByCustomer(CreateOrderInputModel order, int userId)
         {
-            _orderManager.CreateOrderByCustomer(order, userId);
+            var code =_orderManager.CreateOrderByCustomer(order, userId);
+            return code;
         }
     }
 }
