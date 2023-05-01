@@ -1,4 +1,5 @@
-﻿using BookingTickets.BLL.Models;
+﻿using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.Models;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
@@ -16,41 +17,49 @@ namespace BookingTickets.BLL
 
         public void CreateNewFilm(FilmBLL newFilm)
         {
-            var filmDto = _instanceMapperBll.MapFilmBLLToFilmDto(newFilm);
+            var searchFilm = _filmRepository.GetFilmByName(newFilm.Name);
 
-            _filmRepository.CreateFilm(filmDto);
+            if (searchFilm == null)
+            {
+                var filmDto = _instanceMapperBll.MapFilmBLLToFilmDto(newFilm);
+                
+                _filmRepository.CreateFilm(filmDto);
+            }
+            else { throw new FilmException(105); }
         }
 
-        public List<FilmBLL> GetAllFilmByCinema(CinemaBLL cinema)
+        public FilmBLL GetFilmById(int filmId)
         {
-            var res = _instanceMapperBll.MapCinemaBLLToCinemaDto(cinema);
-
-            return _instanceMapperBll.MapListFilmDtoToListFilmBLL(_filmRepository.GetAllFilmByCinema(res));
+            return _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(filmId));
         }
 
-        public List<FilmBLL> GetAllFilmByDay(DateTime dateTime)
+        public void DeleteFilm(int filmId)
         {
-            return _instanceMapperBll.MapListFilmDtoToListFilmBLL(_filmRepository.GetAllFilmByDay(dateTime));
+            _filmRepository.DeleteFilm(filmId);
         }
 
-        public List<FilmBLL> GetAllFilm()
+        public void EditFilm(FilmBLL newFilm, int filmId)
         {
-            return _instanceMapperBll.MapListFilmDtoToListFilmBLL(_filmRepository.GetAllFilm());
-        }
+            var searchFilm = _filmRepository.GetFilmById(filmId);
 
-        public void AddNewFilm(FilmBLL film)
-        {
-            _filmRepository.AddNewFilm(_instanceMapperBll.MapFilmBLLToFilmDto(film));
-        }
+            if(searchFilm != null)
+            {
+                if (newFilm.Name != null)
+                {
+                    searchFilm.Name = newFilm.Name;
+                }
 
-        public void UpdateFilm(FilmBLL film)
-        {
-            _filmRepository.UpdateFilm(_instanceMapperBll.MapFilmBLLToFilmDto(film));
-        }
+                if (newFilm.Duration != null)
+                {
+                    searchFilm.Duration = newFilm.Duration;
+                }
 
-        public FilmBLL GetFilmById(int Id)
-        {
-            return _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(Id));
+                _filmRepository.EditFilm(searchFilm);
+            }
+            else
+            {
+                throw new FilmException(777);
+            }
         }
     }
 }

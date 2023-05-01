@@ -20,35 +20,37 @@ namespace BookingTickets.DAL
             return film;
         }
 
-        public List<FilmDto> GetAllFilmByCinema(CinemaDto cinema)
-        {
-            return new List<FilmDto>();
-        }
-
-        public List<FilmDto> GetAllFilmByDay(DateTime dateTime)
-        {
-            return new List<FilmDto>();
-        }
-
-        public List<FilmDto> GetAllFilm()
-        {
-            return new List<FilmDto>();
-        }
-
         public FilmDto GetFilmById(int filmId)
         {
             return _context.Films
-                .Single(k => k.Id == filmId);
+                .Where(k => k.IsDeleted == false)
+                .SingleOrDefault(k => k.Id == filmId)!;
         }
 
-        public void AddNewFilm(FilmDto film)
+        public FilmDto GetFilmByName(string Name)
         {
-
+            return _context.Films
+                .Where(k => k.IsDeleted == false)
+                .SingleOrDefault(k => k.Name == Name)!;
         }
 
-        public void UpdateFilm(FilmDto film)
+        public void DeleteFilm(int filmId)
         {
+            _context.Films.Single(k => k.Id == filmId).IsDeleted = true;
 
+            _context.SaveChanges();
+        }
+
+        public void EditFilm(FilmDto film)
+        {
+            var filmDb = _context.Films
+                .Where(k => k.IsDeleted == false)
+                .Single(k => k.Id == film.Id);
+
+            filmDb.Name = film.Name;
+            filmDb.Duration = film.Duration;
+
+            _context.SaveChanges();
         }
     }
 }
