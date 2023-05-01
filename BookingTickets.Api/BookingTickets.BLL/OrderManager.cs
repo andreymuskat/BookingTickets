@@ -36,15 +36,17 @@ namespace BookingTickets.BLL
         {
             int secondPartCode = order.SessionId;
             int thirdPartCode = order.SeatsId.FirstOrDefault();
-
             var codeForOrder = CreateCode(secondPartCode, thirdPartCode);
-            foreach (var id in order.SeatsId)
-            {
+            List<int> seatId = order.SeatsId;
+
+            foreach (var id in seatId)
+                {
                 order.Code = codeForOrder;
                 order.Date = DateTime.Now;
                 order.UserId = userId;
                 order.Status = OrderStatus.PurchasedByСashbox;
                 order.SeatsId = new List<int>(id);
+
                 _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
             }
         }
@@ -54,13 +56,16 @@ namespace BookingTickets.BLL
             int secondPartCode = order.SessionId;
             int thirdPartCode = order.SeatsId.FirstOrDefault();
             string codeForOrder= CreateCode(secondPartCode, thirdPartCode);
-            foreach (var id in order.SeatsId)
+            List <int> seatId = order.SeatsId;
+
+            foreach (var id in seatId)
             {
             order.Code = codeForOrder;
             order.Date = DateTime.Now;
             order.UserId = userId;
             order.Status = OrderStatus.Booking;
             order.SeatsId = new List<int>(id);
+
             _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
             }
         }
