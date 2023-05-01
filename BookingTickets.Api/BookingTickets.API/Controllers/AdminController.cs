@@ -31,7 +31,7 @@ namespace BookingTickets.API.Controllers
             _logger = logger;
         }
 
-        [HttpPost("Session/{sessionId}")]
+        [HttpPost("Session")]
         public IActionResult CreateNewSession(CreateSessionRequestModel session)
         {
             _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
