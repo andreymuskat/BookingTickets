@@ -20,6 +20,6 @@ namespace BookingTickets.BLL.InterfacesBll
 
         void DeleteCashierById(int idCashier);
 
-        public StatisticsFilm_ForAdmin_OutputModels GetStatisticsByFilm(StatisticsFilm_ForAdmin_InputModels infoForStatic, int cinemaId);
+        public StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_ForAdmin_InputModels infoForStatic, int cinemaId);
     }
 }
