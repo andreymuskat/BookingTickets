@@ -53,18 +53,18 @@ namespace BookingTickets.BLL.Roles
             return new List<SeatBLL>();
         }
 
-        //public SessionBLL GetSessionById(int idSession)
-        //{
-        //    var sb = _sessionManager.GetSessionById(idSession);
-        //    if (sb.IsDeleted == false && sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
-        //    {
-        //        return sb;
-        //    }
-        //    else
-        //    {
-        //        throw new SessionException(205);
-        //    }
-        //}
+        public SessionBLL GetSessionById(int idSession)
+        {
+            var sb = _sessionManager.GetSessionById(idSession);
+            if (sb. == false && sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
+            {
+                return sb;
+            }
+            else
+            {
+                throw new SessionException(205);
+            }
+        }
 
         public void CreateOrderByCustomer(CreateOrderInputModel order, int userId)
         {
