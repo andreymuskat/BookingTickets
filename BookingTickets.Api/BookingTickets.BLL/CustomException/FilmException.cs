@@ -1,8 +1,8 @@
-﻿using Core;
+using Core;
 
 namespace BookingTickets.BLL.CustomException
 {
-    public class FilmException : Exception
+    public class FilmException: Exception
     {
         private CodeException _errorCode;
         public CodeException ErrorCode { get { return _errorCode; } }
