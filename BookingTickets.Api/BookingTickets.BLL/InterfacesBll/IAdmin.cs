@@ -23,6 +23,6 @@ namespace BookingTickets.BLL.InterfacesBll
 
         void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
 
-        List<StaticticOfDaysByMonthAndYearOutputModel> StatisticOfDaysByMonthAndYear(StatisticOfDaysByMonthAndYearInputModel inputModel);
+        List<StatisticOfDaysByMonthAndYearOutputModel> StatisticOfDaysByMonthAndYear(StatisticOfDaysByMonthAndYearInputModel inputModel);
     }
 }

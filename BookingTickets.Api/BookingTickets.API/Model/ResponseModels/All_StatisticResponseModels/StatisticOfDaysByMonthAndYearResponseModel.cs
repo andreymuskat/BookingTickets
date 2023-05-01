@@ -2,10 +2,10 @@
 {
     public class StatisticOfDaysByMonthAndYearResponseModel
     {
-        DateTime Date { get; set; }
+        public DateTime Date { get; set; }
 
-        int NumbersTicketsSold { get; set; }
+        public int NumbersTicketsSold { get; set; }
 
-        decimal SumCost { get; set; }
+        public decimal SumCost { get; set; }
     }
 }

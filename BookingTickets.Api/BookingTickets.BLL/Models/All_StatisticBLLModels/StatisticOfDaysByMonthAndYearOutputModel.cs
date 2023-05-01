@@ -1,6 +1,6 @@
 ﻿namespace BookingTickets.BLL.Models.All_StatisticBLLModels
 {
-    public class StaticticOfDaysByMonthAndYearOutputModel
+    public class StatisticOfDaysByMonthAndYearOutputModel
     {
         public DateTime Date { get; set; }
 

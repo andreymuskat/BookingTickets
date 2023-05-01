@@ -33,9 +33,10 @@ namespace BookingTickets.DAL
 
             result = _context.Orders
                 .Where(t => t.Status == Core.OrderStatus.PurchasedByСashbox || t.Status == Core.OrderStatus.PurchasedBySite)
-                .Where(t => t.Session.Hall.CinemaId == cinemaId)
+                .Where(t => t.Session.Hall.Cinema.Id == cinemaId)
                 .Where(t => t.Session.Date.Year == year)
                 .Where(t => t.Session.Date.Month == month)
+                .Include(h => h.Session)
                 .ToList();
 
             return result;
