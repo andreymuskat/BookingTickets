@@ -13,5 +13,7 @@ namespace BookingTickets.DAL.Interfaces
         public List<CinemaDto> GetAllCinemaByFilm(int idFilm);
 
         public CinemaDto GetCinemaByHallId(int hallId);
+
+        public void EditCinema(CinemaDto cinema);
     }
 }

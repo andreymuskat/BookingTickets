@@ -56,5 +56,17 @@ namespace BookingTickets.DAL
 
             return cinemaDto;
         }
+
+        public void EditCinema(CinemaDto cinema)
+        {
+            var cinemaDb = _context.Cinemas
+                .Where(k => k.IsDeleted == false)
+                .Single(k => k.Id == cinema.Id);
+
+            cinemaDb.Name = cinema.Name;
+            cinemaDb.Address = cinema.Address;
+
+            _context.SaveChanges();
+        }
     }
 }
