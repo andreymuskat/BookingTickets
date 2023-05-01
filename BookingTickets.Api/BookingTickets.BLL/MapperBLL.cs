@@ -65,7 +65,7 @@ namespace BookingTickets.BLL
                         .ForMember(src => src.HallId, opt => opt.MapFrom(x => x.HallId));
                     cfg.CreateMap<SeatDto, SeatsForCashierOutputModel>()
                         .ForMember(src => src.Hall, opt => opt.MapFrom(x => x.Hall));
-                    cfg.CreateMap<CreateHallInputModel, HallDto>();
+                    cfg.CreateMap<CreateAndUpdateHallInputModel, HallDto>();
                     cfg.CreateMap<HallDto, HallOutputModel>();
                 });
         }
@@ -206,7 +206,7 @@ namespace BookingTickets.BLL
             return _configuration.CreateMapper().Map<SessionOutputModel>(session);
         }
 
-        public HallDto MapCreateHallInputModelToHallDto(CreateHallInputModel hall)
+        public HallDto MapCreateHallInputModelToHallDto(CreateAndUpdateHallInputModel hall)
         {
             return _configuration.CreateMapper().Map<HallDto>(hall);
         }

@@ -2,7 +2,6 @@
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
-using BookingTickets.BLL.Models.OutputModel.All_Hall_OutputModels;
 using BookingTickets.BLL.NewFolder;
 
 namespace BookingTickets.BLL.Roles
@@ -40,7 +39,7 @@ namespace BookingTickets.BLL.Roles
             _cinemaManager.DeleteCinema(cinemaId);
         }
 
-        public void CreateHall(CreateHallInputModel hall)
+        public void CreateHall(CreateAndUpdateHallInputModel hall)
         {
             _hallManager.CreateHall(hall);
         }
@@ -58,6 +57,26 @@ namespace BookingTickets.BLL.Roles
         public void ChangeUserStatus(ChangeUserStatusInputModel newUser)
         {
             _userManager.ChangeUserStatus(newUser);
+        }
+
+        public void DeleteFilm(int filmId)
+        {
+            _filmManager.DeleteFilm(filmId);
+        }
+
+        public void EditFilm(FilmBLL newFilm, int idFilm)
+        {
+            _filmManager.EditFilm(newFilm, idFilm);
+        }
+
+        public void EditCinema(CinemaBLL newCinema, int cinemaId)
+        {
+            _cinemaManager.EditCinema(newCinema, cinemaId);
+        }
+
+        public void EditHall(CreateAndUpdateHallInputModel newHall, int hallId)
+        {
+            _hallManager.EditHall(newHall, hallId);
         }
     }
 }

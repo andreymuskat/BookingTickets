@@ -34,9 +34,9 @@ namespace BookingTickets.API
     {
         public MapperApiProfile()
         {
-            CreateMap<CreateFilmRequestModel, FilmBLL>();
-            CreateMap<FilmBLL, CreateFilmRequestModel>();
-            CreateMap<CreateCinemaRequestModel, CinemaBLL>();
+            CreateMap<CreateAndUpdateFilmRequestModel, FilmBLL>();
+            CreateMap<FilmBLL, CreateAndUpdateFilmRequestModel>();
+            CreateMap<CreateAndUpdateCinemaRequestModel, CinemaBLL>();
             CreateMap<CreateSessionRequestModel, CreateSessionInputModel>();
             CreateMap<UserRequestModel, UserBLL>();
             CreateMap<UserBLL, UserResponseModel>();
@@ -75,7 +75,7 @@ namespace BookingTickets.API
             CreateMap<FilmResponseModelForClient, FilmBLL>();
             CreateMap<ChangeUserStatusInputModel, ChangeUserStatusRequesModel>();
             CreateMap<ChangeUserStatusRequesModel, ChangeUserStatusInputModel>();
-            CreateMap<HallRequestModel, CreateHallInputModel>();
+            CreateMap<HallRequestModel, CreateAndUpdateHallInputModel>();
             CreateMap<SessionOutputModel, SessionResponseModelForClient>();
             CreateMap<SessionBLL, SessionForCashierResponseModel>()
                 .ForMember(src => src.Date, opt => opt.MapFrom(x => x.Date))
