@@ -5,8 +5,10 @@ namespace BookingTickets.DAL.Interfaces
 {
     public interface IOrderRepository
     {
-        public OrderDto CreateOrder(OrderDto order);
+        OrderDto CreateOrder(OrderDto order);
 
-        public OrderStatus EditOrderStatus(OrderStatus status);
+        OrderStatus EditOrderStatus(OrderStatus status);
+
+        List<OrderDto> GetAllTicketsSoldByMonthOfTheYear(int year, int month, int cinemaId);
     }
 }

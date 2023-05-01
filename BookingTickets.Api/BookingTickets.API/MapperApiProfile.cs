@@ -13,6 +13,10 @@ using BookingTickets.BLL.Models.All_UserBLLModels;
 using BookingTickets.DAL.Models;
 using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
 using BookingTickets.BLL.Models.All_User_InputModel;
+using BookingTickets.API.Model.RequestModels.All_StatisticRequestModels;
+using BookingTickets.BLL.Models.All_StatisticBLLModels;
+using BookingTickets.API.Model.ResponseModels.All_StatisticResponseModels;
+using System.Collections.Generic;
 
 namespace BookingTickets.API
 {
@@ -44,7 +48,10 @@ namespace BookingTickets.API
             CreateMap<FilmBLL, FilmResponseModelForClient>();
             CreateMap<FilmResponseModelForClient, FilmBLL>();
             CreateMap<UpdateCashierRequestModel, UpdateCashierInputModel>();
-
+            CreateMap<StatisticOfDaysByMonthAndYearRequestModel,StatisticOfDaysByMonthAndYearInputModel>();
+            CreateMap<StatisticOfDaysByMonthAndYearInputModel,StatisticOfDaysByMonthAndYearResponseModel>();
+            CreateMap<UserResponseModel,UserBLL>();
+            CreateMap<UserBLL,UserResponseModel>();
         }
     }
 }

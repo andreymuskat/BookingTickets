@@ -1,7 +1,9 @@
 ﻿using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.BLL.Models.All_StatisticBLLModels;
 using BookingTickets.BLL.Models.All_UserBLLModels;
+using BookingTickets.BLL.Statistics;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL.Roles
@@ -10,6 +12,7 @@ namespace BookingTickets.BLL.Roles
     {
         private readonly SessionManager _sessionManager;
         private readonly UserManager _userManager;
+        private readonly Statistics_Days _statisticOfDaysManager;
 
         public Admin()
         {
@@ -64,6 +67,11 @@ namespace BookingTickets.BLL.Roles
         public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
         {
             _userManager.CopySession(dateCopy, dateWhereToCopy, CinemaId);
+        }
+
+        public List<StaticticOfDaysByMonthAndYearOutputModel> StatisticOfDaysByMonthAndYear(StatisticOfDaysByMonthAndYearInputModel inputModel)
+        {
+            return _statisticOfDaysManager.StatisticOfDaysByMinthAndYear(inputModel);
         }
     }
 }

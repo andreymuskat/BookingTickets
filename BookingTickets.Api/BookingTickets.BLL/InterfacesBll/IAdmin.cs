@@ -1,5 +1,6 @@
 ﻿using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.BLL.Models.All_StatisticBLLModels;
 using BookingTickets.BLL.Models.All_UserBLLModels;
 
 namespace BookingTickets.BLL.InterfacesBll
@@ -21,5 +22,7 @@ namespace BookingTickets.BLL.InterfacesBll
         void DeleteCashierById(int idCashier);
 
         void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
+
+        List<StaticticOfDaysByMonthAndYearOutputModel> StatisticOfDaysByMonthAndYear(StatisticOfDaysByMonthAndYearInputModel inputModel);
     }
 }

@@ -1,10 +1,13 @@
 using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
+using BookingTickets.API.Model.RequestModels.All_StatisticRequestModels;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_StatisticResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.BLL.Models.All_StatisticBLLModels;
 using BookingTickets.BLL.Models.All_UserBLLModels;
 using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -108,5 +111,15 @@ namespace BookingTickets.API.Controllers
 
             return Ok();
         }
+
+        [HttpGet("Statictic_Of_Days_By_Month_And_Year")]
+        public ActionResult<List<StatisticOfDaysByMonthAndYearResponseModel>> StaticticOfDaysByMonthAndYear([FromQuery]StatisticOfDaysByMonthAndYearRequestModel requestModel)
+        {
+            var inputModel = _mapper.Map<StatisticOfDaysByMonthAndYearInputModel>(requestModel);
+            inputModel.CinemaId = 8;
+            var res = _mapper.Map<List<StatisticOfDaysByMonthAndYearResponseModel>>(_admin.StatisticOfDaysByMonthAndYear(inputModel));
+            return Ok(res);
+        }
+
     }
 }
