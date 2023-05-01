@@ -34,14 +34,7 @@ namespace BookingTickets.DAL
             result = _context.Orders
                 .Where(t => t.Status == Core.OrderStatus.PurchasedByСashbox || t.Status == Core.OrderStatus.PurchasedBySite)
                 .Where(t => t.Session.Hall.Cinema.Id == cinemaId)
-                .Where(t =>
-                          //t.Session.Date.Year >= dateStart.Year
-                          //&& t.Session.Date.Month >= dateStart.Month
-                          t.Session.Date.Day == dateStart.Day
-                         //&& t.Session.Date.Year <= dateEnd.Year
-                         //&& t.Session.Date.Month <= dateEnd.Month
-                         //&& t.Session.Date.Day <= dateEnd.Day
-                         )
+                .Where(t => t.Date >= dateStart && t.Date <= dateEnd )
                 .Include(h => h.Session)
                 .ToList();
 
