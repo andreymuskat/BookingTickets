@@ -3,6 +3,7 @@ using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.NewFolder;
+using Core;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -54,9 +55,9 @@ namespace BookingTickets.BLL.Roles
             _seatManager.AddRowToHall(rowSeats);
         }
 
-        public void ChangeUserStatus(ChangeUserStatusInputModel newUser)
+        public void ChangeUserStatus(UserStatus status, int userId)
         {
-            _userManager.ChangeUserStatus(newUser);
+            _userManager.ChangeUserStatus(status, userId);
         }
 
         public void DeleteFilm(int filmId)

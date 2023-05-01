@@ -73,8 +73,6 @@ namespace BookingTickets.API
             CreateMap<CreateNewEmployeeRequestModel, CreateNewEmployeeInputModel>();
             CreateMap<FilmBLL, FilmResponseModelForClient>();
             CreateMap<FilmResponseModelForClient, FilmBLL>();
-            CreateMap<ChangeUserStatusInputModel, ChangeUserStatusRequesModel>();
-            CreateMap<ChangeUserStatusRequesModel, ChangeUserStatusInputModel>();
             CreateMap<HallRequestModel, CreateAndUpdateHallInputModel>();
             CreateMap<SessionOutputModel, SessionResponseModelForClient>();
             CreateMap<SessionBLL, SessionForCashierResponseModel>()

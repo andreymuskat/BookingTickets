@@ -151,13 +151,12 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPatch("User/ChangeStatus")]
-        public IActionResult UserMakeAdmin(ChangeUserStatusRequesModel newUser)
+        [HttpPatch("User/{id}/ChangeStatus")]
+        public IActionResult ChangeUserStatus([FromHeader] int userId, UserStatus status)
         {
-            _mainAdmin.ChangeUserStatus(_mapper.Map<ChangeUserStatusInputModel>(newUser));
+            _mainAdmin.ChangeUserStatus(status, userId);
 
             return Ok("GOT IT");
         }
-
     }
 }

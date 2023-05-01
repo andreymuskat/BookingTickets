@@ -3,6 +3,7 @@ using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
+using Core;
 
 namespace BookingTickets.BLL
 {
@@ -50,13 +51,13 @@ namespace BookingTickets.BLL
             return _instanceMapperBll.MapUserDtoToUserBLL(_authRepository.GetUserByName(name));
         }
 
-        public void ChangeUserStatus(ChangeUserStatusInputModel newUser)
+        public void ChangeUserStatus(UserStatus status, int userId)
         {
-            var user = _userRepository.GetUserById(newUser.userId);
+            var user = _userRepository.GetUserById(userId);
 
             if (user != null)
             {
-                user.UserStatus = (Core.UserStatus)(newUser.newUserStatus);
+                user.UserStatus = status;
             }
             else { throw new UserExceptions(777); }
 
