@@ -45,7 +45,7 @@ namespace BookingTickets.BLL
             _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
         }
 
-        public void CreateOrderByCustomer(CreateOrderInputModel order, int userId)
+        public string CreateOrderByCustomer(CreateOrderInputModel order, int userId)
         {
             int secondPartCode = order.SessionId;
             int thirdPartCode = order.SeatsId;
@@ -54,8 +54,10 @@ namespace BookingTickets.BLL
             order.Date = DateTime.Now;
             order.UserId = userId;
             order.Status = OrderStatus.Booking;
-
+            string CodeForClient = order.Code;
             _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+
+            return CodeForClient;
         }
 
         private string CreateCode (int secondPartCode, int thirdPartCode)
