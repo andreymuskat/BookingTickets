@@ -72,5 +72,10 @@ namespace BookingTickets.BLL.Roles
             var code =_orderManager.CreateOrderByCustomer(orders, userId);
             return code;
         }
+
+        public void CancelOrderByCustomer(string code)
+        {
+            _orderManager.EditOrderStatus(Core.OrderStatus.Canceled, code);
+        }
     }
 }

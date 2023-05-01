@@ -19,5 +19,7 @@ namespace BookingTickets.BLL.InterfacesBll
         public SessionOutputModel GetSessionById(int idSession);
 
         public string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId);
+
+        void CancelOrderByCustomer(string code);
     }
 }

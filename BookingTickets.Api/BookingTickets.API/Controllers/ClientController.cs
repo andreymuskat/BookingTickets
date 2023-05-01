@@ -104,20 +104,34 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpPost("CreateOrder", Name = "CreateOrder")]
-        public IActionResult CreateOrderByCustomer(CreateOrderRequestModel model)
+        public IActionResult CreateOrderByCustomer(List<CreateOrderRequestModel> models)
         {
             _logger.Log(LogLevel.Information, "Client wanted to create a new order.");
             var userId = TakeIdByClientAuth();
 
             try
             {
-                var code = _client.CreateOrderByCustomer(_mapper.Map<CreateOrderInputModel>(model), userId);
-                _logger.Log(LogLevel.Information, "Client's request completed: new order written to the database.", model);
+                var code = _client.CreateOrderByCustomer(_mapper.Map<List<CreateOrderInputModel>>(models), userId);
+                _logger.Log(LogLevel.Information, "Client's request completed: new order written to the database.", models);
                 return Ok(code);
             }
             catch (SessionException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+            }
+        }
+
+        [HttpPatch("UpdateOrder", Name = "Cancel the order")]
+        public IActionResult CancelOrderByCustomer (string code)
+        {
+            try 
+            {
+                _client.CancelOrderByCustomer(code);
+                return Ok("Success");
+            }
+            catch(OrderException ex) 
+            { 
+                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); 
             }
         }
 
