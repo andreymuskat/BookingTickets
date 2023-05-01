@@ -17,20 +17,20 @@ namespace BookingTickets.BLL.Statistics
             _sessionManager = new SessionManager();
         }
 
-        public List<StatisticOfDaysByMonthAndYearOutputModel> StatisticOfDaysByMinthAndYear(StatisticOfDaysByMonthAndYearInputModel inputModel)
+        public List<StatisticOfDaysOutputModel> StatisticOfDays(StatisticOfDaysInputModel inputModel)
         {
-            List<OrderDto> allTicketsSoldMyMonth = _orderRepository.GetAllTicketsSoldByMonthOfTheYear(inputModel.Date.Year, inputModel.Date.Month, inputModel.CinemaId);
+            List<OrderDto> allTicketsSold = _orderRepository.GetAllTicketsSold(inputModel.DateStart, inputModel.DateEnd, inputModel.CinemaId);
 
-            var date = new DateTime(inputModel.Date.Year, inputModel.Date.Month, 1);
-            var allDaysInTheMonth = new List<StatisticOfDaysByMonthAndYearOutputModel>();
+            var date = new DateTime(inputModel.DateStart.Year, inputModel.DateStart.Month, inputModel.DateStart.Day);
+            var allDaysInTheMonth = new List<StatisticOfDaysOutputModel>();
 
-            for (int i = 1; date.Month != inputModel.Date.Month + 1; date = date.AddDays(i))
+            for (int i = 1; date <= inputModel.DateEnd; date = date.AddDays(i))
             {
-                var order = new StatisticOfDaysByMonthAndYearOutputModel() { Date = date };
+                var order = new StatisticOfDaysOutputModel() { Date = date };
                 allDaysInTheMonth.Add(order);
             }
 
-            foreach (var ticket in allTicketsSoldMyMonth)
+            foreach (var ticket in allTicketsSold)
             {
                 foreach(var i in allDaysInTheMonth)
                 {

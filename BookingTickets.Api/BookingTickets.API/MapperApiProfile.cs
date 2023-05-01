@@ -48,8 +48,8 @@ namespace BookingTickets.API
             CreateMap<FilmBLL, FilmResponseModelForClient>();
             CreateMap<FilmResponseModelForClient, FilmBLL>();
             CreateMap<UpdateCashierRequestModel, UpdateCashierInputModel>();
-            CreateMap<StatisticOfDaysByMonthAndYearRequestModel,StatisticOfDaysByMonthAndYearInputModel>();
-            CreateMap<StatisticOfDaysByMonthAndYearOutputModel, StatisticOfDaysByMonthAndYearResponseModel>();
+            CreateMap<StatisticOfDaysRequestModel,StatisticOfDaysInputModel>();
+            CreateMap<StatisticOfDaysOutputModel, StatisticOfDaysResponseModel>();
             CreateMap<UserResponseModel,UserBLL>();
             CreateMap<UserBLL,UserResponseModel>();
         }

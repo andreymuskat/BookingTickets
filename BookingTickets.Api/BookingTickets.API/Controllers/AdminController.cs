@@ -112,14 +112,13 @@ namespace BookingTickets.API.Controllers
             return Ok();
         }
 
-        [HttpGet("Statictic_Of_Days_By_Month_And_Year")]
-        public ActionResult<List<StatisticOfDaysByMonthAndYearOutputModel>> StaticticOfDaysByMonthAndYear([FromQuery]StatisticOfDaysByMonthAndYearRequestModel requestModel)
+        [HttpGet("Statictic_Of_Days")]
+        public ActionResult<List<StatisticOfDaysOutputModel>> StaticticOfDays([FromQuery]StatisticOfDaysRequestModel requestModel)
         {
-            var inputModel = _mapper.Map<StatisticOfDaysByMonthAndYearInputModel>(requestModel);
+            var inputModel = _mapper.Map<StatisticOfDaysInputModel>(requestModel);
             inputModel.CinemaId = 7;
-            var res = _mapper.Map<List<StatisticOfDaysByMonthAndYearResponseModel>>(_admin.StatisticOfDaysByMonthAndYear(inputModel));
+            var res = _mapper.Map<List<StatisticOfDaysResponseModel>>(_admin.StatisticOfDaysByMonthAndYear(inputModel));
             return Ok(res);
         }
-
     }
 }

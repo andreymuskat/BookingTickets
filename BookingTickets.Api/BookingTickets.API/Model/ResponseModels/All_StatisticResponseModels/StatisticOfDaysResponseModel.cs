@@ -1,6 +1,6 @@
 ﻿namespace BookingTickets.API.Model.ResponseModels.All_StatisticResponseModels
 {
-    public class StatisticOfDaysByMonthAndYearResponseModel
+    public class StatisticOfDaysResponseModel
     {
         public DateTime Date { get; set; }
 

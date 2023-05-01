@@ -27,15 +27,21 @@ namespace BookingTickets.DAL
             return OrderStatus.Canceled;
         }
 
-        public List<OrderDto> GetAllTicketsSoldByMonthOfTheYear(int year, int month , int cinemaId)
+        public List<OrderDto> GetAllTicketsSold(DateTime dateStart, DateTime dateEnd, int cinemaId)
         {
             var result = new List<OrderDto>();
-
+            
             result = _context.Orders
                 .Where(t => t.Status == Core.OrderStatus.PurchasedByСashbox || t.Status == Core.OrderStatus.PurchasedBySite)
                 .Where(t => t.Session.Hall.Cinema.Id == cinemaId)
-                .Where(t => t.Session.Date.Year == year)
-                .Where(t => t.Session.Date.Month == month)
+                .Where(t =>
+                          //t.Session.Date.Year >= dateStart.Year
+                          //&& t.Session.Date.Month >= dateStart.Month
+                          t.Session.Date.Day == dateStart.Day
+                         //&& t.Session.Date.Year <= dateEnd.Year
+                         //&& t.Session.Date.Month <= dateEnd.Month
+                         //&& t.Session.Date.Day <= dateEnd.Day
+                         )
                 .Include(h => h.Session)
                 .ToList();
 

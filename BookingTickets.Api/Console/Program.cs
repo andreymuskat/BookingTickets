@@ -14,10 +14,17 @@ var month = 4;
 var date = new DateTime(year, month, 1);
 var allDaysInTheMonth = new List<OrderDto>();
 
+var dateStart = new DateTime(2023, 04, 10);
+var dateEnd = new DateTime(2023, 04, 15);
+
 for (int i = 1;  date.Month != month+1; date = date.AddDays(i))
 {
     var order = new OrderDto() { Date = date };
-    allDaysInTheMonth.Add(order);
+    if (order.Date.Date >= dateStart.Date && order.Date.Date <= dateEnd.Date)
+    {
+        
+        allDaysInTheMonth.Add(order);
+    }
 }
 
 int a = stat.NotPurchasedTicketsOnFilmInCinema(5, 1, start, end);

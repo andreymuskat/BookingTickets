@@ -70,9 +70,9 @@ namespace BookingTickets.BLL.Roles
             _userManager.CopySession(dateCopy, dateWhereToCopy, CinemaId);
         }
 
-        public List<StatisticOfDaysByMonthAndYearOutputModel> StatisticOfDaysByMonthAndYear(StatisticOfDaysByMonthAndYearInputModel inputModel)
+        public List<StatisticOfDaysOutputModel> StatisticOfDaysByMonthAndYear(StatisticOfDaysInputModel inputModel)
         {
-            var res = _statisticDays.StatisticOfDaysByMinthAndYear(inputModel);
+            var res = _statisticDays.StatisticOfDays(inputModel);
             return res;
         }
     }
