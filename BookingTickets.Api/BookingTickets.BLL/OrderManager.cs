@@ -35,27 +35,34 @@ namespace BookingTickets.BLL
         public void CreateOrderByCashier(CreateOrderInputModel order, int userId)
         {
             int secondPartCode = order.SessionId;
-            int thirdPartCode = order.SeatsId;
+            int thirdPartCode = order.SeatsId.FirstOrDefault();
 
-            order.Code = CreateCode(secondPartCode, thirdPartCode);
-            order.Date = DateTime.Now;
-            order.UserId = userId;
-            order.Status = OrderStatus.PurchasedByСashbox;
-
-            _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+            var codeForOrder = CreateCode(secondPartCode, thirdPartCode);
+            foreach (var id in order.SeatsId)
+            {
+                order.Code = codeForOrder;
+                order.Date = DateTime.Now;
+                order.UserId = userId;
+                order.Status = OrderStatus.PurchasedByСashbox;
+                order.SeatsId = new List<int>(id);
+                _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+            }
         }
 
         public void CreateOrderByCustomer(CreateOrderInputModel order, int userId)
         {
             int secondPartCode = order.SessionId;
-            int thirdPartCode = order.SeatsId;
-
-            order.Code = CreateCode(secondPartCode, thirdPartCode);
+            int thirdPartCode = order.SeatsId.FirstOrDefault();
+            string codeForOrder= CreateCode(secondPartCode, thirdPartCode);
+            foreach (var id in order.SeatsId)
+            {
+            order.Code = codeForOrder;
             order.Date = DateTime.Now;
             order.UserId = userId;
             order.Status = OrderStatus.Booking;
-
+            order.SeatsId = new List<int>(id);
             _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+            }
         }
 
         private string CreateCode (int secondPartCode, int thirdPartCode)
