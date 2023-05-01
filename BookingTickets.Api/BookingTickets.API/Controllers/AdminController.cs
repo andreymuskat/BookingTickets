@@ -37,18 +37,20 @@ namespace BookingTickets.API.Controllers
             _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
 
             var cinemaId = TakeIdCinemaByAdminAuth();
+            var userId = TakeIdUserAuth();
 
             try
             {
-                _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session), cinemaId);
-            _logger.Log(LogLevel.Information, "Admin request completed: new session written to the database.", session);
+                _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session), cinemaId, userId);
+
+                _logger.Log(LogLevel.Information, "Admin request completed: new session written to the database.", session);
+                
+                return Ok("GOT IT");
             }
             catch (SessionException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
             }
-
-            return Ok("GOT IT");
         }
 
         [HttpDelete("Session/{sessionId}/Delete")]
@@ -91,12 +93,12 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpGet("Statistics/Films/{id}")]
-        public StatisticsFilm_ForAdmin_ResponseModels GetStatisticsByFilm(StatisticsFilm_ForAdmin_ResquestModels statInfo)
+        public StatisticsFilm_ResponseModels GetStatisticsByFilm([FromHeader] StatisticsFilm_ResquestModels statInfo)
         {
             var userCinemaId = TakeIdCinemaByAdminAuth();
 
-            var allStaticBLL = _admin.GetStatisticsByFilm(_mapper.Map<StatisticsFilm_ForAdmin_InputModels>(statInfo), userCinemaId);
-            var allStatic = _mapper.Map<StatisticsFilm_ForAdmin_ResponseModels>(allStaticBLL);
+            var allStaticBLL = _admin.GetStatisticsByFilm(_mapper.Map<StatisticsFilm_InputModels>(statInfo), userCinemaId);
+            var allStatic = _mapper.Map<StatisticsFilm_ResponseModels>(allStaticBLL);
 
             return allStatic;
         }
@@ -108,6 +110,15 @@ namespace BookingTickets.API.Controllers
             var userCinemaId = Convert.ToInt32(userName);
 
             return userCinemaId;
+        }
+
+        private int TakeIdUserAuth()
+        {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            string userName = nameClaim?.Value!;
+            var userId = Convert.ToInt32(userName);
+
+            return userId;
         }
     }
 }

@@ -29,6 +29,15 @@ namespace BookingTickets.DAL
             _context.SaveChanges();
         }
 
+        public List<CinemaDto> GetAllCinema()
+        {
+            var cinemas = _context.Cinemas
+                .Where(k => k.IsDeleted == false)
+                .ToList();
+
+            return cinemas;
+        }
+
         public CinemaDto GetCinemaById(int cinemaId)
         {
             return _context.Cinemas

@@ -1,6 +1,6 @@
 ﻿namespace BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels
 {
-    public class StatisticsFilm_ForAdmin_ResponseModels
+    public class StatisticsFilm_ResponseModels
     {
         public int TotalAmountTickets { get; set; }
 

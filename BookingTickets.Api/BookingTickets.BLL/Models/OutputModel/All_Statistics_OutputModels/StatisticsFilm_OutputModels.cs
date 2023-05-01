@@ -1,6 +1,6 @@
 ﻿namespace BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels
 {
-    public class StatisticsFilm_ForAdmin_OutputModels
+    public class StatisticsFilm_OutputModels
     {
         public int TotalAmountTickets { get; set; }
 

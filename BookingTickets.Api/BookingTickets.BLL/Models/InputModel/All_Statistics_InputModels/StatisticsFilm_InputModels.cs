@@ -1,6 +1,6 @@
-﻿namespace BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels
+﻿namespace BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels
 {
-    public class StatisticsFilm_ForAdmin_ResquestModels
+    public class StatisticsFilm_InputModels
     {
         public string DataStart { get; set; }
 

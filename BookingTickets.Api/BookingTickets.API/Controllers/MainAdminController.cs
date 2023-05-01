@@ -4,10 +4,12 @@ using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
+using BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
+using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.NewFolder;
 using Core;
@@ -157,6 +159,16 @@ namespace BookingTickets.API.Controllers
             _mainAdmin.ChangeUserStatus(status, userId);
 
             return Ok("GOT IT");
+        }
+
+        [HttpGet("Statistics/Films/{id}")]
+        public StatisticsFilm_ResponseModels GetStatisticsByFilm([FromHeader] StatisticsFilm_ResquestModels statInfo)
+        {
+            var allStaticBLL = _mainAdmin.GetStatisticsByFilm(_mapper.Map<StatisticsFilm_InputModels>(statInfo));
+
+            var allStatic = _mapper.Map<StatisticsFilm_ResponseModels>(allStaticBLL);
+
+            return allStatic;
         }
     }
 }

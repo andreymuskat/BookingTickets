@@ -6,6 +6,7 @@ using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
 using BookingTickets.BLL.Statistics;
+using Core;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -24,11 +25,12 @@ namespace BookingTickets.BLL.Roles
             _statisticsFilm = new Statistics_Film();
         }
 
-        public void CreateSession(CreateSessionInputModel session, int cinemaId)
+        public void CreateSession(CreateSessionInputModel session, int cinemaId, int userId)
         {
             var cinemaBll = _cinemaManager.GetCinemaByHallId(session.HallId);
+            var userBll = _userManager.GetUserById(userId);
 
-            if (cinemaBll.Id == cinemaId)
+            if (cinemaBll.Id == cinemaId || userBll.UserStatus == UserStatus.MainAdmin)
             {
                 _sessionManager.CreateSession(session);
             }
@@ -41,7 +43,6 @@ namespace BookingTickets.BLL.Roles
         public void DeleteSession(int sessionId)
         {
             _sessionManager.DeleteSession(sessionId);
-
         }
 
         public List<UserBLL> GetAllUsers()
@@ -70,9 +71,9 @@ namespace BookingTickets.BLL.Roles
             _userManager.DeleteCashierById(id);
         }
 
-        public StatisticsFilm_ForAdmin_OutputModels GetStatisticsByFilm(StatisticsFilm_ForAdmin_InputModels infoForStatic, int cinemaId)
+        public StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_InputModels infoForStatic, int cinemaId)
         {
-            StatisticsFilm_ForAdmin_OutputModels outputStat = new StatisticsFilm_ForAdmin_OutputModels();
+            StatisticsFilm_OutputModels outputStat = new StatisticsFilm_OutputModels();
             DateOnly dateStart = DateOnly.Parse(infoForStatic.DataStart);
             DateOnly dateEnd = DateOnly.Parse(infoForStatic.DataEnd);
 

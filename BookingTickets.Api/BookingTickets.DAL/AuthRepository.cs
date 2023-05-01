@@ -25,7 +25,5 @@ namespace BookingTickets.DAL
             var res = _context.Users.Single(s => s.UserName == name);
             return res;
         }
-
-
     }
 }

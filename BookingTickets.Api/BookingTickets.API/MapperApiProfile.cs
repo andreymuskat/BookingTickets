@@ -83,8 +83,8 @@ namespace BookingTickets.API
                 .ForMember(src => src.Cost, opt => opt.MapFrom(x => x.Cost));
             CreateMap<SeatsForCashierOutputModel, SeatResponseModel>()
                 .ForMember(src => src.NumderHall, opt => opt.MapFrom(x => x.Hall.Number));
-            CreateMap<StatisticsFilm_ForAdmin_ResquestModels, StatisticsFilm_ForAdmin_InputModels>();
-            CreateMap<StatisticsFilm_ForAdmin_OutputModels, StatisticsFilm_ForAdmin_ResponseModels>();
+            CreateMap<StatisticsFilm_ResquestModels, StatisticsFilm_InputModels>();
+            CreateMap<StatisticsFilm_OutputModels, StatisticsFilm_ResponseModels>();
         }
     }
 }

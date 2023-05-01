@@ -8,7 +8,7 @@ namespace BookingTickets.BLL.InterfacesBll
 {
     public interface IAdmin
     {
-        void CreateSession(CreateSessionInputModel session, int cinemaId);
+        void CreateSession(CreateSessionInputModel session, int cinemaId, int userId);
 
         void DeleteSession(int sessionId);
 
@@ -20,6 +20,6 @@ namespace BookingTickets.BLL.InterfacesBll
 
         void DeleteCashierById(int idCashier);
 
-        public StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_ForAdmin_InputModels infoForStatic, int cinemaId);
+        public StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_InputModels infoForStatic, int cinemaId);
     }
 }
