@@ -1,8 +1,7 @@
-using BookingTickets.BLL;
-using BookingTickets.BLL.Statistics;
+using BookingTickets.DAL;
 
-SessionManager cin = new SessionManager();
+FilmRepository cin = new FilmRepository();
 
-var pp = cin.GetAllSessionByCinemaId(7);
+cin.DeleteFilm(1);
 
 Console.WriteLine(" ");
