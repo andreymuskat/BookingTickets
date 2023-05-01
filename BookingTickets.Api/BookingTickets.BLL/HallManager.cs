@@ -1,4 +1,5 @@
 ﻿using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
@@ -16,7 +17,7 @@ namespace BookingTickets.BLL
             _cinemaRepository = new CinemaRepository();
         }
 
-        public void CreateHall(CreateHallInputModel hall)
+        public void CreateHall(CreateAndUpdateHallInputModel hall)
         {
             var checkHall = _hallRepository.GetHallByNumber(hall.Number);
 
@@ -31,6 +32,27 @@ namespace BookingTickets.BLL
         public void DeleteHall(int hallId)
         {
             _hallRepository.DeleteHall(hallId);
+        }
+
+        public void EditHall(CreateAndUpdateHallInputModel newHall, int hallId)
+        {
+            var searchHall = _hallRepository.GetHallById(hallId);
+
+            if (searchHall != null)
+            {
+                if (newHall.Number != null)
+                {
+                    searchHall.Number = newHall.Number;
+                }
+
+                if (newHall.CinemaId != null)
+                {
+                    searchHall.CinemaId = newHall.CinemaId;
+                }
+
+                _hallRepository.EditHall(searchHall);
+            }
+            else { throw new CinemaException(777); }
         }
     }
 }

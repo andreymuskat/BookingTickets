@@ -34,5 +34,22 @@ namespace BookingTickets.DAL
 
             return searchHall;
         }
+
+        public HallDto GetHallById(int hallId) 
+        {
+            return _context.Halls.SingleOrDefault(k => k.Id == hallId)!;
+        }
+
+        public void EditHall(HallDto newHall)
+        {
+            var hallDb = _context.Halls
+                .Where(k => k.IsDeleted == false)
+                .Single(k => k.Id == newHall.Id);
+
+            hallDb.Number = newHall.Number;
+            hallDb.CinemaId = newHall.CinemaId;
+
+            _context.SaveChanges();
+        }
     }
 }

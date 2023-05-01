@@ -9,5 +9,9 @@ namespace BookingTickets.DAL.Interfaces
         public void DeleteHall(int hallId);
 
         public HallDto GetHallByNumber(int hallNumber);
+
+        public HallDto GetHallById(int hallId);
+
+        public void EditHall(HallDto newHall);
     }
 }
