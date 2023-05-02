@@ -1,4 +1,5 @@
 using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
@@ -9,25 +10,24 @@ using Core.Status;
 
 namespace BookingTickets.BLL.Roles
 {
-    public class Cashier : IСashier
+    public class CashierService : ICashierService
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
+        private readonly IFilmManager _filmManager;
+        private readonly ISessionManager _sessionManager;
+        private readonly ICinemaManager _cinemaManager;
+        private readonly IUserManager _userManager;
+        private readonly IOrderManager _orderManager;
+        private readonly ISeatManager _seatManager;
 
-        private readonly FilmManager _filmManager;
-        private readonly SessionManager _sessionManager;
-        private readonly CinemaManager _cinemaManager;
-        private readonly UserManager _userManager;
-        private readonly OrderManager _orderManager;
-        private readonly SeatManager _seatManager;
-
-        public Cashier()
+        public CashierService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IFilmManager filmManager,
+            IOrderManager orderManager, ISeatManager seatManager)
         {
-            _filmManager = new FilmManager();
-            _sessionManager = new SessionManager();
-            _cinemaManager = new CinemaManager();
-            _userManager = new UserManager();
-            _orderManager = new OrderManager();
-            _seatManager = new SeatManager();
+            _filmManager = filmManager;
+            _sessionManager = sessionManager;
+            _cinemaManager = cinemaManager;
+            _userManager = userManager;
+            _orderManager = orderManager;
+            _seatManager = seatManager;
         }
 
         public FilmBLL GetFilmById(int filmId)
@@ -112,7 +112,8 @@ namespace BookingTickets.BLL.Roles
 
         public void CreateOrderByCashier(List<CreateOrderInputModel> orders, int cinemaId, int userId)
         {
-            SessionBLL sess = _sessionManager.GetAllSessionByCinemaId(cinemaId).Single(k => k.Id == orders[0].SessionId);
+            SessionBLL sess = _sessionManager.GetAllSessionByCinemaId(cinemaId)
+                .Single(k => k.Id == orders[0].SessionId);
 
             if (sess != null)
             {

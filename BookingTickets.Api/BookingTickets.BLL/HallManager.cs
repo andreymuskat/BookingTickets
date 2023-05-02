@@ -1,19 +1,21 @@
-﻿using BookingTickets.Core.CustomException;
+﻿using AutoMapper;
+using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
-using BookingTickets.DAL;
+using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
 {
-    public class HallManager
+    public class HallManager : IHallManager
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly IHallRepository _hallRepository;
-        private readonly ICinemaRepository _cinemaRepository;
-        public HallManager()
+        private readonly IMapper _mapper;
+
+        public HallManager(IMapper map, IHallRepository hallRepository)
         {
-            _hallRepository = new HallRepository();
-            _cinemaRepository = new CinemaRepository();
+            _hallRepository = hallRepository;
+            _mapper = map;
         }
 
         public void CreateHall(CreateAndUpdateHallInputModel hall)
@@ -22,9 +24,12 @@ namespace BookingTickets.BLL
 
             if (checkHall == null)
             {
-                _hallRepository.CreateHall(_instanceMapperBll.MapCreateHallInputModelToHallDto(hall));
+                _hallRepository.CreateHall(_mapper.Map<HallDto>(hall));
             }
-            else { throw new HallException(105); }
+            else
+            {
+                throw new HallException(105);
+            }
 
         }
 
@@ -51,7 +56,10 @@ namespace BookingTickets.BLL
 
                 _hallRepository.EditHall(searchHall);
             }
-            else { throw new CinemaException(777); }
+            else
+            {
+                throw new CinemaException(777);
+            }
         }
     }
 }
