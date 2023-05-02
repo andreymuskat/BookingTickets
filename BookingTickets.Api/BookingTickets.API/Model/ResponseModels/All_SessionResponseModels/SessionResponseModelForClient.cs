@@ -8,6 +8,6 @@
 
         public int HallId { get; set; }
 
-        public int Cost { get; set; }
+        public decimal Cost { get; set; }
     }
 }

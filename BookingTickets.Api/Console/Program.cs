@@ -1,7 +1,5 @@
+using System.Data;
 using BookingTickets.DAL;
 
-FilmRepository cin = new FilmRepository();
-
-cin.DeleteFilm(1);
-
-Console.WriteLine(" ");
+DateTime EndTime = DateTime.Today.AddDays(1).AddHours(3);
+Console.WriteLine(EndTime.ToString());
