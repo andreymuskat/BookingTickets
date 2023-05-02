@@ -42,7 +42,7 @@ namespace BookingTickets.DAL
         public List<SessionDto> GetAllSessionByCinemaId(int idCinema)
         {
             return _context.Sessions
-                .Where(k => k.Hall.Cinema.Id == idCinema)
+                .Where(k => k.Hall.Cinema.Id == idCinema && k.IsDeleted == false)
                 .Include(f => f.Film)
                 .Include(h => h.Hall)
                 .Include(h => h.Hall.Cinema)
