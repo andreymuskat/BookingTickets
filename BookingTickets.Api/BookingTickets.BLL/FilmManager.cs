@@ -28,11 +28,6 @@ namespace BookingTickets.BLL
             else { throw new FilmException(105); }
         }
 
-        public FilmBLL GetFilmById(int filmId)
-        {
-            return _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(filmId));
-        }
-
         public void DeleteFilm(int filmId)
         {
             _filmRepository.DeleteFilm(filmId);
@@ -42,7 +37,7 @@ namespace BookingTickets.BLL
         {
             var searchFilm = _filmRepository.GetFilmById(filmId);
 
-            if(searchFilm != null)
+            if (searchFilm != null)
             {
                 if (newFilm.Name != null)
                 {
@@ -60,9 +55,12 @@ namespace BookingTickets.BLL
             {
                 throw new FilmException(777);
             }
+        }
+
         public FilmBLL GetFilmById(int Id)
         {
-            var film = _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(Id));            
+            var film = _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(Id));        
+            
             if (film != null)
             {
                 return film;
