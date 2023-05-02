@@ -1,4 +1,5 @@
-﻿using BookingTickets.BLL.Models;
+﻿using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.Models;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
@@ -26,7 +27,12 @@ namespace BookingTickets.BLL
 
         public List<CinemaBLL> GetCinemaByFilm(int idFilm)
         {
-            return _instanceMapperBll.MapListCinemaDtoToListCinemaBLL(_cinemaRepository.GetAllCinemaByFilm(idFilm));
+            var listCinemas = _instanceMapperBll.MapListCinemaDtoToListCinemaBLL(_cinemaRepository.GetAllCinemaByFilm(idFilm));
+            if (listCinemas != null)
+            {
+                return listCinemas;
+            }
+            else { throw new CinemaException(777); }
         }
 
         public CinemaBLL GetCinemaByHallId(int idHallId)

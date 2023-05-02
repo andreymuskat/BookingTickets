@@ -42,9 +42,11 @@ namespace BookingTickets.DAL
 
             foreach (var cinema in x)
             {
-                cinemaDtos.Add(cinema.Hall.Cinema);
+                if (cinema.IsDeleted == false)
+                {
+                    cinemaDtos.Add(cinema.Hall.Cinema);
+                }                
             }
-
             return cinemaDtos;
         }
 

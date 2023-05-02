@@ -1,4 +1,4 @@
-﻿using Core;
+using Core;
 
 namespace BookingTickets.BLL.CustomException
 {

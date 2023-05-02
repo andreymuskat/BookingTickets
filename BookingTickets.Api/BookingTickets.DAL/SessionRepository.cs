@@ -21,7 +21,7 @@ namespace BookingTickets.DAL
 
         public SessionDto GetSessionById(int sessionId)
         {
-            return _context.Sessions.FirstOrDefault(i => i.Id == sessionId);
+            return _context.Sessions.Where(s => s.IsDeleted == false).FirstOrDefault(i => i.Id == sessionId);
         }
 
         public List<SessionDto> GetAllSession()
@@ -31,16 +31,16 @@ namespace BookingTickets.DAL
 
         public List<SessionDto> GetAllSessionByFilmId(int idFilm)
         {
-            return _context.Sessions.Where(f=>f.Id == idFilm).ToList();            
+            var x = _context.Sessions.Where(f => f.FilmId == idFilm).ToList();
+            return x;
         }
 
         public List<SessionDto> GetAllSessionByCinemaId(int idCinema)
         {
-            return _context.Sessions
-                .Where(k => k.Hall.Cinema.Id == idCinema)
-                .Include(f => f.Film)
-                .Include(h => h.Hall)
-                .ToList();
+            var sessions = _context.Sessions
+            .Where(k => k.Hall.Cinema.Id == idCinema && k.IsDeleted == false)
+            .ToList();
+            return sessions;
         }
 
         public List<SessionDto> GetAllSessionByDate(DateTime date)

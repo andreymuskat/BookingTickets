@@ -2,6 +2,7 @@ using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
+using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -53,28 +54,28 @@ namespace BookingTickets.BLL.Roles
             return new List<SeatBLL>();
         }
 
-        //public SessionBLL GetSessionById(int idSession)
-        //{
-        //    var sb = _sessionManager.GetSessionById(idSession);
-        //    if (sb.IsDeleted == false && sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
-        //    {
-        //        return sb;
-        //    }
-        //    else
-        //    {
-        //        throw new SessionException(205);
-        //    }
-        //}
-
-        public void CreateOrderByCustomer(CreateOrderInputModel order, int userId)
+        public SessionOutputModel GetSessionById(int idSession)
         {
-            var freeseats = GetFreeSeatsBySession( order.SessionId );
-            var allThisSeatsAreFree = order.SeatsId.All(s => s.Equals(freeseats)); /*- надо проверить*/
-            if (allThisSeatsAreFree == true)
+            var sb = _sessionManager.GetSessionById(idSession);
+            if (sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
             {
-                _orderManager.CreateOrderByCustomer(order, userId);
+                return sb;
             }
+            else
+            {
+                throw new SessionException(205);
+            }
+        }
 
+        public string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
+        {
+            var code =_orderManager.CreateOrderByCustomer(orders, userId);
+            return code;
+        }
+
+        public void CancelOrderByCustomer(string code)
+        {
+            _orderManager.EditOrderStatus(Core.OrderStatus.Canceled, code);
         }
     }
 }

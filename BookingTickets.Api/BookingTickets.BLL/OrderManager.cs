@@ -1,4 +1,4 @@
-﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
@@ -22,7 +22,7 @@ namespace BookingTickets.BLL
             _authRepository = new AuthRepository();
         }
 
-        public List <OrderBLL> FindOrdersByCodeNumber(string codeNumber)
+        public List<OrderBLL> FindOrdersByCodeNumber(string codeNumber)
         {
             return _instanceMapperBll.MapCreateListOrderDtoModelToListOrderBll(_orderRepository.FindOrderByCodeNumber(codeNumber));
         }
@@ -51,26 +51,26 @@ namespace BookingTickets.BLL
             }
         }
 
-        public void CreateOrderByCustomer(CreateOrderInputModel order, int userId)
+        public string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
         {
-            int secondPartCode = order.SessionId;
-            int thirdPartCode = order.SeatsId.FirstOrDefault();
-            string codeForOrder= CreateCode(secondPartCode, thirdPartCode);
-            List <int> seatId = order.SeatsId;
+            
+            int secondPartCode = orders[0].SessionId;
+            int thirdPartCode = orders[0].SeatsId;
+            string CodeForClient = CreateCode(secondPartCode, thirdPartCode);
 
-            foreach (var id in seatId)
-            {
-            order.Code = codeForOrder;
-            order.Date = DateTime.Now;
-            order.UserId = userId;
-            order.Status = OrderStatus.Booking;
-            order.SeatsId = new List<int>(id);
-
-            _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+            foreach (var order in orders)
+            {   
+                order.Date = DateTime.Now;
+                order.UserId = userId;
+                order.Status = OrderStatus.Booking;
+                order.Code = CodeForClient;
+                _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
             }
+
+            return CodeForClient;
         }
 
-        private string CreateCode (int secondPartCode, int thirdPartCode)
+        private string CreateCode(int secondPartCode, int thirdPartCode)
         {
             Random random = new Random();
             int firstPart = random.Next(1, 1000000);
@@ -79,4 +79,4 @@ namespace BookingTickets.BLL
         }
     }
 }
-  
+
