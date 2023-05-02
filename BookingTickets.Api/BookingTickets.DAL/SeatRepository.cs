@@ -25,7 +25,7 @@ namespace BookingTickets.DAL
         public SeatDto GetSeatById(int seatId) 
         {
             return _context.Seats
-                .Single(k=> k.Id == seatId);
+                .SingleOrDefault(k=> k.Id == seatId)!;
         }
 
         public List<SeatDto> GetAllSeatInHall(int hallId)
