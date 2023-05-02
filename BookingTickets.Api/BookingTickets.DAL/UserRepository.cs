@@ -79,6 +79,20 @@ namespace BookingTickets.DAL
             return result;
         }
 
+        public List<UserDto> GetAllCashiersByCinemaId(int cinemaId)
+        {
+            var result = new List<UserDto>();
+
+            result = _context.Users
+                .Where(t => t.UserStatus == Core.UserStatus.Cashier)
+                .Where(t => !t.IsDeleted)
+                .Where(t => t.Cinema.Id == cinemaId)
+                .Include(u => u.Cinema)
+                .ToList();
+
+            return result;
+        }
+
         public int AddNewUser(UserDto user)
         {
             _context.Users.Add(user);

@@ -10,5 +10,7 @@ namespace BookingTickets.DAL.Interfaces
         OrderStatus EditOrderStatus(OrderStatus status);
 
         List<OrderDto> GetAllTicketsSold(DateTime dateStart, DateTime dateEnd, int cinemaId);
+
+        List<OrderDto> GetAllOrdersCashierByPeriodAndCinemaId(DateTime dateStart, DateTime dateEnd, int cinemaId);
     }
 }

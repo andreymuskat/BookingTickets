@@ -79,7 +79,7 @@ namespace BookingTickets.API.Controllers
         public ActionResult<UserResponseModel> CreateNewCashier(CreateCashierRequestModel cashierModel)
         {
             var cashierInputModel = _mapper.Map<CreateCashierInputModel>(cashierModel);
-            cashierInputModel.CinemaId = 1;
+            cashierInputModel.CinemaId = 7;
             var res = _mapper.Map<UserResponseModel>(_admin.CreateNewCashier(cashierInputModel));
 
             return Ok(res);
@@ -113,11 +113,21 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpGet("Statictic_Of_Days")]
-        public ActionResult<List<StatisticOfDaysOutputModel>> StaticticOfDays([FromQuery]StatisticOfDaysRequestModel requestModel)
+        public ActionResult<List<StatisticOfDaysResponseModel>> StaticticOfDays([FromQuery]StatisticOfDaysRequestModel requestModel)
         {
             var inputModel = _mapper.Map<StatisticOfDaysInputModel>(requestModel);
             inputModel.CinemaId = 7;
-            var res = _mapper.Map<List<StatisticOfDaysResponseModel>>(_admin.StatisticOfDaysByMonthAndYear(inputModel));
+            var res = _mapper.Map<List<StatisticOfDaysResponseModel>>(_admin.StatisticOfDays(inputModel));
+            return Ok(res);
+        }
+
+        [HttpGet("Statictic_Of_Cashiers")]
+        public ActionResult<List<StatisticOfCashiersResponseModel>> StatisticOfCashiers([FromQuery]StatisticsOfCashiersRequestModel requestModel)
+        {
+            var inputModel = _mapper.Map<StatisticOfCashiersInputModel>(requestModel);
+            inputModel.CinemaId = 7;
+            var res1 = _admin.StatisticOfCashiers(inputModel);
+            var res = _mapper.Map<List<StatisticOfCashiersResponseModel>>(res1);
             return Ok(res);
         }
     }

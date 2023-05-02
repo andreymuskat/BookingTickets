@@ -40,5 +40,20 @@ namespace BookingTickets.DAL
 
             return result;
         }
+
+        public List<OrderDto> GetAllOrdersCashierByPeriodAndCinemaId(DateTime dateStart, DateTime dateEnd, int cinemaId)
+        {
+            var result = new List<OrderDto>();
+
+            result = _context.Orders
+                .Where(t => t.User.UserStatus == Core.UserStatus.Cashier)
+                .Where(t => t.Status == Core.OrderStatus.PurchasedByСashbox)
+                .Where(t => t.Session.Hall.Cinema.Id == cinemaId)
+                .Where(t => t.Date >= dateStart && t.Date <= dateEnd)
+                .Include(h => h.Session)
+                .ToList();
+
+            return result;
+        }
     }
 }

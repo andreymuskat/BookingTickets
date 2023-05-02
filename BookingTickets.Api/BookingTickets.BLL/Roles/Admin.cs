@@ -13,12 +13,14 @@ namespace BookingTickets.BLL.Roles
         private readonly SessionManager _sessionManager;
         private readonly UserManager _userManager;
         private readonly Statistics_Days _statisticDays;
+        private readonly Statistics_Cashiers _statisticCashiers;
 
         public Admin()
         {
             _sessionManager = new SessionManager();
             _userManager = new UserManager();
             _statisticDays = new Statistics_Days();
+            _statisticCashiers = new Statistics_Cashiers();
         }
 
         public void CreateSession(CreateSessionInputModel session)
@@ -70,9 +72,15 @@ namespace BookingTickets.BLL.Roles
             _userManager.CopySession(dateCopy, dateWhereToCopy, CinemaId);
         }
 
-        public List<StatisticOfDaysOutputModel> StatisticOfDaysByMonthAndYear(StatisticOfDaysInputModel inputModel)
+        public List<StatisticOfDaysOutputModel> StatisticOfDays(StatisticOfDaysInputModel inputModel)
         {
             var res = _statisticDays.StatisticOfDays(inputModel);
+            return res;
+        }
+
+        public List<StatisticOfCashiersOutputModel> StatisticOfCashiers(StatisticOfCashiersInputModel inputModel)
+        {
+            var res = _statisticCashiers.StatisticOfCashiers(inputModel);
             return res;
         }
     }

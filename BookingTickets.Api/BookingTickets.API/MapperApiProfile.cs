@@ -52,6 +52,8 @@ namespace BookingTickets.API
             CreateMap<StatisticOfDaysOutputModel, StatisticOfDaysResponseModel>();
             CreateMap<UserResponseModel,UserBLL>();
             CreateMap<UserBLL,UserResponseModel>();
+            CreateMap<StatisticOfCashiersOutputModel, StatisticOfCashiersResponseModel>();
+            CreateMap<StatisticsOfCashiersRequestModel, StatisticOfCashiersInputModel>();
         }
     }
 }
