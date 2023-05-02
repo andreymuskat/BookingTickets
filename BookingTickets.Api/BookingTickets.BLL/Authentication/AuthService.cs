@@ -8,7 +8,7 @@ using BookingTickets.BLL.Models;
 using BookingTickets.DAL.Configuration;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
-using Core;
+using Core.Status;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 

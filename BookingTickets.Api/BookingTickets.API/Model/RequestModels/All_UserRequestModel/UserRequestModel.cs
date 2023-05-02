@@ -1,5 +1,5 @@
-﻿using Core;
-using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
+﻿using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
+using Core.Status;
 
 namespace BookingTickets.API.Model.RequestModels.All_UserRequestModel
 {

@@ -1,5 +1,5 @@
-﻿using BookingTickets.BLL.CustomException;
-using BookingTickets.BLL.Models;
+﻿using BookingTickets.BLL.Models;
+using BookingTickets.Core.CustomException;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 

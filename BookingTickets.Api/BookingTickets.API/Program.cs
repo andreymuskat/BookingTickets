@@ -13,6 +13,7 @@ using BookingTickets.DAL.Configuration;
 using BookingTickets.DAL.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,7 @@ builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
 
 InjectSettingsConfiguration(builder);
 InjectAuthenticationDependencies(builder);
+StartCheck(builder);
 
 
 var app = builder.Build();
@@ -139,4 +141,16 @@ void InjectAuthenticationDependencies(WebApplicationBuilder builder)
     .AddControllersWithViews() 
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+}
+
+async Task StartCheck(WebApplicationBuilder builder)
+{
+    OrderRepository orderRepository = new OrderRepository();
+
+    while (true)
+    {
+        orderRepository.CheckOrderStatusAsync();
+
+        await Task.Delay(60 * 1000);
+    }
 }

@@ -3,10 +3,10 @@ using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
-using BookingTickets.BLL.CustomException;
+using BookingTickets.Core.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
-using Core;
+using Core.CustomException;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,32 +30,32 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpGet("GetSession/Cinema/{cinemaId}", Name = "GetAllSessionsByCinema")]
-        public IActionResult GetAllSessionByCinemaId(int cinemaId)
+        public IActionResult GetAllSessionByCinemaId(int cinemaId, DateTime time)
         {
             try
             {
-                var ls = _client.GetFilmsByCinema(cinemaId);
+                var ls = _client.GetFilmsByCinema(cinemaId, time);
                 var res = _mapper.Map<List<SessionResponseModelForClient>>(ls);
                 return Ok(res);
             }
             catch (SessionException ex)
             {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
             };
         }
 
         [HttpGet("GetSession/Film/{idFilm}", Name = "GetSessionsByFilmId")]
-        public IActionResult GetAllSessionByFilmId(int idFilm)
+        public IActionResult GetAllSessionByFilmId(int idFilm, DateTime time)
         {
             try
             {
-                var sb = _client.GetSessionsByFilm(idFilm);
+                var sb = _client.GetSessionsByFilm(idFilm, time);
                 var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
                 return Ok(res);
             }
             catch (SessionException ex)
             {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
             };
         }
 
@@ -71,7 +71,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (SessionException ex)
             {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
             };
         }
 
@@ -86,7 +86,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (FilmException ex)
             {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
             };
         }
 
@@ -101,7 +101,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (CinemaException ex)
             {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
             };
         }
 
@@ -117,21 +117,21 @@ namespace BookingTickets.API.Controllers
                 _logger.Log(LogLevel.Information, "Client's request completed: new order written to the database.", models);
                 return Ok(code);
             }
-            catch (OrderException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
-            catch (SeatException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+            catch (OrderException ex) { return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode)); }
+            catch (SeatException ex) { return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode)); }
         }
 
         [HttpPatch("UpdateOrder", Name = "Cancel the order")]
         public IActionResult CancelOrderByCustomer(string code)
         {
-            try 
+            try
             {
                 _client.CancelOrderByCustomer(code);
                 return Ok("Success");
             }
             catch(OrderException ex) 
             { 
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); 
+                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode)); 
             }
         }
 

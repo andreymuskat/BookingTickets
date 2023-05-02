@@ -1,13 +1,11 @@
-using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Seats_OutputModels;
 using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
-using Core;
-using System.Collections;
-using System.Collections.Generic;
+using BookingTickets.Core.CustomException;
+using Core.Status;
 
 namespace BookingTickets.BLL.Roles
 {
