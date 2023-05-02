@@ -1,4 +1,4 @@
-﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
@@ -35,14 +35,20 @@ namespace BookingTickets.BLL
         public void CreateOrderByCashier(CreateOrderInputModel order, int userId)
         {
             int secondPartCode = order.SessionId;
-            int thirdPartCode = order.SeatsId;
+            int thirdPartCode = order.SeatsId.FirstOrDefault();
+            var codeForOrder = CreateCode(secondPartCode, thirdPartCode);
+            List<int> seatId = order.SeatsId;
 
-            order.Code = CreateCode(secondPartCode, thirdPartCode);
-            order.Date = DateTime.Now;
-            order.UserId = userId;
-            order.Status = OrderStatus.PurchasedByСashbox;
+            foreach (var id in seatId)
+                {
+                order.Code = codeForOrder;
+                order.Date = DateTime.Now;
+                order.UserId = userId;
+                order.Status = OrderStatus.PurchasedByСashbox;
+                order.SeatsId = new List<int>(id);
 
-            _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+                _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+            }
         }
 
         public string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
