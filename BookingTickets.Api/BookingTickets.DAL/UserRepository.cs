@@ -77,7 +77,7 @@ namespace BookingTickets.DAL
 
         public UserDto GetUserById(int idUser) 
         {
-            return _context.Users.SingleOrDefault(t => t.Id == idUser);
+            return _context.Users.SingleOrDefault(t => t.Id == idUser)!;
         }
 
         public void UpdateUserStatus(UserDto user)

@@ -29,6 +29,15 @@ namespace BookingTickets.DAL
             _context.SaveChanges();
         }
 
+        public List<CinemaDto> GetAllCinema()
+        {
+            var cinemas = _context.Cinemas
+                .Where(k => k.IsDeleted == false)
+                .ToList();
+
+            return cinemas;
+        }
+
         public CinemaDto GetCinemaById(int cinemaId)
         {
             return _context.Cinemas
@@ -57,6 +66,18 @@ namespace BookingTickets.DAL
             var cinemaDto = GetCinemaById(cinemaId);
 
             return cinemaDto;
+        }
+
+        public void EditCinema(CinemaDto cinema)
+        {
+            var cinemaDb = _context.Cinemas
+                .Where(k => k.IsDeleted == false)
+                .Single(k => k.Id == cinema.Id);
+
+            cinemaDb.Name = cinema.Name;
+            cinemaDb.Address = cinema.Address;
+
+            _context.SaveChanges();
         }
     }
 }

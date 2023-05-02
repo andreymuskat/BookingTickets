@@ -24,42 +24,48 @@ namespace BookingTickets.BLL
                 {
                     cfg.CreateMap<FilmDto, FilmBLL>();
                     cfg.CreateMap<FilmBLL, FilmDto>();
-                    cfg.CreateMap<FilmBLL, FilmDto>();
-                    cfg.CreateMap<CinemaBLL, CinemaDto>();
+                    cfg.CreateMap<HallBLL, HallDto>();
+                    cfg.CreateMap<HallDto, HallBLL>();
                     cfg.CreateMap<CinemaDto, CinemaBLL>();
                     cfg.CreateMap<CinemaBLL, CinemaDto>();
-                    cfg.CreateMap<SessionDto, SessionBLL>();
-                    cfg.CreateMap<SessionBLL, SessionDto>();
+                    cfg.CreateMap<SessionDto, SessionBLL>()
+                        .ForMember(src => src.Film, opt => opt.MapFrom(x => x.Film))
+                        .ForMember(src => src.Hall, opt => opt.MapFrom(x => x.Hall))
+                        .ForPath(src => src.Hall.Cinema, opt => opt.MapFrom(x => x.Hall.Cinema));
+                    cfg.CreateMap<SessionBLL, SessionDto>()
+                        .ForMember(src => src.Film, opt => opt.MapFrom(x => x.Film))
+                        .ForMember(src => src.Hall, opt => opt.MapFrom(x => x.Hall))
+                        .ForPath(src => src.Hall.Cinema, opt => opt.MapFrom(x => x.Hall.Cinema));
                     cfg.CreateMap<UserDto, UserBLL>()
-                    .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
+                        .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
                     cfg.CreateMap<CreateSessionInputModel, SessionDto>()
-                    .ForMember(src => src.FilmId, opt => opt.MapFrom(x => x.FilmId))
-                    .ForMember(src => src.HallId, opt => opt.MapFrom(x => x.HallId))
-                    .ForMember(src => src.Date, opt => opt.MapFrom(x => x.Date))
-                    .ForMember(src => src.Cost, opt => opt.MapFrom(x => x.Cost));
+                        .ForMember(src => src.FilmId, opt => opt.MapFrom(x => x.FilmId))
+                        .ForMember(src => src.HallId, opt => opt.MapFrom(x => x.HallId))
+                        .ForMember(src => src.Date, opt => opt.MapFrom(x => x.Date))
+                        .ForMember(src => src.Cost, opt => opt.MapFrom(x => x.Cost));
                     cfg.CreateMap<SeatBLL, SeatDto>();
                     cfg.CreateMap<SeatDto, SeatBLL>();
                     cfg.CreateMap<AddSeatsRowsInputModel, SeatDto>();
                     cfg.CreateMap<UserBLL, UserDto>()
-                    .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
+                        .ForMember(src => src.Cinema, opt => opt.MapFrom(x => x.Cinema));
                     cfg.CreateMap<CreateCashierInputModel, UserDto>();
                     cfg.CreateMap<CreateNewEmployeeInputModel, UserDto>()
-                    .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId))
-                    .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.Password))
-                    .ForMember(src => src.UserName, opt => opt.MapFrom(x => x.Name));
+                        .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId))
+                        .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.Password))
+                        .ForMember(src => src.UserName, opt => opt.MapFrom(x => x.Name));
                     cfg.CreateMap<OrderDto, OrderBLL>();
                     cfg.CreateMap<OrderBLL, OrderDto>();
                     cfg.CreateMap<CreateOrderInputModel, OrderDto>();
                     cfg.CreateMap<OrderDto, CreateOrderInputModel>();
                     cfg.CreateMap<SessionDto, SessionOutputModel>()
-                    .ForMember(src => src.FilmId, opt => opt.MapFrom(x => x.FilmId))
-                    .ForMember(src => src.HallId, opt => opt.MapFrom(x => x.HallId));
+                        .ForMember(src => src.FilmId, opt => opt.MapFrom(x => x.FilmId))
+                        .ForMember(src => src.HallId, opt => opt.MapFrom(x => x.HallId));
                     cfg.CreateMap<SessionOutputModel, SessionDto>()
-                    .ForMember(src => src.FilmId, opt => opt.MapFrom(x => x.FilmId))
-                    .ForMember(src => src.HallId, opt => opt.MapFrom(x => x.HallId));
+                        .ForMember(src => src.FilmId, opt => opt.MapFrom(x => x.FilmId))
+                        .ForMember(src => src.HallId, opt => opt.MapFrom(x => x.HallId));
                     cfg.CreateMap<SeatDto, SeatsForCashierOutputModel>()
-                    .ForMember(src => src.Hall, opt => opt.MapFrom(x => x.Hall));
-                    cfg.CreateMap<CreateHallInputModel, HallDto>();
+                        .ForMember(src => src.Hall, opt => opt.MapFrom(x => x.Hall));
+                    cfg.CreateMap<CreateAndUpdateHallInputModel, HallDto>();
                     cfg.CreateMap<HallDto, HallOutputModel>();
                 });
         }
@@ -142,11 +148,6 @@ namespace BookingTickets.BLL
             return _configuration.CreateMapper().Map<UserDto>(user);
         }
 
-        public List<SessionBLL> MapListSessionDtoToListSessionBLL(List<SessionDto> session)
-        {
-            return _configuration.CreateMapper().Map<List<SessionBLL>>(session);
-        }
-
         public SessionDto MapCreateSessionInputModelToSessionDto(CreateSessionInputModel session)
         {
             return _configuration.CreateMapper().Map<SessionDto>(session);
@@ -205,7 +206,7 @@ namespace BookingTickets.BLL
             return _configuration.CreateMapper().Map<SessionOutputModel>(session);
         }
 
-        public HallDto MapCreateHallInputModelToHallDto(CreateHallInputModel hall)
+        public HallDto MapCreateHallInputModelToHallDto(CreateAndUpdateHallInputModel hall)
         {
             return _configuration.CreateMapper().Map<HallDto>(hall);
         }
@@ -220,5 +221,9 @@ namespace BookingTickets.BLL
             return _configuration.CreateMapper().Map<List<SeatsForCashierOutputModel>>(seats);
         }
 
+        public List<SessionBLL> MapListSessionDtoToListSessionBLL(List<SessionDto> sessionBLL)
+        {
+            return _configuration.CreateMapper().Map<List<SessionBLL>>(sessionBLL);
+        }
     }
 }

@@ -4,10 +4,12 @@ using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
+using BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
+using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.NewFolder;
 using Core;
@@ -34,32 +36,72 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpPost("Film/")]
-        public IActionResult CreateFilm(CreateFilmRequestModel model)
+        public IActionResult CreateFilm([FromHeader] CreateAndUpdateFilmRequestModel model)
         {
             _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a film.");
 
-            var res = _mapper.Map<FilmBLL>(model);
-            _mainAdmin.CreateNewFilm(res);
+            try
+            {
+                var res = _mapper.Map<FilmBLL>(model);
+                _mainAdmin.CreateNewFilm(res);
 
-            _logger.Log(LogLevel.Information, "MainAdmin request completed: film written to the database.", model);
+                _logger.Log(LogLevel.Information, "MainAdmin request completed: film written to the database.", model);
+
+                return Ok(model);
+            }
+            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+        }
+
+        [HttpPut("Film/{id}/Edit")]
+        public IActionResult EditFilm([FromHeader] CreateAndUpdateFilmRequestModel newFilm, [FromHeader] int filmId)
+        {
+            var newFilmBLL = _mapper.Map<FilmBLL>(newFilm);
+
+            try
+            {
+                _mainAdmin.EditFilm(newFilmBLL, filmId);
+            }
+            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+
+            return Ok(newFilm);
+        }
+
+        [HttpDelete("Film/{id}/Delete")]
+        public IActionResult DeleteFilm([FromHeader] int filmId)
+        {
+            _mainAdmin.DeleteFilm(filmId);
 
             return Ok("GOT IT");
         }
 
         [HttpPost("Cinema")]
-        public IActionResult CreateNewCinema(CreateCinemaRequestModel model)
+        public IActionResult CreateNewCinema([FromHeader] CreateAndUpdateCinemaRequestModel newCinema)
         {
             _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a cinema.");
 
-            _mainAdmin.CreateCinema(_mapper.Map<CinemaBLL>(model));
+            _mainAdmin.CreateCinema(_mapper.Map<CinemaBLL>(newCinema));
 
-            _logger.Log(LogLevel.Information, "MainAdmin request completed: cinema written to the database.", model);
+            _logger.Log(LogLevel.Information, "MainAdmin request completed: cinema written to the database.", newCinema);
 
-            return Ok("GOT IT");
+            return Ok(newCinema);
         }
 
-        [HttpDelete("Cinema/{id}")]
-        public IActionResult DeleteCinema(int cinemaId)
+        [HttpPut("Cinema/{id}/Edit")]
+        public IActionResult EditCinema([FromHeader] CreateAndUpdateCinemaRequestModel newCinema, [FromHeader] int cinemaId)
+        {
+            var newCinemaBLL = _mapper.Map<CinemaBLL>(newCinema);
+
+            try
+            {
+                _mainAdmin.EditCinema(newCinemaBLL, cinemaId);
+            }
+            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+
+            return Ok(newCinema);
+        }
+
+        [HttpDelete("Cinema/{id}/Delete")]
+        public IActionResult DeleteCinema([FromHeader] int cinemaId)
         {
             _mainAdmin.DeleteCinema(cinemaId);
 
@@ -71,38 +113,62 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                _mainAdmin.CreateHall(_mapper.Map<CreateHallInputModel>(model));
+                _mainAdmin.CreateHall(_mapper.Map<CreateAndUpdateHallInputModel>(model));
             }
             catch (HallException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
             }
 
-            return Ok("GOT IT");
+            return Ok(model);
         }
 
-        [HttpDelete("Hall/{id}")]
-        public IActionResult DeleteHall(int hallId)
+        [HttpPut("Hall/{id}/Edit")]
+        public IActionResult EditHall([FromHeader] HallRequestModel newHall, [FromHeader] int hallId)
+        {
+            var newHallBLL = _mapper.Map<CreateAndUpdateHallInputModel>(newHall);
+
+            try
+            {
+                _mainAdmin.EditHall(newHallBLL, hallId);
+            }
+            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+
+            return Ok(newHall);
+        }
+
+        [HttpDelete("Hall/{id}/Delete")]
+        public IActionResult DeleteHall([FromHeader] int hallId)
         {
             _mainAdmin.DeleteHall(hallId);
 
             return Ok("GOT IT");
         }
 
-        [HttpPost("Create/Hall/Row_With_Seats", Name = "Add Row with seats in hall")]
-        public IActionResult AddRowToHall(AddSeatsRowsRequestModel model)
+        [HttpPost("/Hall/Row", Name = "Add Row with seats in hall")]
+        public IActionResult AddRowToHall([FromHeader] AddSeatsRowsRequestModel model)
         {
             _mainAdmin.AddRowToHall(_mapper.Map<AddSeatsRowsInputModel>(model));
 
             return Ok("GOT IT");
         }
 
-        [HttpPatch("User/ChangeStatus")]
-        public IActionResult UserMakeAdmin(ChangeUserStatusRequesModel newUser)
+        [HttpPatch("User/{id}/ChangeStatus")]
+        public IActionResult ChangeUserStatus([FromHeader] int userId, UserStatus status)
         {
-            _mainAdmin.ChangeUserStatus(_mapper.Map<ChangeUserStatusInputModel>(newUser));
+            _mainAdmin.ChangeUserStatus(status, userId);
 
             return Ok("GOT IT");
+        }
+
+        [HttpGet("Statistics/Films/{id}")]
+        public StatisticsFilm_ResponseModels GetStatisticsByFilm([FromHeader] StatisticsFilm_ResquestModels statInfo)
+        {
+            var allStaticBLL = _mainAdmin.GetStatisticsByFilm(_mapper.Map<StatisticsFilm_InputModels>(statInfo));
+
+            var allStatic = _mapper.Map<StatisticsFilm_ResponseModels>(allStaticBLL);
+
+            return allStatic;
         }
     }
 }

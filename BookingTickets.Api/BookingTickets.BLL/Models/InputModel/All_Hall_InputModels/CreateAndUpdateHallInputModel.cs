@@ -1,6 +1,6 @@
 ﻿namespace BookingTickets.BLL.Models.InputModel.All_Hall_InputModels
 {
-    public class CreateHallInputModel
+    public class CreateAndUpdateHallInputModel
     {
         public int Number { get; set; }
 

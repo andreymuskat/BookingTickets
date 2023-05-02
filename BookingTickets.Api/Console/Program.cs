@@ -1,8 +1,7 @@
-using BookingTickets.BLL;
-using BookingTickets.BLL.Statistics;
+using BookingTickets.DAL;
 
-CinemaManager cin = new CinemaManager();
+FilmRepository cin = new FilmRepository();
 
-var pp = cin.GetCinemaByHallId(31);
+cin.DeleteFilm(1);
 
 Console.WriteLine(" ");
