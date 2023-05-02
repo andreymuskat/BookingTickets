@@ -5,14 +5,14 @@ using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.BLL
 {
-    public class CinemaManager
+    public class CinemaManager : ICinemaManager
     {
         private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly ICinemaRepository _cinemaRepository;
 
-        public CinemaManager()
+        public CinemaManager(ICinemaRepository cinemaRepository)
         {
-            _cinemaRepository = new CinemaRepository();
+            _cinemaRepository = cinemaRepository;
         }
 
         public void CreateCinema(CinemaBLL cinema)
@@ -26,19 +26,19 @@ namespace BookingTickets.BLL
 
             if (searchCinema != null)
             {
-                if(cinema.Name != null)
+                if (cinema.Name != null)
                 {
                     searchCinema.Name = cinema.Name;
                 }
 
-                if(cinema.Address != null)
+                if (cinema.Address != null)
                 {
                     searchCinema.Address = cinema.Address;
                 }
-                
+
                 _cinemaRepository.EditCinema(searchCinema);
             }
-            else {  throw new CinemaException(777);}
+            else { throw new CinemaException(777); }
         }
 
         public void DeleteCinema(int cinemaId)

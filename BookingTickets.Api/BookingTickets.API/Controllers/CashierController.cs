@@ -44,8 +44,8 @@ namespace BookingTickets.API.Controllers
             {
                 _cashier.CreateOrderByCashier(_mapper.Map<List<CreateOrderInputModel>>(model), cinemaId, userId);
             }
-            catch (OrderException ex){return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));}
-            catch (SeatException ex) { return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));}
+            catch (OrderException ex){return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));}
+            catch (SeatException ex) { return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));}
 
             _logger.Log(LogLevel.Information, "Cashier's request completed: new order written to the database.", model);
 
@@ -68,7 +68,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (OrderException ex)
             {
-                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             }
         }
 
@@ -90,7 +90,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (SessionException ex)
             {
-                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             };
         }
 
@@ -115,7 +115,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (OrderException ex)
             {
-                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             };
         }
 
@@ -135,7 +135,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (FilmException ex)
             {
-                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             };
         }
 
@@ -156,7 +156,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (SessionException ex)
             {
-                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             };
         }
 
@@ -177,7 +177,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (SeatException ex)
             {
-                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             }
         }
 

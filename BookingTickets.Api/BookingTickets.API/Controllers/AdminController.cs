@@ -49,7 +49,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (SessionException ex)
             {
-                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             }
         }
 
@@ -60,7 +60,7 @@ namespace BookingTickets.API.Controllers
 
             try { _admin.DeleteSession(sessionId); }
             catch (SessionException ex) 
-            { return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode)); }
+            { return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode)); }
 
             _logger.Log(LogLevel.Information, "Session deleted by admin request.");
 
