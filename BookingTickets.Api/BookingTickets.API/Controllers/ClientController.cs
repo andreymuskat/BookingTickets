@@ -117,10 +117,8 @@ namespace BookingTickets.API.Controllers
                 _logger.Log(LogLevel.Information, "Client's request completed: new order written to the database.", models);
                 return Ok(code);
             }
-            catch (SessionException ex)
-            {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
-            }
+            catch (OrderException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+            catch (SeatException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
         }
 
         [HttpPatch("UpdateOrder", Name = "Cancel the order")]

@@ -145,7 +145,7 @@ namespace BookingTickets.API.Controllers
             return Ok("GOT IT");
         }
 
-        [HttpPost("/Hall/Row", Name = "Add Row with seats in hall")]
+        [HttpPost("Hall/Row", Name = "Add Row with seats in hall")]
         public IActionResult AddRowToHall([FromHeader] AddSeatsRowsRequestModel model)
         {
             _mainAdmin.AddRowToHall(_mapper.Map<AddSeatsRowsInputModel>(model));
