@@ -1,3 +1,4 @@
+using System;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
@@ -27,10 +28,12 @@ namespace BookingTickets.BLL.Roles
             return _filmManager.GetFilmById(id);
         }
 
-        public List<SessionBLL> GetFilmsByCinema(int cinemaId)
+        public List<SessionBLL> GetFilmsByCinema(int cinemaId, DateTime time)
         {
+            DateTime EndTime = time.AddDays(1).AddHours(3);
             var listSession = _sessionManager.GetAllSessionByCinemaId(cinemaId);
-            var res = listSession.FindAll(d => d.IsDeleted == false);
+            var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
+            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now && (d.Date) < EndTime);
             return res;
         }
 
@@ -50,11 +53,10 @@ namespace BookingTickets.BLL.Roles
             return res;
         }
 
-        public SessionOutputModel GetSessionById(int idSession, DateTime time)
+        public SessionOutputModel GetSessionById(int idSession)
         {
-            DateTime EndTime = time.AddDays(1).AddHours(3);
             var sb = _sessionManager.GetSessionById(idSession);
-            if (sb.Date.AddMinutes(advertisingTime) > DateTime.Now && sb.Date < EndTime)
+            if (sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
             {
                 return sb;
             }
