@@ -18,7 +18,7 @@ namespace BookingTickets.DAL
             var cashier = new UserDto
             {
                 UserName = user.UserName,
-                UserStatus = Core.UserStatus.Cashier,
+                UserStatus = Core.Status.UserStatus.Cashier,
                 Password = user.Password,
                 CinemaId = 1,
             };

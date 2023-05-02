@@ -3,16 +3,15 @@ using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
 using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
-using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels;
-using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
-using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.NewFolder;
-using Core;
+using BookingTickets.Core.CustomException;
+using Core.CustomException;
+using Core.Status;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -49,7 +48,7 @@ namespace BookingTickets.API.Controllers
 
                 return Ok(model);
             }
-            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode)); }
         }
 
         [HttpPut("Film/{id}/Edit")]
@@ -61,7 +60,7 @@ namespace BookingTickets.API.Controllers
             {
                 _mainAdmin.EditFilm(newFilmBLL, filmId);
             }
-            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode)); }
 
             return Ok(newFilm);
         }
@@ -95,7 +94,7 @@ namespace BookingTickets.API.Controllers
             {
                 _mainAdmin.EditCinema(newCinemaBLL, cinemaId);
             }
-            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode)); }
 
             return Ok(newCinema);
         }
@@ -117,7 +116,7 @@ namespace BookingTickets.API.Controllers
             }
             catch (HallException ex)
             {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode));
             }
 
             return Ok(model);
@@ -132,7 +131,7 @@ namespace BookingTickets.API.Controllers
             {
                 _mainAdmin.EditHall(newHallBLL, hallId);
             }
-            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(Code_Exception), ex.ErrorCode)); }
 
             return Ok(newHall);
         }

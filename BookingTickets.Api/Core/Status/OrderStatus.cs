@@ -1,4 +1,6 @@
-﻿namespace Core
+﻿using Core.Status;
+
+namespace Core.Status
 {
     public enum OrderStatus
     {
