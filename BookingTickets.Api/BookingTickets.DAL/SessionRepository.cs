@@ -21,7 +21,7 @@ namespace BookingTickets.DAL
 
         public SessionDto GetSessionById(int sessionId)
         {
-            return _context.Sessions.FirstOrDefault(i => i.Id == sessionId);
+            return _context.Sessions.Where(s => s.IsDeleted == false).FirstOrDefault(i => i.Id == sessionId);
         }
 
         public List<SessionDto> GetAllSession()

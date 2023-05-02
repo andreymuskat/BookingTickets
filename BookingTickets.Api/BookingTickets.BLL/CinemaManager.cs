@@ -48,7 +48,12 @@ namespace BookingTickets.BLL
 
         public List<CinemaBLL> GetCinemaByFilm(int idFilm)
         {
-            return _instanceMapperBll.MapListCinemaDtoToListCinemaBLL(_cinemaRepository.GetAllCinemaByFilm(idFilm));
+            var listCinemas = _instanceMapperBll.MapListCinemaDtoToListCinemaBLL(_cinemaRepository.GetAllCinemaByFilm(idFilm));
+            if (listCinemas != null)
+            {
+                return listCinemas;
+            }
+            else { throw new CinemaException(777); }
         }
 
         public CinemaBLL GetCinemaByHallId(int idHallId)

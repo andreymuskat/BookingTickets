@@ -1,4 +1,4 @@
-﻿using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
@@ -60,6 +60,14 @@ namespace BookingTickets.BLL
             {
                 throw new FilmException(777);
             }
+        public FilmBLL GetFilmById(int Id)
+        {
+            var film = _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(Id));            
+            if (film != null)
+            {
+                return film;
+            }
+            else { throw new FilmException(777); }
         }
     }
 }

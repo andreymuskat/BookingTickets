@@ -18,7 +18,6 @@ namespace BookingTickets.DAL
         public void CreateOrder(OrderDto order)
         {
             _context.Orders.Add(order);
-
             _context.SaveChanges();
         }
 
