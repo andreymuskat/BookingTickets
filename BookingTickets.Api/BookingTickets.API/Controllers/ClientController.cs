@@ -3,9 +3,9 @@ using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
-using BookingTickets.Core.CustomException;
-using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
+using BookingTickets.Core.CustomException;
 using Core.CustomException;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -18,14 +18,14 @@ namespace BookingTickets.API.Controllers
     [ApiController]
     public class ClientController : ControllerBase
     {
-        private readonly IClient _client;
+        private readonly IClientService _clientService;
         private readonly IMapper _mapper;
         private readonly ILogger<ClientController> _logger;
 
-        public ClientController(IMapper map, IClient client, ILogger<ClientController> log)
+        public ClientController(IMapper map, IClientService client, ILogger<ClientController> log)
         {
             _mapper = map;
-            _client = client;
+            _clientService = client;
             _logger = log;
         }
 
@@ -34,8 +34,9 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                var ls = _client.GetFilmsByCinema(cinemaId, time);
+                var ls = _clientService.GetFilmsByCinema(cinemaId, time);
                 var res = _mapper.Map<List<SessionResponseModelForClient>>(ls);
+
                 return Ok(res);
             }
             catch (SessionException ex)
@@ -49,8 +50,9 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                var sb = _client.GetSessionsByFilm(idFilm, time);
+                var sb = _clientService.GetSessionsByFilm(idFilm, time);
                 var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
+
                 return Ok(res);
             }
             catch (SessionException ex)
@@ -64,7 +66,7 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                var sb = _client.GetSessionById(idSession);
+                var sb = _clientService.GetSessionById(idSession);
                 var res = _mapper.Map<SessionResponseModelForClient>(sb);
 
                 return Ok(res);
@@ -80,8 +82,9 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                var fb = _client.GetFilmById(filmId);
+                var fb = _clientService.GetFilmById(filmId);
                 var res = _mapper.Map<FilmResponseModelForClient>(fb);
+
                 return Ok(res);
             }
             catch (FilmException ex)
@@ -95,8 +98,9 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                var cb = _client.GetCinemaByFilm(filmId);
+                var cb = _clientService.GetCinemaByFilm(filmId);
                 var res = _mapper.Map<List<CinemaResponseModelForClient>>(cb);
+
                 return Ok(res);
             }
             catch (CinemaException ex)
@@ -108,17 +112,23 @@ namespace BookingTickets.API.Controllers
         [HttpPost("CreateOrder", Name = "CreateOrder")]
         public IActionResult CreateOrderByCustomer(List<CreateOrderRequestModel> models)
         {
-            _logger.Log(LogLevel.Information, "Client wanted to create a new order.");
+            _logger.Log(LogLevel.Information, "ClientService wanted to create a new order.");
             var userId = TakeIdByClientAuth();
 
             try
             {
-                var code = _client.CreateOrderByCustomer(_mapper.Map<List<CreateOrderInputModel>>(models), userId);
-                _logger.Log(LogLevel.Information, "Client's request completed: new order written to the database.", models);
+                var code = _clientService.CreateOrderByCustomer(_mapper.Map<List<CreateOrderInputModel>>(models), userId);
+                _logger.Log(LogLevel.Information, "ClientService's request completed: new order written to the database.", models);
                 return Ok(code);
             }
-            catch (OrderException ex) { return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode)); }
-            catch (SeatException ex) { return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode)); }
+            catch (OrderException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
+            catch (SeatException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
         }
 
         [HttpPatch("UpdateOrder", Name = "Cancel the order")]
@@ -126,12 +136,12 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                _client.CancelOrderByCustomer(code);
-                return Ok("Success");
+                _clientService.CancelOrderByCustomer(code);
+                return Ok();
             }
-            catch(OrderException ex) 
-            { 
-                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode)); 
+            catch (OrderException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             }
         }
 

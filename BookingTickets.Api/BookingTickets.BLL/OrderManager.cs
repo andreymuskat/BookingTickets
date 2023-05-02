@@ -112,19 +112,6 @@ namespace BookingTickets.BLL
                 {
                     break;
                 }
-                //foreach (SeatBLL seatFree in freeseats)
-                //{
-                //    if (seat.Id == seatFree.Id)
-                //    {
-                //        found = true;
-                //        break;
-                //    }
-                //}
-                //if (!found)
-                //{
-                //    result = false;
-                //    break;
-                //}
             }
 
             return result;

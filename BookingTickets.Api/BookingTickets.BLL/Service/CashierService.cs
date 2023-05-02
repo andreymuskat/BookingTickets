@@ -1,4 +1,5 @@
 using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
@@ -9,7 +10,7 @@ using Core.Status;
 
 namespace BookingTickets.BLL.Roles
 {
-    public class Cashier : IСashier
+    public class CashierService : ICashierService
     {
         private readonly IFilmManager _filmManager;
         private readonly ISessionManager _sessionManager;
@@ -18,7 +19,7 @@ namespace BookingTickets.BLL.Roles
         private readonly IOrderManager _orderManager;
         private readonly ISeatManager _seatManager;
 
-        public Cashier(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IFilmManager filmManager,
+        public CashierService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IFilmManager filmManager,
             IOrderManager orderManager, ISeatManager seatManager)
         {
             _filmManager = filmManager;

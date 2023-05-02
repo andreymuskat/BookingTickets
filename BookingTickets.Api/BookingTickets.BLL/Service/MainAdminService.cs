@@ -1,15 +1,15 @@
 ﻿using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
-using BookingTickets.BLL.NewFolder;
 using Core.Status;
 
 namespace BookingTickets.BLL.Roles
 {
-    public class MainAdmin : IMainAdmin
+    public class MainAdminService : IMainAdminService
     {
         private readonly IFilmManager _filmManager;
         private readonly ICinemaManager _cinemaManager;
@@ -18,7 +18,7 @@ namespace BookingTickets.BLL.Roles
         private readonly IUserManager _userManager;
         private readonly IStatisticsFilm _statisticsFilm;
 
-        public MainAdmin(ICinemaManager cinemaManager, IUserManager userManager, IStatisticsFilm statisticsFilm,
+        public MainAdminService(ICinemaManager cinemaManager, IUserManager userManager, IStatisticsFilm statisticsFilm,
             IFilmManager filmManager, ISeatManager seatManager, IHallManager hallManager)
         {
             _filmManager = filmManager;

@@ -1,4 +1,5 @@
 using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
@@ -9,14 +10,14 @@ using Core.Status;
 
 namespace BookingTickets.BLL.Roles
 {
-    public class Admin : IAdmin
+    public class AdminService : IAdminService
     {
         private readonly ISessionManager _sessionManager;
         private readonly IUserManager _userManager;
         private readonly ICinemaManager _cinemaManager;
         private readonly IStatisticsFilm _statisticsFilm;
 
-        public Admin(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IStatisticsFilm statisticsFilm)
+        public AdminService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IStatisticsFilm statisticsFilm)
         {
             _sessionManager = sessionManager;
             _userManager = userManager;
