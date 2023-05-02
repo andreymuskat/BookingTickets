@@ -29,7 +29,7 @@ namespace BookingTickets.BLL
 
         public void EditOrderStatus(OrderStatus status, string code)
         {
-            _orderRepository.EditOrderStatus(status, code);
+            _orderRepository.EditOrderStatusByCode(status, code);
         }
 
         public void CreateOrderByCashier(List<CreateOrderInputModel> orders, int userId)

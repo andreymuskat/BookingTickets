@@ -4,14 +4,14 @@ namespace BookingTickets.DAL.Interfaces
 {
     public interface IFilmRepository
     {
-        public FilmDto CreateFilm(FilmDto film);
+        FilmDto CreateFilm(FilmDto film);
 
-        public FilmDto GetFilmById(int filmId);
+        FilmDto GetFilmById(int filmId);
 
-        public FilmDto GetFilmByName(string Name);
+        FilmDto GetFilmByName(string Name);
 
-        public void DeleteFilm(int filmId);
+        void DeleteFilm(int filmId);
 
-        public void EditFilm(FilmDto film);
+        void EditFilm(FilmDto film);
     }
 }

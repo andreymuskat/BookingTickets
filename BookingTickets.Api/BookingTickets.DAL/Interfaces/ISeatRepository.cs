@@ -2,16 +2,16 @@ namespace BookingTickets.DAL.Interfaces
 {
     public interface ISeatRepository
     {
-        public SeatDto CreateSeat(SeatDto seat);
+        SeatDto CreateSeat(SeatDto seat);
 
-        public SeatDto GetSeatById(int seatId);
+        SeatDto GetSeatById(int seatId);
 
-        public List<SeatDto> GetAllSeatInHall(int hallId);
+        List<SeatDto> GetAllSeatInHall(int hallId);
 
-        public List<SeatDto> GetAllSeatsBySessionId(int sessionId);
+        List<SeatDto> GetAllSeatsBySessionId(int sessionId);
 
-        public List<SeatDto> GetAllFreeSeatsBySessionId(int idSession);
+        List<SeatDto> GetAllFreeSeatsBySessionId(int idSession);
 
-        public List<SeatDto> GetAllPurchasedSeatsBySessionId(int idSession); 
+        List<SeatDto> GetAllPurchasedSeatsBySessionId(int idSession);
     }
 }

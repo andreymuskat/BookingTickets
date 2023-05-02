@@ -2,21 +2,21 @@
 {
     public interface ISessionRepository
     {
-        public SessionDto CreateSession(SessionDto session);
+        SessionDto CreateSession(SessionDto session);
 
-        public SessionDto GetSessionById(int sessionId);
+        SessionDto GetSessionById(int sessionId);
 
-        public List<SessionDto> GetAllSession();
+        List<SessionDto> GetAllSession();
 
-        public List<SessionDto> GetAllSessionByFilmId(int idFilm);
+        List<SessionDto> GetAllSessionByFilmId(int idFilm);
 
-        public List<SessionDto> GetAllSessionByCinemaId(int idCinema);
+        List<SessionDto> GetAllSessionByCinemaId(int idCinema);
 
-        public List<SessionDto> GetAllSessionByDate(DateTime date);
+        List<SessionDto> GetAllSessionByDate(DateTime date);
 
-        public List<SessionDto> GetAllSessionInTheIntervalDate(DateOnly dateStart, DateOnly dateEnd);
+        List<SessionDto> GetAllSessionInTheIntervalDate(DateOnly dateStart, DateOnly dateEnd);
 
-        public void DeleteSession(int idSession);
+        void DeleteSession(int idSession);
 
     }
 }

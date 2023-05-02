@@ -17,10 +17,11 @@ namespace BookingTickets.DAL
         public void CreateOrder(OrderDto order)
         {
             _context.Orders.Add(order);
+
             _context.SaveChanges();
         }
 
-        public void EditOrderStatus(OrderStatus status, string code)
+        public void EditOrderStatusByCode(OrderStatus status, string code)
         {
             var order = _context.Orders
                 .Where(i => i.Code == code)
@@ -46,25 +47,21 @@ namespace BookingTickets.DAL
                     .ToList();
         }
 
-        public async Task CheckOrderStatusAsync()
+        public async Task<List<OrderDto>> GetAllOrdersByDate(DateTime data)
         {
-            var allOrders = _context.Orders
-                .Where(k => k.Status == OrderStatus.Booking)
-                .Include (k => k.Session)
-                .ToList();
+            return await _context.Orders
+                .Where(p => p.Date == data)
+                .ToListAsync();
+        }
 
-            DateTime currentTime = DateTime.Now;
-            DateTime timeIsNeed = currentTime.AddMinutes(-30);
+        public async Task EditOrderStatus(OrderDto order, OrderStatus newStatus)
+        {
+            var searchOrder = _context.Orders
+                .Single(k => k.Id == order.Id);
 
-            for (var i = 0; i < allOrders.Count; i++)
-            {
-                if (allOrders[i].Session.Date < timeIsNeed)
-                {
-                    allOrders[i].Status = OrderStatus.Canceled;
+            searchOrder.Status = newStatus;
 
-                    await _context.SaveChangesAsync();
-                }
-            }
+            await _context.SaveChangesAsync();
         }
     }
 }
