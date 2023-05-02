@@ -2,6 +2,7 @@ using BookingTickets.DAL.Interfaces;
 using Core;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace BookingTickets.DAL
 {
     public class SeatRepository : ISeatRepository
@@ -21,15 +22,31 @@ namespace BookingTickets.DAL
             return seat;
         }
 
+        public SeatDto GetSeatById(int seatId) 
+        {
+            return _context.Seats
+                .SingleOrDefault(k=> k.Id == seatId)!;
+        }
+
+        public List<SeatDto> GetAllSeatInHall(int hallId)
+        {
+            return _context.Seats
+                .Where(h => h.HallId == hallId)
+                .ToList();
+        }
+
         public List<SeatDto> GetAllSeatsBySessionId(int  sessionId)
         {
             var hallId = _context.Sessions
+                .Where(k => k.IsDeleted == false)
                 .Single(k => k.Id == sessionId)
                 .HallId;
 
-            return _context.Seats
+            var allSeats = _context.Seats
                 .Where(k => k.HallId == hallId)
                 .ToList();
+
+            return allSeats;
         }
 
         public List<SeatDto> GetAllFreeSeatsBySessionId(int idSession)
@@ -41,6 +58,7 @@ namespace BookingTickets.DAL
             var OrdersInSession = _context.Orders
                 .Where(s => s.SessionId == idSession)
                 .Include(s => s.Seats)
+                .Include(s => s.Seats.Hall)
                 .ToList();
 
             foreach (var order in OrdersInSession)
@@ -52,6 +70,7 @@ namespace BookingTickets.DAL
             }
 
             var hallId = _context.Sessions
+                .Where(s => s.IsDeleted == false)
                 .Single(s => s.Id == idSession)
                 .HallId;
 
@@ -70,24 +89,18 @@ namespace BookingTickets.DAL
             var OrdersInSession = _context.Orders
                 .Where(s => s.SessionId == idSession)
                 .Include(s => s.Seats)
+                .Include(s => s.Seats.Hall)
                 .ToList();
 
             foreach (var order in OrdersInSession)
             {
-                if (order.Status == OrderStatus.PurchasedBy—ashbox || order.Status == OrderStatus.PurchasedBySite)
+                if (order.Status == OrderStatus.PurchasedBy–°ashbox || order.Status == OrderStatus.PurchasedBySite)
                 {
                     PurchasedSeats.Add(order.Seats);
                 }
             }
 
             return PurchasedSeats;
-        }
-
-        public List<SeatDto> GetAllSeatInHall(int hallId)
-        {
-            return _context.Seats
-                .Where(h => h.HallId == hallId)
-                .ToList();
         }
     }
 }

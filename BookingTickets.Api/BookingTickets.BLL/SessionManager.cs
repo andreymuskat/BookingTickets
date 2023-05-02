@@ -1,9 +1,9 @@
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
+using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
+using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
-using Core;
 
 namespace BookingTickets.BLL
 {
@@ -23,7 +23,7 @@ namespace BookingTickets.BLL
 
         public void CreateSession(CreateSessionInputModel newSession)
         {
-            int hh = 0;
+            int SaveNewSession = 0;
             TimeOnly TimeStartNewSession = TimeOnly.FromDateTime(newSession.Date);
             FilmBLL FilmInNewSession = _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(newSession.FilmId));
 
@@ -32,7 +32,8 @@ namespace BookingTickets.BLL
             List<TimeOnly> allTimeStartSession = new List<TimeOnly>();
             List<TimeOnly> allTimeEndSession = new List<TimeOnly>();
 
-            List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByDate(newSession.Date));
+            var AllSessionsInDateDTO = _sessionRepository.GetAllSessionByDate(newSession.Date).Where(k => k.HallId == newSession.HallId).ToList();
+            List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(AllSessionsInDateDTO);
 
             if (AllSessionsInDate.Count > 0)
             {
@@ -58,7 +59,7 @@ namespace BookingTickets.BLL
                     }
                     else
                     {
-                        hh++;
+                        SaveNewSession++;
                     }
                 }
             }
@@ -67,7 +68,7 @@ namespace BookingTickets.BLL
                 _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
             }
 
-            if (hh > 0)
+            if (SaveNewSession > 0)
             {
                 _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
             }
@@ -86,29 +87,40 @@ namespace BookingTickets.BLL
 
         public List<SessionBLL> GetAllSessionByCinemaId(int idCinema)
         {
-            return _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByCinemaId(idCinema));
+
+            var session = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByCinemaId(idCinema));
+            if (session != null)
+            {
+                return session;
+            }
+            else { throw new SessionException(777); }
         }
 
         public List<SessionBLL> GetAllSessionByFilmId(int idFilm)
         {
             var listSessionDto = _sessionRepository.GetAllSessionByFilmId(idFilm);
             var listSessionBLL = _instanceMapperBll.MapListSessionDtoToListSessionBLL(listSessionDto);
+
             return listSessionBLL;
         }
 
-        public SessionBLL GetSessionById(int idSession)
+        public SessionOutputModel GetSessionById(int idSession)
         {
             var sDto = _sessionRepository.GetSessionById(idSession);
-            var res = _instanceMapperBll.MapSessionDtoToSessionBLL(sDto);
+            var res = _instanceMapperBll.MapSessionDtoToSessionOutputModels(sDto);
+
             return res;
         }
 
         public List<SessionBLL> GetAllSessionByCinemaAndFilm(int cinemaId, int filmId)
         {
-            return _instanceMapperBll.MapListSessionDtoToListSessionBLL
-                (_sessionRepository.GetAllSessionByCinemaId(cinemaId)
+            List<SessionDto> allSession = _sessionRepository.GetAllSessionByCinemaId(cinemaId)
                 .Where(k => k.Film.Id == filmId)
-                .ToList());
+                .ToList();
+
+            var allSessionByFilm = _instanceMapperBll.MapListSessionDtoToListSessionBLL(allSession);
+
+            return allSessionByFilm;
         }
     }
 }

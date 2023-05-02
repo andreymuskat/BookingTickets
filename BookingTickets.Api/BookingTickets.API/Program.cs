@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using System.Text;
+using System.Text.Json.Serialization;
 using BookingTickets.API;
 using BookingTickets.API.Options;
 using BookingTickets.BLL;
@@ -29,12 +31,15 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMainAdmin, MainAdmin>();
 builder.Services.AddScoped<IClient, Client>();
 builder.Services.AddScoped<IAdmin, Admin>();
+builder.Services.AddScoped<IСashier, Cashier>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
+
 InjectSettingsConfiguration(builder);
 InjectAuthenticationDependencies(builder);
+
 
 var app = builder.Build();
 
@@ -100,18 +105,38 @@ void InjectAuthenticationDependencies(WebApplicationBuilder builder)
 
     builder.Services.AddAuthorization(options =>
     {
-        options.AddPolicy("MainAdmin", policy =>
-                          policy.RequireClaim("MainAdmin"));
-        options.AddPolicy("User", policy =>
-                          policy.RequireClaim("User"));
-        options.AddPolicy("Cashier", policy =>
-                          policy.RequireClaim("Cashier"));
-        options.AddPolicy("Admin", policy =>
-                          policy.RequireClaim("Admin"));
+        options.AddPolicy("MainAdmin", builder =>
+        {
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin"));
+        });
 
+        options.AddPolicy("Admin", builder =>
+        {
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin")
+                                        || k.User.HasClaim(ClaimTypes.Role, "Admin"));
+        });
 
+        options.AddPolicy("Cashier", builder =>
+        {
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin")
+                                        || k.User.HasClaim(ClaimTypes.Role, "Admin")
+                                            || k.User.HasClaim(ClaimTypes.Role, "Cashier"));
+        });
+
+        options.AddPolicy("User", builder =>
+        {
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin")
+                                        || k.User.HasClaim(ClaimTypes.Role, "Admin")
+                                            || k.User.HasClaim(ClaimTypes.Role, "Cashier")
+                                                || k.User.HasClaim(ClaimTypes.Role, "Client"));
+        });
     });
 
     builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
         .AddEntityFrameworkStores<Context>();
+
+    builder.Services
+    .AddControllersWithViews() 
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 }

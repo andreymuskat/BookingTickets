@@ -9,7 +9,7 @@ namespace BookingTickets.API.Model.RequestModels.All_OrderRequestModel
     {
         public int Id { get; set; }
 
-        public List<SeatRequestModel> Seats { get; set; }
+        public SeatRequestModel Seats { get; set; }
 
         public UserRequestModel User { get; set; }
 

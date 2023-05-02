@@ -4,11 +4,16 @@ using BookingTickets.API.Model.RequestModels.All_StatisticRequestModels;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_StatisticResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.BLL.Models.All_StatisticBLLModels;
 using BookingTickets.BLL.Models.All_UserBLLModels;
+using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
+using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
+using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -32,50 +37,51 @@ namespace BookingTickets.API.Controllers
             _logger = logger;
         }
 
-        [HttpPost("Create_New_Session")]
+        [HttpPost("Session")]
         public IActionResult CreateNewSession(CreateSessionRequestModel session)
         {
-            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-            string userName = nameClaim?.Value;
-
             _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
+
+            var cinemaId = TakeIdCinemaByAdminAuth();
+            var userId = TakeIdUserAuth();
 
             try
             {
-                _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session));
+                _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session), cinemaId, userId);
+
+                _logger.Log(LogLevel.Information, "Admin request completed: new session written to the database.", session);
+                
+                return Ok("GOT IT");
             }
             catch (SessionException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
             }
-
-            _logger.Log(LogLevel.Information, "Admin request completed: new session written to the database.", session);
-
-            return Ok("GOT IT");
         }
 
-        [HttpDelete("Delete_Session/{sessionId}")]
+        [HttpDelete("Session/{sessionId}/Delete")]
         public IActionResult DeleteSession(int sessionId)
         {
             _logger.Log(LogLevel.Information, "Admin sent a request to delete a session.");
 
             try { _admin.DeleteSession(sessionId); }
-            catch (SessionException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+            catch (SessionException ex) 
+            { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
 
             _logger.Log(LogLevel.Information, "Session deleted by admin request.");
 
             return StatusCode(StatusCodes.Status204NoContent);
         }
 
-        [HttpGet("GetAllCashiers")]
+        [HttpGet("Cashiers")]
         public ActionResult<List<UserResponseModel>> GetAllCashiers()
         {
-            var listUserBll = _admin.GetAllCashiers();
-            var res = _mapper.Map<List<UserResponseModel>>(listUserBll);
+            var res = _admin.GetAllCashiers();
+
             return Ok(res);
         }
 
-        [HttpPost("Create_New_Cashier")]
+        [HttpPost("Cashier/New")]
         public ActionResult<UserResponseModel> CreateNewCashier(CreateCashierRequestModel cashierModel)
         {
             var cashierInputModel = _mapper.Map<CreateCashierInputModel>(cashierModel);
@@ -85,6 +91,7 @@ namespace BookingTickets.API.Controllers
             return Ok(res);
         }
 
+        [HttpDelete("Cashier/{id}/Delete")]
         [HttpPost("Update_Cashier")]
         public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier)
         {
@@ -101,6 +108,35 @@ namespace BookingTickets.API.Controllers
             _admin.DeleteCashierById(cashierId);
 
             return Ok();
+        }
+
+        [HttpGet("Statistics/Films/{id}")]
+        public StatisticsFilm_ResponseModels GetStatisticsByFilm([FromHeader] StatisticsFilm_ResquestModels statInfo)
+        {
+            var userCinemaId = TakeIdCinemaByAdminAuth();
+
+            var allStaticBLL = _admin.GetStatisticsByFilm(_mapper.Map<StatisticsFilm_InputModels>(statInfo), userCinemaId);
+            var allStatic = _mapper.Map<StatisticsFilm_ResponseModels>(allStaticBLL);
+
+            return allStatic;
+        }
+
+        private int TakeIdCinemaByAdminAuth()
+        {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "CinemaId");
+            string userName = nameClaim?.Value!;
+            var userCinemaId = Convert.ToInt32(userName);
+
+            return userCinemaId;
+        }
+
+        private int TakeIdUserAuth()
+        {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            string userName = nameClaim?.Value!;
+            var userId = Convert.ToInt32(userName);
+
+            return userId;
         }
 
         [HttpPost("Copy_Sessions_From_OneDay_By_DateCopy_To_DateWhereToCopy")]

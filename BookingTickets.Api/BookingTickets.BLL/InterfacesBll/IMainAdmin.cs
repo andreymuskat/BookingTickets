@@ -1,5 +1,10 @@
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
+using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
+using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
+using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
+using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
+using Core;
 
 namespace BookingTickets.BLL.NewFolder
 {
@@ -7,10 +12,26 @@ namespace BookingTickets.BLL.NewFolder
     {
         public void CreateNewFilm(FilmBLL newFilm);
 
+        public void EditFilm(FilmBLL newFilm, int idFilm);
+
+        public void DeleteFilm(int filmId);
+
         public void CreateCinema(CinemaBLL newCinema);
 
-        public void CreateHall(HallBLL hall);
+        public void EditCinema(CinemaBLL newCinema, int cinemaId);
+
+        public void DeleteCinema(int cinemaId);
+
+        public void CreateHall(CreateAndUpdateHallInputModel hall);
+
+        public void DeleteHall(int hallId);
 
         public void AddRowToHall(AddSeatsRowsInputModel rowSeats);
+
+        public void ChangeUserStatus(UserStatus status, int userId);
+
+        public void EditHall(CreateAndUpdateHallInputModel newHall, int hallId);
+
+        public StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_InputModels infoForStatic);
     }
 }

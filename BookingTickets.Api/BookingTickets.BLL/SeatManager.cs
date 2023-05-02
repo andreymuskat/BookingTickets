@@ -1,5 +1,6 @@
-﻿using BookingTickets.BLL.Models;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
+using BookingTickets.BLL.Models.OutputModel.All_Seats_OutputModels;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 
@@ -43,6 +44,26 @@ namespace BookingTickets.BLL
         public List<SeatBLL> GetFreeSeatsBySessionId(int sessionId)
         {
             return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllFreeSeatsBySessionId(sessionId));
+        }
+
+        public List<SeatsForCashierOutputModel> GetFreeSeatsBySessionIdForCashier(int sessionId)
+        {
+            return _instanceMapperBll.MapListSeatDtoToListSeatsForCashierOutputModel(_seatRepository.GetAllFreeSeatsBySessionId(sessionId));
+        }
+
+        public List<SeatBLL> GetPurchasedSeatsBySessionId(int sessionId)
+        {
+            return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllPurchasedSeatsBySessionId(sessionId));
+        }
+
+        public List<SeatBLL> GetAllSeatsBySessionId(int sessionId)
+        {
+            return _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllSeatsBySessionId(sessionId));
+        }
+
+        public SeatBLL GetSeatById(int seatId)
+        {
+            return _instanceMapperBll.MapSeatDtoToSeatBLL(_seatRepository.GetSeatById(seatId));
         }
     }
 }

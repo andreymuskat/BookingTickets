@@ -1,4 +1,4 @@
-﻿namespace BookingTickets.BLL.Models.All_UserBLLModels
+﻿namespace BookingTickets.BLL.Models.InputModel.All_User_InputModel
 {
     public class CreateCashierInputModel
     {

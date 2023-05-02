@@ -6,12 +6,16 @@ namespace BookingTickets.DAL.Interfaces
     {
         public CinemaDto CreateCinema(CinemaDto cinema);
 
+        public void DeleteCinemaById(int cinemaId);
+
+        public List<CinemaDto> GetAllCinema();
+
         public CinemaDto GetCinemaById(int cinemaId);
 
-        public List<UserDto> GetAllEmployesInCinema(int idCinema);
-
-        public List<HallDto> GetAllHallByCinemaId(int idCinema);
-
         public List<CinemaDto> GetAllCinemaByFilm(int idFilm);
+
+        public CinemaDto GetCinemaByHallId(int hallId);
+
+        public void EditCinema(CinemaDto cinema);
     }
 }
