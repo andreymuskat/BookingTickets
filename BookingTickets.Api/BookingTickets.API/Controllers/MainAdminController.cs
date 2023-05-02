@@ -3,53 +3,55 @@ using BookingTickets.API.Model.RequestModels.All_CinemaRequestModel;
 using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
 using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
-using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels;
-using BookingTickets.BLL.CustomException;
+using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
-using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
-using BookingTickets.BLL.NewFolder;
-using Core;
+using BookingTickets.Core.CustomException;
+using Core.CustomException;
+using Core.Status;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    [Authorize(Policy = "MainAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Policy = "MainAdminService", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class MainAdminController : ControllerBase
     {
-        private readonly IMainAdmin _mainAdmin;
+        private readonly IMainAdminService _mainAdminService;
         private readonly IMapper _mapper;
         private readonly ILogger<MainAdminController> _logger;
 
-        public MainAdminController(IMapper map, IMainAdmin mainAdmin, ILogger<MainAdminController> log)
+        public MainAdminController(IMapper map, IMainAdminService mainAdmin, ILogger<MainAdminController> log)
         {
             _mapper = map;
-            _mainAdmin = mainAdmin;
+            _mainAdminService = mainAdmin;
             _logger = log;
         }
 
         [HttpPost("Film/")]
         public IActionResult CreateFilm([FromHeader] CreateAndUpdateFilmRequestModel model)
         {
-            _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a film.");
+            _logger.Log(LogLevel.Information, "MainAdminService sent a request to create a film.");
 
             try
             {
                 var res = _mapper.Map<FilmBLL>(model);
-                _mainAdmin.CreateNewFilm(res);
+                _mainAdminService.CreateNewFilm(res);
 
-                _logger.Log(LogLevel.Information, "MainAdmin request completed: film written to the database.", model);
+                _logger.Log(LogLevel.Information, "MainAdminService request completed: film written to the database.", model);
 
                 return Ok(model);
             }
-            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+            catch (FilmException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
         }
 
         [HttpPut("Film/{id}/Edit")]
@@ -59,9 +61,12 @@ namespace BookingTickets.API.Controllers
 
             try
             {
-                _mainAdmin.EditFilm(newFilmBLL, filmId);
+                _mainAdminService.EditFilm(newFilmBLL, filmId);
             }
-            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+            catch (FilmException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
 
             return Ok(newFilm);
         }
@@ -69,19 +74,19 @@ namespace BookingTickets.API.Controllers
         [HttpDelete("Film/{id}/Delete")]
         public IActionResult DeleteFilm([FromHeader] int filmId)
         {
-            _mainAdmin.DeleteFilm(filmId);
+            _mainAdminService.DeleteFilm(filmId);
 
-            return Ok("GOT IT");
+            return Ok();
         }
 
         [HttpPost("Cinema")]
         public IActionResult CreateNewCinema([FromHeader] CreateAndUpdateCinemaRequestModel newCinema)
         {
-            _logger.Log(LogLevel.Information, "MainAdmin sent a request to create a cinema.");
+            _logger.Log(LogLevel.Information, "MainAdminService sent a request to create a cinema.");
 
-            _mainAdmin.CreateCinema(_mapper.Map<CinemaBLL>(newCinema));
+            _mainAdminService.CreateCinema(_mapper.Map<CinemaBLL>(newCinema));
 
-            _logger.Log(LogLevel.Information, "MainAdmin request completed: cinema written to the database.", newCinema);
+            _logger.Log(LogLevel.Information, "MainAdminService request completed: cinema written to the database.", newCinema);
 
             return Ok(newCinema);
         }
@@ -93,19 +98,22 @@ namespace BookingTickets.API.Controllers
 
             try
             {
-                _mainAdmin.EditCinema(newCinemaBLL, cinemaId);
-            }
-            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+                _mainAdminService.EditCinema(newCinemaBLL, cinemaId);
 
-            return Ok(newCinema);
+                return Ok(newCinema);
+            }
+            catch (FilmException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
         }
 
         [HttpDelete("Cinema/{id}/Delete")]
         public IActionResult DeleteCinema([FromHeader] int cinemaId)
         {
-            _mainAdmin.DeleteCinema(cinemaId);
+            _mainAdminService.DeleteCinema(cinemaId);
 
-            return Ok("GOT IT");
+            return Ok();
         }
 
         [HttpPost("Hall")]
@@ -113,14 +121,15 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                _mainAdmin.CreateHall(_mapper.Map<CreateAndUpdateHallInputModel>(model));
+                _mainAdminService.CreateHall(_mapper.Map<CreateAndUpdateHallInputModel>(model));
+
+                return Ok(model);
             }
             catch (HallException ex)
             {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             }
 
-            return Ok(model);
         }
 
         [HttpPut("Hall/{id}/Edit")]
@@ -130,41 +139,43 @@ namespace BookingTickets.API.Controllers
 
             try
             {
-                _mainAdmin.EditHall(newHallBLL, hallId);
+                _mainAdminService.EditHall(newHallBLL, hallId);
+                return Ok(newHall);
             }
-            catch (FilmException ex) { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
-
-            return Ok(newHall);
+            catch (FilmException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
         }
 
         [HttpDelete("Hall/{id}/Delete")]
         public IActionResult DeleteHall([FromHeader] int hallId)
         {
-            _mainAdmin.DeleteHall(hallId);
+            _mainAdminService.DeleteHall(hallId);
 
-            return Ok("GOT IT");
+            return Ok();
         }
 
-        [HttpPost("Hall/Row", Name = "Add Row with seats in hall")]
+        [HttpPost("Hall/{id}/Row", Name = "Add Row with seats in hall")]
         public IActionResult AddRowToHall([FromHeader] AddSeatsRowsRequestModel model)
         {
-            _mainAdmin.AddRowToHall(_mapper.Map<AddSeatsRowsInputModel>(model));
+            _mainAdminService.AddRowToHall(_mapper.Map<AddSeatsRowsInputModel>(model));
 
-            return Ok("GOT IT");
+            return Ok();
         }
 
         [HttpPatch("User/{id}/ChangeStatus")]
         public IActionResult ChangeUserStatus([FromHeader] int userId, UserStatus status)
         {
-            _mainAdmin.ChangeUserStatus(status, userId);
+            _mainAdminService.ChangeUserStatus(status, userId);
 
-            return Ok("GOT IT");
+            return Ok();
         }
 
         [HttpGet("Statistics/Films/{id}")]
         public StatisticsFilm_ResponseModels GetStatisticsByFilm([FromHeader] StatisticsFilm_ResquestModels statInfo)
         {
-            var allStaticBLL = _mainAdmin.GetStatisticsByFilm(_mapper.Map<StatisticsFilm_InputModels>(statInfo));
+            var allStaticBLL = _mainAdminService.GetStatisticsByFilm(_mapper.Map<StatisticsFilm_InputModels>(statInfo));
 
             var allStatic = _mapper.Map<StatisticsFilm_ResponseModels>(allStaticBLL);
 

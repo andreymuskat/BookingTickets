@@ -1,7 +1,7 @@
-﻿using Core;
-using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
+﻿using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
+using Core.Status;
 
 namespace BookingTickets.API.Model.RequestModels.All_OrderRequestModel
 {

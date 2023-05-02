@@ -1,4 +1,4 @@
-﻿using Core;
+﻿using Core.Status;
 
 namespace BookingTickets.BLL.Models
 {

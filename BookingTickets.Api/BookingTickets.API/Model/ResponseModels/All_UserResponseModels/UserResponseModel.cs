@@ -1,5 +1,5 @@
 ﻿using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
-using Core;
+using Core.Status;
 
 namespace BookingTickets.API.Model.ResponseModels.All_UserResponseModels
 {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Core;
+using Core.Status;
 
 namespace BookingTickets.DAL.Models
 {

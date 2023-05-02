@@ -1,5 +1,5 @@
 using BookingTickets.DAL.Interfaces;
-using Core;
+using Core.Status;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -55,13 +55,13 @@ namespace BookingTickets.DAL
             List<SeatDto> AllSeatsInHall = new List<SeatDto>();
             List<SeatDto> FreeSeats = new List<SeatDto>();
 
-            var OrdersInSession = _context.Orders
+            var ordersInSession = _context.Orders
                 .Where(s => s.SessionId == idSession)
                 .Include(s => s.Seats)
                 .Include(s => s.Seats.Hall)
                 .ToList();
 
-            foreach (var order in OrdersInSession)
+            foreach (var order in ordersInSession)
             {
                 if (order.Status != OrderStatus.Canceled)
                 {
@@ -86,13 +86,13 @@ namespace BookingTickets.DAL
             List<SeatDto> PurchasedSeats = new List<SeatDto>();
             List<SeatDto> AllSeatsInHall = new List<SeatDto>();
 
-            var OrdersInSession = _context.Orders
+            var ordersInSession = _context.Orders
                 .Where(s => s.SessionId == idSession)
                 .Include(s => s.Seats)
                 .Include(s => s.Seats.Hall)
                 .ToList();
 
-            foreach (var order in OrdersInSession)
+            foreach (var order in ordersInSession)
             {
                 if (order.Status == OrderStatus.PurchasedByСashbox || order.Status == OrderStatus.PurchasedBySite)
                 {

@@ -3,91 +3,97 @@ using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
-using BookingTickets.BLL.CustomException;
-using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
-using Core;
+using BookingTickets.Core.CustomException;
+using Core.CustomException;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    [Authorize(Policy = "Admin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Policy = "AdminService", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
     {
-        private readonly IAdmin _admin;
+        private readonly IAdminService _adminService;
         private readonly IMapper _mapper;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(IMapper map, IAdmin admin, ILogger<AdminController> logger)
+        public AdminController(IMapper map, IAdminService admin, ILogger<AdminController> logger)
         {
             _mapper = map;
-            _admin = admin;
+            _adminService = admin;
             _logger = logger;
         }
 
         [HttpPost("Session")]
         public IActionResult CreateNewSession(CreateSessionRequestModel session)
         {
-            _logger.Log(LogLevel.Information, "Admin sent a request to create a new session.");
+            _logger.Log(LogLevel.Information, "AdminService sent a request to create a new session.");
 
             var cinemaId = TakeIdCinemaByAdminAuth();
             var userId = TakeIdUserAuth();
 
             try
             {
-                _admin.CreateSession(_mapper.Map<CreateSessionInputModel>(session), cinemaId, userId);
+                _adminService.CreateSession(_mapper.Map<CreateSessionInputModel>(session), cinemaId, userId);
 
-                _logger.Log(LogLevel.Information, "Admin request completed: new session written to the database.", session);
-                
-                return Ok("GOT IT");
+                _logger.Log(LogLevel.Information, "AdminService request completed: new session written to the database.", session);
+
+                return Ok();
             }
             catch (SessionException ex)
             {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             }
         }
 
         [HttpDelete("Session/{sessionId}/Delete")]
         public IActionResult DeleteSession(int sessionId)
         {
-            _logger.Log(LogLevel.Information, "Admin sent a request to delete a session.");
+            _logger.Log(LogLevel.Information, "AdminService sent a request to delete a session.");
 
-            try { _admin.DeleteSession(sessionId); }
-            catch (SessionException ex) 
-            { return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode)); }
+            try
+            {
+                _adminService.DeleteSession(sessionId);
+
+            }
+            catch (SessionException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
 
             _logger.Log(LogLevel.Information, "Session deleted by admin request.");
 
-            return StatusCode(StatusCodes.Status204NoContent);
+            return Ok();
         }
 
         [HttpGet("Cashiers")]
         public ActionResult<List<UserResponseModel>> GetAllCashiers()
         {
-            var res = _admin.GetAllCashiers();
+            var res = _adminService.GetAllCashiers();
 
             return Ok(res);
         }
 
-        [HttpPost("Cashier/New")]
+        [HttpPost("CashierService/New")]
         public ActionResult<UserResponseModel> CreateNewCashier(CreateCashierRequestModel cashierModel)
         {
             var cashierInputModel = _mapper.Map<CreateCashierInputModel>(cashierModel);
-            var res = _mapper.Map<UserResponseModel>(_admin.CreateNewCashier(cashierInputModel));
+            var res = _mapper.Map<UserResponseModel>(_adminService.CreateNewCashier(cashierInputModel));
 
             return Ok(res);
         }
 
-        [HttpDelete("Cashier/{id}/Delete")]
+        [HttpDelete("CashierService/{id}/Delete")]
         public IActionResult DeleteCashierById(int cashierId)
         {
-            _admin.DeleteCashierById(cashierId);
+            _adminService.DeleteCashierById(cashierId);
 
             return Ok();
         }
@@ -97,7 +103,7 @@ namespace BookingTickets.API.Controllers
         {
             var userCinemaId = TakeIdCinemaByAdminAuth();
 
-            var allStaticBLL = _admin.GetStatisticsByFilm(_mapper.Map<StatisticsFilm_InputModels>(statInfo), userCinemaId);
+            var allStaticBLL = _adminService.GetStatisticsByFilm(_mapper.Map<StatisticsFilm_InputModels>(statInfo), userCinemaId);
             var allStatic = _mapper.Map<StatisticsFilm_ResponseModels>(allStaticBLL);
 
             return allStatic;

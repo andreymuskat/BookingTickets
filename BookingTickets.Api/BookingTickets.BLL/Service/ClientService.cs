@@ -1,26 +1,33 @@
+<<<<<<< HEAD:BookingTickets.Api/BookingTickets.BLL/Roles/Client.cs
 using System;
 using BookingTickets.BLL.CustomException;
+=======
+using BookingTickets.Core.CustomException;
+>>>>>>> main:BookingTickets.Api/BookingTickets.BLL/Service/ClientService.cs
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
+using Core.Status;
+using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 
 namespace BookingTickets.BLL.Roles
 {
-    public class Client : IClient
+    public class ClientService : IClientService
     {
-        private readonly FilmManager _filmManager;
-        private readonly SessionManager _sessionManager;
-        private readonly CinemaManager _cinemaManager;
-        private readonly OrderManager _orderManager;
+        private readonly IFilmManager _filmManager;
+        private readonly ISessionManager _sessionManager;
+        private readonly ICinemaManager _cinemaManager;
+        private readonly IOrderManager _orderManager;
+
         private const int advertisingTime = 15;
 
-        public Client()
+        public ClientService(ICinemaManager cinemaManager, ISessionManager sessionManager, IOrderManager orderManager, IFilmManager filmManager)
         {
-            _filmManager = new FilmManager();
-            _sessionManager = new SessionManager();
-            _cinemaManager = new CinemaManager();
-            _orderManager = new OrderManager();
+            _filmManager = filmManager;
+            _sessionManager = sessionManager;
+            _cinemaManager = cinemaManager;
+            _orderManager = orderManager;
         }
 
         public FilmBLL GetFilmById(int id)
@@ -32,8 +39,13 @@ namespace BookingTickets.BLL.Roles
         {
             DateTime EndTime = time.AddDays(1).AddHours(3);
             var listSession = _sessionManager.GetAllSessionByCinemaId(cinemaId);
+<<<<<<< HEAD:BookingTickets.Api/BookingTickets.BLL/Roles/Client.cs
             var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
             var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now && (d.Date) < EndTime);
+=======
+            var res = listSession.FindAll(d => d.IsDeleted == false);
+
+>>>>>>> main:BookingTickets.Api/BookingTickets.BLL/Service/ClientService.cs
             return res;
         }
 
@@ -49,7 +61,8 @@ namespace BookingTickets.BLL.Roles
             DateTime EndTime = time.AddDays(1).AddHours(3);
             var listSession = _sessionManager.GetAllSessionByFilmId(idFilm);
             var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
-            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now && (d.Date)< EndTime);
+            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now && (d.Date) < EndTime);
+
             return res;
         }
 
@@ -68,14 +81,14 @@ namespace BookingTickets.BLL.Roles
 
         public string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
         {
-            var code =_orderManager.CreateOrderByCustomer(orders, userId);
+            var code = _orderManager.CreateOrderByCustomer(orders, userId);
 
             return code;
         }
 
         public void CancelOrderByCustomer(string code)
         {
-            _orderManager.EditOrderStatus(Core.OrderStatus.Canceled, code);
+            _orderManager.EditOrderStatus(OrderStatus.Canceled, code);
         }
     }
 }

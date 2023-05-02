@@ -1,31 +1,30 @@
-using BookingTickets.BLL.CustomException;
+using AutoMapper;
+using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
-using BookingTickets.DAL;
+using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
-using Core;
+using BookingTickets.DAL.Models;
+using Core.Status;
 
 namespace BookingTickets.BLL
 {
-    public class OrderManager
+    public class OrderManager : IOrderManager
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly IOrderRepository _orderRepository;
-        private readonly ISessionRepository _sessionRepository;
         private readonly ISeatRepository _seatRepository;
-        private readonly IAuthRepository _authRepository;
+        private readonly IMapper _mapper;
 
-        public OrderManager()
+        public OrderManager(IMapper map, IOrderRepository orderRepository, ISeatRepository seatRepository)
         {
-            _orderRepository = new OrderRepository();
-            _sessionRepository = new SessionRepository();
-            _seatRepository = new SeatRepository();
-            _authRepository = new AuthRepository();
+            _orderRepository = orderRepository;
+            _seatRepository = seatRepository;
+            _mapper = map;
         }
 
         public List<OrderBLL> FindOrdersByCodeNumber(string codeNumber)
         {
-            return _instanceMapperBll.MapCreateListOrderDtoModelToListOrderBll(_orderRepository.FindOrderByCodeNumber(codeNumber));
+            return _mapper.Map<List<OrderBLL>>(_orderRepository.FindOrderByCodeNumber(codeNumber));
         }
 
         public void EditOrderStatus(OrderStatus status, string code)
@@ -49,7 +48,7 @@ namespace BookingTickets.BLL
                     order.UserId = userId;
                     order.Status = OrderStatus.PurchasedByСashbox;
                     order.Code = CodeForClient;
-                    _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+                    _orderRepository.CreateOrder(_mapper.Map<OrderDto>(order));
                 }
             }
             else { throw new SessionException(500); }
@@ -72,11 +71,11 @@ namespace BookingTickets.BLL
                     order.Status = OrderStatus.Booking;
                     order.Code = CodeForClient;
 
-                    _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+                    _orderRepository.CreateOrder(_mapper.Map<OrderDto>(order));
                 }
             }
             else { throw new SessionException(500); }
-            
+
             return CodeForClient;
         }
 
@@ -93,33 +92,24 @@ namespace BookingTickets.BLL
         {
             bool result = true;
             List<SeatBLL> seatsInOrders = new List<SeatBLL>();
-            var freeseats = _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllFreeSeatsBySessionId(sessionId));
+            var freeseats = _mapper.Map<List<SeatBLL>>(_seatRepository.GetAllFreeSeatsBySessionId(sessionId));
 
             for (int i = 0; i < orders.Count; i++)
             {
                 var ss = _seatRepository.GetSeatById(orders[i].SeatsId);
-                if(ss != null)
+                if (ss != null)
                 {
-                    seatsInOrders.Add(_instanceMapperBll.MapSeatDtoToSeatBLL(ss));
+                    seatsInOrders.Add(_mapper.Map<SeatBLL>(ss));
                 }
                 else { throw new SeatException(777); }
             }
 
             foreach (SeatBLL seat in seatsInOrders)
             {
-                bool found = false;
+                result = freeseats.Any(k => k.Id == seat.Id);
 
-                foreach (SeatBLL seatFree in freeseats)
+                if (!result)
                 {
-                    if (seat.Id == seatFree.Id)
-                    {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found)
-                {
-                    result = false;
                     break;
                 }
             }

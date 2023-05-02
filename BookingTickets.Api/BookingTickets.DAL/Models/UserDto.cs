@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Core;
+using Core.Status;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL.Models

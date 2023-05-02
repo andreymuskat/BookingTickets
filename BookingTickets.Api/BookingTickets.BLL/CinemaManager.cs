@@ -1,23 +1,26 @@
-﻿using BookingTickets.BLL.CustomException;
+﻿using AutoMapper;
+using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
-using BookingTickets.DAL;
+using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
 {
-    public class CinemaManager
+    public class CinemaManager : ICinemaManager
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly ICinemaRepository _cinemaRepository;
+        private readonly IMapper _mapper;
 
-        public CinemaManager()
+        public CinemaManager(IMapper map, ICinemaRepository cinemaRepository)
         {
-            _cinemaRepository = new CinemaRepository();
+            _cinemaRepository = cinemaRepository;
+            _mapper = map;
         }
 
         public void CreateCinema(CinemaBLL cinema)
         {
-            _cinemaRepository.CreateCinema(_instanceMapperBll.MapCinemaBLLToCinemaDto(cinema));
+            _cinemaRepository.CreateCinema(_mapper.Map<CinemaDto>(cinema));
         }
 
         public void EditCinema(CinemaBLL cinema, int cinemaId)
@@ -26,19 +29,19 @@ namespace BookingTickets.BLL
 
             if (searchCinema != null)
             {
-                if(cinema.Name != null)
+                if (cinema.Name != null)
                 {
                     searchCinema.Name = cinema.Name;
                 }
 
-                if(cinema.Address != null)
+                if (cinema.Address != null)
                 {
                     searchCinema.Address = cinema.Address;
                 }
-                
+
                 _cinemaRepository.EditCinema(searchCinema);
             }
-            else {  throw new CinemaException(777);}
+            else { throw new CinemaException(777); }
         }
 
         public void DeleteCinema(int cinemaId)
@@ -48,7 +51,7 @@ namespace BookingTickets.BLL
 
         public List<CinemaBLL> GetCinemaByFilm(int idFilm)
         {
-            var listCinemas = _instanceMapperBll.MapListCinemaDtoToListCinemaBLL(_cinemaRepository.GetAllCinemaByFilm(idFilm));
+            var listCinemas = _mapper.Map<List<CinemaBLL>>(_cinemaRepository.GetAllCinemaByFilm(idFilm));
             if (listCinemas != null)
             {
                 return listCinemas;
@@ -58,12 +61,12 @@ namespace BookingTickets.BLL
 
         public CinemaBLL GetCinemaByHallId(int idHallId)
         {
-            return _instanceMapperBll.MapCinemaDtoToCinemaBLL(_cinemaRepository.GetCinemaByHallId(idHallId));
+            return _mapper.Map<CinemaBLL>(_cinemaRepository.GetCinemaByHallId(idHallId));
         }
 
         public List<CinemaBLL> GetAllCinema()
         {
-            return _instanceMapperBll.MapListCinemaDtoToListCinemaBLL(_cinemaRepository.GetAllCinema());
+            return _mapper.Map<List<CinemaBLL>>(_cinemaRepository.GetAllCinema());
         }
     }
-}
+}               
