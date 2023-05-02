@@ -32,7 +32,7 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpPost("Order", Name = "CreateOrderByCashier")]
-        public IActionResult CreateOrder(CreateOrderRequestModel model)
+        public IActionResult CreateOrder(List<CreateOrderRequestModel> model)
         {
             _logger.Log(LogLevel.Information, "Cashier wanted to create a new order.");
 
@@ -41,7 +41,7 @@ namespace BookingTickets.API.Controllers
 
             try
             {
-                _cashier.CreateOrderByCashier(_mapper.Map<CreateOrderInputModel>(model), cinemaId, userId);
+                _cashier.CreateOrderByCashier(_mapper.Map<List<CreateOrderInputModel>>(model), cinemaId, userId);
             }
 
             catch (OrderException ex)
@@ -58,14 +58,14 @@ namespace BookingTickets.API.Controllers
         public IActionResult EditOrderStatus(OrderStatus status, string code)
         {
             _logger.Log(LogLevel.Information, "Cashier sent a request to edit order status");
-            
+
             try
             {
                 var cinemaId = TakeIdCinemaByCashierAuth();
                 _cashier.EditOrderStatus(status, code, cinemaId);
 
                 _logger.Log(LogLevel.Information, "Cashier's request completed: new order status written to the database", status, code);
-               
+
                 return Ok("GOT IT");
             }
             catch (OrderException ex)
@@ -78,16 +78,16 @@ namespace BookingTickets.API.Controllers
         public IActionResult GetSessionById(int idSession)
         {
             var cinemaId = TakeIdCinemaByCashierAuth();
-            
+
             _logger.Log(LogLevel.Information, "Cashier sent a request to get session by id");
-           
+
             try
             {
                 var session = _cashier.GetSessionById(idSession, cinemaId);
                 var res = _mapper.Map<SessionResponseModelForClient>(session);
-                
+
                 _logger.Log(LogLevel.Information, "Cashier's request find session by id was completed", idSession);
-                
+
                 return Ok(res);
             }
             catch (SessionException ex)
@@ -100,7 +100,7 @@ namespace BookingTickets.API.Controllers
         public IActionResult FindOrderByCodeNumber(string code)
         {
             _logger.Log(LogLevel.Information, "Cashier sent a request to get order by code");
-            
+
             try
             {
                 List<OrderBLL> orders = _cashier.FindOrderByCodeNumber(code);
@@ -115,7 +115,7 @@ namespace BookingTickets.API.Controllers
 
                 return Ok(findeOrders);
             }
-            catch (OrderException ex) 
+            catch (OrderException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
             };
@@ -125,12 +125,12 @@ namespace BookingTickets.API.Controllers
         public IActionResult GetFilmById(int filmId)
         {
             _logger.Log(LogLevel.Information, "Cashier sent a request to get film by film id");
-            
+
             try
             {
                 var fb = _cashier.GetFilmById(filmId);
                 var res = _mapper.Map<FilmResponseModelForClient>(fb);
-                
+
                 _logger.Log(LogLevel.Information, "Cashier's request get film by id was completed", filmId);
 
                 return Ok(res);
@@ -153,7 +153,7 @@ namespace BookingTickets.API.Controllers
                 var res = _mapper.Map<List<SessionForCashierResponseModel>>(allSessions);
 
                 _logger.Log(LogLevel.Information, "Cashier's request get sessions in his cinema was completed", cinemaId);
-                
+
                 return Ok(res);
             }
             catch (SessionException ex)
@@ -194,7 +194,7 @@ namespace BookingTickets.API.Controllers
             _logger.Log(LogLevel.Information, "Request complited", userCinemaId);
 
             return userCinemaId;
-            
+
         }
 
         private int TakeIdByCashierAuth()

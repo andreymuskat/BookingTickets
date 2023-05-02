@@ -6,6 +6,7 @@ using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Seats_OutputModels;
 using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
 using Core;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace BookingTickets.BLL.Roles
@@ -111,14 +112,13 @@ namespace BookingTickets.BLL.Roles
             }
         }
 
-        public void CreateOrderByCashier(CreateOrderInputModel order, int cinemaId, int userId)
+        public void CreateOrderByCashier(List<CreateOrderInputModel> orders, int cinemaId, int userId)
         {
-            var sess = _sessionManager.GetAllSessionByCinemaId(cinemaId).Where(k => k.Id == order.SessionId);
-            var freeseats = _seatManager.GetFreeSeatsBySessionId(sess.SingleOrDefault().Id) ;
-            var allThisSeatsAreFree = sess.All (s => s.Equals(freeseats)); /*- надо проверить*/
-            if (sess != null && allThisSeatsAreFree ==true)
+            SessionBLL sess = _sessionManager.GetAllSessionByCinemaId(cinemaId).Single(k => k.Id == orders[0].SessionId);
+
+            if (sess != null)
             {
-                _orderManager.CreateOrderByCashier(order, userId);
+                _orderManager.CreateOrderByCashier(orders, userId);
             }
             else
             {

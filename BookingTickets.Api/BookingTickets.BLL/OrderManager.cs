@@ -1,3 +1,4 @@
+using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.DAL;
@@ -32,41 +33,50 @@ namespace BookingTickets.BLL
             _orderRepository.EditOrderStatus(status, code);
         }
 
-        public void CreateOrderByCashier(CreateOrderInputModel order, int userId)
+        public void CreateOrderByCashier(List<CreateOrderInputModel> orders, int userId)
         {
-            int secondPartCode = order.SessionId;
-            int thirdPartCode = order.SeatsId.FirstOrDefault();
-            var codeForOrder = CreateCode(secondPartCode, thirdPartCode);
-            List<int> seatId = order.SeatsId;
+            var result = CheckSeatsInOrderWithSeatsInDB(orders, orders[0].SessionId);
 
-            foreach (var id in seatId)
-                {
-                order.Code = codeForOrder;
-                order.Date = DateTime.Now;
-                order.UserId = userId;
-                order.Status = OrderStatus.PurchasedByСashbox;
-                order.SeatsId = new List<int>(id);
-
-                _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
-            }
-        }
-
-        public string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
-        {
-            
             int secondPartCode = orders[0].SessionId;
             int thirdPartCode = orders[0].SeatsId;
             string CodeForClient = CreateCode(secondPartCode, thirdPartCode);
 
-            foreach (var order in orders)
-            {   
-                order.Date = DateTime.Now;
-                order.UserId = userId;
-                order.Status = OrderStatus.Booking;
-                order.Code = CodeForClient;
-                _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+            if (result == true)
+            {
+                foreach (var order in orders)
+                {
+                    order.Date = DateTime.Now;
+                    order.UserId = userId;
+                    order.Status = OrderStatus.PurchasedByСashbox;
+                    order.Code = CodeForClient;
+                    _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+                }
             }
+            else { throw new SessionException(500); }
+        }
 
+        public string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
+        {
+            var result = CheckSeatsInOrderWithSeatsInDB(orders, orders[0].SessionId);
+
+            int secondPartCode = orders[0].SessionId;
+            int thirdPartCode = orders[0].SeatsId;
+            string CodeForClient = CreateCode(secondPartCode, thirdPartCode);
+
+            if (result == true)
+            {
+                foreach (var order in orders)
+                {
+                    order.Date = DateTime.Now;
+                    order.UserId = userId;
+                    order.Status = OrderStatus.Booking;
+                    order.Code = CodeForClient;
+
+                    _orderRepository.CreateOrder(_instanceMapperBll.MapCreateOrderInputModelToOrderDto(order));
+                }
+            }
+            else { throw new SessionException(500); }
+            
             return CodeForClient;
         }
 
@@ -75,7 +85,46 @@ namespace BookingTickets.BLL
             Random random = new Random();
             int firstPart = random.Next(1, 1000000);
             string code = String.Concat(firstPart, secondPartCode, thirdPartCode);
+
             return code;
+        }
+
+        private bool CheckSeatsInOrderWithSeatsInDB(List<CreateOrderInputModel> orders, int sessionId)
+        {
+            bool result = true;
+            List<SeatBLL> seatsInOrders = new List<SeatBLL>();
+            var freeseats = _instanceMapperBll.MapListSeatDtoToListSeatBLL(_seatRepository.GetAllFreeSeatsBySessionId(sessionId));
+
+            for (int i = 0; i < orders.Count; i++)
+            {
+                var ss = _seatRepository.GetSeatById(orders[i].SeatsId);
+                if(ss != null)
+                {
+                    seatsInOrders.Add(_instanceMapperBll.MapSeatDtoToSeatBLL(ss));
+                }
+                else { throw new SeatException(777); }
+            }
+
+            foreach (SeatBLL seat in seatsInOrders)
+            {
+                bool found = false;
+
+                foreach (SeatBLL seatFree in freeseats)
+                {
+                    if (seat.Id == seatFree.Id)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    result = false;
+                    break;
+                }
+            }
+
+            return result;
         }
     }
 }

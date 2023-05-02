@@ -4,7 +4,7 @@ namespace BookingTickets.BLL.Models.InputModel.All_Order_InputModels
 {
     public class CreateOrderInputModel
     {
-        public List <int> SeatsId { get; set; }
+        public int SeatsId { get; set; }
 
         public int UserId { get; set; }
 

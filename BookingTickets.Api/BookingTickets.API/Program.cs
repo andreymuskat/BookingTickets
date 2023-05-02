@@ -22,7 +22,6 @@ builder.Services.AddSingleton<Context>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IFilmRepository, FilmRepository>();
 builder.Services.AddScoped<ICinemaRepository, CinemaRepository>();
@@ -36,6 +35,7 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
+
 InjectSettingsConfiguration(builder);
 InjectAuthenticationDependencies(builder);
 
@@ -55,6 +55,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
 void InjectSettingsConfiguration(WebApplicationBuilder builder)
 {
 

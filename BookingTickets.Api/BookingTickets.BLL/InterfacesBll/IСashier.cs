@@ -12,7 +12,7 @@ namespace BookingTickets.BLL.InterfacesBll
 
         public List <OrderBLL> FindOrderByCodeNumber(string codeNumber); 
 
-        public void CreateOrderByCashier(CreateOrderInputModel order, int cinemaId, int userId); 
+        public void CreateOrderByCashier(List<CreateOrderInputModel> orders, int cinemaId, int userId); 
 
         public SessionOutputModel GetSessionById(int idSession, int cashiersCinemaId); 
 

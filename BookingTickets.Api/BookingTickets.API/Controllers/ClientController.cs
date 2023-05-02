@@ -7,11 +7,13 @@ using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using Core;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    //[Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
@@ -34,6 +36,37 @@ namespace BookingTickets.API.Controllers
             {
                 var ls = _client.GetFilmsByCinema(cinemaId);
                 var res = _mapper.Map<List<SessionResponseModelForClient>>(ls);
+                return Ok(res);
+            }
+            catch (SessionException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+            };
+        }
+
+        [HttpGet("GetSession/Film/{idFilm}", Name = "GetSessionsByFilmId")]
+        public IActionResult GetAllSessionByFilmId(int idFilm)
+        {
+            try
+            {
+                var sb = _client.GetSessionsByFilm(idFilm);
+                var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
+                return Ok(res);
+            }
+            catch (SessionException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
+            };
+        }
+
+        [HttpGet("GetSession/Session/{idSession}", Name = "GetSessionById")]
+        public IActionResult GetSessionById(int idSession)
+        {
+            try
+            {
+                var sb = _client.GetSessionById(idSession);
+                var res = _mapper.Map<SessionResponseModelForClient>(sb);
+
                 return Ok(res);
             }
             catch (SessionException ex)
@@ -72,37 +105,6 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetSession/Film/{idFilm}", Name = "GetSessionsByFilmId")]
-        public IActionResult GetAllSessionByFilmId(int idFilm)
-        {
-            try
-            {
-                var sb = _client.GetSessionsByFilm(idFilm);
-                var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
-                return Ok(res);
-            }
-            catch (SessionException ex)
-            {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
-            };
-        }
-
-        [HttpGet("GetSession/Session/{idSession}", Name = "GetSessionById")]
-        public IActionResult GetSessionById(int idSession)
-        {
-            try
-            {
-                var sb = _client.GetSessionById(idSession);
-                var res = _mapper.Map<SessionResponseModelForClient>(sb);
-
-                return Ok(res);
-            }
-            catch (SessionException ex)
-            {
-                return BadRequest(Enum.GetName(typeof(CodeException), ex.ErrorCode));
-            };
-        }
-
         [HttpPost("CreateOrder", Name = "CreateOrder")]
         public IActionResult CreateOrderByCustomer(List<CreateOrderRequestModel> models)
         {
@@ -122,7 +124,7 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpPatch("UpdateOrder", Name = "Cancel the order")]
-        public IActionResult CancelOrderByCustomer (string code)
+        public IActionResult CancelOrderByCustomer(string code)
         {
             try 
             {

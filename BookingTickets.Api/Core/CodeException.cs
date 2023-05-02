@@ -7,5 +7,6 @@
         NotFoundInDatabase = 777,
         ItsNotYourCinema = 205,
         SuchAnObjectAlreadyExists = 105,
+        SeatsIsBusy = 500,
     }
 }
