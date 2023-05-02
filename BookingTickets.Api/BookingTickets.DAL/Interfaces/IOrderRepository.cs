@@ -5,10 +5,14 @@ namespace BookingTickets.DAL.Interfaces
 {
     public interface IOrderRepository
     {
-        public void CreateOrder(OrderDto order);
+        void CreateOrder(OrderDto order);
 
-        public void EditOrderStatus(OrderStatus status, string code);
+        void EditOrderStatusByCode(OrderStatus status, string code);
 
-        public List <OrderDto> FindOrderByCodeNumber(string codeNumber);
+        List<OrderDto> FindOrderByCodeNumber(string codeNumber);
+
+        Task<List<OrderDto>> GetAllOrdersByDate(DateTime data);
+
+        Task EditOrderStatus(OrderDto order, OrderStatus newStatus);
     }
 }

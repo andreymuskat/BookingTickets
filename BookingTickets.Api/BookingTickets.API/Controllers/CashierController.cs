@@ -58,7 +58,7 @@ namespace BookingTickets.API.Controllers
             }
         }
 
-        [HttpPatch("Order/Status", Name = "EditOrderStatus")]
+        [HttpPatch("Order/Status", Name = "EditOrderStatusByCode")]
         public IActionResult EditOrderStatus(OrderStatus status, string code)
         {
             _logger.Log(LogLevel.Information, "CashierService sent a request to edit order status");
