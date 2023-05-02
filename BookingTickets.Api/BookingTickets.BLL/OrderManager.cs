@@ -34,58 +34,67 @@ namespace BookingTickets.BLL
 
         public void CreateOrderByCashier(List<CreateOrderInputModel> orders, int userId)
         {
-            var result = CheckSeatsInOrderWithSeatsInDB(orders, orders[0].SessionId);
-
-            int secondPartCode = orders[0].SessionId;
-            int thirdPartCode = orders[0].SeatsId;
-            string CodeForClient = CreateCode(secondPartCode, thirdPartCode);
-
-            if (result == true)
+            var orderFromOrders = orders.FirstOrDefault(x => x.SessionId > 0);
+            if (orderFromOrders != null)
             {
-                foreach (var order in orders)
+                string CodeForClient = CreateCode(orderFromOrders);
+                var result = CheckSeatsInOrderWithSeatsInDB(orders, orderFromOrders.SessionId);
+                if (result == true)
                 {
-                    order.Date = DateTime.Now;
-                    order.UserId = userId;
-                    order.Status = OrderStatus.PurchasedByСashbox;
-                    order.Code = CodeForClient;
-                    _orderRepository.CreateOrder(_mapper.Map<OrderDto>(order));
+                    foreach (var order in orders)
+                    {
+                        order.Date = DateTime.Now;
+                        order.UserId = userId;
+                        order.Status = OrderStatus.Booking;
+                        order.Code = CodeForClient;
+
+                        _orderRepository.CreateOrder(_mapper.Map<OrderDto>(order));
+                    }
                 }
             }
-            else { throw new SessionException(500); }
+            else
+            {
+                throw new OrderException(300);
+            }
         }
 
         public string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
         {
-            var result = CheckSeatsInOrderWithSeatsInDB(orders, orders[0].SessionId);
-
-            int secondPartCode = orders[0].SessionId;
-            int thirdPartCode = orders[0].SeatsId;
-            string CodeForClient = CreateCode(secondPartCode, thirdPartCode);
-
-            if (result == true)
+            var orderFromOrders = orders.FirstOrDefault(x => x.SessionId > 0);
+            if (orderFromOrders != null)
             {
-                foreach (var order in orders)
+                string CodeForClient = CreateCode(orderFromOrders);
+                var result = CheckSeatsInOrderWithSeatsInDB(orders, orderFromOrders.SessionId);
+                if (result == true)
                 {
-                    order.Date = DateTime.Now;
-                    order.UserId = userId;
-                    order.Status = OrderStatus.Booking;
-                    order.Code = CodeForClient;
+                    foreach (var order in orders)
+                    {
+                        order.Date = DateTime.Now;
+                        order.UserId = userId;
+                        order.Status = OrderStatus.Booking;
+                        order.Code = CodeForClient;
 
-                    _orderRepository.CreateOrder(_mapper.Map<OrderDto>(order));
+                        _orderRepository.CreateOrder(_mapper.Map<OrderDto>(order));
+                    }
                 }
+                return CodeForClient;
             }
-            else { throw new SessionException(500); }
-
-            return CodeForClient;
+            else
+            {
+                throw new OrderException(300);
+            }
         }
 
-        private string CreateCode(int secondPartCode, int thirdPartCode)
+        private string CreateCode(CreateOrderInputModel order)
         {
+
             Random random = new Random();
             int firstPart = random.Next(1, 1000000);
+            int secondPartCode = order.SessionId;
+            int thirdPartCode = order.SeatsId;
             string code = String.Concat(firstPart, secondPartCode, thirdPartCode);
-
             return code;
+
         }
 
         private bool CheckSeatsInOrderWithSeatsInDB(List<CreateOrderInputModel> orders, int sessionId)
@@ -93,6 +102,7 @@ namespace BookingTickets.BLL
             bool result = true;
             List<SeatBLL> seatsInOrders = new List<SeatBLL>();
             var freeseats = _mapper.Map<List<SeatBLL>>(_seatRepository.GetAllFreeSeatsBySessionId(sessionId));
+
 
             for (int i = 0; i < orders.Count; i++)
             {
