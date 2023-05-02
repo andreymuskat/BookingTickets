@@ -18,7 +18,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Context>();
-builder.Services.AddSingleton<Context>();
+builder.Services.AddSingleton<ÑheckOverdueStatuses>();
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -60,8 +60,6 @@ builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
 
 InjectSettingsConfiguration(builder);
 InjectAuthenticationDependencies(builder);
-StartCheck(builder);
-
 
 var app = builder.Build();
 
@@ -77,6 +75,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var checkService = app.Services.GetService<ÑheckOverdueStatuses>();
+await checkService.StartCheck();
 
 app.Run();
 
@@ -161,16 +162,4 @@ void InjectAuthenticationDependencies(WebApplicationBuilder builder)
     .AddControllersWithViews()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
-}
-
-async Task StartCheck(WebApplicationBuilder builder)
-{
-    OrderRepository orderRepository = new OrderRepository();
-
-    while (true)
-    {
-        orderRepository.CheckOrderStatusAsync();
-
-        await Task.Delay(60 * 1000);
-    }
 }

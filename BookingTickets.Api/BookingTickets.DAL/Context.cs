@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 namespace BookingTickets.DAL
 {
     public class Context : IdentityDbContext
-
     {
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -29,7 +28,5 @@ namespace BookingTickets.DAL
                 fkey.DeleteBehavior = DeleteBehavior.NoAction;    
             }
         }
-
-
     }
 }

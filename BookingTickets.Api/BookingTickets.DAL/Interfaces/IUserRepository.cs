@@ -14,8 +14,8 @@ namespace BookingTickets.DAL.Interfaces
 
         void DeleteCashierById(int idCashier);
 
-        public UserDto GetUserById(int idUser);
+        UserDto GetUserById(int idUser);
 
-        public void UpdateUserStatus(UserDto user);
+        void UpdateUserStatus(UserDto user);
     }
 }
