@@ -1,18 +1,21 @@
-using BookingTickets.Core.CustomException;
+using AutoMapper;
+using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
-using BookingTickets.DAL;
+using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
+using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL
 {
-    public class FilmManager
+    public class FilmManager : IFilmManager
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly IFilmRepository _filmRepository;
+        private readonly IMapper _mapper;
 
-        public FilmManager()
+        public FilmManager(IMapper map, IFilmRepository filmRepository)
         {
-            _filmRepository = new FilmRepository();
+            _filmRepository = filmRepository;
+            _mapper = map;
         }
 
         public void CreateNewFilm(FilmBLL newFilm)
@@ -21,11 +24,14 @@ namespace BookingTickets.BLL
 
             if (searchFilm == null)
             {
-                var filmDto = _instanceMapperBll.MapFilmBLLToFilmDto(newFilm);
-                
+                var filmDto = _mapper.Map<FilmDto>(newFilm);
+
                 _filmRepository.CreateFilm(filmDto);
             }
-            else { throw new FilmException(105); }
+            else
+            {
+                throw new FilmException(105);
+            }
         }
 
         public void DeleteFilm(int filmId)
@@ -59,13 +65,16 @@ namespace BookingTickets.BLL
 
         public FilmBLL GetFilmById(int Id)
         {
-            var film = _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(Id));        
-            
+            var film = _mapper.Map<FilmBLL>(_filmRepository.GetFilmById(Id));
+
             if (film != null)
             {
                 return film;
             }
-            else { throw new FilmException(777); }
+            else
+            {
+                throw new FilmException(777);
+            }
         }
     }
 }

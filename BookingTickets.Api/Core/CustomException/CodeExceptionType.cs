@@ -1,6 +1,6 @@
 ﻿namespace Core.CustomException
 {
-    public enum Code_Exception : int
+    public enum CodeExceptionType : int
     {
         DataTimeIsBusy = 100,
         NotEnoughTime = 101,

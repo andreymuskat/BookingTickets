@@ -1,20 +1,20 @@
-using System.Security.Claims;
-using System.Text;
-using System.Text.Json.Serialization;
 using BookingTickets.API;
 using BookingTickets.API.Options;
 using BookingTickets.BLL;
 using BookingTickets.BLL.Authentication;
 using BookingTickets.BLL.InterfacesBll;
-using BookingTickets.BLL.NewFolder;
+using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Roles;
+using BookingTickets.BLL.Statistics;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Configuration;
 using BookingTickets.DAL.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Context>();
@@ -26,13 +26,33 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IFilmRepository, FilmRepository>();
+builder.Services.AddScoped<IFilmManager, FilmManager>();
+
 builder.Services.AddScoped<ICinemaRepository, CinemaRepository>();
+builder.Services.AddScoped<ICinemaManager, CinemaManager>();
+
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddScoped<ISessionManager, SessionManager>();
+
+builder.Services.AddScoped<ISeatRepository, SeatRepository>();
+builder.Services.AddScoped<ISeatManager, SeatManager>();
+
+builder.Services.AddScoped<IHallRepository, HallRepository>();
+builder.Services.AddScoped<IHallManager, HallManager>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IMainAdmin, MainAdmin>();
-builder.Services.AddScoped<IClient, Client>();
-builder.Services.AddScoped<IAdmin, Admin>();
-builder.Services.AddScoped<IСashier, Cashier>();
+builder.Services.AddScoped<IUserManager, UserManager>();
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderManager, OrderManager>();
+
+builder.Services.AddScoped<IStatisticsFilm, StatisticsFilm>();
+
+builder.Services.AddScoped<IMainAdminService, MainAdminService>();
+builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<ICashierService, CashierService>();
+
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
@@ -107,30 +127,30 @@ void InjectAuthenticationDependencies(WebApplicationBuilder builder)
 
     builder.Services.AddAuthorization(options =>
     {
-        options.AddPolicy("MainAdmin", builder =>
+        options.AddPolicy("MainAdminService", builder =>
         {
-            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin"));
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdminService"));
         });
 
-        options.AddPolicy("Admin", builder =>
+        options.AddPolicy("AdminService", builder =>
         {
-            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin")
-                                        || k.User.HasClaim(ClaimTypes.Role, "Admin"));
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdminService")
+                                        || k.User.HasClaim(ClaimTypes.Role, "AdminService"));
         });
 
-        options.AddPolicy("Cashier", builder =>
+        options.AddPolicy("CashierService", builder =>
         {
-            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin")
-                                        || k.User.HasClaim(ClaimTypes.Role, "Admin")
-                                            || k.User.HasClaim(ClaimTypes.Role, "Cashier"));
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdminService")
+                                        || k.User.HasClaim(ClaimTypes.Role, "AdminService")
+                                            || k.User.HasClaim(ClaimTypes.Role, "CashierService"));
         });
 
         options.AddPolicy("User", builder =>
         {
-            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdmin")
-                                        || k.User.HasClaim(ClaimTypes.Role, "Admin")
-                                            || k.User.HasClaim(ClaimTypes.Role, "Cashier")
-                                                || k.User.HasClaim(ClaimTypes.Role, "Client"));
+            builder.RequireAssertion(k => k.User.HasClaim(ClaimTypes.Role, "MainAdminService")
+                                        || k.User.HasClaim(ClaimTypes.Role, "AdminService")
+                                            || k.User.HasClaim(ClaimTypes.Role, "CashierService")
+                                                || k.User.HasClaim(ClaimTypes.Role, "ClientService"));
         });
     });
 
@@ -138,7 +158,7 @@ void InjectAuthenticationDependencies(WebApplicationBuilder builder)
         .AddEntityFrameworkStores<Context>();
 
     builder.Services
-    .AddControllersWithViews() 
+    .AddControllersWithViews()
     .AddJsonOptions(options =>
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 }

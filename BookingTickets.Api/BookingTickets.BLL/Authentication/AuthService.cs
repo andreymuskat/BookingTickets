@@ -146,15 +146,15 @@ namespace BookingTickets.BLL.Authentication
         {
             if (userDto.UserStatus == UserStatus.Admin)
             {
-                return new[] { "User", "Cashier", "Admin" };
+                return new[] { "User", "CashierService", "AdminService" };
             }
             else if (userDto.UserStatus == UserStatus.MainAdmin)
             {
-                return new[] { "User", "Cashier", "Admin", "MainAdmin" };
+                return new[] { "User", "CashierService", "AdminService", "MainAdminService" };
             }
             else if (userDto.UserStatus == UserStatus.Cashier)
             {
-                return new[] { "User", "Cashier", "Admin" };
+                return new[] { "User", "CashierService", "AdminService" };
             }
             else if (userDto.UserStatus == UserStatus.Client)
             {

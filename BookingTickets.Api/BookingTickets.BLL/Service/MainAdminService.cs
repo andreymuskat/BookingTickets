@@ -1,33 +1,32 @@
-﻿using BookingTickets.BLL.Models;
+﻿using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
+using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
-using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
-using BookingTickets.BLL.NewFolder;
-using BookingTickets.BLL.Statistics;
 using Core.Status;
 
 namespace BookingTickets.BLL.Roles
 {
-    public class MainAdmin : IMainAdmin
+    public class MainAdminService : IMainAdminService
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private readonly FilmManager _filmManager;
-        private readonly CinemaManager _cinemaManager;
-        private readonly SeatManager _seatManager;
-        private readonly HallManager _hallManager;
-        private readonly UserManager _userManager;
-        private readonly Statistics_Film _statisticsFilm;
+        private readonly IFilmManager _filmManager;
+        private readonly ICinemaManager _cinemaManager;
+        private readonly ISeatManager _seatManager;
+        private readonly IHallManager _hallManager;
+        private readonly IUserManager _userManager;
+        private readonly IStatisticsFilm _statisticsFilm;
 
-        public MainAdmin()
+        public MainAdminService(ICinemaManager cinemaManager, IUserManager userManager, IStatisticsFilm statisticsFilm,
+            IFilmManager filmManager, ISeatManager seatManager, IHallManager hallManager)
         {
-            _filmManager = new FilmManager();
-            _cinemaManager = new CinemaManager();
-            _seatManager = new SeatManager();
-            _hallManager = new HallManager();
-            _userManager = new UserManager();
-            _statisticsFilm = new Statistics_Film();
+            _filmManager = filmManager;
+            _cinemaManager = cinemaManager;
+            _seatManager = seatManager;
+            _hallManager = hallManager;
+            _userManager = userManager;
+            _statisticsFilm = statisticsFilm;
         }
 
         public void CreateNewFilm(FilmBLL newFilm)

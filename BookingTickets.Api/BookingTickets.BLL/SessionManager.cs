@@ -1,31 +1,32 @@
-using BookingTickets.Core.CustomException;
+using AutoMapper;
+using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
-using BookingTickets.DAL;
+using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
 
 namespace BookingTickets.BLL
 {
-    public class SessionManager
+    public class SessionManager : ISessionManager
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
         private readonly ISessionRepository _sessionRepository;
         private readonly IFilmRepository _filmRepository;
+        private readonly IMapper _mapper;
         const int timeoutInMin = 30;
 
-
-        public SessionManager()
+        public SessionManager(IMapper map, ISessionRepository sessionRepository, IFilmRepository filmRepository)
         {
-            _sessionRepository = new SessionRepository();
-            _filmRepository = new FilmRepository();
+            _sessionRepository = sessionRepository;
+            _filmRepository = filmRepository;
+            _mapper = map;
         }
 
         public void CreateSession(CreateSessionInputModel newSession)
         {
             int SaveNewSession = 0;
             TimeOnly TimeStartNewSession = TimeOnly.FromDateTime(newSession.Date);
-            FilmBLL FilmInNewSession = _instanceMapperBll.MapFilmDtoToFilmBLL(_filmRepository.GetFilmById(newSession.FilmId));
+            var FilmInNewSession = _mapper.Map<FilmBLL>(_filmRepository.GetFilmById(newSession.FilmId));
 
             TimeSpan DurationSession = TimeSpan.FromMinutes(FilmInNewSession.Duration + timeoutInMin);
 
@@ -33,7 +34,7 @@ namespace BookingTickets.BLL
             List<TimeOnly> allTimeEndSession = new List<TimeOnly>();
 
             var AllSessionsInDateDTO = _sessionRepository.GetAllSessionByDate(newSession.Date).Where(k => k.HallId == newSession.HallId).ToList();
-            List<SessionBLL> AllSessionsInDate = _instanceMapperBll.MapListSessionDtoToListSessionBLL(AllSessionsInDateDTO);
+            var AllSessionsInDate = _mapper.Map<List<SessionBLL>>(AllSessionsInDateDTO);
 
             if (AllSessionsInDate.Count > 0)
             {
@@ -65,12 +66,12 @@ namespace BookingTickets.BLL
             }
             else
             {
-                _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
+                _sessionRepository.CreateSession(_mapper.Map<SessionDto>(newSession));
             }
 
             if (SaveNewSession > 0)
             {
-                _sessionRepository.CreateSession(_instanceMapperBll.MapCreateSessionInputModelToSessionDto(newSession));
+                _sessionRepository.CreateSession(_mapper.Map<SessionDto>(newSession));
             }
         }
 
@@ -88,7 +89,7 @@ namespace BookingTickets.BLL
         public List<SessionBLL> GetAllSessionByCinemaId(int idCinema)
         {
 
-            var session = _instanceMapperBll.MapListSessionDtoToListSessionBLL(_sessionRepository.GetAllSessionByCinemaId(idCinema));
+            var session = _mapper.Map<List<SessionBLL>>(_sessionRepository.GetAllSessionByCinemaId(idCinema));
             if (session != null)
             {
                 return session;
@@ -99,7 +100,7 @@ namespace BookingTickets.BLL
         public List<SessionBLL> GetAllSessionByFilmId(int idFilm)
         {
             var listSessionDto = _sessionRepository.GetAllSessionByFilmId(idFilm);
-            var listSessionBLL = _instanceMapperBll.MapListSessionDtoToListSessionBLL(listSessionDto);
+            var listSessionBLL = _mapper.Map<List<SessionBLL>>(listSessionDto);
 
             return listSessionBLL;
         }
@@ -107,7 +108,7 @@ namespace BookingTickets.BLL
         public SessionOutputModel GetSessionById(int idSession)
         {
             var sDto = _sessionRepository.GetSessionById(idSession);
-            var res = _instanceMapperBll.MapSessionDtoToSessionOutputModels(sDto);
+            var res = _mapper.Map<SessionOutputModel>(sDto);
 
             return res;
         }
@@ -118,7 +119,7 @@ namespace BookingTickets.BLL
                 .Where(k => k.Film.Id == filmId)
                 .ToList();
 
-            var allSessionByFilm = _instanceMapperBll.MapListSessionDtoToListSessionBLL(allSession);
+            var allSessionByFilm = _mapper.Map<List<SessionBLL>>(allSession);
 
             return allSessionByFilm;
         }
