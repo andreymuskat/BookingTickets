@@ -8,13 +8,11 @@ namespace BookingTickets.BLL.InterfacesBll
     {
         public FilmBLL GetFilmById(int filmId);   
         
-        public List<SessionBLL> GetFilmsByCinema(int cinemaId);
+        public List<SessionBLL> GetFilmsByCinema(int cinemaId, DateTime time);
+
+        public List<SessionBLL> GetSessionsByFilm(int idFilm, DateTime time);
 
         public List<CinemaBLL> GetCinemaByFilm(int idFilm);
-
-        public List<SessionBLL> GetSessionsByFilm(int idFilm);
-
-        public List<SeatBLL> GetFreeSeatsBySession(int sessionId);
 
         public SessionOutputModel GetSessionById(int idSession);
 
