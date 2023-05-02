@@ -9,18 +9,19 @@ namespace BookingTickets.BLL.Roles
 {
     public class Client : IClient
     {
-        private readonly FilmManager _filmManager;
-        private readonly SessionManager _sessionManager;
-        private readonly CinemaManager _cinemaManager;
-        private readonly OrderManager _orderManager;
+        private readonly IFilmManager _filmManager;
+        private readonly ISessionManager _sessionManager;
+        private readonly ICinemaManager _cinemaManager;
+        private readonly IOrderManager _orderManager;
+
         private const int advertisingTime = 15;
 
-        public Client()
+        public Client(ICinemaManager cinemaManager, ISessionManager sessionManager, IOrderManager orderManager, IFilmManager filmManager)
         {
-            _filmManager = new FilmManager();
-            _sessionManager = new SessionManager();
-            _cinemaManager = new CinemaManager();
-            _orderManager = new OrderManager();
+            _filmManager = filmManager;
+            _sessionManager = sessionManager;
+            _cinemaManager = cinemaManager;
+            _orderManager = orderManager;
         }
 
         public FilmBLL GetFilmById(int id)

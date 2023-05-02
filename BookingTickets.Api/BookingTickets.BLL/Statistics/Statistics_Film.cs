@@ -1,17 +1,20 @@
-﻿using BookingTickets.BLL.Models;
+﻿using AutoMapper;
+using BookingTickets.BLL.InterfacesBll;
+using BookingTickets.BLL.Models;
 
 namespace BookingTickets.BLL.Statistics
 {
-    public class Statistics_Film
+    public class StatisticsFilm : IStatisticsFilm
     {
-        private MapperBLL _instanceMapperBll = MapperBLL.getInstance();
-        private readonly SeatManager _seatManager;
-        private readonly SessionManager _sessionManager;
+        private readonly ISeatManager _seatManager;
+        private readonly ISessionManager _sessionManager;
+        private readonly IMapper _mapper;
 
-        public Statistics_Film()
+        public StatisticsFilm(IMapper map, ISeatManager seatManager, ISessionManager sessionManager)
         {
-            _seatManager = new SeatManager();
-            _sessionManager = new SessionManager();
+            _mapper = map;
+            _seatManager = seatManager;
+            _sessionManager = sessionManager;
         }
 
         public int AmountTicketsOnFilmInCinema(int cinemaId, int filmId, DateOnly dateStart, DateOnly dateEnd)

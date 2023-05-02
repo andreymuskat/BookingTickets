@@ -8,6 +8,7 @@ using BookingTickets.BLL.Authentication;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.NewFolder;
 using BookingTickets.BLL.Roles;
+using BookingTickets.BLL.Statistics;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Configuration;
 using BookingTickets.DAL.Interfaces;
@@ -26,13 +27,30 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IFilmRepository, FilmRepository>();
+builder.Services.AddScoped<IFilmManager, FilmManager>();
+
 builder.Services.AddScoped<ICinemaRepository, CinemaRepository>();
+builder.Services.AddScoped<ICinemaManager, CinemaManager>();
+
 builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddScoped<ISessionManager, SessionManager>();
+
+builder.Services.AddScoped<ISeatRepository, SeatRepository>();
+builder.Services.AddScoped<ISeatManager, SeatManager>();
+
+builder.Services.AddScoped<IHallRepository, HallRepository>();
+builder.Services.AddScoped<IHallManager, HallManager>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserManager, UserManager>();
+
+builder.Services.AddScoped<IStatisticsFilm, StatisticsFilm>();
+
 builder.Services.AddScoped<IMainAdmin, MainAdmin>();
 builder.Services.AddScoped<IClient, Client>();
 builder.Services.AddScoped<IAdmin, Admin>();
 builder.Services.AddScoped<IСashier, Cashier>();
+
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 

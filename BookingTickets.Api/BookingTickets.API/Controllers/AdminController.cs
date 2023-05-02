@@ -58,7 +58,10 @@ namespace BookingTickets.API.Controllers
         {
             _logger.Log(LogLevel.Information, "Admin sent a request to delete a session.");
 
-            try { _admin.DeleteSession(sessionId); }
+            try 
+            { 
+                _admin.DeleteSession(sessionId); 
+            }
             catch (SessionException ex) 
             { return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode)); }
 

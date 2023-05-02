@@ -1,28 +1,27 @@
-using BookingTickets.Core.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
-using BookingTickets.BLL.Statistics;
+using BookingTickets.Core.CustomException;
 using Core.Status;
 
 namespace BookingTickets.BLL.Roles
 {
     public class Admin : IAdmin
     {
-        private readonly SessionManager _sessionManager;
-        private readonly UserManager _userManager;
-        private readonly CinemaManager _cinemaManager;
-        private readonly Statistics_Film _statisticsFilm;
+        private readonly ISessionManager _sessionManager;
+        private readonly IUserManager _userManager;
+        private readonly ICinemaManager _cinemaManager;
+        private readonly IStatisticsFilm _statisticsFilm;
 
-        public Admin()
+        public Admin(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IStatisticsFilm statisticsFilm)
         {
-            _sessionManager = new SessionManager();
-            _userManager = new UserManager();
-            _cinemaManager = new CinemaManager();
-            _statisticsFilm = new Statistics_Film();
+            _sessionManager = sessionManager;
+            _userManager = userManager;
+            _cinemaManager = cinemaManager;
+            _statisticsFilm = statisticsFilm;
         }
 
         public void CreateSession(CreateSessionInputModel session, int cinemaId, int userId)

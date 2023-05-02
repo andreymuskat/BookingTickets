@@ -44,8 +44,10 @@ namespace BookingTickets.API.Controllers
             {
                 _cashier.CreateOrderByCashier(_mapper.Map<List<CreateOrderInputModel>>(model), cinemaId, userId);
             }
-            catch (OrderException ex){return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));}
-            catch (SeatException ex) { return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));}
+            catch (OrderException ex)
+            {return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));}
+            catch (SeatException ex) 
+            { return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));}
 
             _logger.Log(LogLevel.Information, "Cashier's request completed: new order written to the database.", model);
 
