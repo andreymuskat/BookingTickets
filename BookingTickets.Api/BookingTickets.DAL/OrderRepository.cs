@@ -46,6 +46,25 @@ namespace BookingTickets.DAL
                     .ToList();
         }
 
-        public 
+        public async Task CheckOrderStatusAsync()
+        {
+            var allOrders = _context.Orders
+                .Where(k => k.Status == OrderStatus.Booking)
+                .Include (k => k.Session)
+                .ToList();
+
+            DateTime currentTime = DateTime.Now;
+            DateTime timeIsNeed = currentTime.AddMinutes(-30);
+
+            for (var i = 0; i < allOrders.Count; i++)
+            {
+                if (allOrders[i].Session.Date < timeIsNeed)
+                {
+                    allOrders[i].Status = OrderStatus.Canceled;
+
+                    await _context.SaveChangesAsync();
+                }
+            }
+        }
     }
 }
