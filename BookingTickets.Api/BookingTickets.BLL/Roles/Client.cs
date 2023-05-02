@@ -68,7 +68,13 @@ namespace BookingTickets.BLL.Roles
 
         public void CreateOrderByCustomer(CreateOrderInputModel order, int userId)
         {
-            _orderManager.CreateOrderByCustomer(order, userId);
+            var freeseats = GetFreeSeatsBySession( order.SessionId );
+            var allThisSeatsAreFree = order.SeatsId.All(s => s.Equals(freeseats)); /*- надо проверить*/
+            if (allThisSeatsAreFree == true)
+            {
+                _orderManager.CreateOrderByCustomer(order, userId);
+            }
+
         }
     }
 }
