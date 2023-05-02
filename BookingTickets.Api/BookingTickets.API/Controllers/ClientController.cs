@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
 {
-    //[Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    
     [Route("[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
@@ -109,6 +109,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
+        [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost("CreateOrder", Name = "CreateOrder")]
         public IActionResult CreateOrderByCustomer(List<CreateOrderRequestModel> models)
         {
@@ -131,6 +132,7 @@ namespace BookingTickets.API.Controllers
             }
         }
 
+        [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpPatch("UpdateOrder", Name = "Cancel the order")]
         public IActionResult CancelOrderByCustomer(string code)
         {
