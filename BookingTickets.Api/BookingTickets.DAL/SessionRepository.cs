@@ -31,13 +31,13 @@ namespace BookingTickets.DAL
 
         public List<SessionDto> GetAllSessionByFilmId(int idFilm)
         {
-                var x =_context.Sessions
+                var sessionsByFilmId =_context.Sessions
                 .Where(f => f.FilmId == idFilm && f.IsDeleted == false)
                 .Include(k => k.Film)
                 .Include(k => k.Hall)
                 .Include(k => k.Hall.Cinema)
                 .ToList();
-            return x;
+            return sessionsByFilmId;
         }
 
         public List<SessionDto> GetAllSessionByCinemaId(int idCinema)

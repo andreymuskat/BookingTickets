@@ -1,9 +1,4 @@
-<<<<<<< HEAD:BookingTickets.Api/BookingTickets.BLL/Roles/Client.cs
-using System;
-using BookingTickets.BLL.CustomException;
-=======
 using BookingTickets.Core.CustomException;
->>>>>>> main:BookingTickets.Api/BookingTickets.BLL/Service/ClientService.cs
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
@@ -39,13 +34,9 @@ namespace BookingTickets.BLL.Roles
         {
             DateTime EndTime = time.AddDays(1).AddHours(3);
             var listSession = _sessionManager.GetAllSessionByCinemaId(cinemaId);
-<<<<<<< HEAD:BookingTickets.Api/BookingTickets.BLL/Roles/Client.cs
             var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
-            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now && (d.Date) < EndTime);
-=======
-            var res = listSession.FindAll(d => d.IsDeleted == false);
+            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now && (d.Date) < EndTime);   
 
->>>>>>> main:BookingTickets.Api/BookingTickets.BLL/Service/ClientService.cs
             return res;
         }
 
