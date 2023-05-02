@@ -8,5 +8,6 @@
         ItsNotYourCinema = 205,
         SuchAnObjectAlreadyExists = 105,
         SeatsIsBusy = 500,
+        PassedAnEmptyValueToAVariable = 300,
     }
 }

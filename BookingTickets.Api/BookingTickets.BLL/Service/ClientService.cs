@@ -32,8 +32,10 @@ namespace BookingTickets.BLL.Roles
 
         public List<SessionBLL> GetFilmsByCinema(int cinemaId, DateTime time)
         {
+            DateTime EndTime = time.AddDays(1).AddHours(3);
             var listSession = _sessionManager.GetAllSessionByCinemaId(cinemaId);
-            var res = listSession.FindAll(d => d.IsDeleted == false);
+            var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
+            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now && (d.Date) < EndTime);   
 
             return res;
         }
