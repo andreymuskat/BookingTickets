@@ -41,23 +41,20 @@ namespace BookingTickets.BLL.Roles
             return res;
         }
 
-        public List<SessionBLL> GetSessionsByFilm(int idFilm)
+        public List<SessionBLL> GetSessionsByFilm(int idFilm, DateTime time)
         {
+            DateTime EndTime = time.AddDays(1).AddHours(3);
             var listSession = _sessionManager.GetAllSessionByFilmId(idFilm);
             var notDeleted = listSession.FindAll(d => d.IsDeleted == false);
-            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now);
+            var res = notDeleted.FindAll(d => (d.Date).AddMinutes(advertisingTime) > DateTime.Now && (d.Date)< EndTime);
             return res;
         }
 
-        public List<SeatBLL> GetFreeSeatsBySession(int sessionId)
+        public SessionOutputModel GetSessionById(int idSession, DateTime time)
         {
-            return new List<SeatBLL>();
-        }
-
-        public SessionOutputModel GetSessionById(int idSession)
-        {
+            DateTime EndTime = time.AddDays(1).AddHours(3);
             var sb = _sessionManager.GetSessionById(idSession);
-            if (sb.Date.AddMinutes(advertisingTime) > DateTime.Now)
+            if (sb.Date.AddMinutes(advertisingTime) > DateTime.Now && sb.Date < EndTime)
             {
                 return sb;
             }
