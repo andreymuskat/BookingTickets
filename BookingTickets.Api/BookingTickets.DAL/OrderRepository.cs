@@ -51,6 +51,7 @@ namespace BookingTickets.DAL
                 .Where(t => t.Session.Hall.Cinema.Id == cinemaId)
                 .Where(t => t.Date >= dateStart && t.Date <= dateEnd)
                 .Include(h => h.Session)
+                .Include(h => h.User)
                 .ToList();
 
             return result;
