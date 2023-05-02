@@ -1,5 +1,5 @@
 ﻿using BookingTickets.DAL.Models;
-using Core;
+using Core.Status;
 
 namespace BookingTickets.DAL.Interfaces
 {

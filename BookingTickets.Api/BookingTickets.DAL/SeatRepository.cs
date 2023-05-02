@@ -1,5 +1,5 @@
 using BookingTickets.DAL.Interfaces;
-using Core;
+using Core.Status;
 using Microsoft.EntityFrameworkCore;
 
 

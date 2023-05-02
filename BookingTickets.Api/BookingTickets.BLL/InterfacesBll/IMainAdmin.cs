@@ -4,7 +4,7 @@ using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
-using Core;
+using Core.Status;
 
 namespace BookingTickets.BLL.NewFolder
 {

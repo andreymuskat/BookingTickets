@@ -1,8 +1,9 @@
-using BookingTickets.BLL.CustomException;
+using BookingTickets.Core.CustomException;
 using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
+using Core.Status;
 
 namespace BookingTickets.BLL.Roles
 {
@@ -74,7 +75,7 @@ namespace BookingTickets.BLL.Roles
 
         public void CancelOrderByCustomer(string code)
         {
-            _orderManager.EditOrderStatus(Core.OrderStatus.Canceled, code);
+            _orderManager.EditOrderStatus(OrderStatus.Canceled, code);
         }
     }
 }

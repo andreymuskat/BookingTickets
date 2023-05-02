@@ -1,9 +1,9 @@
 using BookingTickets.BLL.Models;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL;
-using BookingTickets.BLL.CustomException;
+using BookingTickets.Core.CustomException;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
-using Core;
+using Core.Status;
 
 namespace BookingTickets.BLL
 {

@@ -6,7 +6,7 @@ using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
 using BookingTickets.BLL.NewFolder;
 using BookingTickets.BLL.Statistics;
-using Core;
+using Core.Status;
 
 namespace BookingTickets.BLL.Roles
 {

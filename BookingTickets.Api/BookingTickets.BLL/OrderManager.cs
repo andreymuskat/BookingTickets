@@ -1,9 +1,10 @@
-using BookingTickets.BLL.CustomException;
+using BookingTickets.Core.CustomException;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
-using Core;
+using Core.Status;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.BLL
 {
@@ -76,7 +77,7 @@ namespace BookingTickets.BLL
                 }
             }
             else { throw new SessionException(500); }
-            
+
             return CodeForClient;
         }
 
@@ -98,7 +99,7 @@ namespace BookingTickets.BLL
             for (int i = 0; i < orders.Count; i++)
             {
                 var ss = _seatRepository.GetSeatById(orders[i].SeatsId);
-                if(ss != null)
+                if (ss != null)
                 {
                     seatsInOrders.Add(_instanceMapperBll.MapSeatDtoToSeatBLL(ss));
                 }

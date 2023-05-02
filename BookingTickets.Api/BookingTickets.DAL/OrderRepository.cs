@@ -1,7 +1,6 @@
-﻿using BookingTickets.DAL;
-using BookingTickets.DAL.Interfaces;
+﻿using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
-using Core;
+using Core.Status;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
@@ -34,17 +33,38 @@ namespace BookingTickets.DAL
             }
         }
 
-        public List <OrderDto> FindOrderByCodeNumber(string codeNumber)
+        public List<OrderDto> FindOrderByCodeNumber(string codeNumber)
         {
             return _context.Orders
-                    .Where (p => p.Code == codeNumber)
-                    .Include(p=>p.Session)
+                    .Where(p => p.Code == codeNumber)
+                    .Include(p => p.Session)
                     .Include(p => p.Session.Film)
                     .Include(p => p.Session.Hall)
                     .Include(p => p.Session.Hall.Cinema)
-                    .Include(p=>p.Seats)
-                    .Include(p=>p.User)
+                    .Include(p => p.Seats)
+                    .Include(p => p.User)
                     .ToList();
+        }
+
+        public async Task CheckOrderStatusAsync()
+        {
+            var allOrders = _context.Orders
+                .Where(k => k.Status == OrderStatus.Booking)
+                .Include (k => k.Session)
+                .ToList();
+
+            DateTime currentTime = DateTime.Now;
+            DateTime timeIsNeed = currentTime.AddMinutes(-30);
+
+            for (var i = 0; i < allOrders.Count; i++)
+            {
+                if (allOrders[i].Session.Date < timeIsNeed)
+                {
+                    allOrders[i].Status = OrderStatus.Canceled;
+
+                    await _context.SaveChangesAsync();
+                }
+            }
         }
     }
 }
