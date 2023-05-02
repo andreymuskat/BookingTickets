@@ -1,6 +1,7 @@
 using AutoMapper;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
+using BookingTickets.BLL.Models.All_UserBLLModels;
 using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
@@ -74,9 +75,6 @@ namespace BookingTickets.BLL
                         .ForMember(src => src.Hall, opt => opt.MapFrom(x => x.Hall));
                     cfg.CreateMap<CreateAndUpdateHallInputModel, HallDto>();
                     cfg.CreateMap<HallDto, HallOutputModel>();
-                    .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId))
-                    .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.Password))
-                    .ForMember(src => src.UserName, opt => opt.MapFrom(x => x.Name));
                     cfg.CreateMap<SessionDto, CreateSessionInputModel>();
                 });
         }

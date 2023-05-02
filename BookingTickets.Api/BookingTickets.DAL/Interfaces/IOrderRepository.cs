@@ -5,11 +5,12 @@ namespace BookingTickets.DAL.Interfaces
 {
     public interface IOrderRepository
     {
-        public OrderDto CreateOrder(OrderDto order);
+        public void CreateOrder(OrderDto order);
 
         public void EditOrderStatus(OrderStatus status, string code);
 
         public List <OrderDto> FindOrderByCodeNumber(string codeNumber);
+
         List<OrderDto> GetAllTicketsSold(DateTime dateStart, DateTime dateEnd, int cinemaId);
 
         List<OrderDto> GetAllOrdersCashierByPeriodAndCinemaId(DateTime dateStart, DateTime dateEnd, int cinemaId);

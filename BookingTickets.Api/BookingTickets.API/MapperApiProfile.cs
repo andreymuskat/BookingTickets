@@ -13,7 +13,6 @@ using BookingTickets.API.Model.ResponseModels.All_OrderResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SeatResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels;
-using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
 using BookingTickets.BLL.Authentication.AuthModels;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.All_Seat_InputModel;
@@ -27,11 +26,12 @@ using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
 using BookingTickets.DAL.Models;
 using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
-using BookingTickets.BLL.Models.All_User_InputModel;
 using BookingTickets.API.Model.RequestModels.All_StatisticRequestModels;
 using BookingTickets.BLL.Models.All_StatisticBLLModels;
 using BookingTickets.API.Model.ResponseModels.All_StatisticResponseModels;
 using System.Collections.Generic;
+using BookingTickets.API.Model.ResponseModels.All_UserResponseModel;
+using BookingTickets.BLL.Models.All_UserBLLModels;
 
 namespace BookingTickets.API
 {

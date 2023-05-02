@@ -3,8 +3,8 @@ using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL;
 using BookingTickets.BLL.CustomException;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
-using Core;
-
+using Core;using BookingTickets.BLL.Models.All_UserBLLModels;
+
 namespace BookingTickets.BLL
 {
     public class UserManager

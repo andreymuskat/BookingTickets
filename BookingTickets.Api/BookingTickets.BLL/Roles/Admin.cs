@@ -7,7 +7,6 @@ using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
 using BookingTickets.BLL.Statistics;
 using Core;
-using BookingTickets.BLL.Models.All_SessionBLLModel;
 using BookingTickets.BLL.Models.All_StatisticBLLModels;
 using BookingTickets.BLL.Models.All_UserBLLModels;
 using BookingTickets.BLL.Statistics;
