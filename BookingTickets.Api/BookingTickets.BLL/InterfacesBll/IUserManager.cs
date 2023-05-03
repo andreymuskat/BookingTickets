@@ -20,7 +20,7 @@ namespace BookingTickets.BLL.InterfacesBll
 
         UserBLL GetUserByName(string name);
 
-        UserBLL UpdateCashier(UpdateCashierInputModel user);
+        UserBLL UpdateCashier(UpdateCashierInputModel user, int cashierId);
 
         void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
     }

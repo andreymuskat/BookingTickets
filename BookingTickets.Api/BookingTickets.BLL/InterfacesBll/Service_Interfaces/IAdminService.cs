@@ -22,7 +22,7 @@ namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
 
         StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_InputModels infoForStatic, int cinemaId);
 
-        UserBLL UpdateCashier(UpdateCashierInputModel cashier);
+        UserBLL UpdateCashier(UpdateCashierInputModel cashier, int cashierId);
 
         void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
 
