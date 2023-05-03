@@ -1,5 +1,6 @@
 using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
+using BookingTickets.API.Model.RequestModels.All_StatisticsRequestModels;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
