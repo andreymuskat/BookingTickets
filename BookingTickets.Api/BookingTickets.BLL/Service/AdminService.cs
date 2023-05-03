@@ -6,32 +6,28 @@ using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
 using BookingTickets.Core.CustomException;
+using Core.ILogger;
 using Core.Status;
+using NLog;
 
 namespace BookingTickets.BLL.Roles
 {
     public class AdminService : IAdminService
     {
+        private readonly INLogLogger _logger;
         private readonly ISessionManager _sessionManager;
         private readonly IUserManager _userManager;
         private readonly ICinemaManager _cinemaManager;
         private readonly IStatisticsFilm _statisticsFilm;
-        private readonly IStatisticsDays _statisticsDays;
-        private readonly IStatisticsCashiers _statisticsCashiers;
 
-        public AdminService(ICinemaManager cinemaManager,
-                            ISessionManager sessionManager,
-                            IUserManager userManager,
-                            IStatisticsFilm statisticsFilm,
-                            IStatisticsDays statisticsDays,
-                            IStatisticsCashiers statisticsCashiers)
+        public AdminService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager,
+            IStatisticsFilm statisticsFilm, INLogLogger logger)
         {
             _sessionManager = sessionManager;
             _userManager = userManager;
             _cinemaManager = cinemaManager;
             _statisticsFilm = statisticsFilm;
-            _statisticsDays = statisticsDays;
-            _statisticsCashiers = statisticsCashiers;
+            _logger = logger;
         }
 
         public void CreateSession(CreateSessionInputModel session, int cinemaId, int userId)
@@ -39,12 +35,14 @@ namespace BookingTickets.BLL.Roles
             var cinemaBll = _cinemaManager.GetCinemaByHallId(session.HallId);
             var userBll = _userManager.GetUserById(userId);
 
-            if (cinemaBll.Id == cinemaId || userBll.UserStatus == UserStatus.MainAdmin)
+            if (cinemaBll.Id == cinemaId || userBll.UserStatus == UserStatus.MainAdminService)
             {
                 _sessionManager.CreateSession(session);
             }
             else
             {
+                _logger.Warn($"UserId: {userId} tried to create a session not in your cinema");
+
                 throw new SessionException(205);
             }
         }
@@ -61,30 +59,23 @@ namespace BookingTickets.BLL.Roles
             return allUsers;
         }
 
-        public List<UserBLL> GetAllCashiers(int userCinemaId)
+        public List<UserBLL> GetAllCashiers()
         {
-            var allCashiers = _userManager.GetAllCashiers()
-                .Where(k => k.Cinema.Id == userCinemaId)
-                .ToList();
+            var allUsers = _userManager.GetAllCashiers();
 
-            if(allCashiers != null)
-            {
-                return allCashiers;
-            }
-            else
-            {
-                throw new UserExceptions(777);
-            }
+            return allUsers;
         }
 
-        public void CreateNewCashier(int cashierId)
+        public UserBLL CreateNewCashier(CreateCashierInputModel newUser)
         {
-             _userManager.ChangeUserStatus(UserStatus.Cashier, cashierId);
+            var res = _userManager.CreateNewCashier(newUser);
+
+            return res;
         }
 
-        public void DeleteCashierById(int id, int adminCinemaId)
+        public void DeleteCashierById(int id)
         {
-            _userManager.DeleteCashierById(id, adminCinemaId);
+            _userManager.DeleteCashierById(id);
         }
 
         public StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_InputModels infoForStatic, int cinemaId)
@@ -100,29 +91,6 @@ namespace BookingTickets.BLL.Roles
             outputStat.BoxOfficeOnFilm = _statisticsFilm.BoxOfficeOnFilmInCinema(cinemaId, infoForStatic.FilmId, dateStart, dateEnd);
 
             return outputStat;
-        }
-        public UserBLL UpdateCashier(UpdateCashierInputModel user, int cashierId)
-        {
-            var res = _userManager.UpdateCashier(user, cashierId);
-
-            return res;
-        }
-
-        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
-        {
-            _userManager.CopySession(dateCopy, dateWhereToCopy, CinemaId);
-        }
-
-        public List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel)
-        {
-            var res = _statisticsDays.StatisticOfDays(inputModel);
-            return res;
-        }
-
-        public List<StatisticCashiers_OutputModel> StatisticOfCashiers(StatisticCashiers_InputModel inputModel)
-        {
-            var res = _statisticsCashiers.StatisticOfCashiers(inputModel);
-            return res;
         }
     }
 }

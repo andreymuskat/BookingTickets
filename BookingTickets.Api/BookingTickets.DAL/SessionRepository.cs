@@ -1,27 +1,36 @@
 using BookingTickets.DAL.Interfaces;
+using Core.ILogger;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
     public class SessionRepository : ISessionRepository
     {
+        private readonly INLogLogger _logger;
         private readonly Context _context;
 
-        public SessionRepository()
+        public SessionRepository(INLogLogger logger)
         {
             _context = new Context();
+            _logger = logger;
         }
 
         public SessionDto CreateSession(SessionDto session)
         {
             _context.Sessions.Add(session);
+
             _context.SaveChanges();
+
+            _logger.Info($"SessionID:{session.Id} create and written to the database.");
+
             return session;
         }
 
         public SessionDto GetSessionById(int sessionId)
         {
-            return _context.Sessions.Where(s => s.IsDeleted == false).FirstOrDefault(i => i.Id == sessionId);
+            return _context.Sessions
+                .Where(s => s.IsDeleted == false)
+                .FirstOrDefault(i => i.Id == sessionId)!;
         }
 
         public List<SessionDto> GetAllSession()
@@ -37,6 +46,7 @@ namespace BookingTickets.DAL
                 .Include(k => k.Hall)
                 .Include(k => k.Hall.Cinema)
                 .ToList();
+
             return sessionsByFilmId;
         }
 
@@ -68,6 +78,7 @@ namespace BookingTickets.DAL
                     SessionInDay.Add(AllSession[i]);
                 }
             }
+
             return SessionInDay;
         }
 
@@ -87,6 +98,7 @@ namespace BookingTickets.DAL
                     SessionInDay.Add(AllSession[i]);
                 }
             }
+
             return SessionInDay;
         }
 

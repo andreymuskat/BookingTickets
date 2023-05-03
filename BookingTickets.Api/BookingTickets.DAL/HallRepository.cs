@@ -7,7 +7,7 @@ namespace BookingTickets.DAL
 {
     public class HallRepository : IHallRepository
     {
-        private static Context _context;
+        private readonly Context _context;
 
         public HallRepository()
         {

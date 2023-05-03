@@ -3,16 +3,33 @@ using BookingTickets.DAL.Models;
 using Core.Status;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace BookingTickets.DAL
 {
     public class UserRepository : IUserRepository
     {
-        private static Context _context;
+        private readonly Context _context;
 
         public UserRepository()
         {
             _context = new Context();
+        }
+
+        public UserDto CreateNewCashier(UserDto user)
+        {
+            var cashier = new UserDto
+            {
+                UserName = user.UserName,
+                UserStatus = UserStatus.CashierService,
+                Password = user.Password,
+                CinemaId = 1,
+            };
+
+            _context.Users.Add(cashier);
+            _context.SaveChanges();
+
+            return _context.Users
+                .Include(u => u.Cinema)
+                .Single(u => u.Id == cashier.Id);
         }
 
         public List<UserDto> GetAllUsers()
@@ -33,7 +50,7 @@ namespace BookingTickets.DAL
             var result = new List<UserDto>();
 
             result = _context.Users
-                .Where(t => t.UserStatus == UserStatus.Cashier)
+                .Where(t => t.UserStatus == UserStatus.CashierService)
                 .Where(t => !t.IsDeleted)
                 .Include(u => u.Cinema)
                 .AsNoTracking()
@@ -53,7 +70,7 @@ namespace BookingTickets.DAL
         public void DeleteCashierById(int idCashier)
         {
             var cash = _context.Users
-                .Where(t => t.UserStatus == UserStatus.Cashier)
+                .Where(t => t.UserStatus == UserStatus.CashierService)
                 .Single(i => i.Id == idCashier).IsDeleted = true;
 
             _context.SaveChanges();
@@ -64,14 +81,6 @@ namespace BookingTickets.DAL
             return _context.Users.SingleOrDefault(t => t.Id == idUser)!;
         }
 
-        public UserDto GetCashierById(int idCashier)
-        {
-            return _context.Users
-                .Where(t => t.UserStatus == UserStatus.Cashier)
-                .Where(t => !t.IsDeleted)
-                .SingleOrDefault(t => t.Id == idCashier)!;
-        }
-
         public void UpdateUserStatus(UserDto user)
         {
             var searchUser =  _context.Users.SingleOrDefault(t => t.Id == user.Id);
@@ -80,33 +89,5 @@ namespace BookingTickets.DAL
 
             _context.SaveChanges();
         }
-
-        public List<UserDto> GetAllCashiersByCinemaId(int cinemaId)
-        {
-            var result = new List<UserDto>();
-
-            result = _context.Users
-                .Where(t => t.UserStatus == UserStatus.Cashier)
-                .Where(t => !t.IsDeleted)
-                .Where(t => t.Cinema.Id == cinemaId)
-                .Include(u => u.Cinema)
-                .ToList();
-
-            return result;
-        }
-
-        public UserDto UpdateCashier(UserDto user)
-        {
-             var cashierDb = _context.Users.Single(a => a.Id == user.Id);
-             cashierDb.UserName = user.UserName;
-             cashierDb.Password = user.Password;
-
-              _context.SaveChanges();
-
-              return _context.Users
-                     .Include(u => u.Cinema)
-                     .Single(u => u.Id == cashierDb.Id);
-        }
-
     }
 }

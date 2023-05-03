@@ -9,16 +9,20 @@ using BookingTickets.BLL.Statistics;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Configuration;
 using BookingTickets.DAL.Interfaces;
+using Core.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using NLog;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
 
+LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Context>();
-builder.Services.AddSingleton<ÑheckOverdueStatuses>();
+builder.Services.AddSingleton<CheckOrderStatusExpirationJob>();
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -47,8 +51,6 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderManager, OrderManager>();
 
 builder.Services.AddScoped<IStatisticsFilm, StatisticsFilm>();
-builder.Services.AddScoped<IStatisticsCashiers, StatisticsCashiers>();
-builder.Services.AddScoped<IStatisticsDays, StatisticsDays>();
 
 builder.Services.AddScoped<IMainAdminService, MainAdminService>();
 builder.Services.AddScoped<IClientService, ClientService>();
@@ -57,6 +59,8 @@ builder.Services.AddScoped<ICashierService, CashierService>();
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddScoped<INLogLogger, NLogLogger>();
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
 
@@ -78,7 +82,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//var checkService = app.Services.GetService<ÑheckOverdueStatuses>();
+//var checkService = app.Services.GetService<CheckOrderStatusExpirationJob>();
 //await checkService.StartCheck();
 
 app.Run();
