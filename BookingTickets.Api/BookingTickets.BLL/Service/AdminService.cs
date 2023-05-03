@@ -19,7 +19,7 @@ namespace BookingTickets.BLL.Roles
         private readonly ICinemaManager _cinemaManager;
         private readonly IStatisticsFilm _statisticsFilm;
         private readonly IStatisticsDays _statisticsDays;
-        private readonly IStatisticsCashiers statisticsCashiers;
+        private readonly IStatisticsCashiers _statisticsCashiers;
 
         public AdminService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager,
             IStatisticsFilm statisticsFilm, INLogLogger logger, IStatisticsDays statisticsDays, IStatisticsCashiers statisticsCashiers)
