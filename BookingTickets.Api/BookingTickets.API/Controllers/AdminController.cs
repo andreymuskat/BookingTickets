@@ -38,11 +38,13 @@ namespace BookingTickets.API.Controllers
             var cinemaId = TakeIdCinemaByAdminAuth();
             var userId = TakeIdUserAuth();
 
-            _logger.Info($"UserId: {userId} sent a request to create a new session!");
+            _logger.Info($"UserId: {userId} - sent a request to create a new session!");
 
             try
             {
                 _adminService.CreateSession(_mapper.Map<CreateSessionInputModel>(session), cinemaId, userId);
+
+                _logger.Info($"UserId: {userId} - request completed successfully");
 
                 return Ok();
             }

@@ -9,5 +9,6 @@
         SuchAnObjectAlreadyExists = 105,
         SeatsIsBusy = 500,
         PassedAnEmptyValueToAVariable = 300,
+        VariableСannotBeNegativeOrLessThanZero = 000,
     }
 }

@@ -1,21 +1,27 @@
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
+using Core.ILogger;
 
 namespace BookingTickets.DAL
 {
     public class FilmRepository : IFilmRepository
     {
         private readonly Context _context;
+        private readonly INLogLogger _logger;
 
-        public FilmRepository()
+        public FilmRepository(INLogLogger logger)
         {
             _context = new Context();
+            _logger = logger;
         }
 
         public FilmDto CreateFilm(FilmDto film)
         {
             _context.Films.Add(film);
+
             _context.SaveChanges();
+
+            _logger.Info($"FilmID:{film.Id}, FilmName: {film.Name} create and written to the database.");
 
             return film;
         }
@@ -39,6 +45,8 @@ namespace BookingTickets.DAL
             _context.Films.Single(k => k.Id == filmId).IsDeleted = true;
 
             _context.SaveChanges();
+
+            _logger.Info($"FilmID:{filmId}, delete(change IsDelete) the database.");
         }
 
         public void EditFilm(FilmDto film)
@@ -51,6 +59,8 @@ namespace BookingTickets.DAL
             filmDb.Duration = film.Duration;
 
             _context.SaveChanges();
+
+            _logger.Info($"FilmID:{film.Id}, edit and written to the database. New Name - {filmDb.Name}, Duration - {filmDb.Duration}");
         }
     }
 }

@@ -11,6 +11,7 @@ using BookingTickets.BLL.Models.InputModel.All_Hall_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.Core.CustomException;
 using Core.CustomException;
+using Core.ILogger;
 using Core.Status;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -23,30 +24,31 @@ namespace BookingTickets.API.Controllers
     [ApiController]
     public class MainAdminController : ControllerBase
     {
+        private readonly INLogLogger _logger;
         private readonly IMainAdminService _mainAdminService;
         private readonly IMapper _mapper;
-        private readonly ILogger<MainAdminController> _logger;
 
-        public MainAdminController(IMapper map, IMainAdminService mainAdmin, ILogger<MainAdminController> log)
+        public MainAdminController(IMapper map, IMainAdminService mainAdmin, INLogLogger logger)
         {
             _mapper = map;
             _mainAdminService = mainAdmin;
-            _logger = log;
+            _logger = logger;
         }
 
         [HttpPost("Film/")]
-        public IActionResult CreateFilm([FromHeader] CreateAndUpdateFilmRequestModel model)
+        public IActionResult CreateFilm([FromHeader] CreateAndUpdateFilmRequestModel newFilm)
         {
-            _logger.Log(LogLevel.Information, "MainAdminService sent a request to create a film.");
+            var userId = TakeIdUserAuth();
+            _logger.Info($"UserId: {userId} sent a request to CREATE a new Film");
 
             try
             {
-                var res = _mapper.Map<FilmBLL>(model);
+                var res = _mapper.Map<FilmBLL>(newFilm);
                 _mainAdminService.CreateNewFilm(res);
 
-                _logger.Log(LogLevel.Information, "MainAdminService request completed: film written to the database.", model);
+                _logger.Info($"UserId: {userId} - request completed successfully");
 
-                return Ok(model);
+                return Ok(newFilm);
             }
             catch (FilmException ex)
             {
@@ -57,36 +59,54 @@ namespace BookingTickets.API.Controllers
         [HttpPut("Film/{id}/Edit")]
         public IActionResult EditFilm([FromHeader] CreateAndUpdateFilmRequestModel newFilm, [FromHeader] int filmId)
         {
+            var userId = TakeIdUserAuth();
+            _logger.Info($"UserId: {userId} sent a request to EDIT a film");
+
             var newFilmBLL = _mapper.Map<FilmBLL>(newFilm);
 
             try
             {
                 _mainAdminService.EditFilm(newFilmBLL, filmId);
+
+                _logger.Info($"UserId: {userId}  - request completed successfully");
+
+                return Ok(newFilm);
             }
             catch (FilmException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             }
-
-            return Ok(newFilm);
         }
 
         [HttpDelete("Film/{id}/Delete")]
         public IActionResult DeleteFilm([FromHeader] int filmId)
         {
-            _mainAdminService.DeleteFilm(filmId);
+            var userId = TakeIdUserAuth();
+            _logger.Info($"UserId: {userId} sent a request to DELETE a film");
 
-            return Ok();
+            try
+            {
+                _mainAdminService.DeleteFilm(filmId);
+
+                _logger.Info($"UserId: {userId}  - request completed successfully");
+                return Ok();
+            }
+            catch(FilmException ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
+
         }
 
         [HttpPost("Cinema")]
         public IActionResult CreateNewCinema([FromHeader] CreateAndUpdateCinemaRequestModel newCinema)
         {
-            _logger.Log(LogLevel.Information, "MainAdminService sent a request to create a cinema.");
+            var userId = TakeIdUserAuth();
+            _logger.Info($"UserId: {userId} sent a request to CREATE a new Cinema");
 
             _mainAdminService.CreateCinema(_mapper.Map<CinemaBLL>(newCinema));
 
-            _logger.Log(LogLevel.Information, "MainAdminService request completed: cinema written to the database.", newCinema);
+            _logger.Info($"UserId: {userId} - request completed successfully");
 
             return Ok(newCinema);
         }
@@ -180,6 +200,15 @@ namespace BookingTickets.API.Controllers
             var allStatic = _mapper.Map<StatisticsFilm_ResponseModels>(allStaticBLL);
 
             return allStatic;
+        }
+
+        private int TakeIdUserAuth()
+        {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            string userName = nameClaim?.Value!;
+            var userId = Convert.ToInt32(userName);
+
+            return userId;
         }
     }
 }
