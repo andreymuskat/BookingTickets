@@ -11,6 +11,10 @@ namespace BookingTickets.DAL.Interfaces
 
         List<OrderDto> FindOrderByCodeNumber(string codeNumber);
 
+        List<OrderDto> GetAllTicketsSold(DateTime dateStart, DateTime dateEnd);
+
+        List<OrderDto> GetAllOrdersCashierByPeriodAndCinemaId(DateTime dateStart, DateTime dateEnd, int cinemaId);
+
         Task<List<OrderDto>> GetAllOrdersByDate(DateTime data);
 
         Task EditOrderStatus(OrderDto order, OrderStatus newStatus);

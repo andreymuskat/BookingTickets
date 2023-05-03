@@ -41,7 +41,10 @@ namespace BookingTickets.BLL
 
                 _cinemaRepository.EditCinema(searchCinema);
             }
-            else { throw new CinemaException(777); }
+            else
+            {
+                throw new CinemaException(777);
+            }
         }
 
         public void DeleteCinema(int cinemaId)
@@ -56,7 +59,10 @@ namespace BookingTickets.BLL
             {
                 return listCinemas;
             }
-            else { throw new CinemaException(777); }
+            else 
+            { 
+                throw new CinemaException(777);
+            }
         }
 
         public CinemaBLL GetCinemaByHallId(int idHallId)

@@ -61,6 +61,9 @@ namespace BookingTickets.BLL
                 .ForMember(src => src.Hall, opt => opt.MapFrom(x => x.Hall));
             CreateMap<CreateAndUpdateHallInputModel, HallDto>();
             CreateMap<HallDto, HallOutputModel>();
+            CreateMap<SessionDto, CreateSessionInputModel>();
+            CreateMap<UpdateCashierInputModel, UserDto>()
+            .ForMember(src => src.CinemaId, opt => opt.MapFrom(x => x.CinemaId));
         }
 
         //    public List<FilmBLL> MapListFilmDtoToListFilmBLL(List<FilmDto> film)

@@ -5,6 +5,7 @@ using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
 using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SeatRequestModel;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
+using BookingTickets.API.Model.RequestModels.All_StatisticsRequestModels;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
@@ -60,7 +61,6 @@ namespace BookingTickets.API
             CreateMap<SeatResponseModel, SeatBLL>();
             CreateMap<CreateOrderRequestModel, CreateOrderInputModel>();
             CreateMap<CinemaBLL, CinemaResponseModel>();
-            CreateMap<UserBLL, UserResponseModel>();
             CreateMap<CreateCashierRequestModel, CreateCashierInputModel>();
             CreateMap<UserRegisterRequest, UserRegister>();
             CreateMap<AuthResult, AuthResponse>();
@@ -85,6 +85,11 @@ namespace BookingTickets.API
                 .ForMember(src => src.NumderHall, opt => opt.MapFrom(x => x.Hall.Number));
             CreateMap<StatisticsFilm_ResquestModels, StatisticsFilm_InputModels>();
             CreateMap<StatisticsFilm_OutputModels, StatisticsFilm_ResponseModels>();
+            CreateMap<UpdateCashierRequestModel, UpdateCashierInputModel>();
+            CreateMap<StatisticDays_RequestModel, StatisticDays_InputModel>();
+            CreateMap<StatisticDays_OutputModel, StatisticDays_ResponseModel>();
+            CreateMap<StatisticCashiers_OutputModel, StatisticCashiers_ResponseModel>();
+            CreateMap<StatisticCashiers_RequestModel, StatisticCashiers_InputModel>();
         }
     }
 }
