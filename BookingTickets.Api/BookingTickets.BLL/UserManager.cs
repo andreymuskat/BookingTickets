@@ -43,13 +43,20 @@ namespace BookingTickets.BLL
         {
             var cashier = _userRepository.GetCashierById(idCashier);
 
-            if (cashier != null && cashier.Cinema.Id == adminCinemaId)
+            if (cashier.CinemaId != adminCinemaId)
             {
-                _userRepository.DeleteCashierById(idCashier);
+                throw new UserExceptions(205);
             }
             else
             {
-                throw new SessionException(777);
+                if (cashier != null)
+                {
+                    _userRepository.DeleteCashierById(idCashier);
+                }
+                else
+                {
+                    throw new UserExceptions(777);
+                }
             }
         }
 
@@ -103,12 +110,14 @@ namespace BookingTickets.BLL
 
         public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
         {
-            var allTrueSessions = _mapper.Map<List<CreateSessionInputModel>>(_sessionRepository.GetAllSessionByDate(dateCopy).Where(a => a.Hall.CinemaId == CinemaId).ToList());
+            var allTrueSessions = _mapper.Map<List<CreateSessionInputModel>>(
+                _sessionRepository.GetAllSessionByDate(dateCopy).Where(a => a.Hall.CinemaId == CinemaId).ToList());
 
             foreach (var session in allTrueSessions)
             {
                 session.Date = dateWhereToCopy.AddHours(session.Date.Hour).AddMinutes(session.Date.Minute).AddSeconds(session.Date.Second);
                 var res = _mapper.Map<SessionDto>(session);
+
                 _sessionRepository.CreateSession(res);
             }
         }

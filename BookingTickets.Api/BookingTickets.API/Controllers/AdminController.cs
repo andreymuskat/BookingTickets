@@ -14,6 +14,7 @@ using Core.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace BookingTickets.API.Controllers
 {
@@ -58,8 +59,6 @@ namespace BookingTickets.API.Controllers
         [HttpDelete("Session/{sessionId}/Delete")]
         public IActionResult DeleteSession(int sessionId)
         {
-            //_logger.Log(LogLevel.Information, "AdminService sent a request to delete a session.");
-
             try
             {
                 _adminService.DeleteSession(sessionId);
@@ -69,8 +68,6 @@ namespace BookingTickets.API.Controllers
             {
                 return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             }
-
-            //_logger.Log(LogLevel.Information, "Session deleted by admin request.");
 
             return Ok();
         }
@@ -93,7 +90,7 @@ namespace BookingTickets.API.Controllers
 
             try
             {
-                var allCashiers = _adminService.GetAllCashiers(userCinemaId);
+                var allCashiers = _mapper.Map< List<UserResponseModel>>(_adminService.GetAllCashiers(userCinemaId));
 
                 return Ok(allCashiers);
             }
@@ -104,18 +101,23 @@ namespace BookingTickets.API.Controllers
 
         }
 
-
         [HttpPost("Cashier/New")]
-        public IActionResult CreateNewCashier(int cashierId)
+        public IActionResult CreateNewCashier([FromHeader] int cashierId)
         {
-            _adminService.CreateNewCashier(cashierId);
+            try
+            {
+                _adminService.CreateNewCashier(cashierId);
 
-            return Ok();
+                return Ok();
+            }
+            catch (UserExceptions ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
         }
 
-
-        [HttpPost("Cashier/Edit")]
-        public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier, int cashierId)
+        [HttpPut("Cashier/{cashierId}/Edit")]
+        public ActionResult<UserResponseModel> UpdateCashier([FromHeader] UpdateCashierRequestModel cashier, [FromHeader] int cashierId)
         {
             try
             {
@@ -133,9 +135,8 @@ namespace BookingTickets.API.Controllers
             }
         }
 
-
-        [HttpDelete("CashierService/{id}/Delete")]
-        public IActionResult DeleteCashierById(int cashierId)
+        [HttpDelete("Cashier/{cashierId}/Delete")]
+        public IActionResult DeleteCashierById([FromHeader] int cashierId)
         {
             try
             {
@@ -151,7 +152,7 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpPost("Sessions/Day/Copy")]
-        public IActionResult CopySessionsFromOneDayToAnotherByDateCopy(CopySessionsRequestModel model)
+        public IActionResult CopySessionsFromOneDayToAnotherByDateCopy([FromHeader] CopySessionsRequestModel model)
         {
             var userCinemaId = TakeIdCinemaByAdminAuth();
 
@@ -161,7 +162,7 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpGet("Statictic/Day")]
-        public ActionResult<List<StatisticDays_ResponseModel>> StaticticOfDays([FromQuery] StatisticDays_RequestModel requestModel)
+        public ActionResult<List<StatisticDays_ResponseModel>> StaticticOfDays([FromHeader] StatisticDays_RequestModel requestModel)
         {
             var inputModel = _mapper.Map<StatisticDays_InputModel>(requestModel);
             inputModel.CinemaId = TakeIdCinemaByAdminAuth();
@@ -171,7 +172,7 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpGet("Statictic/Cashiers")]
-        public ActionResult<List<StatisticCashiers_ResponseModel>> StatisticOfCashiers([FromQuery] StatisticCashiers_RequestModel requestModel)
+        public ActionResult<List<StatisticCashiers_ResponseModel>> StatisticOfCashiers([FromHeader] StatisticCashiers_RequestModel requestModel)
         {
             var inputModel = _mapper.Map<StatisticCashiers_InputModel>(requestModel);
             inputModel.CinemaId = TakeIdCinemaByAdminAuth();

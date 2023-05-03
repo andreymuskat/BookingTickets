@@ -47,9 +47,7 @@ namespace BookingTickets.DAL
 
         public List<UserDto> GetAllCashiers()
         {
-            var result = new List<UserDto>();
-
-            result = _context.Users
+            var result = _context.Users
                 .Where(t => t.UserStatus == UserStatus.CashierService)
                 .Where(t => !t.IsDeleted)
                 .Include(u => u.Cinema)

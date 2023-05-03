@@ -64,13 +64,13 @@ namespace BookingTickets.BLL.Roles
 
         public List<UserBLL> GetAllCashiers(int adminCinemaId)
         {
-            var allCashiers = _userManager.GetAllCashiers()
-                .Where(k => k.Cinema.Id == adminCinemaId)
-                .ToList();
+            var allCashiers = _userManager.GetAllCashiers();
+
+            var allCashiersInCinema = allCashiers.Where(k => k.Cinema.Id == adminCinemaId).ToList();
 
             if (allCashiers != null)
             {
-                return allCashiers;
+                return allCashiersInCinema;
             }
             else
             {

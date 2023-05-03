@@ -5,7 +5,7 @@ namespace BookingTickets.API.Model.ResponseModels.All_UserResponseModels
 {
     public class UserResponseModel
     {
-        public string Name { get; set; }
+        public string UserName { get; set; }
 
         public UserStatus UserStatus { get; set; }
 
