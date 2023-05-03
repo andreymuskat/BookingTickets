@@ -4,7 +4,7 @@ using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
 
-namespace BookingTickets.BLL.Roles
+namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
 {
     public interface IAdminService
     {
