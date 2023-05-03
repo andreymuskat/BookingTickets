@@ -8,12 +8,27 @@ namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
 {
     public interface IAdminService
     {
-        UserBLL CreateNewCashier(CreateCashierInputModel newUser);
+        void CreateNewCashier(int cashierId);
+
         void CreateSession(CreateSessionInputModel session, int cinemaId, int userId);
-        void DeleteCashierById(int id);
+
+        void DeleteCashierById(int idCashier, int adminCinemaId);
+
         void DeleteSession(int sessionId);
-        List<UserBLL> GetAllCashiers();
+
         List<UserBLL> GetAllUsers();
+
+        public List<UserBLL> GetAllCashiers(int adminCinemaId);
+
+        UserBLL UpdateCashier(UpdateCashierInputModel user, int cashierId);
+
+        void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
+
+        List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel);
+
+        List<StatisticCashiers_OutputModel> StatisticOfCashiers(StatisticCashiers_InputModel inputModel);
+
+
         StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_InputModels infoForStatic, int cinemaId);
     }
 }

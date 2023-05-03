@@ -18,14 +18,18 @@ namespace BookingTickets.BLL.Roles
         private readonly IUserManager _userManager;
         private readonly ICinemaManager _cinemaManager;
         private readonly IStatisticsFilm _statisticsFilm;
+        private readonly IStatisticsDays _statisticsDays;
+        private readonly IStatisticsCashiers _statisticsCashiers;
 
         public AdminService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager,
-            IStatisticsFilm statisticsFilm, INLogLogger logger)
+            IStatisticsFilm statisticsFilm, INLogLogger logger, IStatisticsDays statisticsDays, IStatisticsCashiers statisticsCashiers)
         {
             _sessionManager = sessionManager;
             _userManager = userManager;
             _cinemaManager = cinemaManager;
             _statisticsFilm = statisticsFilm;
+            _statisticsDays = statisticsDays;
+            _statisticsCashiers = statisticsCashiers;
             _logger = logger;
         }
 
@@ -58,23 +62,54 @@ namespace BookingTickets.BLL.Roles
             return allUsers;
         }
 
-        public List<UserBLL> GetAllCashiers()
+        public List<UserBLL> GetAllCashiers(int adminCinemaId)
         {
-            var allUsers = _userManager.GetAllCashiers();
+            var allCashiers = _userManager.GetAllCashiers()
+                .Where(k => k.Cinema.Id == adminCinemaId)
+                .ToList();
 
-            return allUsers;
+            if (allCashiers != null)
+            {
+                return allCashiers;
+            }
+            else
+            {
+                throw new UserExceptions(777);
+            }
         }
 
-        public UserBLL CreateNewCashier(CreateCashierInputModel newUser)
+        public void CreateNewCashier(int cashierId)
         {
-            var res = _userManager.CreateNewCashier(newUser);
+            _userManager.ChangeUserStatus(UserStatus.CashierService, cashierId);
+        }
+
+        public void DeleteCashierById(int id, int adminCinemaId)
+        {
+            _userManager.DeleteCashierById(id, adminCinemaId);
+        }
+
+        public UserBLL UpdateCashier(UpdateCashierInputModel user, int cashierId)
+        {
+            var res = _userManager.UpdateCashier(user, cashierId);
 
             return res;
         }
 
-        public void DeleteCashierById(int id)
+        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
         {
-            _userManager.DeleteCashierById(id);
+            _userManager.CopySession(dateCopy, dateWhereToCopy, CinemaId);
+        }
+
+        public List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel)
+        {
+            var res = _statisticsDays.StatisticOfDays(inputModel);
+            return res;
+        }
+
+        public List<StatisticCashiers_OutputModel> StatisticOfCashiers(StatisticCashiers_InputModel inputModel)
+        {
+            var res = _statisticsCashiers.StatisticOfCashiers(inputModel);
+            return res;
         }
 
         public StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_InputModels infoForStatic, int cinemaId)
