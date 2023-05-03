@@ -7,6 +7,7 @@ using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.Core.CustomException;
 using Core.CustomException;
+using Core.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,13 +20,14 @@ namespace BookingTickets.API.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
+        private readonly INLogLogger _logger;
         private readonly IMapper _mapper;
-        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
-        public ClientController(IMapper map, IClientService client, ILogger<ClientController> log)
+        public ClientController(IMapper map, IClientService client, INLogLogger logger)
         {
             _mapper = map;
             _clientService = client;
+            _logger = logger;
         }
 
         [HttpGet("Sessions/Cinemas/{cinemaId}/{data}", Name = "GetAllSessionsByCinema")]
