@@ -3,12 +3,11 @@ using BookingTickets.DAL.Models;
 using Core.Status;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace BookingTickets.DAL
 {
     public class UserRepository : IUserRepository
     {
-        private static Context _context;
+        private readonly Context _context;
 
         public UserRepository()
         {
@@ -20,7 +19,7 @@ namespace BookingTickets.DAL
             var cashier = new UserDto
             {
                 UserName = user.UserName,
-                UserStatus = UserStatus.Cashier,
+                UserStatus = UserStatus.CashierService,
                 Password = user.Password,
                 CinemaId = 1,
             };
@@ -51,7 +50,7 @@ namespace BookingTickets.DAL
             var result = new List<UserDto>();
 
             result = _context.Users
-                .Where(t => t.UserStatus == UserStatus.Cashier)
+                .Where(t => t.UserStatus == UserStatus.CashierService)
                 .Where(t => !t.IsDeleted)
                 .Include(u => u.Cinema)
                 .AsNoTracking()
@@ -71,7 +70,7 @@ namespace BookingTickets.DAL
         public void DeleteCashierById(int idCashier)
         {
             var cash = _context.Users
-                .Where(t => t.UserStatus == UserStatus.Cashier)
+                .Where(t => t.UserStatus == UserStatus.CashierService)
                 .Single(i => i.Id == idCashier).IsDeleted = true;
 
             _context.SaveChanges();

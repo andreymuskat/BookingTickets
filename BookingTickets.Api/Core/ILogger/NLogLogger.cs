@@ -4,11 +4,16 @@ namespace Core.ILogger
 {
     public class NLogLogger : INLogLogger
     {
-        private readonly Logger logger;
+        private readonly NLog.Logger logger;
 
         public NLogLogger()
         {
             logger = LogManager.GetCurrentClassLogger();
+        }
+
+        public void Trace(string message)
+        {
+            logger.Trace(message);
         }
 
         public void Debug(string message)
@@ -29,6 +34,11 @@ namespace Core.ILogger
         public void Error(string message)
         {
             logger.Error(message);
+        }
+
+        public void Fatal(string message)
+        {
+            logger.Fatal(message);
         }
     }
 }

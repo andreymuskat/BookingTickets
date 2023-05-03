@@ -6,23 +6,28 @@ using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
 using BookingTickets.Core.CustomException;
+using Core.ILogger;
 using Core.Status;
+using NLog;
 
 namespace BookingTickets.BLL.Roles
 {
     public class AdminService : IAdminService
     {
+        private readonly INLogLogger _logger;
         private readonly ISessionManager _sessionManager;
         private readonly IUserManager _userManager;
         private readonly ICinemaManager _cinemaManager;
         private readonly IStatisticsFilm _statisticsFilm;
 
-        public AdminService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IStatisticsFilm statisticsFilm)
+        public AdminService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager,
+            IStatisticsFilm statisticsFilm, INLogLogger logger)
         {
             _sessionManager = sessionManager;
             _userManager = userManager;
             _cinemaManager = cinemaManager;
             _statisticsFilm = statisticsFilm;
+            _logger = logger;
         }
 
         public void CreateSession(CreateSessionInputModel session, int cinemaId, int userId)
@@ -30,12 +35,14 @@ namespace BookingTickets.BLL.Roles
             var cinemaBll = _cinemaManager.GetCinemaByHallId(session.HallId);
             var userBll = _userManager.GetUserById(userId);
 
-            if (cinemaBll.Id == cinemaId || userBll.UserStatus == UserStatus.MainAdmin)
+            if (cinemaBll.Id == cinemaId || userBll.UserStatus == UserStatus.MainAdminService)
             {
                 _sessionManager.CreateSession(session);
             }
             else
             {
+                _logger.Warn($"UserId: {userId} tried to create a session not in your cinema");
+
                 throw new SessionException(205);
             }
         }

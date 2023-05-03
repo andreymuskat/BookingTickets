@@ -9,6 +9,7 @@ using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.Core.CustomException;
 using Core.CustomException;
+using Core.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,28 +23,26 @@ namespace BookingTickets.API.Controllers
     {
         private readonly IAdminService _adminService;
         private readonly IMapper _mapper;
-        private readonly ILogger<AdminController> _logger;
+        private readonly INLogLogger _logger;
 
-        public AdminController(IMapper map, IAdminService admin, ILogger<AdminController> logger)
+        public AdminController(IMapper map, IAdminService admin, INLogLogger logger)
         {
             _mapper = map;
             _adminService = admin;
             _logger = logger;
         }
 
-        [HttpPost("Session")]
+        [HttpPost("Session/New")]
         public IActionResult CreateNewSession(CreateSessionRequestModel session)
         {
-            _logger.Log(LogLevel.Information, "AdminService sent a request to create a new session.");
-
             var cinemaId = TakeIdCinemaByAdminAuth();
             var userId = TakeIdUserAuth();
+
+            _logger.Info($"UserId: {userId} sent a request to create a new session!");
 
             try
             {
                 _adminService.CreateSession(_mapper.Map<CreateSessionInputModel>(session), cinemaId, userId);
-
-                _logger.Log(LogLevel.Information, "AdminService request completed: new session written to the database.", session);
 
                 return Ok();
             }
@@ -56,7 +55,7 @@ namespace BookingTickets.API.Controllers
         [HttpDelete("Session/{sessionId}/Delete")]
         public IActionResult DeleteSession(int sessionId)
         {
-            _logger.Log(LogLevel.Information, "AdminService sent a request to delete a session.");
+            //_logger.Log(LogLevel.Information, "AdminService sent a request to delete a session.");
 
             try
             {
@@ -68,7 +67,7 @@ namespace BookingTickets.API.Controllers
                 return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             }
 
-            _logger.Log(LogLevel.Information, "Session deleted by admin request.");
+            //_logger.Log(LogLevel.Information, "Session deleted by admin request.");
 
             return Ok();
         }

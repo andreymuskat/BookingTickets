@@ -144,19 +144,19 @@ namespace BookingTickets.BLL.Authentication
 
         private IEnumerable<string> GetRoleAuth(UserDto userDto)
         {
-            if (userDto.UserStatus == UserStatus.Admin)
+            if (userDto.UserStatus == UserStatus.AdminService)
             {
                 return new[] { "User", "CashierService", "AdminService" };
             }
-            else if (userDto.UserStatus == UserStatus.MainAdmin)
+            else if (userDto.UserStatus == UserStatus.MainAdminService)
             {
                 return new[] { "User", "CashierService", "AdminService", "MainAdminService" };
             }
-            else if (userDto.UserStatus == UserStatus.Cashier)
+            else if (userDto.UserStatus == UserStatus.CashierService)
             {
                 return new[] { "User", "CashierService", "AdminService" };
             }
-            else if (userDto.UserStatus == UserStatus.Client)
+            else if (userDto.UserStatus == UserStatus.ClientService)
             {
                 return new[] { "User"};
             }
