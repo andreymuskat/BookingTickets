@@ -61,11 +61,20 @@ namespace BookingTickets.BLL.Roles
             return allUsers;
         }
 
-        public List<UserBLL> GetAllCashiers()
+        public List<UserBLL> GetAllCashiers(int userCinemaId)
         {
-            var allUsers = _userManager.GetAllCashiers();
+            var allCashiers = _userManager.GetAllCashiers()
+                .Where(k => k.Cinema.Id == userCinemaId)
+                .ToList();
 
-            return allUsers;
+            if(allCashiers != null)
+            {
+                return allCashiers;
+            }
+            else
+            {
+                throw new UserExceptions(777);
+            }
         }
 
         public UserBLL CreateNewCashier(CreateCashierInputModel newUser)

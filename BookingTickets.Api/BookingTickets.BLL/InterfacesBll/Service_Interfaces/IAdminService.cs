@@ -16,7 +16,7 @@ namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
 
         void DeleteSession(int sessionId);
 
-        List<UserBLL> GetAllCashiers();
+        List<UserBLL> GetAllCashiers(int userCinemaId);
 
         List<UserBLL> GetAllUsers();
 

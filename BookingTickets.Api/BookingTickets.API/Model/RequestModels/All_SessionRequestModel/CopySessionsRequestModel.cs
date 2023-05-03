@@ -5,6 +5,5 @@
         public DateTime DateCopy { get; set; }
 
         public DateTime DateWhereToCopy { get; set; }
-
     }
 }

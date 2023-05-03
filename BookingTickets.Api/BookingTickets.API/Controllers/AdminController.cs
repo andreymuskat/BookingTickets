@@ -77,30 +77,46 @@ namespace BookingTickets.API.Controllers
         [HttpGet("Cashiers")]
         public ActionResult<List<UserResponseModel>> GetAllCashiers()
         {
-            var res = _adminService.GetAllCashiers();
+            var userCinemaId = TakeIdCinemaByAdminAuth();
 
-            return Ok(res);
+            try
+            {
+                var allCashiers = _adminService.GetAllCashiers(userCinemaId);
+
+                return Ok(allCashiers);
+            }
+            catch (UserExceptions ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
+
         }
 
-        [HttpPost("CashierService/New")]
+        //исправь
+        [HttpPost("Cashier/New")]
         public ActionResult<UserResponseModel> CreateNewCashier(CreateCashierRequestModel cashierModel)
         {
             var cashierInputModel = _mapper.Map<CreateCashierInputModel>(cashierModel);
+
             var res = _mapper.Map<UserResponseModel>(_adminService.CreateNewCashier(cashierInputModel));
 
             return Ok(res);
         }
 
-        [HttpPost("Update_Cashier")]
-        public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier)
+        //подумать
+        [HttpPost("Cashier/Edit")]
+        public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier, int cahierId)
         {
+            var userCinemaId = TakeIdCinemaByAdminAuth();
+
             var cashierInputModel = _mapper.Map<UpdateCashierInputModel>(cashier);
-            cashierInputModel.CinemaId = 1;
+
             var res = _mapper.Map<UserResponseModel>(_adminService.UpdateCashier(cashierInputModel));
 
             return Ok(res);
         }
 
+        //отбить ошибки на ненайденного кассира
         [HttpDelete("CashierService/{id}/Delete")]
         public IActionResult DeleteCashierById(int cashierId)
         {
@@ -120,31 +136,34 @@ namespace BookingTickets.API.Controllers
             return allStatic;
         }
 
-        [HttpPost("Copy_Sessions_From_OneDay_By_DateCopy_To_DateWhereToCopy")]
+        [HttpPost("Sessions/Day/Copy")]
         public IActionResult CopySessionsFromOneDayToAnotherByDateCopy(CopySessionsRequestModel model)
         {
-            var CinemaId = 1;
-            _adminService.CopySession(model.DateCopy, model.DateWhereToCopy, CinemaId);
+            var userCinemaId = TakeIdCinemaByAdminAuth();
+
+            _adminService.CopySession(model.DateCopy, model.DateWhereToCopy, userCinemaId);
 
             return Ok();
         }
 
-        [HttpGet("Statictic_Of_Days")]
+        [HttpGet("Statictic/Day")]
         public ActionResult<List<StatisticDays_ResponseModel>> StaticticOfDays([FromQuery] StatisticDays_RequestModel requestModel)
         {
             var inputModel = _mapper.Map<StatisticDays_InputModel>(requestModel);
             inputModel.CinemaId = 7;
             var res = _mapper.Map<List<StatisticDays_ResponseModel>>(_adminService.StatisticOfDays(inputModel));
+
             return Ok(res);
         }
 
-        [HttpGet("Statictic_Of_Cashiers")]
+        [HttpGet("Statictic/Cashiers")]
         public ActionResult<List<StatisticCashiers_ResponseModel>> StatisticOfCashiers([FromQuery] StatisticCashiers_RequestModel requestModel)
         {
             var inputModel = _mapper.Map<StatisticCashiers_InputModel>(requestModel);
             inputModel.CinemaId = 7;
             var res1 = _adminService.StatisticOfCashiers(inputModel);
             var res = _mapper.Map<List<StatisticCashiers_ResponseModel>>(res1);
+
             return Ok(res);
         }
 

@@ -78,8 +78,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var checkService = app.Services.GetService<ÑheckOverdueStatuses>();
-await checkService.StartCheck();
+//var checkService = app.Services.GetService<ÑheckOverdueStatuses>();
+//await checkService.StartCheck();
 
 app.Run();
 
