@@ -5,6 +5,7 @@ using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
+using BookingTickets.BLL.Statistics;
 using BookingTickets.Core.CustomException;
 using Core.Status;
 
@@ -16,13 +17,17 @@ namespace BookingTickets.BLL.Roles
         private readonly IUserManager _userManager;
         private readonly ICinemaManager _cinemaManager;
         private readonly IStatisticsFilm _statisticsFilm;
+        private readonly IStatisticsDays _statisticsDays;
+        private readonly IStatisticsCashiers _statisticsCashiers;
 
-        public AdminService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IStatisticsFilm statisticsFilm)
+        public AdminService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IStatisticsFilm statisticsFilm, IStatisticsDays statisticsDays, IStatisticsCashiers statisticsCashiers)
         {
             _sessionManager = sessionManager;
             _userManager = userManager;
             _cinemaManager = cinemaManager;
             _statisticsFilm = statisticsFilm;
+            _statisticsDays = statisticsDays;
+            _statisticsCashiers = statisticsCashiers;
         }
 
         public void CreateSession(CreateSessionInputModel session, int cinemaId, int userId)
@@ -84,6 +89,29 @@ namespace BookingTickets.BLL.Roles
             outputStat.BoxOfficeOnFilm = _statisticsFilm.BoxOfficeOnFilmInCinema(cinemaId, infoForStatic.FilmId, dateStart, dateEnd);
 
             return outputStat;
+        }
+        public UserBLL UpdateCashier(UpdateCashierInputModel user)
+        {
+            var res = _userManager.UpdateCashier(user);
+
+            return res;
+        }
+
+        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
+        {
+            _userManager.CopySession(dateCopy, dateWhereToCopy, CinemaId);
+        }
+
+        public List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel)
+        {
+            var res = statisticsDays.StatisticOfDays(inputModel);
+            return res;
+        }
+
+        public List<StatisticCashiers_OutputModel> StatisticOfCashiers(StatisticCashiers_InputModel inputModel)
+        {
+            var res = statisticsCashiers.StatisticOfCashiers(inputModel);
+            return res;
         }
     }
 }

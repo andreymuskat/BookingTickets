@@ -90,6 +90,16 @@ namespace BookingTickets.API.Controllers
             return Ok(res);
         }
 
+        [HttpPost("Update_Cashier")]
+        public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier)
+        {
+            var cashierInputModel = _mapper.Map<UpdateCashierInputModel>(cashier);
+            cashierInputModel.CinemaId = 1;
+            var res = _mapper.Map<UserResponseModel>(_admin.UpdateCashier(cashierInputModel));
+
+            return Ok(res);
+        }
+
         [HttpDelete("CashierService/{id}/Delete")]
         public IActionResult DeleteCashierById(int cashierId)
         {

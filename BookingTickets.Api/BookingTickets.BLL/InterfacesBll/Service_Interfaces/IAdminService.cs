@@ -21,5 +21,13 @@ namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
         List<UserBLL> GetAllUsers();
 
         StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_InputModels infoForStatic, int cinemaId);
+
+        UserBLL UpdateCashier(UpdateCashierInputModel cashier);
+
+        void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
+
+        List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel);
+
+        List<StatisticCashiers_OutputModel> StatisticOfCashiers(StatisticCashiers_InputModel inputModel);
     }
 }

@@ -17,5 +17,9 @@ namespace BookingTickets.DAL.Interfaces
         UserDto GetUserById(int idUser);
 
         void UpdateUserStatus(UserDto user);
+
+        List<UserDto> GetAllCashiersByCinemaId(int cinemaId);
+
+        UserDto UpdateCashier(UserDto user);
     }
 }

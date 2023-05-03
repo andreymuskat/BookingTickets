@@ -90,5 +90,33 @@ namespace BookingTickets.DAL
 
             _context.SaveChanges();
         }
+
+        public List<UserDto> GetAllCashiersByCinemaId(int cinemaId)
+        {
+            var result = new List<UserDto>();
+
+            result = _context.Users
+                .Where(t => t.UserStatus == UserStatus.Cashier)
+                .Where(t => !t.IsDeleted)
+                .Where(t => t.Cinema.Id == cinemaId)
+                .Include(u => u.Cinema)
+                .ToList();
+
+            return result;
+        }
+
+        public UserDto UpdateCashier(UserDto user)
+        {
+             var cashierDb = _context.Users.Single(a => a.Id == user.Id);
+             cashierDb.UserName = user.UserName;
+             cashierDb.Password = user.Password;
+
+              _context.SaveChanges();
+
+              return _context.Users
+                     .Include(u => u.Cinema)
+                     .Single(u => u.Id == cashierDb.Id);
+        }
+
     }
 }

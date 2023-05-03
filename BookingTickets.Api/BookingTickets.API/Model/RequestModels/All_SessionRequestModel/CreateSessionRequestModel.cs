@@ -1,7 +1,4 @@
-﻿using BookingTickets.API.Model.RequestModels.All_FilmRequestModel;
-using BookingTickets.API.Model.RequestModels.All_HallRequestModel;
-
-namespace BookingTickets.API.Model.RequestModels.All_SessionRequestModel
+﻿namespace BookingTickets.API.Model.RequestModels.All_SessionRequestModel
 {
     public class CreateSessionRequestModel
     {

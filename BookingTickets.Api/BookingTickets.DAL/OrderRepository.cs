@@ -47,6 +47,36 @@ namespace BookingTickets.DAL
                     .ToList();
         }
 
+        public List<OrderDto> GetAllTicketsSold(DateTime dateStart, DateTime dateEnd, int cinemaId)
+        {
+            var result = new List<OrderDto>();
+
+            result = _context.Orders
+                .Where(t => t.Status == OrderStatus.PurchasedByСashbox || t.Status == OrderStatus.PurchasedBySite)
+                .Where(t => t.Session.Hall.Cinema.Id == cinemaId)
+                .Where(t => t.Date >= dateStart && t.Date <= dateEnd)
+                .Include(h => h.Session)
+                .ToList();
+
+            return result;
+        }
+
+        public List<OrderDto> GetAllOrdersCashierByPeriodAndCinemaId(DateTime dateStart, DateTime dateEnd, int cinemaId)
+        {
+            var result = new List<OrderDto>();
+
+            result = _context.Orders
+                .Where(t => t.User.UserStatus == UserStatus.Cashier)
+                .Where(t => t.Status == OrderStatus.PurchasedByСashbox)
+                .Where(t => t.Session.Hall.Cinema.Id == cinemaId)
+                .Where(t => t.Date >= dateStart && t.Date <= dateEnd)
+                .Include(h => h.Session)
+                .Include(h => h.User)
+                .ToList();
+
+            return result;
+        }
+
         public async Task<List<OrderDto>> GetAllOrdersByDate(DateTime data)
         {
             return await _context.Orders

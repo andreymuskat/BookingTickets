@@ -3,6 +3,7 @@ using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.Core.CustomException;
+using BookingTickets.DAL;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Core.Status;
@@ -70,6 +71,26 @@ namespace BookingTickets.BLL
         public UserBLL GetUserById(int userId)
         {
             return _mapper.Map<UserBLL>(_userRepository.GetUserById(userId));
+        }
+
+        public UserBLL UpdateCashier(UpdateCashierInputModel user)
+        {
+            var userDto = _instanceMapperBll.MapUpdateCashierInputModelToUserDto(user);
+            var resUserBLL = _instanceMapperBll.MapUserDtoToUserBLL(_userRepository.UpdateCashier(userDto));
+
+            return resUserBLL;
+        }
+
+        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
+        {
+            var allTrueSessions = _instanceMapperBll.MapListSessionsDtoToListCreateSessionInputModel(_sessionRepository.GetAllSessionByDate(dateCopy).Where(a => a.Hall.CinemaId == CinemaId).ToList());
+
+            foreach (var session in allTrueSessions)
+            {
+                session.Date = dateWhereToCopy.AddHours(session.Date.Hour).AddMinutes(session.Date.Minute).AddSeconds(session.Date.Second);
+                var res = _instanceMapperBll.MapCreateSessionInputModelToSessionDto(session);
+                _sessionRepository.CreateSession(res);
+            }
         }
     }
 }
