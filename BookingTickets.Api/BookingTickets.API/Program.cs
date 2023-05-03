@@ -12,9 +12,12 @@ using BookingTickets.DAL.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using NLog;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
+
+LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Context>();
@@ -76,8 +79,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var checkService = app.Services.GetService<ÑheckOverdueStatuses>();
-await checkService.StartCheck();
+//var checkService = app.Services.GetService<ÑheckOverdueStatuses>();
+//await checkService.StartCheck();
 
 app.Run();
 

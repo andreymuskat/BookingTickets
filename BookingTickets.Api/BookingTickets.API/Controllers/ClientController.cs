@@ -10,6 +10,7 @@ using Core.CustomException;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 
 namespace BookingTickets.API.Controllers
 {
@@ -19,22 +20,25 @@ namespace BookingTickets.API.Controllers
     {
         private readonly IClientService _clientService;
         private readonly IMapper _mapper;
-        private readonly ILogger<ClientController> _logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         public ClientController(IMapper map, IClientService client, ILogger<ClientController> log)
         {
             _mapper = map;
             _clientService = client;
-            _logger = log;
         }
 
-        [HttpGet("Sessions/{cinemaId}", Name = "GetAllSessionsByCinema")]
-        public IActionResult GetAllSessionByCinemaId(int cinemaId, DateTime time)
+        [HttpGet("Sessions/Cinema/{cinemaId}", Name = "GetAllSessionsByCinema")]
+        public IActionResult GetAllSessionByCinemaId([FromQuery]int cinemaId, DateTime time)
         {
+            logger.Info("User sent a request to get all sessions by cinema ID");
+
             try
             {
                 var ls = _clientService.GetFilmsByCinema(cinemaId, time);
                 var res = _mapper.Map<List<SessionResponseModelForClient>>(ls);
+
+                logger.Info($"User received an answer and all sessions by ID {cinemaId}");
 
                 return Ok(res);
             }
@@ -44,8 +48,8 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("Sessions/{idFilm}", Name = "GetSessionsByFilmId")]
-        public IActionResult GetAllSessionByFilmId(int idFilm, DateTime time)
+        [HttpGet("Sessions/Film/{idFilm}", Name = "GetSessionsByFilmId")]
+        public IActionResult GetAllSessionByFilmId([FromQuery] int idFilm, DateTime time)
         {
             try
             {
@@ -112,13 +116,13 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Order/new", Name = "CreateOrder")]
         public IActionResult CreateOrderByCustomer(List<CreateOrderRequestModel> models)
         {
-            _logger.Log(LogLevel.Information, "ClientService wanted to create a new order.");
+            //_logger.Log(LogLevel.Information, "ClientService wanted to create a new order.");
             var userId = TakeIdByClientAuth();
 
             try
             {
                 var code = _clientService.CreateOrderByCustomer(_mapper.Map<List<CreateOrderInputModel>>(models), userId);
-                _logger.Log(LogLevel.Information, "ClientService's request completed: new order written to the database.", models);
+                //_logger.Log(LogLevel.Information, "ClientService's request completed: new order written to the database.", models);
 
                 return Ok(code);
             }
