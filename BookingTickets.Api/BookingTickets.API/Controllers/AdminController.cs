@@ -104,7 +104,7 @@ namespace BookingTickets.API.Controllers
 
 
         [HttpPost("Cashier/Edit")]
-        public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier)
+        public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier, int cashierId)
         {
             var userCinemaId = TakeIdCinemaByAdminAuth();
 

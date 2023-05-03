@@ -79,17 +79,7 @@ namespace BookingTickets.BLL.Roles
 
         public void CreateNewCashier(int cashierId)
         {
-            var cashier = _userManager.GetCashierById(cashierId);
-            
-
-            if (cashier != null)
-            {
-                _userManager.ChangeUserStatus(UserStatus.Cashier, cashierId);
-            }
-            else
-            {
-                throw new UserExceptions(777);
-            }
+             _userManager.ChangeUserStatus(UserStatus.Cashier, cashierId);
         }
 
         public void DeleteCashierById(int id)
@@ -111,9 +101,9 @@ namespace BookingTickets.BLL.Roles
 
             return outputStat;
         }
-        public UserBLL UpdateCashier(UpdateCashierInputModel user)
+        public UserBLL UpdateCashier(UpdateCashierInputModel user, int cashierId)
         {
-            var res = _userManager.UpdateCashier(user);
+            var res = _userManager.UpdateCashier(user, cashierId);
 
             return res;
         }

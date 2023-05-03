@@ -67,7 +67,10 @@ namespace BookingTickets.BLL
             {
                 user.UserStatus = status;
             }
-            else { throw new UserExceptions(777); }
+            else 
+            {
+                throw new UserExceptions(777);
+            }
 
             _userRepository.UpdateUserStatus(user);
         }
@@ -82,12 +85,21 @@ namespace BookingTickets.BLL
             return _mapper.Map<UserBLL>(_userRepository.GetUserById(cashierId));
         }
 
-        public UserBLL UpdateCashier(UpdateCashierInputModel user)
+        public UserBLL UpdateCashier(UpdateCashierInputModel cashier, int cashierId)
         {
-            var userDto = _mapper.Map<UserDto>(user);
-            var resUserBLL = _mapper.Map<UserBLL>(_userRepository.UpdateCashier(userDto));
+            var userDto = _mapper.Map<UserDto>(cashier);
 
-            return resUserBLL;
+            var cash = _userRepository.GetCashierById(cashierId);
+
+            if (cash != null)
+            {
+                userDto.Id = cashierId;
+                return _mapper.Map<UserBLL>(_userRepository.UpdateCashier(userDto));
+            }
+            else
+            {
+                throw new CinemaException(777);
+            }           
         }
 
         public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
