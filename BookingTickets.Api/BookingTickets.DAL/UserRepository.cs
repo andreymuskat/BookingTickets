@@ -68,6 +68,7 @@ namespace BookingTickets.DAL
         {
             return _context.Users
                 .Where(t => t.UserStatus == UserStatus.Cashier)
+                .Where(t => !t.IsDeleted)
                 .SingleOrDefault(t => t.Id == idCashier)!;
         }
 

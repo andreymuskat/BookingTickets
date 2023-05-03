@@ -82,9 +82,9 @@ namespace BookingTickets.BLL.Roles
              _userManager.ChangeUserStatus(UserStatus.Cashier, cashierId);
         }
 
-        public void DeleteCashierById(int id)
+        public void DeleteCashierById(int id, int adminCinemaId)
         {
-            _userManager.DeleteCashierById(id);
+            _userManager.DeleteCashierById(id, adminCinemaId);
         }
 
         public StatisticsFilm_OutputModels GetStatisticsByFilm(StatisticsFilm_InputModels infoForStatic, int cinemaId)

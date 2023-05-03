@@ -40,11 +40,11 @@ namespace BookingTickets.BLL
             return _mapper.Map<List<UserBLL>>(allUsers);
         }
 
-        public void DeleteCashierById(int idCashier)
+        public void DeleteCashierById(int idCashier, int adminCinemaId)
         {
             var cashier = _userRepository.GetCashierById(idCashier);
 
-            if (cashier != null)
+            if (cashier != null && cashier.Cinema.Id == adminCinemaId)
             {
                 _userRepository.DeleteCashierById(idCashier);
             }

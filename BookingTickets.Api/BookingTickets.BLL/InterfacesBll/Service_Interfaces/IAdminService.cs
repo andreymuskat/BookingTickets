@@ -12,7 +12,7 @@ namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
 
         void CreateSession(CreateSessionInputModel session, int cinemaId, int userId);
 
-        void DeleteCashierById(int id);
+        void DeleteCashierById(int id, int adminCinemaId);
 
         void DeleteSession(int sessionId);
 

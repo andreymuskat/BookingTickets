@@ -106,13 +106,20 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Cashier/Edit")]
         public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier, int cashierId)
         {
-            var userCinemaId = TakeIdCinemaByAdminAuth();
+            try
+            {
+                var adminCinemaId = TakeIdCinemaByAdminAuth();
 
-            var cashierInputModel = _mapper.Map<UpdateCashierInputModel>(cashier);
+                var cashierInputModel = _mapper.Map<UpdateCashierInputModel>(cashier);
+                cashierInputModel.CinemaId = adminCinemaId;
+                var res = _mapper.Map<UserResponseModel>(_adminService.UpdateCashier(cashierInputModel, cashierId));
 
-            var res = _mapper.Map<UserResponseModel>(_adminService.UpdateCashier(cashierInputModel, cashierId));
-
-            return Ok(res);
+                return Ok(res);
+            }
+            catch (UserExceptions ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
         }
 
 
@@ -121,8 +128,8 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                _adminService.DeleteCashierById(cashierId);
-
+                var adminCinemaId = TakeIdCinemaByAdminAuth();
+                _adminService.DeleteCashierById(cashierId, adminCinemaId);
             }
             catch (UserExceptions ex)
             {

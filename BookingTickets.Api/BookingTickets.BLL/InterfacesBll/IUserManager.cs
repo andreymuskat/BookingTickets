@@ -8,7 +8,7 @@ namespace BookingTickets.BLL.InterfacesBll
     {
         void ChangeUserStatus(UserStatus status, int userId);
 
-        void DeleteCashierById(int idCashier);
+        void DeleteCashierById(int idCashier, int adminCinemaId);
 
         List<UserBLL> GetAllCashiers();
 
