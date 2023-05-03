@@ -95,7 +95,7 @@ namespace BookingTickets.API.Controllers
         {
             var cashierInputModel = _mapper.Map<UpdateCashierInputModel>(cashier);
             cashierInputModel.CinemaId = 1;
-            var res = _mapper.Map<UserResponseModel>(_admin.UpdateCashier(cashierInputModel));
+            var res = _mapper.Map<UserResponseModel>(_adminService.UpdateCashier(cashierInputModel));
 
             return Ok(res);
         }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
+using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
 
 namespace BookingTickets.BLL.InterfacesBll
 {
-    internal interface IStatisticsCashiers
+    public interface IStatisticsCashiers
     {
+        List<StatisticCashiers_OutputModel> StatisticOfCashiers(StatisticCashiers_InputModel inputModel);
     }
 }

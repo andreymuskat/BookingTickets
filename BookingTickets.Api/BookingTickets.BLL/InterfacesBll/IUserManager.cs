@@ -19,5 +19,9 @@ namespace BookingTickets.BLL.InterfacesBll
         UserBLL GetUserById(int userId);
 
         UserBLL GetUserByName(string name);
+
+        UserBLL UpdateCashier(UpdateCashierInputModel user);
+
+        void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
     }
 }

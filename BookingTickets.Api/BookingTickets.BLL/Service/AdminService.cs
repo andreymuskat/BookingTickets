@@ -5,7 +5,6 @@ using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Statistics_OutputModels;
-using BookingTickets.BLL.Statistics;
 using BookingTickets.Core.CustomException;
 using Core.Status;
 
@@ -20,7 +19,12 @@ namespace BookingTickets.BLL.Roles
         private readonly IStatisticsDays _statisticsDays;
         private readonly IStatisticsCashiers _statisticsCashiers;
 
-        public AdminService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IStatisticsFilm statisticsFilm, IStatisticsDays statisticsDays, IStatisticsCashiers statisticsCashiers)
+        public AdminService(ICinemaManager cinemaManager,
+                            ISessionManager sessionManager,
+                            IUserManager userManager,
+                            IStatisticsFilm statisticsFilm,
+                            IStatisticsDays statisticsDays,
+                            IStatisticsCashiers statisticsCashiers)
         {
             _sessionManager = sessionManager;
             _userManager = userManager;
@@ -104,13 +108,13 @@ namespace BookingTickets.BLL.Roles
 
         public List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel)
         {
-            var res = statisticsDays.StatisticOfDays(inputModel);
+            var res = _statisticsDays.StatisticOfDays(inputModel);
             return res;
         }
 
         public List<StatisticCashiers_OutputModel> StatisticOfCashiers(StatisticCashiers_InputModel inputModel)
         {
-            var res = statisticsCashiers.StatisticOfCashiers(inputModel);
+            var res = _statisticsCashiers.StatisticOfCashiers(inputModel);
             return res;
         }
     }

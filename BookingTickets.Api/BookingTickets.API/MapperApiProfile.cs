@@ -61,7 +61,6 @@ namespace BookingTickets.API
             CreateMap<SeatResponseModel, SeatBLL>();
             CreateMap<CreateOrderRequestModel, CreateOrderInputModel>();
             CreateMap<CinemaBLL, CinemaResponseModel>();
-            CreateMap<UserBLL, UserResponseModel>();
             CreateMap<CreateCashierRequestModel, CreateCashierInputModel>();
             CreateMap<UserRegisterRequest, UserRegister>();
             CreateMap<AuthResult, AuthResponse>();
@@ -89,8 +88,6 @@ namespace BookingTickets.API
             CreateMap<UpdateCashierRequestModel, UpdateCashierInputModel>();
             CreateMap<StatisticDays_RequestModel, StatisticDays_InputModel>();
             CreateMap<StatisticDays_OutputModel, StatisticDays_ResponseModel>();
-            CreateMap<UserResponseModel, UserBLL>();
-            CreateMap<UserBLL, UserResponseModel>();
             CreateMap<StatisticCashiers_OutputModel, StatisticCashiers_ResponseModel>();
             CreateMap<StatisticCashiers_RequestModel, StatisticCashiers_InputModel>();
         }
