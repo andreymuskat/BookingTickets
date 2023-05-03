@@ -7,7 +7,6 @@ using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Core.Status;
-using Microsoft.AspNetCore.Http;
 
 namespace BookingTickets.BLL
 {
@@ -67,7 +66,7 @@ namespace BookingTickets.BLL
             {
                 user.UserStatus = status;
             }
-            else 
+            else
             {
                 throw new UserExceptions(777);
             }
@@ -99,7 +98,7 @@ namespace BookingTickets.BLL
             else
             {
                 throw new CinemaException(777);
-            }           
+            }
         }
 
         public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)

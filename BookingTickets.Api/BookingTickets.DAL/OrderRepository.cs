@@ -66,7 +66,7 @@ namespace BookingTickets.DAL
             var result = new List<OrderDto>();
 
             result = _context.Orders
-                .Where(t => t.User.UserStatus == UserStatus.Cashier)
+                .Where(t => t.User.UserStatus == UserStatus.CashierService)
                 .Where(t => t.Status == OrderStatus.PurchasedByСashbox)
                 .Where(t => t.Session.Hall.Cinema.Id == cinemaId)
                 .Where(t => t.Date >= dateStart && t.Date <= dateEnd)

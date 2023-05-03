@@ -151,5 +151,14 @@ namespace BookingTickets.API.Controllers
             }
         }
 
+        private int TakeIdByClientAuth()
+        {
+            var nameClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            string userName = nameClaim?.Value!;
+            var userId = Convert.ToInt32(userName);
+
+            return userId;
+        }
+    }
 }
 

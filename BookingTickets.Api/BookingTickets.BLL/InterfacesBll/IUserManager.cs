@@ -8,20 +8,20 @@ namespace BookingTickets.BLL.InterfacesBll
     {
         void ChangeUserStatus(UserStatus status, int userId);
 
+        void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
+
         void DeleteCashierById(int idCashier, int adminCinemaId);
 
         List<UserBLL> GetAllCashiers();
 
         List<UserBLL> GetAllUsers();
 
-        UserBLL GetUserById(int userId);
-
         UserBLL GetCashierById(int cashierId);
+
+        UserBLL GetUserById(int userId);
 
         UserBLL GetUserByName(string name);
 
-        UserBLL UpdateCashier(UpdateCashierInputModel user, int cashierId);
-
-        void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
+        UserBLL UpdateCashier(UpdateCashierInputModel cashier, int cashierId);
     }
 }
