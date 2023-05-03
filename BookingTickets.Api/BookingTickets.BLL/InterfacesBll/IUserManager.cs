@@ -8,8 +8,6 @@ namespace BookingTickets.BLL.InterfacesBll
     {
         void ChangeUserStatus(UserStatus status, int userId);
 
-        UserBLL CreateNewCashier(CreateCashierInputModel user);
-
         void DeleteCashierById(int idCashier);
 
         List<UserBLL> GetAllCashiers();
@@ -17,6 +15,8 @@ namespace BookingTickets.BLL.InterfacesBll
         List<UserBLL> GetAllUsers();
 
         UserBLL GetUserById(int userId);
+
+        UserBLL GetCashierById(int cashierId);
 
         UserBLL GetUserByName(string name);
 

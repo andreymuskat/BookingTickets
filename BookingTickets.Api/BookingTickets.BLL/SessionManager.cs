@@ -83,7 +83,10 @@ namespace BookingTickets.BLL
             {
                 _sessionRepository.DeleteSession(idSession);
             }
-            else { throw new SessionException(777); }
+            else 
+            { 
+                throw new SessionException(777);
+            }
         }
 
         public List<SessionBLL> GetAllSessionByCinemaId(int idCinema)
@@ -94,7 +97,10 @@ namespace BookingTickets.BLL
             {
                 return session;
             }
-            else { throw new SessionException(777); }
+            else 
+            {
+                throw new SessionException(777);
+            }
         }
 
         public List<SessionBLL> GetAllSessionByFilmId(int idFilm)

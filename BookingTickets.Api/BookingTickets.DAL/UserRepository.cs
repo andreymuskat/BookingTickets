@@ -15,24 +15,6 @@ namespace BookingTickets.DAL
             _context = new Context();
         }
 
-        public UserDto CreateNewCashier(UserDto user)
-        {
-            var cashier = new UserDto
-            {
-                UserName = user.UserName,
-                UserStatus = UserStatus.Cashier,
-                Password = user.Password,
-                CinemaId = 1,
-            };
-
-            _context.Users.Add(cashier);
-            _context.SaveChanges();
-
-            return _context.Users
-                .Include(u => u.Cinema)
-                .Single(u => u.Id == cashier.Id);
-        }
-
         public List<UserDto> GetAllUsers()
         {
             var result = new List<UserDto>();
@@ -80,6 +62,13 @@ namespace BookingTickets.DAL
         public UserDto GetUserById(int idUser) 
         {
             return _context.Users.SingleOrDefault(t => t.Id == idUser)!;
+        }
+
+        public UserDto GetCashierById(int idCashier)
+        {
+            return _context.Users
+                .Where(t => t.UserStatus == UserStatus.Cashier)
+                .SingleOrDefault(t => t.Id == idCashier)!;
         }
 
         public void UpdateUserStatus(UserDto user)

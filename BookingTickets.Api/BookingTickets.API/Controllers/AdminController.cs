@@ -10,6 +10,7 @@ using BookingTickets.BLL.Models.InputModel.All_Statistics_InputModels;
 using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.Core.CustomException;
 using Core.CustomException;
+using Core.Status;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -92,20 +93,18 @@ namespace BookingTickets.API.Controllers
 
         }
 
-        //исправь
+
         [HttpPost("Cashier/New")]
-        public ActionResult<UserResponseModel> CreateNewCashier(CreateCashierRequestModel cashierModel)
+        public IActionResult CreateNewCashier(int cashierId)
         {
-            var cashierInputModel = _mapper.Map<CreateCashierInputModel>(cashierModel);
+            _adminService.CreateNewCashier(cashierId);
 
-            var res = _mapper.Map<UserResponseModel>(_adminService.CreateNewCashier(cashierInputModel));
-
-            return Ok(res);
+            return Ok();
         }
 
-        //подумать
+
         [HttpPost("Cashier/Edit")]
-        public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier, int cahierId)
+        public ActionResult<UserResponseModel> UpdateCashier(UpdateCashierRequestModel cashier)
         {
             var userCinemaId = TakeIdCinemaByAdminAuth();
 
@@ -116,11 +115,19 @@ namespace BookingTickets.API.Controllers
             return Ok(res);
         }
 
-        //отбить ошибки на ненайденного кассира
+
         [HttpDelete("CashierService/{id}/Delete")]
         public IActionResult DeleteCashierById(int cashierId)
         {
-            _adminService.DeleteCashierById(cashierId);
+            try
+            {
+                _adminService.DeleteCashierById(cashierId);
+
+            }
+            catch (UserExceptions ex)
+            {
+                return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
+            }
 
             return Ok();
         }
@@ -150,7 +157,7 @@ namespace BookingTickets.API.Controllers
         public ActionResult<List<StatisticDays_ResponseModel>> StaticticOfDays([FromQuery] StatisticDays_RequestModel requestModel)
         {
             var inputModel = _mapper.Map<StatisticDays_InputModel>(requestModel);
-            inputModel.CinemaId = 7;
+            inputModel.CinemaId = TakeIdCinemaByAdminAuth();
             var res = _mapper.Map<List<StatisticDays_ResponseModel>>(_adminService.StatisticOfDays(inputModel));
 
             return Ok(res);
@@ -160,7 +167,7 @@ namespace BookingTickets.API.Controllers
         public ActionResult<List<StatisticCashiers_ResponseModel>> StatisticOfCashiers([FromQuery] StatisticCashiers_RequestModel requestModel)
         {
             var inputModel = _mapper.Map<StatisticCashiers_InputModel>(requestModel);
-            inputModel.CinemaId = 7;
+            inputModel.CinemaId = TakeIdCinemaByAdminAuth();
             var res1 = _adminService.StatisticOfCashiers(inputModel);
             var res = _mapper.Map<List<StatisticCashiers_ResponseModel>>(res1);
 

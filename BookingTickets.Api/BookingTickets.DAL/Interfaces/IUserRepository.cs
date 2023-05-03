@@ -6,8 +6,6 @@ namespace BookingTickets.DAL.Interfaces
     {
         int AddNewUser(UserDto user);
 
-        UserDto CreateNewCashier(UserDto user);
-
         List<UserDto> GetAllUsers();
 
         List<UserDto> GetAllCashiers();
@@ -15,6 +13,8 @@ namespace BookingTickets.DAL.Interfaces
         void DeleteCashierById(int idCashier);
 
         UserDto GetUserById(int idUser);
+
+        UserDto GetCashierById(int idCashier);
 
         void UpdateUserStatus(UserDto user);
 

@@ -7,6 +7,7 @@ using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
 using Core.Status;
+using Microsoft.AspNetCore.Http;
 
 namespace BookingTickets.BLL
 {
@@ -39,17 +40,18 @@ namespace BookingTickets.BLL
             return _mapper.Map<List<UserBLL>>(allUsers);
         }
 
-        public UserBLL CreateNewCashier(CreateCashierInputModel user)
-        {
-            var userDto = _mapper.Map<UserDto>(user);
-            var resUserBLL = _mapper.Map<UserBLL>(_userRepository.CreateNewCashier(userDto));
-
-            return resUserBLL;
-        }
-
         public void DeleteCashierById(int idCashier)
         {
-            _userRepository.DeleteCashierById(idCashier);
+            var cashier = _userRepository.GetCashierById(idCashier);
+
+            if (cashier != null)
+            {
+                _userRepository.DeleteCashierById(idCashier);
+            }
+            else
+            {
+                throw new SessionException(777);
+            }
         }
 
         public UserBLL GetUserByName(string name)
@@ -73,6 +75,11 @@ namespace BookingTickets.BLL
         public UserBLL GetUserById(int userId)
         {
             return _mapper.Map<UserBLL>(_userRepository.GetUserById(userId));
+        }
+
+        public UserBLL GetCashierById(int cashierId)
+        {
+            return _mapper.Map<UserBLL>(_userRepository.GetUserById(cashierId));
         }
 
         public UserBLL UpdateCashier(UpdateCashierInputModel user)

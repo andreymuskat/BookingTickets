@@ -47,15 +47,15 @@ namespace BookingTickets.DAL
                     .ToList();
         }
 
-        public List<OrderDto> GetAllTicketsSold(DateTime dateStart, DateTime dateEnd, int cinemaId)
+        public List<OrderDto> GetAllTicketsSold(DateTime dateStart, DateTime dateEnd)
         {
             var result = new List<OrderDto>();
 
             result = _context.Orders
                 .Where(t => t.Status == OrderStatus.PurchasedByСashbox || t.Status == OrderStatus.PurchasedBySite)
-                .Where(t => t.Session.Hall.Cinema.Id == cinemaId)
                 .Where(t => t.Date >= dateStart && t.Date <= dateEnd)
                 .Include(h => h.Session)
+                .Include(h => h.Seats.Hall.Cinema)
                 .ToList();
 
             return result;

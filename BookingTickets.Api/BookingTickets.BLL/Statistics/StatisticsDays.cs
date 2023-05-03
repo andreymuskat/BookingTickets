@@ -18,7 +18,9 @@ namespace BookingTickets.BLL.Statistics
 
         public List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel)
         {
-            List<OrderDto> allTicketsSold = _orderRepository.GetAllTicketsSold(inputModel.DateStart, inputModel.DateEnd, inputModel.CinemaId);
+            List<OrderDto> allTicketsSold = _orderRepository.GetAllTicketsSold(inputModel.DateStart, inputModel.DateEnd)
+                .Where(t => t.Seats.Hall.Cinema.Id == inputModel.CinemaId)
+                .ToList();
 
             var date = new DateTime(inputModel.DateStart.Year, inputModel.DateStart.Month, inputModel.DateStart.Day);
             var allDaysInTheMonth = new List<StatisticDays_OutputModel>();
