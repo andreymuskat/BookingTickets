@@ -7,7 +7,7 @@ namespace BookingTickets.DAL
 {
     public class SeatRepository : ISeatRepository
     {
-        private static Context _context;
+        private readonly Context _context;
 
         public SeatRepository()
         {

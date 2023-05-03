@@ -9,12 +9,16 @@ using BookingTickets.BLL.Statistics;
 using BookingTickets.DAL;
 using BookingTickets.DAL.Configuration;
 using BookingTickets.DAL.Interfaces;
+using Core.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using NLog;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
+
+LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Context>();
@@ -55,6 +59,8 @@ builder.Services.AddScoped<ICashierService, CashierService>();
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+
+builder.Services.AddScoped<INLogLogger, NLogLogger>();
 
 builder.Services.AddAutoMapper(typeof(MapperApiProfile), typeof(MapperBLL));
 

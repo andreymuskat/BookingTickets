@@ -2,10 +2,9 @@
 {
     public enum UserStatus
     {
-        NoLogger = 0,
-        Client = 1,
-        Cashier = 2,
-        Admin = 3,
-        MainAdmin = 4,
+        ClientService = 1,
+        CashierService = 2,
+        AdminService = 3,
+        MainAdminService = 4,
     }
 }

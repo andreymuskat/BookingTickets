@@ -10,32 +10,35 @@ using Core.CustomException;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 
 namespace BookingTickets.API.Controllers
 {
-    //[Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("[controller]")]
     [ApiController]
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
         private readonly IMapper _mapper;
-        private readonly ILogger<ClientController> _logger;
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         public ClientController(IMapper map, IClientService client, ILogger<ClientController> log)
         {
             _mapper = map;
             _clientService = client;
-            _logger = log;
         }
 
-        [HttpGet("GetSession/Cinema/{cinemaId}", Name = "GetAllSessionsByCinema")]
-        public IActionResult GetAllSessionByCinemaId(int cinemaId, DateTime time)
+        [HttpGet("Sessions/Cinema/{cinemaId}", Name = "GetAllSessionsByCinema")]
+        public IActionResult GetAllSessionByCinemaId([FromQuery]int cinemaId, DateTime time)
         {
+            logger.Info("User sent a request to get all sessions by cinema ID");
+
             try
             {
                 var ls = _clientService.GetFilmsByCinema(cinemaId, time);
                 var res = _mapper.Map<List<SessionResponseModelForClient>>(ls);
+
+                logger.Info($"User received an answer and all sessions by ID {cinemaId}");
 
                 return Ok(res);
             }
@@ -45,8 +48,8 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetSession/Film/{idFilm}", Name = "GetSessionsByFilmId")]
-        public IActionResult GetAllSessionByFilmId(int idFilm, DateTime time)
+        [HttpGet("Sessions/Film/{idFilm}", Name = "GetSessionsByFilmId")]
+        public IActionResult GetAllSessionByFilmId([FromQuery] int idFilm, DateTime time)
         {
             try
             {
@@ -61,7 +64,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetSession/Session/{idSession}", Name = "GetSessionById")]
+        [HttpGet("Session/{idSession}", Name = "GetSessionById")]
         public IActionResult GetSessionById(int idSession)
         {
             try
@@ -77,7 +80,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetFilm/{filmId}", Name = "GetFilmById")]
+        [HttpGet("Film/{filmId}", Name = "GetFilmById")]
         public IActionResult GetFilmById(int filmId)
         {
             try
@@ -93,7 +96,7 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("GetCinemas/{filmId}", Name = "GetCinemasByFilmId")]
+        [HttpGet("Cinemas/{filmId}", Name = "GetCinemasByFilmId")]
         public IActionResult GetCinemasByFilmId(int filmId)
         {
             try
@@ -109,16 +112,18 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpPost("CreateOrder", Name = "CreateOrder")]
+        [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPost("Order/new", Name = "CreateOrder")]
         public IActionResult CreateOrderByCustomer(List<CreateOrderRequestModel> models)
         {
-            _logger.Log(LogLevel.Information, "ClientService wanted to create a new order.");
+            //_logger.Log(LogLevel.Information, "ClientService wanted to create a new order.");
             var userId = TakeIdByClientAuth();
 
             try
             {
                 var code = _clientService.CreateOrderByCustomer(_mapper.Map<List<CreateOrderInputModel>>(models), userId);
-                _logger.Log(LogLevel.Information, "ClientService's request completed: new order written to the database.", models);
+                //_logger.Log(LogLevel.Information, "ClientService's request completed: new order written to the database.", models);
+
                 return Ok(code);
             }
             catch (OrderException ex)
@@ -131,8 +136,9 @@ namespace BookingTickets.API.Controllers
             }
         }
 
-        [HttpPatch("UpdateOrder", Name = "Cancel the order")]
-        public IActionResult CancelOrderByCustomer(string code)
+        [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [HttpPatch("Order/Modification", Name = "Change the order")]
+        public IActionResult ChangeOrderByCustomer(string code)
         {
             try
             {

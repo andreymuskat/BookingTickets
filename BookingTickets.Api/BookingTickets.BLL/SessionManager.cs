@@ -5,21 +5,25 @@ using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
 using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
+using Core.ILogger;
+using NLog;
 
 namespace BookingTickets.BLL
 {
     public class SessionManager : ISessionManager
     {
+        private readonly INLogLogger _logger;
         private readonly ISessionRepository _sessionRepository;
         private readonly IFilmRepository _filmRepository;
         private readonly IMapper _mapper;
         const int timeoutInMin = 30;
 
-        public SessionManager(IMapper map, ISessionRepository sessionRepository, IFilmRepository filmRepository)
+        public SessionManager(IMapper map, ISessionRepository sessionRepository, IFilmRepository filmRepository, INLogLogger logger)
         {
             _sessionRepository = sessionRepository;
             _filmRepository = filmRepository;
             _mapper = map;
+            _logger = logger;
         }
 
         public void CreateSession(CreateSessionInputModel newSession)
@@ -48,15 +52,15 @@ namespace BookingTickets.BLL
                     if (allTimeStartSession[i] <= TimeStartNewSession
                         && TimeStartNewSession <= allTimeEndSession[i])
                     {
-                        throw new SessionException(100);
+                        _logger.Warn($"User tried to create a session at a time where there was already a record.");
 
-                        return;
+                        throw new SessionException(100);
                     }
                     else if (SubtractSession < DurationSession)
                     {
-                        throw new SessionException(101);
+                        _logger.Warn($"User tried to create a session where there was not enough time before the next session.");
 
-                        return;
+                        throw new SessionException(101);
                     }
                     else
                     {
