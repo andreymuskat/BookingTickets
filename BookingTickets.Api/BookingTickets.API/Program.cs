@@ -76,8 +76,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var checkService = app.Services.GetService<CheckOrderStatusExpirationJob>();
-await checkService.StartCheck();
+//var checkService = app.Services.GetService<CheckOrderStatusExpirationJob>();
+//await checkService.StartCheck();
 
 app.Run();
 
