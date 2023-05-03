@@ -1,4 +1,5 @@
 ﻿using BookingTickets.DAL.Interfaces;
+using Core.Status;
 using BookingTickets.DAL.Models;
 
 namespace BookingTickets.DAL
@@ -14,6 +15,7 @@ namespace BookingTickets.DAL
 
         public int AddUser(UserDto user)
         {
+            user.UserStatus = UserStatus.ClientService;
             _context.Users.Add(user);
             _context.SaveChanges();
 

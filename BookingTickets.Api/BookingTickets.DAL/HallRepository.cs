@@ -1,7 +1,5 @@
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 
 namespace BookingTickets.DAL
 {
@@ -35,7 +33,7 @@ namespace BookingTickets.DAL
             return searchHall;
         }
 
-        public HallDto GetHallById(int hallId) 
+        public HallDto GetHallById(int hallId)
         {
             return _context.Halls.SingleOrDefault(k => k.Id == hallId)!;
         }

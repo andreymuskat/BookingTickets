@@ -1,5 +1,6 @@
 ﻿using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
+using Core.ILogger;
 using Core.Status;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,11 +8,13 @@ namespace BookingTickets.DAL
 {
     public class OrderRepository : IOrderRepository
     {
+        private readonly INLogLogger _logger;
         private readonly Context _context;
 
-        public OrderRepository()
+        public OrderRepository(INLogLogger logger)
         {
             _context = new Context();
+            _logger = logger; 
         }
 
         public void CreateOrder(OrderDto order)
@@ -19,6 +22,8 @@ namespace BookingTickets.DAL
             _context.Orders.Add(order);
 
             _context.SaveChanges();
+
+            _logger.Info($"Order on session(Id - {order.SessionId}) create and written to the database.");
         }
 
         public void EditOrderStatusByCode(OrderStatus status, string code)
@@ -52,7 +57,7 @@ namespace BookingTickets.DAL
             var result = new List<OrderDto>();
 
             result = _context.Orders
-                .Where(t => t.Status == OrderStatus.PurchasedByСashbox || t.Status == OrderStatus.PurchasedBySite)
+                .Where(t => t.Status == OrderStatus.PurchasedByCashbox || t.Status == OrderStatus.PurchasedBySite)
                 .Where(t => t.Date >= dateStart && t.Date <= dateEnd)
                 .Include(h => h.Session)
                 .Include(h => h.Seats.Hall.Cinema)
@@ -67,7 +72,7 @@ namespace BookingTickets.DAL
 
             result = _context.Orders
                 .Where(t => t.User.UserStatus == UserStatus.CashierService)
-                .Where(t => t.Status == OrderStatus.PurchasedByСashbox)
+                .Where(t => t.Status == OrderStatus.PurchasedByCashbox)
                 .Where(t => t.Session.Hall.Cinema.Id == cinemaId)
                 .Where(t => t.Date >= dateStart && t.Date <= dateEnd)
                 .Include(h => h.Session)

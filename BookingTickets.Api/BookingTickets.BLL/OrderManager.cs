@@ -5,6 +5,7 @@ using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
 using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
+using Core.ILogger;
 using Core.Status;
 
 namespace BookingTickets.BLL
@@ -14,17 +15,30 @@ namespace BookingTickets.BLL
         private readonly IOrderRepository _orderRepository;
         private readonly ISeatRepository _seatRepository;
         private readonly IMapper _mapper;
+        private readonly INLogLogger _logger;
 
-        public OrderManager(IMapper map, IOrderRepository orderRepository, ISeatRepository seatRepository)
+        public OrderManager(IMapper map, IOrderRepository orderRepository, ISeatRepository seatRepository, INLogLogger logger)
         {
             _orderRepository = orderRepository;
             _seatRepository = seatRepository;
             _mapper = map;
+            _logger = logger;
         }
 
         public List<OrderBLL> FindOrdersByCodeNumber(string codeNumber)
         {
-            return _mapper.Map<List<OrderBLL>>(_orderRepository.FindOrderByCodeNumber(codeNumber));
+            var order = _orderRepository.FindOrderByCodeNumber(codeNumber);
+
+            if (order != null)
+            {
+                return _mapper.Map<List<OrderBLL>>(order);
+            }
+            else
+            {
+                _logger.Warn("Objects not found in database.");
+
+                throw new OrderException(777);
+            }
         }
 
         public void EditOrderStatus(OrderStatus status, string code)
@@ -32,14 +46,16 @@ namespace BookingTickets.BLL
             _orderRepository.EditOrderStatusByCode(status, code);
         }
 
-        public void CreateOrderByCashier(List<CreateOrderInputModel> orders, int userId)
+        public List<OrderBLL> CreateOrderByCashier(List<CreateOrderInputModel> orders, int userId)
         {
             var orderFromOrders = orders.FirstOrDefault(x => x.SessionId > 0);
+
             if (orderFromOrders != null)
             {
                 string CodeForClient = CreateCode(orderFromOrders);
-                var result = CheckSeatsInOrderWithSeatsInDB(orders, orderFromOrders.SessionId);
-                if (result == true)
+                var resultFreeSeats = CheckSeatsInOrderWithSeatsInDB(orders, orderFromOrders.SessionId);
+
+                if (resultFreeSeats == true)
                 {
                     foreach (var order in orders)
                     {
@@ -50,10 +66,22 @@ namespace BookingTickets.BLL
 
                         _orderRepository.CreateOrder(_mapper.Map<OrderDto>(order));
                     }
+
+                    var allNewOrders = _orderRepository.FindOrderByCodeNumber(CodeForClient);
+
+                    return _mapper.Map<List<OrderBLL>>(allNewOrders);
+                }
+                else
+                {
+                    _logger.Warn("Create an order for seats that are occupied.");
+
+                    throw new OrderException(500);
                 }
             }
             else
             {
+                _logger.Warn("Passed an empty value to a variable.");
+
                 throw new OrderException(300);
             }
         }
@@ -77,6 +105,7 @@ namespace BookingTickets.BLL
                         _orderRepository.CreateOrder(_mapper.Map<OrderDto>(order));
                     }
                 }
+
                 return CodeForClient;
             }
             else

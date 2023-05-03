@@ -11,9 +11,9 @@ namespace BookingTickets.BLL.Statistics
     {
         private readonly IOrderRepository _orderRepository;
 
-        public StatisticsDays()
+        public StatisticsDays(IOrderRepository orderRepository)
         {
-            _orderRepository = new OrderRepository();
+            _orderRepository = orderRepository;
         }
 
         public List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel)

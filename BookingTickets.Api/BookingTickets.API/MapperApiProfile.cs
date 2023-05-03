@@ -43,7 +43,7 @@ namespace BookingTickets.API
             CreateMap<UserBLL, UserResponseModel>();
             CreateMap<SessionRequestModel, SessionBLL>();
             CreateMap<AddSeatsRowsRequestModel, AddSeatsRowsInputModel>();
-            CreateMap<SessionBLL, SessionResponseModelForClient>();
+            CreateMap<SessionBLL, SessionResponseModel>();
             CreateMap<OrderForCashierResponseModel, OrderBLL>();
             CreateMap<OrderBLL, OrderRequestModel>();
             CreateMap<OrderBLL, OrderForCashierResponseModel>()
@@ -53,9 +53,9 @@ namespace BookingTickets.API
                 .ForMember(src => src.Date, opt => opt.MapFrom(x => x.Session.Date))
                 .ForMember(src => src.FilmName, opt => opt.MapFrom(x => x.Session.Film.Name))
                 .ForMember(src => src.CostSession, opt => opt.MapFrom(x => x.Session.Cost))
-                .ForMember(src => src.Status, opt => opt.MapFrom(x => x.Status));
+                .ForMember(src => src.Status, opt => opt.MapFrom(x => x.Status))
+                .ForMember(src => src.Code, opt => opt.MapFrom(x => x.Code));
             CreateMap<OrderForCashierResponseModel, OrderBLL>();
-            CreateMap<HallBLL, HallResponseModelForClient>();
             CreateMap<HallResponseModel, HallBLL>();
             CreateMap<SeatBLL, SeatResponseModel>();
             CreateMap<SeatResponseModel, SeatBLL>();
@@ -71,15 +71,17 @@ namespace BookingTickets.API
             CreateMap<UserLoginRequest, UserLogin>();
             CreateMap<UserDto, UserBLL>();
             CreateMap<CreateNewEmployeeRequestModel, CreateNewEmployeeInputModel>();
-            CreateMap<FilmBLL, FilmResponseModelForClient>();
-            CreateMap<FilmResponseModelForClient, FilmBLL>();
+            CreateMap<FilmBLL, FilmResponseModel>();
+            CreateMap<FilmResponseModel, FilmBLL>();
             CreateMap<HallRequestModel, CreateAndUpdateHallInputModel>();
-            CreateMap<SessionOutputModel, SessionResponseModelForClient>();
+            CreateMap<SessionOutputModel, SessionResponseModel>();
             CreateMap<SessionBLL, SessionForCashierResponseModel>()
                 .ForMember(src => src.Date, opt => opt.MapFrom(x => x.Date))
-                .ForMember(src => src.NameFilm, opt => opt.MapFrom(x => x.Film.Name))
-                .ForMember(src => src.Duration, opt => opt.MapFrom(x => x.Film.Duration))
-                .ForMember(src => src.NumberHall, opt => opt.MapFrom(x => x.Hall.Number))
+                .ForPath(src => src.Hall.Number, opt => opt.MapFrom(x => x.Hall.Number))
+                .ForPath(src => src.Hall.Cinema.Name, opt => opt.MapFrom(x => x.Hall.Cinema.Name))
+                .ForPath(src => src.Hall.Cinema.Address, opt => opt.MapFrom(x => x.Hall.Cinema.Address))
+                .ForPath(src => src.Film.Duration, opt => opt.MapFrom(x => x.Film.Duration))
+                .ForPath(src => src.Film.Name, opt => opt.MapFrom(x => x.Film.Name))
                 .ForMember(src => src.Cost, opt => opt.MapFrom(x => x.Cost));
             CreateMap<SeatsForCashierOutputModel, SeatResponseModel>()
                 .ForMember(src => src.NumderHall, opt => opt.MapFrom(x => x.Hall.Number));

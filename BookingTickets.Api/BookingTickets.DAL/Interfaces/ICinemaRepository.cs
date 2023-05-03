@@ -14,6 +14,8 @@ namespace BookingTickets.DAL.Interfaces
 
         List<CinemaDto> GetAllCinemaByFilm(int idFilm);
 
+        CinemaDto GetCinemaBySessionId(int sessionId);
+
         CinemaDto GetCinemaByHallId(int hallId);
 
         void EditCinema(CinemaDto cinema);

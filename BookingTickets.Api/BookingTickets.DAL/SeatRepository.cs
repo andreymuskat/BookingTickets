@@ -17,6 +17,7 @@ namespace BookingTickets.DAL
         public SeatDto CreateSeat(SeatDto seat)
         {
             _context.Seats.Add(seat);
+
             _context.SaveChanges();
 
             return seat;
@@ -94,7 +95,7 @@ namespace BookingTickets.DAL
 
             foreach (var order in ordersInSession)
             {
-                if (order.Status == OrderStatus.PurchasedByСashbox || order.Status == OrderStatus.PurchasedBySite)
+                if (order.Status == OrderStatus.PurchasedByCashbox || order.Status == OrderStatus.PurchasedBySite)
                 {
                     PurchasedSeats.Add(order.Seats);
                 }

@@ -40,24 +40,26 @@ namespace BookingTickets.DAL
 
         public List<SessionDto> GetAllSessionByFilmId(int idFilm)
         {
-                var sessionsByFilmId =_context.Sessions
-                .Where(f => f.FilmId == idFilm && f.IsDeleted == false)
-                .Include(k => k.Film)
-                .Include(k => k.Hall)
-                .Include(k => k.Hall.Cinema)
-                .ToList();
+            var sessionsByFilmId = _context.Sessions
+            .Where(f => f.FilmId == idFilm && f.IsDeleted == false)
+            .Include(k => k.Film)
+            .Include(k => k.Hall)
+            .Include(k => k.Hall.Cinema)
+            .ToList();
 
             return sessionsByFilmId;
         }
 
         public List<SessionDto> GetAllSessionByCinemaId(int idCinema)
         {
-            return _context.Sessions
+            var sessionsByCinemaId = _context.Sessions
                 .Where(k => k.Hall.Cinema.Id == idCinema && k.IsDeleted == false)
                 .Include(f => f.Film)
                 .Include(h => h.Hall)
                 .Include(h => h.Hall.Cinema)
                 .ToList();
+
+            return sessionsByCinemaId;
         }
 
         public List<SessionDto> GetAllSessionByDate(DateTime date)

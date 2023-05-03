@@ -6,7 +6,7 @@ namespace BookingTickets.BLL.InterfacesBll
 {
     public interface IOrderManager
     {
-        void CreateOrderByCashier(List<CreateOrderInputModel> orders, int userId);
+        List<OrderBLL> CreateOrderByCashier(List<CreateOrderInputModel> orders, int userId);
 
         string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId);
 

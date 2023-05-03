@@ -2,16 +2,17 @@ using BookingTickets.BLL.InterfacesBll;
 using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Models;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
-using BookingTickets.BLL.Models.InputModel.All_Session_InputModel;
 using BookingTickets.BLL.Models.OutputModel.All_Seats_OutputModels;
 using BookingTickets.BLL.Models.OutputModel.All_Sessions_OutputModels;
 using BookingTickets.Core.CustomException;
+using Core.ILogger;
 using Core.Status;
 
 namespace BookingTickets.BLL.Roles
 {
     public class CashierService : ICashierService
     {
+        private readonly INLogLogger _logger;
         private readonly IFilmManager _filmManager;
         private readonly ISessionManager _sessionManager;
         private readonly ICinemaManager _cinemaManager;
@@ -19,8 +20,8 @@ namespace BookingTickets.BLL.Roles
         private readonly IOrderManager _orderManager;
         private readonly ISeatManager _seatManager;
 
-        public CashierService(ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager, IFilmManager filmManager,
-            IOrderManager orderManager, ISeatManager seatManager)
+        public CashierService(INLogLogger logger, ICinemaManager cinemaManager, ISessionManager sessionManager, IUserManager userManager,
+            IFilmManager filmManager, IOrderManager orderManager, ISeatManager seatManager)
         {
             _filmManager = filmManager;
             _sessionManager = sessionManager;
@@ -28,6 +29,7 @@ namespace BookingTickets.BLL.Roles
             _userManager = userManager;
             _orderManager = orderManager;
             _seatManager = seatManager;
+            _logger = logger;
         }
 
         public FilmBLL GetFilmById(int filmId)
@@ -41,14 +43,7 @@ namespace BookingTickets.BLL.Roles
                 .Where(k => k.IsDeleted == false)
                 .ToList();
 
-            if (listSession != null)
-            {
-                return listSession;
-            }
-            else
-            {
-                throw new SessionException(777);
-            }
+            return listSession;
         }
 
         public List<SessionBLL> GetSessionsByFilmInHisCinema(int idFilm, int cashiersCinemaId)
@@ -77,81 +72,99 @@ namespace BookingTickets.BLL.Roles
             }
             else
             {
+                _logger.Warn("Tried to create a session not in your cinema");
+
                 throw new SessionException(205);
             }
         }
 
         public List<SeatsForCashierOutputModel> GetFreeSeatsBySessionInHisCinema(int sessionId, int cashiersCinemaId)
         {
-            var allSeats = _seatManager.GetFreeSeatsBySessionIdForCashier(sessionId);
-            int hallId = allSeats.First().Hall.Id;
-            var cinemaId = _cinemaManager.GetCinemaByHallId(hallId);
+            var cinemaId = _cinemaManager.GetCinemaBySessionId(sessionId);
 
             if (cinemaId.Id == cashiersCinemaId)
             {
-                return allSeats;
+                var allFreeSeats = _seatManager.GetFreeSeatsBySessionIdForCashier(sessionId);
+
+                return allFreeSeats;
             }
             else
             {
-                throw new SessionException(205);
+                _logger.Warn("Search seats not in your cinema");
+
+                throw new SeatException(205);
             }
         }
 
-        public List<OrderBLL> FindOrderByCodeNumber(string codeNumber)
+        public List<OrderBLL> FindOrdersByCodeNumber(string codeNumber)
         {
             var order = _orderManager.FindOrdersByCodeNumber(codeNumber);
-            if (order != null)
-            {
-                return order;
-            }
-            else
-            {
-                throw new SessionException(777);
-            }
+
+            return order;
         }
 
-        public void CreateOrderByCashier(List<CreateOrderInputModel> orders, int cinemaId, int userId)
+        public List<OrderBLL> CreateOrderByCashier(List<CreateOrderInputModel> orders, int cinemaId, int userId)
         {
+            DateTime nowData = DateTime.Now;
             SessionBLL sess = _sessionManager.GetAllSessionByCinemaId(cinemaId)
                 .Single(k => k.Id == orders[0].SessionId);
 
             if (sess != null)
             {
-                _orderManager.CreateOrderByCashier(orders, userId);
+                if (sess.Date >= nowData)
+                {
+                    var allNewOrders = _orderManager.CreateOrderByCashier(orders, userId);
+
+                    return allNewOrders;
+                }
+                else
+                {
+                    _logger.Warn($"Tried create an order for the past session");
+
+                    throw new OrderException(120);
+                }
             }
             else
             {
-                throw new SessionException(205);
-            }
-        }
+                _logger.Warn("Tried to create a session not in your cinema");
 
-
-        public void CreateSession(CreateSessionInputModel session, int cinemaId)
-        {
-            var cinemaBll = _cinemaManager.GetCinemaByHallId(session.HallId);
-
-            if (cinemaBll.Id == cinemaId)
-            {
-                _sessionManager.CreateSession(session);
-            }
-            else
-            {
-                throw new SessionException(205);
+                throw new OrderException(205);
             }
         }
 
         public void EditOrderStatus(OrderStatus status, string code, int cinemaId)
         {
+            DateTime nowData = DateTime.Now;
             var orderBll = _orderManager.FindOrdersByCodeNumber(code);
             var cinemaInOrder = _cinemaManager.GetCinemaByHallId(orderBll.First().Seats.HallId);
 
             if (cinemaInOrder.Id == cinemaId)
             {
-                _orderManager.EditOrderStatus(status, code);
+                if (orderBll.FirstOrDefault(k => k.User != null)!.Session.Date >= nowData)
+                {
+                    if (status != OrderStatus.Booking && status != OrderStatus.PurchasedBySite)
+                    {
+                        _orderManager.EditOrderStatus(status, code);
+                    }
+                    else
+                    {
+                        _logger.Warn("Attempt to change order status");
+
+                        throw new OrderException(333);
+                    }
+                }
+                else
+                {
+                    _logger.Warn($"Tried change order status for the past session");
+
+                    throw new OrderException(120);
+                }
             }
             else
             {
-                throw new SessionException(205);
+                _logger.Warn("Tried to create a session not in your cinema");
+
+                throw new OrderException(205);
             }
         }
     }

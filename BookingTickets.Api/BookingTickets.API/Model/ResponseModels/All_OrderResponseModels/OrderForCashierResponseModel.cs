@@ -20,5 +20,7 @@ namespace BookingTickets.API.Model.ResponseModels.All_OrderResponseModels
         public int CostSession { get; set; }
 
         public string Status { get; set; }
+
+        public string? Code { get; set; }
     }
 }

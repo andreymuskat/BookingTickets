@@ -79,7 +79,7 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpDelete("Film/{id}/Delete")]
-        public IActionResult DeleteFilm([FromHeader] int filmId)
+        public IActionResult DeleteFilm([FromQuery] int filmId)
         {
             var userId = TakeIdUserAuth();
             _logger.Info($"UserId: {userId} sent a request to DELETE a film");

@@ -28,15 +28,15 @@ namespace BookingTickets.API.Controllers
             _clientService = client;
         }
 
-        [HttpGet("Sessions/Cinema/{cinemaId}", Name = "GetAllSessionsByCinema")]
-        public IActionResult GetAllSessionByCinemaId([FromQuery]int cinemaId, DateTime time)
+        [HttpGet("Sessions/Cinemas/{cinemaId}/{data}", Name = "GetAllSessionsByCinema")]
+        public IActionResult GetAllSessionByCinemaId([FromHeader] int cinemaId, [FromQuery] DateTime data)
         {
             logger.Info("User sent a request to get all sessions by cinema ID");
 
             try
             {
-                var ls = _clientService.GetFilmsByCinema(cinemaId, time);
-                var res = _mapper.Map<List<SessionResponseModelForClient>>(ls);
+                var ls = _clientService.GetFilmsByCinema(cinemaId, data);
+                var res = _mapper.Map<List<SessionResponseModel>>(ls);
 
                 logger.Info($"User received an answer and all sessions by ID {cinemaId}");
 
@@ -48,13 +48,13 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("Sessions/Film/{idFilm}", Name = "GetSessionsByFilmId")]
-        public IActionResult GetAllSessionByFilmId([FromQuery] int idFilm, DateTime time)
+        [HttpGet("Sessions/Film/{idFilm}/{data}", Name = "GetSessionsByFilmId")]
+        public IActionResult GetAllSessionByFilmId([FromHeader] int idFilm, [FromQuery] DateTime data)
         {
             try
             {
-                var sb = _clientService.GetSessionsByFilm(idFilm, time);
-                var res = _mapper.Map<List<SessionResponseModelForClient>>(sb);
+                var sb = _clientService.GetSessionsByFilm(idFilm, data);
+                var res = _mapper.Map<List<SessionResponseModel>>(sb);
 
                 return Ok(res);
             }
@@ -65,12 +65,12 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpGet("Session/{idSession}", Name = "GetSessionById")]
-        public IActionResult GetSessionById(int idSession)
+        public IActionResult GetSessionById([FromHeader] int idSession)
         {
             try
             {
                 var sb = _clientService.GetSessionById(idSession);
-                var res = _mapper.Map<SessionResponseModelForClient>(sb);
+                var res = _mapper.Map<SessionResponseModel>(sb);
 
                 return Ok(res);
             }
@@ -81,12 +81,12 @@ namespace BookingTickets.API.Controllers
         }
 
         [HttpGet("Film/{filmId}", Name = "GetFilmById")]
-        public IActionResult GetFilmById(int filmId)
+        public IActionResult GetFilmById([FromHeader] int filmId)
         {
             try
             {
                 var fb = _clientService.GetFilmById(filmId);
-                var res = _mapper.Map<FilmResponseModelForClient>(fb);
+                var res = _mapper.Map<FilmResponseModel>(fb);
 
                 return Ok(res);
             }
@@ -96,12 +96,14 @@ namespace BookingTickets.API.Controllers
             };
         }
 
-        [HttpGet("Cinemas/{filmId}", Name = "GetCinemasByFilmId")]
-        public IActionResult GetCinemasByFilmId(int filmId)
+        ///nado fix
+        [HttpGet("{filmId}/Cinemas", Name = "GetCinemasByFilmId")]
+        public IActionResult GetCinemasByFilmId([FromHeader] int filmId)
         {
             try
             {
                 var cb = _clientService.GetCinemaByFilm(filmId);
+                //tyt eror vnizy
                 var res = _mapper.Map<List<CinemaResponseModelForClient>>(cb);
 
                 return Ok(res);
@@ -137,12 +139,13 @@ namespace BookingTickets.API.Controllers
         }
 
         [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPatch("Order/Modification", Name = "Change the order")]
-        public IActionResult ChangeOrderByCustomer(string code)
+        [HttpPatch("Order/Edit", Name = "Change the order")]
+        public IActionResult ChangeOrderByCustomer([FromBody]string code)
         {
             try
             {
                 _clientService.CancelOrderByCustomer(code);
+
                 return Ok();
             }
             catch (OrderException ex)

@@ -18,7 +18,8 @@ namespace BookingTickets.BLL
         private readonly IMapper _mapper;
         const int timeoutInMin = 30;
 
-        public SessionManager(IMapper map, ISessionRepository sessionRepository, IFilmRepository filmRepository, INLogLogger logger)
+        public SessionManager(IMapper map, ISessionRepository sessionRepository, 
+            IFilmRepository filmRepository, INLogLogger logger)
         {
             _sessionRepository = sessionRepository;
             _filmRepository = filmRepository;
@@ -95,14 +96,16 @@ namespace BookingTickets.BLL
 
         public List<SessionBLL> GetAllSessionByCinemaId(int idCinema)
         {
-
             var session = _mapper.Map<List<SessionBLL>>(_sessionRepository.GetAllSessionByCinemaId(idCinema));
+
             if (session != null)
             {
                 return session;
             }
             else 
             {
+                _logger.Warn("Objects not found in database.");
+
                 throw new SessionException(777);
             }
         }
@@ -117,10 +120,18 @@ namespace BookingTickets.BLL
 
         public SessionOutputModel GetSessionById(int idSession)
         {
-            var sDto = _sessionRepository.GetSessionById(idSession);
-            var res = _mapper.Map<SessionOutputModel>(sDto);
+            var searchSession = _sessionRepository.GetSessionById(idSession);
 
-            return res;
+            if (searchSession != null)
+            {
+                return _mapper.Map<SessionOutputModel>(searchSession);
+            }
+            else
+            {
+                _logger.Warn("Object not found in database.");
+
+                throw new SessionException(777);
+            }
         }
 
         public List<SessionBLL> GetAllSessionByCinemaAndFilm(int cinemaId, int filmId)
