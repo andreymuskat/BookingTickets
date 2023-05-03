@@ -101,6 +101,8 @@ namespace BookingTickets.BLL
             }
             else
             {
+                _logger.Warn("Object not found in database.");
+
                 throw new FilmException(777);
             }
         }

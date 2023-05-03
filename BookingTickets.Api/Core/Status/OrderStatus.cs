@@ -4,7 +4,7 @@
     {
         Booking = 0,
         Canceled = 1,
-        PurchasedByСashbox = 2,
+        PurchasedByCashbox = 2,
         PurchasedBySite = 3,
     }
 }

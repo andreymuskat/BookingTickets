@@ -3,6 +3,7 @@ using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.BLL.Authentication;
 using BookingTickets.BLL.Authentication.AuthModels;
 using CompanyName.Application.WebApi.OrdersApi.Models.Auth.Responses;
+using Core.ILogger;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookingTickets.API.Controllers
@@ -11,13 +12,13 @@ namespace BookingTickets.API.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
+        private readonly INLogLogger _logger;
         private readonly IAuthService service;
         private readonly IMapper mapper;
 
-        public AuthenticationController(
-            IAuthService authService,
-            IMapper autoMapper)
+        public AuthenticationController(INLogLogger logger, IAuthService authService, IMapper autoMapper)
         {
+            _logger = logger;
             service = authService;
             mapper = autoMapper;
         }
@@ -38,6 +39,8 @@ namespace BookingTickets.API.Controllers
 
             if (response.Success)
             {
+                _logger.Info($"User: {request.UserName} - successfully registered.");
+
                 return Ok(response);
             }
 
@@ -57,10 +60,13 @@ namespace BookingTickets.API.Controllers
             var userRegister = mapper.Map<UserLoginRequest, UserLogin>(request);
             var loginResult = await service.LoginUser(userRegister);
 
+
             var response = mapper.Map<AuthResult, AuthResponse>(loginResult);
 
             if (response.Success)
             {
+                _logger.Info($"User: {request.UserName} - successfully logged in.");
+
                 return Ok(response);
             }
 

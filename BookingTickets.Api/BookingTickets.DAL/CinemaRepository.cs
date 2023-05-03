@@ -59,9 +59,18 @@ namespace BookingTickets.DAL
             return cinemaDtos;
         }
 
+        public CinemaDto GetCinemaBySessionId(int sessionId)
+        {
+            var sesion = _context.Sessions.FirstOrDefault(k => k.Id == sessionId);
+
+            var cinemaDto = GetCinemaByHallId(sesion.HallId);
+
+            return cinemaDto;
+        }
+
         public CinemaDto GetCinemaByHallId(int hallId)
         {
-            var cinemaId = _context.Halls.SingleOrDefault(k => k.Id == hallId).CinemaId;
+            var cinemaId = _context.Halls.SingleOrDefault(k => k.Id == hallId)!.CinemaId;
 
             var cinemaDto = GetCinemaById(cinemaId);
 

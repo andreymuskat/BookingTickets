@@ -12,10 +12,10 @@ namespace BookingTickets.BLL.Statistics
         private readonly IUserRepository _userRepository;
         private readonly IOrderRepository _orderRepository;
 
-        public StatisticsCashiers()
+        public StatisticsCashiers(IUserRepository userRepository, IOrderRepository orderRepository)
         {
-            _userRepository = new UserRepository();
-            _orderRepository = new OrderRepository();
+            _userRepository = userRepository;
+            _orderRepository = orderRepository;
         }
 
         public List<StatisticCashiers_OutputModel> StatisticOfCashiers(StatisticCashiers_InputModel inputModel)

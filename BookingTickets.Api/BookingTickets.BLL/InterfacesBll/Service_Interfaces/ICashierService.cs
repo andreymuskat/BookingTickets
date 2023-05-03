@@ -9,13 +9,11 @@ namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
 {
     public interface ICashierService
     {
-        void CreateOrderByCashier(List<CreateOrderInputModel> orders, int cinemaId, int userId);
-
-        void CreateSession(CreateSessionInputModel session, int cinemaId);
+        List<OrderBLL> CreateOrderByCashier(List<CreateOrderInputModel> orders, int cinemaId, int userId);
 
         void EditOrderStatus(OrderStatus status, string code, int cinemaId);
 
-        List<OrderBLL> FindOrderByCodeNumber(string codeNumber);
+        List<OrderBLL> FindOrdersByCodeNumber(string codeNumber);
 
         FilmBLL GetFilmById(int filmId);
 

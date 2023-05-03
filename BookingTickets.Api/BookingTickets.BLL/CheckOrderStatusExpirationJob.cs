@@ -1,15 +1,16 @@
 ﻿using BookingTickets.DAL;
+using BookingTickets.DAL.Interfaces;
 using Core.Status;
 
 namespace BookingTickets.BLL
 {
     public class CheckOrderStatusExpirationJob
     {
-        private readonly OrderRepository _orderRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public CheckOrderStatusExpirationJob()
+        public CheckOrderStatusExpirationJob(IOrderRepository orderRepository)
         {
-            _orderRepository = new OrderRepository();
+            _orderRepository = orderRepository;
         }
 
         public async Task StartCheck()

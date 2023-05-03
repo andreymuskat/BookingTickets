@@ -10,5 +10,7 @@
         SeatsIsBusy = 500,
         PassedAnEmptyValueToAVariable = 300,
         VariableСannotBeNegativeOrLessThanZero = 000,
+        SessionHasAlreadyPassed = 120,
+        YouDoNotHaveSufficientPermissionsForThisAction = 333
     }
 }
