@@ -47,6 +47,8 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderManager, OrderManager>();
 
 builder.Services.AddScoped<IStatisticsFilm, StatisticsFilm>();
+builder.Services.AddScoped<IStatisticsCashiers, StatisticsCashiers>();
+builder.Services.AddScoped<IStatisticsDays, StatisticsDays>();
 
 builder.Services.AddScoped<IMainAdminService, MainAdminService>();
 builder.Services.AddScoped<IClientService, ClientService>();

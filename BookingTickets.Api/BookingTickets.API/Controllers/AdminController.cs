@@ -1,5 +1,6 @@
 using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_SessionRequestModel;
+using BookingTickets.API.Model.RequestModels.All_StatisticsRequestModels;
 using BookingTickets.API.Model.RequestModels.All_UserRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_StatisticsResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_UserResponseModels;
@@ -117,6 +118,34 @@ namespace BookingTickets.API.Controllers
             var allStatic = _mapper.Map<StatisticsFilm_ResponseModels>(allStaticBLL);
 
             return allStatic;
+        }
+
+        [HttpPost("Copy_Sessions_From_OneDay_By_DateCopy_To_DateWhereToCopy")]
+        public IActionResult CopySessionsFromOneDayToAnotherByDateCopy(CopySessionsRequestModel model)
+        {
+            var CinemaId = 1;
+            _adminService.CopySession(model.DateCopy, model.DateWhereToCopy, CinemaId);
+
+            return Ok();
+        }
+
+        [HttpGet("Statictic_Of_Days")]
+        public ActionResult<List<StatisticDays_ResponseModel>> StaticticOfDays([FromQuery] StatisticDays_RequestModel requestModel)
+        {
+            var inputModel = _mapper.Map<StatisticDays_InputModel>(requestModel);
+            inputModel.CinemaId = 7;
+            var res = _mapper.Map<List<StatisticDays_ResponseModel>>(_adminService.StatisticOfDays(inputModel));
+            return Ok(res);
+        }
+
+        [HttpGet("Statictic_Of_Cashiers")]
+        public ActionResult<List<StatisticCashiers_ResponseModel>> StatisticOfCashiers([FromQuery] StatisticCashiers_RequestModel requestModel)
+        {
+            var inputModel = _mapper.Map<StatisticCashiers_InputModel>(requestModel);
+            inputModel.CinemaId = 7;
+            var res1 = _adminService.StatisticOfCashiers(inputModel);
+            var res = _mapper.Map<List<StatisticCashiers_ResponseModel>>(res1);
+            return Ok(res);
         }
 
         private int TakeIdCinemaByAdminAuth()

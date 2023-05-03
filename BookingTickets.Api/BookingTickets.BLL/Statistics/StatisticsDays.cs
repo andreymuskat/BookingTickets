@@ -7,11 +7,11 @@ using BookingTickets.BLL.InterfacesBll;
 
 namespace BookingTickets.BLL.Statistics
 {
-    public class Statistics_Days: IStatisticsDays
+    public class StatisticsDays: IStatisticsDays
     {
         private readonly IOrderRepository _orderRepository;
 
-        public Statistics_Days()
+        public StatisticsDays()
         {
             _orderRepository = new OrderRepository();
         }

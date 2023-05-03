@@ -7,12 +7,12 @@ using BookingTickets.DAL.Models;
 
 namespace BookingTickets.BLL.Statistics
 {
-    public class Statistics_Cashiers: IStatisticsCashiers
+    public class StatisticsCashiers: IStatisticsCashiers
     {
         private readonly IUserRepository _userRepository;
         private readonly IOrderRepository _orderRepository;
 
-        public Statistics_Cashiers()
+        public StatisticsCashiers()
         {
             _userRepository = new UserRepository();
             _orderRepository = new OrderRepository();
