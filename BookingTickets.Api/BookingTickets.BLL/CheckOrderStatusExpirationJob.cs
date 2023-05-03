@@ -3,11 +3,11 @@ using Core.Status;
 
 namespace BookingTickets.BLL
 {
-    public class СheckOverdueStatuses
+    public class CheckOrderStatusExpirationJob
     {
         private readonly OrderRepository _orderRepository;
 
-        public СheckOverdueStatuses()
+        public CheckOrderStatusExpirationJob()
         {
             _orderRepository = new OrderRepository();
         }

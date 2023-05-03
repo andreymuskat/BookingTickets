@@ -18,7 +18,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<Context>();
-builder.Services.AddSingleton<ÑheckOverdueStatuses>();
+builder.Services.AddSingleton<CheckOrderStatusExpirationJob>();
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -76,7 +76,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var checkService = app.Services.GetService<ÑheckOverdueStatuses>();
+var checkService = app.Services.GetService<CheckOrderStatusExpirationJob>();
 await checkService.StartCheck();
 
 app.Run();
