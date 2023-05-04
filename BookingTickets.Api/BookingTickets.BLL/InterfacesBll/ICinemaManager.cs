@@ -17,5 +17,7 @@ namespace BookingTickets.BLL.InterfacesBll
         List<CinemaBLL> GetCinemaByFilm(int idFilm);
 
         CinemaBLL GetCinemaByHallId(int idHallId);
+
+        CinemaBLL GetCinemaById(int CinemaId);
     }
 }

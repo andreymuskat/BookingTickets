@@ -43,8 +43,14 @@ namespace BookingTickets.BLL.Roles
         public List<CinemaBLL> GetCinemaByFilm(int idFilm)
         {
             var listCinema = _cinemaManager.GetCinemaByFilm(idFilm);
-            var res = listCinema.FindAll(d => d.IsDeleted == false);
-            return res;
+            var temp = listCinema.FindAll(d => d.IsDeleted == false).Select(cinema => cinema.Id).ToList().Distinct().ToList();
+            List<CinemaBLL> result = new List<CinemaBLL>();
+            foreach (var cinema in temp) 
+            {
+                result.Add(_cinemaManager.GetCinemaById(cinema));
+            }
+
+            return result;
         }
 
         public List<SessionBLL> GetSessionsByFilm(int idFilm, DateTime time)

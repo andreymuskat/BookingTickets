@@ -105,5 +105,10 @@ namespace BookingTickets.BLL
         {
             return _mapper.Map<List<CinemaBLL>>(_cinemaRepository.GetAllCinema());
         }
+
+        public CinemaBLL GetCinemaById(int CinemaId)
+        {
+            return _mapper.Map<CinemaBLL>(_cinemaRepository.GetCinemaById(CinemaId));
+        }
     }
 }               

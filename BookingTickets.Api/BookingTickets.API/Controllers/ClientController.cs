@@ -33,14 +33,14 @@ namespace BookingTickets.API.Controllers
         [HttpGet("Sessions/Cinemas/{cinemaId}/{data}", Name = "GetAllSessionsByCinema")]
         public IActionResult GetAllSessionByCinemaId([FromHeader] int cinemaId, [FromQuery] DateTime data)
         {
-            logger.Info("User sent a request to get all sessions by cinema ID");
+            _logger.Info("User sent a request to get all sessions by cinema ID");
 
             try
             {
                 var ls = _clientService.GetFilmsByCinema(cinemaId, data);
                 var res = _mapper.Map<List<SessionResponseModel>>(ls);
 
-                logger.Info($"User received an answer and all sessions by ID {cinemaId}");
+                _logger.Info($"User received an answer and all sessions by ID {cinemaId}");
 
                 return Ok(res);
             }
@@ -97,15 +97,13 @@ namespace BookingTickets.API.Controllers
                 return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             };
         }
-
-        ///nado fix
+        
         [HttpGet("{filmId}/Cinemas", Name = "GetCinemasByFilmId")]
         public IActionResult GetCinemasByFilmId([FromHeader] int filmId)
         {
             try
             {
                 var cb = _clientService.GetCinemaByFilm(filmId);
-                //tyt eror vnizy
                 var res = _mapper.Map<List<CinemaResponseModelForClient>>(cb);
 
                 return Ok(res);
