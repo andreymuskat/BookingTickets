@@ -8,6 +8,8 @@ namespace BookingTickets.BLL.InterfacesBll
     {
         void ChangeUserStatus(UserStatus status, int userId);
 
+        void ChangeUserCinemaId(int cinemaId, int userId);
+
         void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
 
         void DeleteCashierById(int idCashier, int adminCinemaId);

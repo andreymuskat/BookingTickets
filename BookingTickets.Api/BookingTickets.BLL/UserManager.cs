@@ -81,6 +81,22 @@ namespace BookingTickets.BLL
             _userRepository.UpdateUserStatus(user);
         }
 
+        public void ChangeUserStatus(UserStatus status, int userId)
+        {
+            var user = _userRepository.GetUserById(userId);
+
+            if (user != null)
+            {
+                user.UserStatus = status;
+            }
+            else
+            {
+                throw new UserExceptions(777);
+            }
+
+            _userRepository.UpdateUserStatus(user);
+        }
+
         public UserBLL GetUserById(int userId)
         {
             return _mapper.Map<UserBLL>(_userRepository.GetUserById(userId));

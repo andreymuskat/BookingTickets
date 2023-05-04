@@ -14,7 +14,6 @@ using Core.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace BookingTickets.API.Controllers
 {
@@ -106,7 +105,8 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                _adminService.CreateNewCashier(cashierId);
+                var adminCinemaId = TakeIdCinemaByAdminAuth();
+                _adminService.CreateNewCashier(cashierId, adminCinemaId);
 
                 return Ok();
             }
