@@ -109,13 +109,34 @@ namespace BookingTickets.BLL
                 }
                 else
                 {
-                    throw new OrderException(777);
+                    _logger.Warn("Create an order for seats that are occupied.");
+                    throw new OrderException(500);
                 }
             }
             else
             {
+                _logger.Warn("Passed an empty value to a variable.");
                 throw new OrderException(300);
             }
+        }
+
+        public OrderBLL GetOrderById(int id) 
+        {
+            var result = _mapper.Map<OrderBLL>(_orderRepository.GetOrderById(id));
+            if(result != null)
+            {
+                return result;
+            }
+            else
+            {
+                _logger.Warn("Objects not found in database.");
+                throw new OrderException(777);
+            }
+        }
+
+        public void EditOrderStatusById(int id, OrderStatus status)
+        {
+            _orderRepository.EditOrderStatusById(id, status);
         }
 
         private string CreateCode(CreateOrderInputModel order)
@@ -156,24 +177,6 @@ namespace BookingTickets.BLL
             }
 
             return result;
-        }
-
-        public OrderBLL GetOrderById(int id) 
-        {
-            var result = _mapper.Map<OrderBLL>(_orderRepository.GetOrderById(id));
-            if(result != null)
-            {
-                return result;
-            }
-            else
-            {
-                throw new OrderException(777);
-            }
-        }
-
-        public void EditOrderStatusById(int id, OrderStatus status)
-        {
-            _orderRepository.EditOrderStatusById(id, status);
         }
     }
 }

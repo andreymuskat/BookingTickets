@@ -10,6 +10,7 @@ using Core.CustomException;
 using Core.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 
@@ -33,7 +34,7 @@ namespace BookingTickets.API.Controllers
         [HttpGet("Sessions/Cinemas/{cinemaId}/{data}", Name = "GetAllSessionsByCinema")]
         public IActionResult GetAllSessionByCinemaId([FromHeader] int cinemaId, [FromQuery] DateTime data)
         {
-            _logger.Info("User sent a request to get all sessions by cinema ID");
+            _logger.Info($"User sent a request to get all sessions by cinema ID {cinemaId}");
 
             try
             {
@@ -53,10 +54,14 @@ namespace BookingTickets.API.Controllers
         [HttpGet("Sessions/Film/{idFilm}/{data}", Name = "GetSessionsByFilmId")]
         public IActionResult GetAllSessionByFilmId([FromHeader] int idFilm, [FromQuery] DateTime data)
         {
+            _logger.Info($"User sent a request to get all sessions by film ID {idFilm}");
+
             try
             {
                 var sb = _clientService.GetSessionsByFilm(idFilm, data);
                 var res = _mapper.Map<List<SessionResponseModel>>(sb);
+
+                _logger.Info($"User received an answer and all films by ID {idFilm}");
 
                 return Ok(res);
             }
@@ -69,10 +74,14 @@ namespace BookingTickets.API.Controllers
         [HttpGet("Session/{idSession}", Name = "GetSessionById")]
         public IActionResult GetSessionById([FromHeader] int idSession)
         {
+            _logger.Info($"User sent a request to get session by session ID {idSession}");
+
             try
             {
                 var sb = _clientService.GetSessionById(idSession);
                 var res = _mapper.Map<SessionResponseModel>(sb);
+
+                _logger.Info($"User received an answer and session by ID {idSession}");
 
                 return Ok(res);
             }
@@ -85,10 +94,13 @@ namespace BookingTickets.API.Controllers
         [HttpGet("Film/{filmId}", Name = "GetFilmById")]
         public IActionResult GetFilmById([FromHeader] int filmId)
         {
+            _logger.Info($"User sent a request to get film by film ID {filmId}");
             try
             {
                 var fb = _clientService.GetFilmById(filmId);
                 var res = _mapper.Map<FilmResponseModel>(fb);
+
+                _logger.Info($"User sent a request to get film by film ID {filmId}");
 
                 return Ok(res);
             }
@@ -101,10 +113,13 @@ namespace BookingTickets.API.Controllers
         [HttpGet("{filmId}/Cinemas", Name = "GetCinemasByFilmId")]
         public IActionResult GetCinemasByFilmId([FromHeader] int filmId)
         {
+            _logger.Info($"User sent a request to get all cinemas by film ID {filmId}");
             try
             {
                 var cb = _clientService.GetCinemaByFilm(filmId);
                 var res = _mapper.Map<List<CinemaResponseModelForClient>>(cb);
+
+                _logger.Info($"User received an answer and all cinemas by ID {filmId}");
 
                 return Ok(res);
             }
@@ -118,13 +133,15 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Order/new", Name = "CreateOrder")]
         public IActionResult CreateOrderByCustomer(List<CreateOrderRequestModel> models)
         {
-            //_logger.Log(LogLevel.Information, "ClientService wanted to create a new order.");
+            _logger.Info("ClientService wanted to create a new order.");
+
             var userId = TakeIdByClientAuth();
 
             try
             {
                 var code = _clientService.CreateOrderByCustomer(_mapper.Map<List<CreateOrderInputModel>>(models), userId);
-                //_logger.Log(LogLevel.Information, "ClientService's request completed: new order written to the database.", models);
+
+                _logger.Info("ClientService's request completed: new order written to the database.");;
 
                 return Ok(code);
             }
@@ -142,9 +159,13 @@ namespace BookingTickets.API.Controllers
         [HttpPatch("Order/{id}/Edit", Name = "Change the order")]
         public IActionResult ChangeOrderByCustomer([FromHeader]int orderId)
         {
+            _logger.Info($"User sent a request to change order status by order ID {orderId}");
+
             try
             {
                 _clientService.CancelOrderByCustomer(orderId);
+
+                _logger.Info($"User received an answer and change order status by ID {orderId}");
 
                 return Ok();
             }

@@ -89,7 +89,8 @@ namespace BookingTickets.BLL
                 _sessionRepository.DeleteSession(idSession);
             }
             else 
-            { 
+            {
+                _logger.Warn("Objects not found in database.");
                 throw new SessionException(777);
             }
         }
