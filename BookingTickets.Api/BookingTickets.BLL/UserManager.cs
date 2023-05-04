@@ -6,6 +6,7 @@ using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
+using Core.ILogger;
 using Core.Status;
 
 namespace BookingTickets.BLL
@@ -16,13 +17,17 @@ namespace BookingTickets.BLL
         private readonly IUserRepository _userRepository;
         private readonly IAuthRepository _authRepository;
         private readonly ISessionRepository _sessionRepository;
+        private readonly INLogLogger _logger;
 
-        public UserManager(IMapper map, IUserRepository userRepository, IAuthRepository authRepository, ISessionRepository sessionRepository)
+
+        public UserManager(IMapper map, IUserRepository userRepository, IAuthRepository authRepository,
+            ISessionRepository sessionRepository, INLogLogger logger)
         {
             _mapper = map;
             _userRepository = userRepository;
             _authRepository = authRepository;
             _sessionRepository = sessionRepository;
+            _logger = logger;
         }
 
         public List<UserBLL> GetAllUsers()
@@ -34,9 +39,18 @@ namespace BookingTickets.BLL
 
         public List<UserBLL> GetAllCashiers()
         {
-            var allUsers = _userRepository.GetAllCashiers();
+            var allCashiers = _userRepository.GetAllCashiers();
 
-            return _mapper.Map<List<UserBLL>>(allUsers);
+            if (allCashiers != null)
+            {
+                return _mapper.Map<List<UserBLL>>(allCashiers);
+            }
+            else
+            {
+                _logger.Warn("Object not found in database.");
+
+                throw new UserExceptions(777);
+            }            
         }
 
         public void DeleteCashierById(int idCashier, int adminCinemaId)
@@ -55,6 +69,8 @@ namespace BookingTickets.BLL
                 }
                 else
                 {
+                    _logger.Warn("Object not found in database.");
+
                     throw new UserExceptions(777);
                 }
             }
@@ -75,10 +91,30 @@ namespace BookingTickets.BLL
             }
             else
             {
+                _logger.Warn("Object not found in database.");
+
                 throw new UserExceptions(777);
             }
 
             _userRepository.UpdateUserStatus(user);
+        }
+
+        public void ChangeUserCinemaId(int cinemaId, int userId)
+        {
+            var user = _userRepository.GetUserById(userId);
+
+            if (user != null)
+            {
+                user.CinemaId = cinemaId;
+            }
+            else
+            {
+                _logger.Warn("Object not found in database.");
+
+                throw new UserExceptions(777);
+            }
+
+            _userRepository.UpdateUserCinemaId(user);
         }
 
         public UserBLL GetUserById(int userId)
@@ -104,21 +140,9 @@ namespace BookingTickets.BLL
             }
             else
             {
+                _logger.Warn("Object not found in database.");
+
                 throw new CinemaException(777);
-            }
-        }
-
-        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
-        {
-            var allTrueSessions = _mapper.Map<List<CreateSessionInputModel>>(
-                _sessionRepository.GetAllSessionByDate(dateCopy).Where(a => a.Hall.CinemaId == CinemaId).ToList());
-
-            foreach (var session in allTrueSessions)
-            {
-                session.Date = dateWhereToCopy.AddHours(session.Date.Hour).AddMinutes(session.Date.Minute).AddSeconds(session.Date.Second);
-                var res = _mapper.Map<SessionDto>(session);
-
-                _sessionRepository.CreateSession(res);
             }
         }
     }

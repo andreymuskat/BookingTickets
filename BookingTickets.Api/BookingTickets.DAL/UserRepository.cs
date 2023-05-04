@@ -88,6 +88,15 @@ namespace BookingTickets.DAL
             _context.SaveChanges();
         }
 
+        public void UpdateUserCinemaId(UserDto user)
+        {
+            var searchUser = _context.Users.SingleOrDefault(t => t.Id == user.Id);
+
+            searchUser.CinemaId = user.CinemaId;
+
+            _context.SaveChanges();
+        }
+
         public UserDto GetCashierById(int idCashier)
         {
             return _context.Users

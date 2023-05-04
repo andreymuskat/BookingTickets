@@ -67,20 +67,23 @@ namespace BookingTickets.BLL.Roles
             var allCashiers = _userManager.GetAllCashiers();
 
             var allCashiersInCinema = allCashiers.Where(k => k.Cinema.Id == adminCinemaId).ToList();
+            
+            return allCashiersInCinema;
+        }
 
-            if (allCashiers != null)
-            {
-                return allCashiersInCinema;
+        public void CreateNewCashier(int cashierId, int adminCinemaId)
+        {
+            var cashier = _userManager.GetCashierById(cashierId);
+
+            if(cashier != null) 
+            { 
+                _userManager.ChangeUserStatus(UserStatus.CashierService, cashierId);
+                _userManager.ChangeUserCinemaId(adminCinemaId, cashierId);
             }
             else
             {
                 throw new UserExceptions(777);
             }
-        }
-
-        public void CreateNewCashier(int cashierId)
-        {
-            _userManager.ChangeUserStatus(UserStatus.CashierService, cashierId);
         }
 
         public void DeleteCashierById(int id, int adminCinemaId)
@@ -95,9 +98,9 @@ namespace BookingTickets.BLL.Roles
             return res;
         }
 
-        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
+        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int cinemaId)
         {
-            _userManager.CopySession(dateCopy, dateWhereToCopy, CinemaId);
+            _sessionManager.CopySession(dateCopy, dateWhereToCopy, cinemaId);
         }
 
         public List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel)
