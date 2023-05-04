@@ -67,15 +67,8 @@ namespace BookingTickets.BLL.Roles
             var allCashiers = _userManager.GetAllCashiers();
 
             var allCashiersInCinema = allCashiers.Where(k => k.Cinema.Id == adminCinemaId).ToList();
-
-            if (allCashiers != null)
-            {
-                return allCashiersInCinema;
-            }
-            else
-            {
-                throw new UserExceptions(777);
-            }
+            
+            return allCashiersInCinema;
         }
 
         public void CreateNewCashier(int cashierId, int adminCinemaId)

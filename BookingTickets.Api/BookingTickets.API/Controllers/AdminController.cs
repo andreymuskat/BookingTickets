@@ -154,9 +154,9 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Sessions/Day/Copy")]
         public IActionResult CopySessionsFromOneDayToAnotherByDateCopy([FromHeader] CopySessionsRequestModel model)
         {
-            var userCinemaId = TakeIdCinemaByAdminAuth();
+            var adminCinemaId = TakeIdCinemaByAdminAuth();
 
-            _adminService.CopySession(model.DateCopy, model.DateWhereToCopy, userCinemaId);
+            _adminService.CopySession(model.DateCopy, model.DateWhereToCopy, adminCinemaId);
 
             return Ok();
         }
@@ -168,7 +168,7 @@ namespace BookingTickets.API.Controllers
             inputModel.CinemaId = TakeIdCinemaByAdminAuth();
             var res = _mapper.Map<List<StatisticDays_ResponseModel>>(_adminService.StatisticOfDays(inputModel));
 
-            return Ok(res);
+            return Ok(res);            
         }
 
         [HttpGet("Statictic/Cashiers")]

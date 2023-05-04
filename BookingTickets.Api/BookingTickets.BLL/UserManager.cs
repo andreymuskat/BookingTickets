@@ -6,6 +6,7 @@ using BookingTickets.BLL.Models.InputModel.All_User_InputModel;
 using BookingTickets.Core.CustomException;
 using BookingTickets.DAL.Interfaces;
 using BookingTickets.DAL.Models;
+using Core.ILogger;
 using Core.Status;
 
 namespace BookingTickets.BLL
@@ -16,13 +17,17 @@ namespace BookingTickets.BLL
         private readonly IUserRepository _userRepository;
         private readonly IAuthRepository _authRepository;
         private readonly ISessionRepository _sessionRepository;
+        private readonly INLogLogger _logger;
 
-        public UserManager(IMapper map, IUserRepository userRepository, IAuthRepository authRepository, ISessionRepository sessionRepository)
+
+        public UserManager(IMapper map, IUserRepository userRepository, IAuthRepository authRepository,
+            ISessionRepository sessionRepository, INLogLogger logger)
         {
             _mapper = map;
             _userRepository = userRepository;
             _authRepository = authRepository;
             _sessionRepository = sessionRepository;
+            _logger = logger;
         }
 
         public List<UserBLL> GetAllUsers()
@@ -34,9 +39,18 @@ namespace BookingTickets.BLL
 
         public List<UserBLL> GetAllCashiers()
         {
-            var allUsers = _userRepository.GetAllCashiers();
+            var allCashiers = _userRepository.GetAllCashiers();
 
-            return _mapper.Map<List<UserBLL>>(allUsers);
+            if (allCashiers != null)
+            {
+                return _mapper.Map<List<UserBLL>>(allCashiers);
+            }
+            else
+            {
+                _logger.Warn("Object not found in database.");
+
+                throw new UserExceptions(777);
+            }            
         }
 
         public void DeleteCashierById(int idCashier, int adminCinemaId)
@@ -55,6 +69,8 @@ namespace BookingTickets.BLL
                 }
                 else
                 {
+                    _logger.Warn("Object not found in database.");
+
                     throw new UserExceptions(777);
                 }
             }
@@ -75,6 +91,8 @@ namespace BookingTickets.BLL
             }
             else
             {
+                _logger.Warn("Object not found in database.");
+
                 throw new UserExceptions(777);
             }
 
@@ -91,6 +109,8 @@ namespace BookingTickets.BLL
             }
             else
             {
+                _logger.Warn("Object not found in database.");
+
                 throw new UserExceptions(777);
             }
 
@@ -120,6 +140,8 @@ namespace BookingTickets.BLL
             }
             else
             {
+                _logger.Warn("Object not found in database.");
+
                 throw new CinemaException(777);
             }
         }
