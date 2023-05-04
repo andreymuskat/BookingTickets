@@ -48,7 +48,7 @@ builder.Services.AddScoped<IUserManager, UserManager>();
 
 builder.Services.AddScoped<IOrderManager, OrderManager>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<ICheckOrderStatusExpirationJob, CheckOrderStatusExpirationJob>();
+//builder.Services.AddScoped<ICheckOrderStatusExpirationJob, CheckOrderStatusExpirationJob>();
 
 builder.Services.AddScoped<IStatisticsFilm, StatisticsFilm>();
 builder.Services.AddScoped<IStatisticsDays, StatisticsDays>();
@@ -84,15 +84,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await InjectCheckOrderStatusExpirationJob(app);
+//await InjectCheckOrderStatusExpirationJob(app);
 
 app.Run();
 
-async Task InjectCheckOrderStatusExpirationJob(IApplicationBuilder app)
-{
-    var checkService = app.ApplicationServices.GetService<CheckOrderStatusExpirationJob>();
-    await checkService.StartCheck();
-}
+//async Task InjectCheckOrderStatusExpirationJob(IApplicationBuilder app)
+//{
+//    var checkService = app.ApplicationServices.GetService<CheckOrderStatusExpirationJob>();
+//    await checkService.StartCheck();
+//}
 
 void InjectSettingsConfiguration(WebApplicationBuilder builder)
 {
