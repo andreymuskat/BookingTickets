@@ -106,8 +106,8 @@ namespace BookingTickets.BLL.Roles
         public List<OrderBLL> CreateOrderByCashier(List<CreateOrderInputModel> orders, int cinemaId, int userId)
         {
             DateTime nowData = DateTime.Now;
-            SessionBLL sess = _sessionManager.GetAllSessionByCinemaId(cinemaId)
-                .Single(k => k.Id == orders[0].SessionId);
+            var sess = _sessionManager.GetAllSessionByCinemaId(cinemaId)
+                .SingleOrDefault(k => k.Id == orders.FirstOrDefault()!.SessionId)!;
 
             if (sess != null)
             {
