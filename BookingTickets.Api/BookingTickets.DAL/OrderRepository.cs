@@ -14,7 +14,7 @@ namespace BookingTickets.DAL
         public OrderRepository(INLogLogger logger)
         {
             _context = new Context();
-            _logger = logger; 
+            _logger = logger;
         }
 
         public void CreateOrder(OrderDto order)
@@ -97,6 +97,18 @@ namespace BookingTickets.DAL
             searchOrder.Status = newStatus;
 
             await _context.SaveChangesAsync();
+        }
+
+        public OrderDto GetOrderById(int id)
+        {
+            return _context.Orders.FirstOrDefault(n => n.Id == id);
+        }
+
+        public void EditOrderStatusById(int id, OrderStatus status)
+        {
+            var order = _context.Orders.FirstOrDefault(i => i.Id == id);
+            order.Status = status;
+            _context.SaveChanges();
         }
     }
 }

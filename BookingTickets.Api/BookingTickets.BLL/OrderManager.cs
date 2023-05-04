@@ -157,6 +157,24 @@ namespace BookingTickets.BLL
 
             return result;
         }
+
+        public OrderBLL GetOrderById(int id) 
+        {
+            var result = _mapper.Map<OrderBLL>(_orderRepository.GetOrderById(id));
+            if(result != null)
+            {
+                return result;
+            }
+            else
+            {
+                throw new OrderException(777);
+            }
+        }
+
+        public void EditOrderStatusById(int id, OrderStatus status)
+        {
+            _orderRepository.EditOrderStatusById(id, status);
+        }
     }
 }
 
