@@ -13,5 +13,9 @@ namespace BookingTickets.BLL.InterfacesBll
         void EditOrderStatus(OrderStatus status, string code);
 
         List<OrderBLL> FindOrdersByCodeNumber(string codeNumber);
+
+        OrderBLL GetOrderById(int id);
+
+        public void EditOrderStatusById(int id, OrderStatus status);
     }
 }

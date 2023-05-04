@@ -18,5 +18,9 @@ namespace BookingTickets.DAL.Interfaces
         Task<List<OrderDto>> GetAllOrdersByDate(DateTime data);
 
         Task EditOrderStatus(OrderDto order, OrderStatus newStatus);
+
+        OrderDto GetOrderById(int id);
+
+        void EditOrderStatusById(int id, OrderStatus status);
     }
 }

@@ -139,12 +139,12 @@ namespace BookingTickets.API.Controllers
         }
 
         [Authorize(Policy = "User", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [HttpPatch("Order/Edit", Name = "Change the order")]
-        public IActionResult ChangeOrderByCustomer([FromBody]string code)
+        [HttpPatch("Order/{id}/Edit", Name = "Change the order")]
+        public IActionResult ChangeOrderByCustomer([FromHeader]int orderId)
         {
             try
             {
-                _clientService.CancelOrderByCustomer(code);
+                _clientService.CancelOrderByCustomer(orderId);
 
                 return Ok();
             }
