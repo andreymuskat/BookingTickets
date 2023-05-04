@@ -31,7 +31,7 @@ namespace BookingTickets.BLL
             }
             else
             {
-                _logger.Info("Object with given number already exists");
+                _logger.Warn("Object with given number already exists");
 
                 throw new HallException(105);
             }
@@ -63,7 +63,7 @@ namespace BookingTickets.BLL
             }
             else
             {
-                _logger.Info("Object with given ID not found in database");
+                _logger.Warn("Object with given ID not found in database");
 
                 throw new CinemaException(777);
             }
