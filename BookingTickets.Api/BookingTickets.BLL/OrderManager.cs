@@ -104,9 +104,13 @@ namespace BookingTickets.BLL
 
                         _orderRepository.CreateOrder(_mapper.Map<OrderDto>(order));
                     }
-                }
 
-                return CodeForClient;
+                    return CodeForClient;
+                }
+                else
+                {
+                    throw new OrderException(777);
+                }
             }
             else
             {
@@ -116,14 +120,12 @@ namespace BookingTickets.BLL
 
         private string CreateCode(CreateOrderInputModel order)
         {
-
             Random random = new Random();
             int firstPart = random.Next(1, 1000000);
             int secondPartCode = order.SessionId;
             int thirdPartCode = order.SeatsId;
             string code = String.Concat(firstPart, secondPartCode, thirdPartCode);
             return code;
-
         }
 
         private bool CheckSeatsInOrderWithSeatsInDB(List<CreateOrderInputModel> orders, int sessionId)
