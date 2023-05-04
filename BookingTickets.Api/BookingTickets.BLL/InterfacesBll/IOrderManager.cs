@@ -8,7 +8,7 @@ namespace BookingTickets.BLL.InterfacesBll
     {
         List<OrderBLL> CreateOrderByCashier(List<CreateOrderInputModel> orders, int userId);
 
-        string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId);
+        List<OrderBLL> CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId);
 
         void EditOrderStatus(OrderStatus status, string code);
 

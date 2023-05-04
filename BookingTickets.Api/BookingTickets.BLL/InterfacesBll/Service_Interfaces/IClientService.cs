@@ -7,7 +7,7 @@ namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
     public interface IClientService
     {
         void CancelOrderByCustomer(int id);
-        string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId);
+        List<OrderBLL> CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId);
         public List<CinemaBLL> GetCinemaByFilm(int idFilm);
         FilmBLL GetFilmById(int id);
         List<SessionBLL> GetFilmsByCinema(int cinemaId, DateTime time);

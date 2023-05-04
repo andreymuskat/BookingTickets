@@ -86,7 +86,7 @@ namespace BookingTickets.BLL
             }
         }
 
-        public string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
+        public List<OrderBLL> CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
         {
             var orderFromOrders = orders.FirstOrDefault(x => x.SessionId > 0);
             if (orderFromOrders != null)
@@ -104,8 +104,9 @@ namespace BookingTickets.BLL
 
                         _orderRepository.CreateOrder(_mapper.Map<OrderDto>(order));
                     }
+                    var allNewOrders = _orderRepository.FindOrderByCodeNumber(CodeForClient);
 
-                    return CodeForClient;
+                    return _mapper.Map<List<OrderBLL>>(allNewOrders);
                 }
                 else
                 {

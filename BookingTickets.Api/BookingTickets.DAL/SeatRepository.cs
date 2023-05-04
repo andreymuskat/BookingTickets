@@ -52,9 +52,9 @@ namespace BookingTickets.DAL
 
         public List<SeatDto> GetAllFreeSeatsBySessionId(int idSession)
         {
-            List<SeatDto> BookingSeats = new List<SeatDto>();
-            List<SeatDto> AllSeatsInHall = new List<SeatDto>();
-            List<SeatDto> FreeSeats = new List<SeatDto>();
+            List<SeatDto> bookingSeats = new List<SeatDto>();
+            List<SeatDto> allSeatsInHall = new List<SeatDto>();
+            List<SeatDto> freeSeats = new List<SeatDto>();
 
             var ordersInSession = _context.Orders
                 .Where(s => s.SessionId == idSession)
@@ -66,7 +66,7 @@ namespace BookingTickets.DAL
             {
                 if (order.Status != OrderStatus.Canceled)
                 {
-                    BookingSeats.Add(order.Seats);
+                    bookingSeats.Add(order.Seats);
                 }
             }
 
@@ -75,17 +75,17 @@ namespace BookingTickets.DAL
                 .Single(s => s.Id == idSession)
                 .HallId;
 
-            AllSeatsInHall = _context.Seats.Where(s => s.HallId == hallId).ToList();
+            allSeatsInHall = _context.Seats.Where(s => s.HallId == hallId).ToList();
 
-            FreeSeats = AllSeatsInHall.Except(BookingSeats).ToList();
+            freeSeats = allSeatsInHall.Except(bookingSeats).ToList();
 
-            return FreeSeats;
+            return freeSeats;
         }
 
         public List<SeatDto> GetAllPurchasedSeatsBySessionId(int idSession)
         {
-            List<SeatDto> PurchasedSeats = new List<SeatDto>();
-            List<SeatDto> AllSeatsInHall = new List<SeatDto>();
+            List<SeatDto> purchasedSeats = new List<SeatDto>();
+            List<SeatDto> allSeatsInHall = new List<SeatDto>();
 
             var ordersInSession = _context.Orders
                 .Where(s => s.SessionId == idSession)
@@ -97,11 +97,11 @@ namespace BookingTickets.DAL
             {
                 if (order.Status == OrderStatus.PurchasedByCashbox || order.Status == OrderStatus.PurchasedBySite)
                 {
-                    PurchasedSeats.Add(order.Seats);
+                    purchasedSeats.Add(order.Seats);
                 }
             }
 
-            return PurchasedSeats;
+            return purchasedSeats;
         }
     }
 }
