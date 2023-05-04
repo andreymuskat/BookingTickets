@@ -14,7 +14,6 @@ using Core.ILogger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace BookingTickets.API.Controllers
 {
@@ -106,7 +105,8 @@ namespace BookingTickets.API.Controllers
         {
             try
             {
-                _adminService.CreateNewCashier(cashierId);
+                var adminCinemaId = TakeIdCinemaByAdminAuth();
+                _adminService.CreateNewCashier(cashierId, adminCinemaId);
 
                 return Ok();
             }
@@ -154,9 +154,9 @@ namespace BookingTickets.API.Controllers
         [HttpPost("Sessions/Day/Copy")]
         public IActionResult CopySessionsFromOneDayToAnotherByDateCopy([FromHeader] CopySessionsRequestModel model)
         {
-            var userCinemaId = TakeIdCinemaByAdminAuth();
+            var adminCinemaId = TakeIdCinemaByAdminAuth();
 
-            _adminService.CopySession(model.DateCopy, model.DateWhereToCopy, userCinemaId);
+            _adminService.CopySession(model.DateCopy, model.DateWhereToCopy, adminCinemaId);
 
             return Ok();
         }
@@ -168,7 +168,7 @@ namespace BookingTickets.API.Controllers
             inputModel.CinemaId = TakeIdCinemaByAdminAuth();
             var res = _mapper.Map<List<StatisticDays_ResponseModel>>(_adminService.StatisticOfDays(inputModel));
 
-            return Ok(res);
+            return Ok(res);            
         }
 
         [HttpGet("Statictic/Cashiers")]
@@ -176,8 +176,7 @@ namespace BookingTickets.API.Controllers
         {
             var inputModel = _mapper.Map<StatisticCashiers_InputModel>(requestModel);
             inputModel.CinemaId = TakeIdCinemaByAdminAuth();
-            var res1 = _adminService.StatisticOfCashiers(inputModel);
-            var res = _mapper.Map<List<StatisticCashiers_ResponseModel>>(res1);
+            var res = _mapper.Map<List<StatisticCashiers_ResponseModel>>(_adminService.StatisticOfCashiers(inputModel));
 
             return Ok(res);
         }

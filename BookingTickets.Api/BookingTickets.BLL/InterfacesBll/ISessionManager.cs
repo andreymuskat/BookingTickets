@@ -17,5 +17,7 @@ namespace BookingTickets.BLL.InterfacesBll
         List<SessionBLL> GetAllSessionByFilmId(int idFilm);
 
         SessionOutputModel GetSessionById(int idSession);
+
+        void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
     }
 }

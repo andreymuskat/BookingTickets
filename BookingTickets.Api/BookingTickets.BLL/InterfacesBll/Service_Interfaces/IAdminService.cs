@@ -8,7 +8,7 @@ namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
 {
     public interface IAdminService
     {
-        void CreateNewCashier(int cashierId);
+        void CreateNewCashier(int cashierId, int adminCinemaId);
 
         void CreateSession(CreateSessionInputModel session, int cinemaId, int userId);
 
@@ -22,7 +22,7 @@ namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
 
         UserBLL UpdateCashier(UpdateCashierInputModel user, int cashierId);
 
-        void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
+        void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int cinemaId);
 
         List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel);
 
