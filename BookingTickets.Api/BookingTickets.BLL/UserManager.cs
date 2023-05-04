@@ -123,19 +123,5 @@ namespace BookingTickets.BLL
                 throw new CinemaException(777);
             }
         }
-
-        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
-        {
-            var allTrueSessions = _mapper.Map<List<CreateSessionInputModel>>(
-                _sessionRepository.GetAllSessionByDate(dateCopy).Where(a => a.Hall.CinemaId == CinemaId).ToList());
-
-            foreach (var session in allTrueSessions)
-            {
-                session.Date = dateWhereToCopy.AddHours(session.Date.Hour).AddMinutes(session.Date.Minute).AddSeconds(session.Date.Second);
-                var res = _mapper.Map<SessionDto>(session);
-
-                _sessionRepository.CreateSession(res);
-            }
-        }
     }
 }

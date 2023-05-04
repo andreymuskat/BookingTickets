@@ -10,8 +10,6 @@ namespace BookingTickets.BLL.InterfacesBll
 
         void ChangeUserCinemaId(int cinemaId, int userId);
 
-        void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId);
-
         void DeleteCashierById(int idCashier, int adminCinemaId);
 
         List<UserBLL> GetAllCashiers();

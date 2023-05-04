@@ -176,8 +176,7 @@ namespace BookingTickets.API.Controllers
         {
             var inputModel = _mapper.Map<StatisticCashiers_InputModel>(requestModel);
             inputModel.CinemaId = TakeIdCinemaByAdminAuth();
-            var res1 = _adminService.StatisticOfCashiers(inputModel);
-            var res = _mapper.Map<List<StatisticCashiers_ResponseModel>>(res1);
+            var res = _mapper.Map<List<StatisticCashiers_ResponseModel>>(_adminService.StatisticOfCashiers(inputModel));
 
             return Ok(res);
         }

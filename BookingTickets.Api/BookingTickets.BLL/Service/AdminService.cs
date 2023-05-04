@@ -105,9 +105,9 @@ namespace BookingTickets.BLL.Roles
             return res;
         }
 
-        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int CinemaId)
+        public void CopySession(DateTime dateCopy, DateTime dateWhereToCopy, int cinemaId)
         {
-            _userManager.CopySession(dateCopy, dateWhereToCopy, CinemaId);
+            _sessionManager.CopySession(dateCopy, dateWhereToCopy, cinemaId);
         }
 
         public List<StatisticDays_OutputModel> StatisticOfDays(StatisticDays_InputModel inputModel)
