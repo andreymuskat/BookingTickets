@@ -78,13 +78,14 @@ namespace BookingTickets.BLL.Roles
             }
         }
 
-        public void CreateNewCashier(int cashierId)
+        public void CreateNewCashier(int cashierId, int adminCinemaId)
         {
             var cashier = _userManager.GetCashierById(cashierId);
 
             if(cashier != null) 
             { 
-            _userManager.ChangeUserStatus(UserStatus.CashierService, cashierId);
+                _userManager.ChangeUserStatus(UserStatus.CashierService, cashierId);
+                _userManager.ChangeUserCinemaId(adminCinemaId, cashierId);
             }
             else
             {

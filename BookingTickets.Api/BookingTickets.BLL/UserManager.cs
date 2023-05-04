@@ -81,20 +81,20 @@ namespace BookingTickets.BLL
             _userRepository.UpdateUserStatus(user);
         }
 
-        public void ChangeUserStatus(UserStatus status, int userId)
+        public void ChangeUserCinemaId(int cinemaId, int userId)
         {
             var user = _userRepository.GetUserById(userId);
 
             if (user != null)
             {
-                user.UserStatus = status;
+                user.CinemaId = cinemaId;
             }
             else
             {
                 throw new UserExceptions(777);
             }
 
-            _userRepository.UpdateUserStatus(user);
+            _userRepository.UpdateUserCinemaId(user);
         }
 
         public UserBLL GetUserById(int userId)

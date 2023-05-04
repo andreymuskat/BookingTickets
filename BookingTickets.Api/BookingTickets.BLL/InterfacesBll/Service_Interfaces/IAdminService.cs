@@ -8,7 +8,7 @@ namespace BookingTickets.BLL.InterfacesBll.Service_Interfaces
 {
     public interface IAdminService
     {
-        void CreateNewCashier(int cashierId);
+        void CreateNewCashier(int cashierId, int adminCinemaId);
 
         void CreateSession(CreateSessionInputModel session, int cinemaId, int userId);
 
