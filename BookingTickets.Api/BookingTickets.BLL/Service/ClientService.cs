@@ -76,11 +76,11 @@ namespace BookingTickets.BLL.Roles
             }
         }
 
-        public string CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
+        public List<OrderBLL> CreateOrderByCustomer(List<CreateOrderInputModel> orders, int userId)
         {
-            var code = _orderManager.CreateOrderByCustomer(orders, userId);
+            var allNewOrders = _orderManager.CreateOrderByCustomer(orders, userId);
 
-            return code;
+            return allNewOrders;
         }
 
         public void CancelOrderByCustomer(int id)

@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using AutoMapper;
 using BookingTickets.API.Model.RequestModels.All_OrderRequestModel;
 using BookingTickets.API.Model.ResponseModels.All_CinemaResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_FilmResponseModels;
+using BookingTickets.API.Model.ResponseModels.All_OrderResponseModels;
 using BookingTickets.API.Model.ResponseModels.All_SessionResponseModels;
 using BookingTickets.BLL.InterfacesBll.Service_Interfaces;
 using BookingTickets.BLL.Models.InputModel.All_Order_InputModels;
@@ -139,11 +141,11 @@ namespace BookingTickets.API.Controllers
 
             try
             {
-                var code = _clientService.CreateOrderByCustomer(_mapper.Map<List<CreateOrderInputModel>>(models), userId);
+                var newOrders = _clientService.CreateOrderByCustomer(_mapper.Map<List<CreateOrderInputModel>>(models), userId);
 
                 _logger.Info("ClientService's request completed: new order written to the database.");;
 
-                return Ok(code);
+                return Ok(_mapper.Map <List<OrderForCashierResponseModel>>(newOrders));
             }
             catch (OrderException ex)
             {
