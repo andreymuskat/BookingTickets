@@ -38,7 +38,6 @@ namespace BookingTickets.API.Controllers
         {
             var cinemaId = TakeIdCinemaByAdminAuth();
             var userId = TakeIdUserAuth();
-
             _logger.Info($"UserId: {userId} - sent a request to create a new session!");
 
             try
@@ -58,17 +57,21 @@ namespace BookingTickets.API.Controllers
         [HttpDelete("Session/{sessionId}/Delete")]
         public IActionResult DeleteSession(int sessionId)
         {
+            var userId = TakeIdUserAuth();
+            _logger.Info($"UserId: {userId} - sent a 'DeleteSession' request");
+
             try
             {
                 _adminService.DeleteSession(sessionId);
+                
+                _logger.Info($"UserId: {userId} - request completed successfully");
 
+                return Ok();
             }
             catch (SessionException ex)
             {
                 return BadRequest(Enum.GetName(typeof(CodeExceptionType), ex.ErrorCode));
             }
-
-            return Ok();
         }
 
         [HttpGet("Statistics/Films/{id}")]
@@ -86,10 +89,14 @@ namespace BookingTickets.API.Controllers
         public ActionResult<List<UserResponseModel>> GetAllCashiers()
         {
             var userCinemaId = TakeIdCinemaByAdminAuth();
+            var userId = TakeIdUserAuth();
+            _logger.Info($"UserId: {userId} - sent a 'DeleteSession' request");
 
             try
             {
                 var allCashiers = _mapper.Map< List<UserResponseModel>>(_adminService.GetAllCashiers(userCinemaId));
+
+                _logger.Info($"UserId: {userId} - request completed successfully");
 
                 return Ok(allCashiers);
             }

@@ -184,13 +184,16 @@ namespace BookingTickets.API.Controllers
             return Ok();
         }
 
-        [HttpPatch("User/{id}/ChangeStatus")]
+        [HttpPatch("User/{id}/Edit/ChangeStatus")]
         public IActionResult ChangeUserStatus([FromHeader] int userId, UserStatus status)
         {
             _mainAdminService.ChangeUserStatus(status, userId);
 
             return Ok();
         }
+
+        //[HttpPatch("User/{id}/Edit/")]
+        //public IActionResult ChangeCi
 
         [HttpGet("Statistics/Films/{id}")]
         public StatisticsFilm_ResponseModels GetStatisticsByFilm([FromHeader] StatisticsFilm_ResquestModels statInfo)
@@ -201,6 +204,7 @@ namespace BookingTickets.API.Controllers
 
             return allStatic;
         }
+
 
         private int TakeIdUserAuth()
         {

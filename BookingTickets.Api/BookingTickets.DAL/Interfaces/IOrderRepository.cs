@@ -15,9 +15,9 @@ namespace BookingTickets.DAL.Interfaces
 
         List<OrderDto> GetAllOrdersCashierByPeriodAndCinemaId(DateTime dateStart, DateTime dateEnd, int cinemaId);
 
-        Task<List<OrderDto>> GetAllOrdersByDate(DateTime data);
+        List<OrderDto> GetAllOrdersByDate(DateTime data);
 
-        Task EditOrderStatus(OrderDto order, OrderStatus newStatus);
+        void EditOrderStatus(OrderDto order, OrderStatus newStatus);
 
         OrderDto GetOrderById(int id);
 

@@ -82,21 +82,21 @@ namespace BookingTickets.DAL
             return result;
         }
 
-        public async Task<List<OrderDto>> GetAllOrdersByDate(DateTime data)
+        public List<OrderDto> GetAllOrdersByDate(DateTime data)
         {
-            return await _context.Orders
+            return  _context.Orders
                 .Where(p => p.Date == data)
-                .ToListAsync();
+                .ToList();
         }
 
-        public async Task EditOrderStatus(OrderDto order, OrderStatus newStatus)
+        public void EditOrderStatus(OrderDto order, OrderStatus newStatus)
         {
             var searchOrder = _context.Orders
                 .Single(k => k.Id == order.Id);
 
             searchOrder.Status = newStatus;
 
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
 
         public OrderDto GetOrderById(int id)

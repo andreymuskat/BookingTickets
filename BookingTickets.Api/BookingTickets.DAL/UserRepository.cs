@@ -69,7 +69,7 @@ namespace BookingTickets.DAL
         {
             var cash = _context.Users
                 .Where(t => t.UserStatus == UserStatus.CashierService)
-                .Single(i => i.Id == idCashier).IsDeleted = true;
+                .Single(i => i.Id == idCashier).UserStatus = UserStatus.ClientService;
 
             _context.SaveChanges();
         }
